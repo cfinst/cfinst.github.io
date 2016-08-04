@@ -1,0 +1,15 @@
+{
+  "name": "cfi",
+  "version": "0.0.1",
+  "description": "Proof of Concept for Campaign Finance Institute",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Seemant Kulleen, Curran Kelleher",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "d3": "^4.2.1"
+  }
+}

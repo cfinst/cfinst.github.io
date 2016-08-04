@@ -1,0 +1,27 @@
+{
+  "name": "cfi",
+  "homepage": "https://github.com/seemantk/cfi",
+  "authors": [
+    "Seemant Kulleen <seemantk@gmail.com>",
+    "Curran Kelleher <curran@datavis.tech>"
+  ],
+  "description": "Proof of Concept for Campaign Finance Institute",
+  "main": "",
+  "keywords": [
+    "campaign",
+    "finance"
+  ],
+  "license": "None",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "^4.2.1",
+    "topojson": "^1.6.26",
+    "bootstrap": "^3.3.7"
+  }
+}
