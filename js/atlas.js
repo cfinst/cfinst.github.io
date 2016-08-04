@@ -4,8 +4,8 @@ function atlas() {
       , height = 600
       , margin = { top: 10, left: 20, right: 20, bottom: 10 }
       , svg
-      , colors = d3.scaleOrdinal()
-          .range(["#f1a340", "#998ec3"])
+      , colors = d3.scaleOrdinal(d3.schemeCategory10)
+      , tip = d3.tip().attr('class', 'd3-tip')
     ;
 
     function widget(el) {
@@ -16,6 +16,7 @@ function atlas() {
       svg
         .append("g")
           .attr("id", "usa")
+          .call(tip)
         .selectAll(".state")
           .data(geogrify)
         .enter().append("g")
@@ -52,6 +53,15 @@ function atlas() {
 
                 d3.select(this).select("path")
                     .style("fill", colors(blah[field]))
+                ;
+                d3.select(this)
+                    .on("mouseover", function() {
+                        tip
+                            .html(blah[field])
+                            .show()
+                        ;
+                      })
+                    .on("mouseout", tip.hide)
                 ;
               })
 
