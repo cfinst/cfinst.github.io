@@ -17,13 +17,41 @@
     <h1>Proof of Concept: Data Inventory Grid</h1>
   </div>
 
+
+  <svg width="960" height="380"></svg>
+
   <script src="../js/d3.min.js"></script>
   <script src="../js/d3-tip.js"></script>
   <script src="../js/topojson.min.js"></script>
 
   <script>
+
+    // Configuration parameters.
+    var margin = { left: 100, right: 15, top: 35, bottom: 35 }
+      , xColumn = "Year"
+      , yColumn = "State"
+    ;
+
+    // DOM Elements.
+    var svg = d3.select("svg")
+      , width = svg.attr("width")
+      , height = svg.attr("height")
+    ;
+
     d3.csv("../data/contributions1.csv", function (data){
-      console.log(data);
+
+      // Compute the list of available columns,
+      var d = data[0];
+      var columns = Object.keys(d).filter(function (column){
+
+        // excluding the xColumn and yColumn.
+        return column !== xColumn && column !== yColumn;
+      });
+
+      console.log(d[xColumn]);
+      console.log(d[yColumn]);
+      console.log(columns);
+
     });
   </script>
 
