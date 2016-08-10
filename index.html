@@ -1,86 +1,17 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Proof of Concept map for Campaign Finance Institute">
-  <meta name="author" content="Seemant Kulleen">
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>CFI Proof of Concept</title>
+  </head>
+  <body>
+    <h1>CFI Proof of Concept</h1>
 
-  <title>PoC: CFI</title>
-
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/tips.css">
-</head>
-<body>
-  <div class="page-header text-center">
-    <h1>Proof of Concept: Campaign Finance Institute</h1>
-  </div>
-  <article>
-    <div id="atlas" class="col-md-8"></div>
-    <div id="legend" class="col-md-4">
-      <select id="chooser-year">
-        <optgroup label="Select a Year"></optgroup>
-        </select>
-      <select id="chooser-field">
-        <optgroup label="Select a field"></optgroup>
-      </select>
-    </div>
-  </article>
-
-  <script src="js/d3.min.js"></script>
-  <script src="js/d3-tip.js"></script>
-  <script src="js/topojson.min.js"></script>
-  <script src="js/atlas.js"></script>
-  <script>
-    d3.queue()
-      .defer(d3.json, "data/usa.json")
-      .defer(d3.csv, "data/contributions1.csv")
-      .await(function(error, usa, dataset) {
-          if(error) throw error;
-
-          var perspective = { year: "2002", field: "COLA" };
-
-          var data = d3.nest()
-              .key(function(d) { return d.Year; })
-              .key(function(d) { return d.State; })
-              .rollup(function(leaves) { return leaves[0]; })
-              .map(dataset)
-          ;
-          var display = atlas();
-
-          d3.select("#atlas")
-              .datum(usa)
-              .call(display)
-          ;
-          d3.select("#chooser-year")
-              .on("change", function() {
-                  perspective.year = this.value;
-                  update();
-                })
-            .selectAll("option")
-              .data(d3.range(1996, 2020, 2))
-            .enter().append("option")
-              .attr("value", function(d) { return d; })
-              .text(function(d) { return d; })
-          ;
-          d3.select("#chooser-field")
-              .on("change", function() {
-                  perspective.field = this.value;
-                  update();
-                })
-            .selectAll("option")
-              .data(["COLA", "CorpToCand", "IndividualToCand", "LaborToCand", "Lobbyist_Limits"])
-            .enter().append("option")
-              .attr("value", function(d) { return d; })
-              .text(function(d) { return d; })
-          ;
-
-
-          function update() {
-              display.update(data.get(perspective.year), perspective.field);
-          } // update()
-        })
-  </script>
-</body>
+    <ul>
+      <li><a href="./choropleth" />Choropleth Map</li>
+      <li><a href="./grid" />Data Inventory Grid</li>
+    </ul>
+    
+  </body>
 </html>

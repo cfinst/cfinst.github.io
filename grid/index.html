@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Proof of Concept data inventory grid for Campaign Finance Institute">
+  <meta name="author" content="Seemant Kulleen">
+  <meta name="author" content="Curran Kelleher">
+
+  <title>CFI Data Inventory Grid</title>
+
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/tips.css">
+</head>
+<body>
+  <div class="page-header text-center">
+    <h1>Proof of Concept: Data Inventory Grid</h1>
+  </div>
+
+
+  <svg width="960" height="380"></svg>
+
+  <script src="../js/d3.min.js"></script>
+  <script src="../js/d3-tip.js"></script>
+  <script src="../js/topojson.min.js"></script>
+
+  <script>
+
+    // Configuration parameters.
+    var margin = { left: 100, right: 15, top: 35, bottom: 35 }
+      , xColumn = "Year"
+      , yColumn = "State"
+    ;
+
+    // DOM Elements.
+    var svg = d3.select("svg")
+      , width = svg.attr("width")
+      , height = svg.attr("height")
+    ;
+
+    d3.csv("../data/contributions1.csv", function (data){
+
+      // Compute the list of available columns,
+      var d = data[0];
+      var columns = Object.keys(d).filter(function (column){
+
+        // excluding the xColumn and yColumn.
+        return column !== xColumn && column !== yColumn;
+      });
+
+      console.log(d[xColumn]);
+      console.log(d[yColumn]);
+      console.log(columns);
+
+    });
+  </script>
+
+</body>
+</html>
