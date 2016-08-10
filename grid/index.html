@@ -30,19 +30,26 @@
 
       // Configuration parameters.
       var margin = { left: 100, right: 15, top: 35, bottom: 35 }
-        , xColumn = "Year"
-        , yColumn = "State"
+        , radius = 10
+        , axisPadding = 0.3
+        , xColumn = "State"
+        , yColumn = "Year"
         , selectedColumn = "COLA"
         , data
       ;
 
       // DOM Elements.
       var svg = d3.select("svg")
-        , g = svg.append("g");
+        , g = svg.append("g")
+        , xAxisG = g.append("g")
+            .attr("class", "y axis")
+        , yAxisG = g.append("g")
+            .attr("class", "x axis")
+      ;
 
       // D3 Objects.
-      var xScale = d3.scalePoint()
-        , yScale = d3.scalePoint()
+      var xScale = d3.scalePoint().padding(axisPadding)
+        , yScale = d3.scalePoint().padding(axisPadding)
       ;
 
       function my(){
@@ -71,9 +78,12 @@
             .attr("cx", function (d){ return xScale(d[xColumn]); })
             .attr("cy", function (d){ return yScale(d[yColumn]); })
             .attr("r", function (d){
-              var radius = 10;
               return d[selectedColumn] ? radius : 0;
             });
+
+          // Render the axes.
+          xAxisG.call(d3.axisLeft().scale(yScale));
+          yAxisG.call(d3.axisTop().scale(xScale).ticks(30));
 
         }
       }
@@ -86,10 +96,13 @@
           // Compute X and Y domains.
           xScale.domain(
             data
-              .map(function (d){ return parseInt(d[xColumn]); })
+              .map(function (d){ return d[xColumn]; })
+          );
+          yScale.domain(
+            data
+              .map(function (d){ return parseInt(d[yColumn]); })
               .sort()
           );
-          yScale.domain(data.map(function (d){ return d[yColumn]; }));
 
           //// Compute the list of available columns,
           //var d = data[0];
