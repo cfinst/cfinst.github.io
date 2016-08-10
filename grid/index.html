@@ -26,43 +26,100 @@
 
   <script>
 
-    // Configuration parameters.
-    var margin = { left: 100, right: 15, top: 35, bottom: 35 }
-      , xColumn = "Year"
-      , yColumn = "State"
-    ;
+    function Grid(){
 
-    // DOM Elements.
-    var svg = d3.select("svg")
-      , width = svg.attr("width")
-      , height = svg.attr("height")
-    ;
+      // Configuration parameters.
+      var margin = { left: 100, right: 15, top: 35, bottom: 35 }
+        , xColumn = "Year"
+        , yColumn = "State"
+        , selectedColumn = "COLA"
+        , data
+      ;
 
-    // D3 Objects.
-    var xScale = d3.scalePoint()
-      , yScale = d3.scalePoint()
-    ;
+      // DOM Elements.
+      var svg = d3.select("svg")
+        , g = svg.append("g");
 
-    d3.csv("../data/contributions1.csv", function (data){
+      // D3 Objects.
+      var xScale = d3.scalePoint()
+        , yScale = d3.scalePoint()
+      ;
 
-      // Compute the list of available columns,
-      var d = data[0];
-      var columns = Object.keys(d).filter(function (column){
+      function my(){
 
-        // excluding the xColumn and yColumn.
-        return column !== xColumn && column !== yColumn;
+        if(data){
+          //console.log(xScale.domain());
+          //console.log(yScale.domain());
+          //console.log(columns);
+
+          // Compute X and Y ranges based on current size.
+          var width = svg.attr("width")
+            , height = svg.attr("height")
+            , innerWidth = width - margin.right - margin.left
+            , innerHeight = height - margin.bottom - margin.top
+          ;
+          xScale.range([0, innerWidth]);
+          yScale.range([innerHeight, 0]);
+
+          // Transform the g container element.
+          g.attr("transform", "translate(" + [margin.left, margin.top] + ")");
+
+          // Visualize the selectedColumn.
+          var circles = g.selectAll("circle").data(data);
+          circles = circles.enter().append("circle").merge(circles);
+          circles
+            .attr("cx", function (d){ return xScale(d[xColumn]); })
+            .attr("cy", function (d){ return yScale(d[yColumn]); })
+            .attr("r", function (d){
+              var radius = 10;
+              return d[selectedColumn] ? radius : 0;
+            });
+
+        }
+      }
+
+      my.data = function (_){
+        if(_){
+
+          data = _;
+
+          // Compute X and Y domains.
+          xScale.domain(
+            data
+              .map(function (d){ return parseInt(d[xColumn]); })
+              .sort()
+          );
+          yScale.domain(data.map(function (d){ return d[yColumn]; }));
+
+          //// Compute the list of available columns,
+          //var d = data[0];
+          //var columns = Object.keys(d).filter(function (column){
+
+          //  // excluding the xColumn and yColumn.
+          //  return column !== xColumn && column !== yColumn;
+          //});
+        } else {
+          return data;
+        }
+      };
+
+      return my;
+    }
+
+    function main(){
+
+      var grid = Grid();
+
+      // Load the data and kick-off the visualization.
+      d3.csv("../data/contributions1.csv", function (data){
+
+        grid.data(data);
+
+        grid();
+
       });
-
-      // Compute the unique values for X and Y
-      xScale.domain(data.map(function (d){ return parseInt(d[xColumn]); }).sort());
-      yScale.domain(data.map(function (d){ return d[yColumn]; }));
-
-
-      console.log(xScale.domain());
-      console.log(yScale.domain());
-      console.log(columns);
-
-    });
+    }
+    main();
   </script>
 
 </body>
