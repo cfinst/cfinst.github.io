@@ -38,6 +38,11 @@
       , height = svg.attr("height")
     ;
 
+    // D3 Objects.
+    var xScale = d3.scalePoint()
+      , yScale = d3.scalePoint()
+    ;
+
     d3.csv("../data/contributions1.csv", function (data){
 
       // Compute the list of available columns,
@@ -48,8 +53,13 @@
         return column !== xColumn && column !== yColumn;
       });
 
-      console.log(d[xColumn]);
-      console.log(d[yColumn]);
+      // Compute the unique values for X and Y
+      xScale.domain(data.map(function (d){ return d[xColumn]; }));
+      yScale.domain(data.map(function (d){ return d[yColumn]; }));
+
+
+      console.log(xScale.domain());
+      console.log(yScale.domain());
       console.log(columns);
 
     });
