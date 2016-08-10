@@ -54,7 +54,7 @@
       });
 
       // Compute the unique values for X and Y
-      xScale.domain(data.map(function (d){ return d[xColumn]; }));
+      xScale.domain(data.map(function (d){ return parseInt(d[xColumn]); }).sort());
       yScale.domain(data.map(function (d){ return d[yColumn]; }));
 
 
