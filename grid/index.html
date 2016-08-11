@@ -171,16 +171,18 @@
       });
 
 
-      //var i = 0;
-      //setInterval(function (){
-      //  i = (i + 1) % grid.columns().length;
-      //  changeColumn(grid.columns()[i]);
-      //}, 2000);
+      // Auto-tour
+      var i = 0;
+      var autoTourInterval = setInterval(function (){
+        i = (i + 1) % grid.columns().length;
+        changeColumn(grid.columns()[i]);
+      }, 2000);
 
-      //function changeColumn(column){
-      //  grid.selectedColumn(column);
-      //  grid();
-      //}
+      function changeColumn(column){
+        grid.selectedColumn(column);
+        grid();
+        d3.select("#chooser-field").node().value = column;
+      }
     }
     main();
   </script>
