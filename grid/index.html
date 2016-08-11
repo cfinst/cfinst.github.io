@@ -150,6 +150,20 @@
 
       var grid = Grid();
 
+      // Auto-tour
+      var i = 0;
+      var autoTourInterval = setInterval(function (){
+
+        var column = grid.columns()[i];
+        i = (i + 1) % grid.columns().length;
+
+        grid.selectedColumn(column);
+        grid();
+
+        d3.select("#chooser-field").node().value = column;
+      }, 2000);
+
+
       // Load the data and kick-off the visualization.
       d3.csv("../data/contributions1.csv", function (data){
         grid.data(data);
@@ -160,6 +174,7 @@
                 var column = this.value;
                 grid.selectedColumn(column);
                 grid();
+                clearInterval(autoTourInterval);
               })
           .selectAll("option")
             .data(grid.columns())
@@ -171,18 +186,6 @@
       });
 
 
-      // Auto-tour
-      var i = 0;
-      var autoTourInterval = setInterval(function (){
-        i = (i + 1) % grid.columns().length;
-        changeColumn(grid.columns()[i]);
-      }, 2000);
-
-      function changeColumn(column){
-        grid.selectedColumn(column);
-        grid();
-        d3.select("#chooser-field").node().value = column;
-      }
     }
     main();
   </script>
