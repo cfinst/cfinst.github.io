@@ -15,10 +15,15 @@
 <body>
   <div class="page-header text-center">
     <h1>Proof of Concept: Data Inventory Grid</h1>
+    <select id="chooser-field">
+      <optgroup label="Select a field"></optgroup>
+    </select>
   </div>
 
 
   <svg width="960" height="380"></svg>
+
+  <div id="column-list"></div>
 
   <script src="../js/d3.min.js"></script>
   <script src="../js/d3-tip.js"></script>
@@ -104,15 +109,26 @@
               .sort()
           );
 
-          //// Compute the list of available columns,
-          //var d = data[0];
-          //var columns = Object.keys(d).filter(function (column){
-
-          //  // excluding the xColumn and yColumn.
-          //  return column !== xColumn && column !== yColumn;
-          //});
         } else {
           return data;
+        }
+      };
+    
+      my.selectedColumn = function (_){
+        if(_){
+          selectedColumn = _;
+        } else {
+          return selectedColumn;
+        }
+      };
+
+      // Computes the list of available columns,
+      // excluding the xColumn and yColumn.
+      my.columns = function (){
+        if(data){
+          return columns = Object.keys(data[0]).filter(function (column){
+            return column !== xColumn && column !== yColumn;
+          });
         }
       };
 
@@ -125,12 +141,35 @@
 
       // Load the data and kick-off the visualization.
       d3.csv("../data/contributions1.csv", function (data){
-
         grid.data(data);
-
         grid();
 
+        d3.select("#chooser-field")
+            .on("change", function() {
+                var column = this.value;
+                grid.selectedColumn(column);
+                grid();
+              })
+          .selectAll("option")
+            .data(grid.columns())
+          .enter().append("option")
+            .attr("value", function(d) { return d; })
+            .text(function(d) { return d; })
+        ;
+
       });
+
+
+      //var i = 0;
+      //setInterval(function (){
+      //  i = (i + 1) % grid.columns().length;
+      //  changeColumn(grid.columns()[i]);
+      //}, 2000);
+
+      //function changeColumn(column){
+      //  grid.selectedColumn(column);
+      //  grid();
+      //}
     }
     main();
   </script>
