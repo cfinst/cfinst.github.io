@@ -15,10 +15,15 @@
 <body>
   <div class="page-header text-center">
     <h1>Proof of Concept: Data Inventory Grid</h1>
+    <select id="chooser-field">
+      <optgroup label="Select a field"></optgroup>
+    </select>
   </div>
 
 
   <svg width="960" height="380"></svg>
+
+  <div id="column-list"></div>
 
   <script src="../js/d3.min.js"></script>
   <script src="../js/d3-tip.js"></script>
@@ -26,33 +31,148 @@
 
   <script>
 
-    // Configuration parameters.
-    var margin = { left: 100, right: 15, top: 35, bottom: 35 }
-      , xColumn = "Year"
-      , yColumn = "State"
-    ;
+    function Grid(){
 
-    // DOM Elements.
-    var svg = d3.select("svg")
-      , width = svg.attr("width")
-      , height = svg.attr("height")
-    ;
+      // Configuration parameters.
+      var margin = { left: 100, right: 15, top: 35, bottom: 35 }
+        , radius = 10
+        , axisPadding = 0.3
+        , xColumn = "State"
+        , yColumn = "Year"
+        , selectedColumn = "COLA"
+        , data
+      ;
 
-    d3.csv("../data/contributions1.csv", function (data){
+      // DOM Elements.
+      var svg = d3.select("svg")
+        , g = svg.append("g")
+        , xAxisG = g.append("g")
+            .attr("class", "y axis")
+        , yAxisG = g.append("g")
+            .attr("class", "x axis")
+      ;
 
-      // Compute the list of available columns,
-      var d = data[0];
-      var columns = Object.keys(d).filter(function (column){
+      // D3 Objects.
+      var xScale = d3.scalePoint().padding(axisPadding)
+        , yScale = d3.scalePoint().padding(axisPadding)
+      ;
 
-        // excluding the xColumn and yColumn.
-        return column !== xColumn && column !== yColumn;
+      function my(){
+
+        if(data){
+          //console.log(xScale.domain());
+          //console.log(yScale.domain());
+          //console.log(columns);
+
+          // Compute X and Y ranges based on current size.
+          var width = svg.attr("width")
+            , height = svg.attr("height")
+            , innerWidth = width - margin.right - margin.left
+            , innerHeight = height - margin.bottom - margin.top
+          ;
+          xScale.range([0, innerWidth]);
+          yScale.range([innerHeight, 0]);
+
+          // Transform the g container element.
+          g.attr("transform", "translate(" + [margin.left, margin.top] + ")");
+
+          // Visualize the selectedColumn.
+          var circles = g.selectAll("circle").data(data);
+          circles = circles.enter().append("circle").merge(circles);
+          circles
+            .attr("cx", function (d){ return xScale(d[xColumn]); })
+            .attr("cy", function (d){ return yScale(d[yColumn]); })
+            .transition().duration(500)
+            .attr("r", function (d){
+              return d[selectedColumn] ? radius : 0;
+            });
+
+          // Render the axes.
+          xAxisG.call(d3.axisLeft().scale(yScale));
+          yAxisG.call(d3.axisTop().scale(xScale).ticks(30));
+
+        }
+      }
+
+      my.data = function (_){
+        if(_){
+
+          data = _;
+
+          // Compute X and Y domains.
+          xScale.domain(
+            data
+              .map(function (d){ return d[xColumn]; })
+          );
+          yScale.domain(
+            data
+              .map(function (d){ return parseInt(d[yColumn]); })
+              .sort()
+          );
+
+        } else {
+          return data;
+        }
+      };
+    
+      my.selectedColumn = function (_){
+        if(_){
+          selectedColumn = _;
+        } else {
+          return selectedColumn;
+        }
+      };
+
+      // Computes the list of available columns,
+      // excluding the xColumn and yColumn.
+      my.columns = function (){
+        if(data){
+          return columns = Object.keys(data[0]).filter(function (column){
+            return column !== xColumn && column !== yColumn;
+          });
+        }
+      };
+
+      return my;
+    }
+
+    function main(){
+
+      var grid = Grid();
+
+      // Load the data and kick-off the visualization.
+      d3.csv("../data/contributions1.csv", function (data){
+        grid.data(data);
+        grid();
+
+        d3.select("#chooser-field")
+            .on("change", function() {
+                var column = this.value;
+                grid.selectedColumn(column);
+                grid();
+              })
+          .selectAll("option")
+            .data(grid.columns())
+          .enter().append("option")
+            .attr("value", function(d) { return d; })
+            .text(function(d) { return d; })
+        ;
+
       });
 
-      console.log(d[xColumn]);
-      console.log(d[yColumn]);
-      console.log(columns);
 
-    });
+      //var i = 0;
+      //setInterval(function (){
+      //  i = (i + 1) % grid.columns().length;
+      //  changeColumn(grid.columns()[i]);
+      //}, 2000);
+
+      //function changeColumn(column){
+      //  grid.selectedColumn(column);
+      //  grid();
+      //}
+    }
+    main();
   </script>
 
 </body>
