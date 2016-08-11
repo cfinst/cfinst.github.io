@@ -59,7 +59,7 @@
       var xScale = d3.scalePoint().padding(axisPadding)
         , yScale = d3.scalePoint().padding(axisPadding)
         , colorScale = d3.scaleOrdinal().range(d3.schemeCategory10)
-        , legend = d3.legendColor().scale(colorScale)
+        , legend = d3.legendColor()
       ;
 
       function my(){
@@ -95,11 +95,13 @@
             })
             .attr("fill", function (d){ return colorScale(d[selectedColumn]); })
           ;
+          circles.exit().remove();
 
           // Render the axes.
           xAxisG.call(d3.axisLeft().scale(yScale));
           yAxisG.call(d3.axisTop().scale(xScale).ticks(30));
 
+          legend.scale(colorScale);
           legendG.call(legend);
         }
       }
