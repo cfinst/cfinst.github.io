@@ -55,6 +55,7 @@
       // D3 Objects.
       var xScale = d3.scalePoint().padding(axisPadding)
         , yScale = d3.scalePoint().padding(axisPadding)
+        , colorScale = d3.scaleOrdinal().range(d3.schemeCategory10)
       ;
 
       function my(){
@@ -85,7 +86,9 @@
             .transition().duration(500)
             .attr("r", function (d){
               return d[selectedColumn] ? radius : 0;
-            });
+            })
+            .attr("fill", function (d){ return colorScale(d[selectedColumn]); })
+          ;
 
           // Render the axes.
           xAxisG.call(d3.axisLeft().scale(yScale));
