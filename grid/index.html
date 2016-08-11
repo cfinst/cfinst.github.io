@@ -28,15 +28,16 @@
   <script src="../js/d3.min.js"></script>
   <script src="../js/d3-tip.js"></script>
   <script src="../js/topojson.min.js"></script>
+  <script src="../js/d3-legend.min.js"></script>
 
   <script>
 
     function Grid(){
 
       // Configuration parameters.
-      var margin = { left: 100, right: 15, top: 35, bottom: 35 }
+      var margin = { left: 200, right: 15, top: 35, bottom: 35 }
         , radius = 10
-        , axisPadding = 0.3
+        , axisPadding = 0.35
         , xColumn = "State"
         , yColumn = "Year"
         , selectedColumn = "COLA"
@@ -50,11 +51,15 @@
             .attr("class", "y axis")
         , yAxisG = g.append("g")
             .attr("class", "x axis")
+        , legendG = svg.append("g")
+            .attr("transform", "translate(20,20)")
       ;
 
       // D3 Objects.
       var xScale = d3.scalePoint().padding(axisPadding)
         , yScale = d3.scalePoint().padding(axisPadding)
+        , colorScale = d3.scaleOrdinal().range(d3.schemeCategory10)
+        , legend = d3.legendColor()
       ;
 
       function my(){
@@ -73,6 +78,8 @@
           xScale.range([0, innerWidth]);
           yScale.range([innerHeight, 0]);
 
+          colorScale.domain(data.map(function (d){ return d[selectedColumn]; }));
+
           // Transform the g container element.
           g.attr("transform", "translate(" + [margin.left, margin.top] + ")");
 
@@ -85,12 +92,17 @@
             .transition().duration(500)
             .attr("r", function (d){
               return d[selectedColumn] ? radius : 0;
-            });
+            })
+            .attr("fill", function (d){ return colorScale(d[selectedColumn]); })
+          ;
+          circles.exit().remove();
 
           // Render the axes.
           xAxisG.call(d3.axisLeft().scale(yScale));
           yAxisG.call(d3.axisTop().scale(xScale).ticks(30));
 
+          legend.scale(colorScale);
+          legendG.call(legend);
         }
       }
 
@@ -140,6 +152,20 @@
 
       var grid = Grid();
 
+      // Auto-tour
+      var i = 0;
+      var autoTourInterval = setInterval(function (){
+
+        var column = grid.columns()[i];
+        i = (i + 1) % grid.columns().length;
+
+        grid.selectedColumn(column);
+        grid();
+
+        d3.select("#chooser-field").node().value = column;
+      }, 2000);
+
+
       // Load the data and kick-off the visualization.
       d3.csv("../data/contributions1.csv", function (data){
         grid.data(data);
@@ -150,6 +176,7 @@
                 var column = this.value;
                 grid.selectedColumn(column);
                 grid();
+                clearInterval(autoTourInterval);
               })
           .selectAll("option")
             .data(grid.columns())
@@ -161,16 +188,6 @@
       });
 
 
-      //var i = 0;
-      //setInterval(function (){
-      //  i = (i + 1) % grid.columns().length;
-      //  changeColumn(grid.columns()[i]);
-      //}, 2000);
-
-      //function changeColumn(column){
-      //  grid.selectedColumn(column);
-      //  grid();
-      //}
     }
     main();
   </script>
