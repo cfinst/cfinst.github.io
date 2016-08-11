@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Proof of Concept data inventory grid for Campaign Finance Institute">
+  <meta name="author" content="Seemant Kulleen">
+  <meta name="author" content="Curran Kelleher">
+
+  <title>CFI Data Inventory Grid</title>
+
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/tips.css">
+</head>
+<body>
+  <div class="page-header text-center">
+    <h1>Proof of Concept: Data Inventory Grid</h1>
+    <select id="chooser-field">
+      <optgroup label="Select a field"></optgroup>
+    </select>
+  </div>
+
+
+  <svg width="960" height="380"></svg>
+
+  <div id="column-list"></div>
+
+  <script src="../js/d3.min.js"></script>
+  <script src="../js/d3-tip.js"></script>
+  <script src="../js/topojson.min.js"></script>
+  <script src="../js/d3-legend.min.js"></script>
+
+  <script>
+
+    function Grid(){
+
+      // Configuration parameters.
+      var margin = { left: 200, right: 15, top: 35, bottom: 35 }
+        , radius = 10
+        , axisPadding = 0.35
+        , xColumn = "State"
+        , yColumn = "Year"
+        , selectedColumn = "COLA"
+        , data
+      ;
+
+      // DOM Elements.
+      var svg = d3.select("svg")
+        , g = svg.append("g")
+        , xAxisG = g.append("g")
+            .attr("class", "y axis")
+        , yAxisG = g.append("g")
+            .attr("class", "x axis")
+        , legendG = svg.append("g")
+            .attr("transform", "translate(20,20)")
+      ;
+
+      // D3 Objects.
+      var xScale = d3.scalePoint().padding(axisPadding)
+        , yScale = d3.scalePoint().padding(axisPadding)
+        , colorScale = d3.scaleOrdinal().range(d3.schemeCategory10)
+        , legend = d3.legendColor()
+      ;
+
+      function my(){
+
+        if(data){
+          //console.log(xScale.domain());
+          //console.log(yScale.domain());
+          //console.log(columns);
+
+          // Compute X and Y ranges based on current size.
+          var width = svg.attr("width")
+            , height = svg.attr("height")
+            , innerWidth = width - margin.right - margin.left
+            , innerHeight = height - margin.bottom - margin.top
+          ;
+          xScale.range([0, innerWidth]);
+          yScale.range([innerHeight, 0]);
+
+          colorScale.domain(data.map(function (d){ return d[selectedColumn]; }));
+
+          // Transform the g container element.
+          g.attr("transform", "translate(" + [margin.left, margin.top] + ")");
+
+          // Visualize the selectedColumn.
+          var circles = g.selectAll("circle").data(data);
+          circles = circles.enter().append("circle").merge(circles);
+          circles
+            .attr("cx", function (d){ return xScale(d[xColumn]); })
+            .attr("cy", function (d){ return yScale(d[yColumn]); })
+            .transition().duration(500)
+            .attr("r", function (d){
+              return d[selectedColumn] ? radius : 0;
+            })
+            .attr("fill", function (d){ return colorScale(d[selectedColumn]); })
+          ;
+          circles.exit().remove();
+
+          // Render the axes.
+          xAxisG.call(d3.axisLeft().scale(yScale));
+          yAxisG.call(d3.axisTop().scale(xScale).ticks(30));
+
+          legend.scale(colorScale);
+          legendG.call(legend);
+        }
+      }
+
+      my.data = function (_){
+        if(_){
+
+          data = _;
+
+          // Compute X and Y domains.
+          xScale.domain(
+            data
+              .map(function (d){ return d[xColumn]; })
+          );
+          yScale.domain(
+            data
+              .map(function (d){ return parseInt(d[yColumn]); })
+              .sort()
+          );
+
+        } else {
+          return data;
+        }
+      };
+    
+      my.selectedColumn = function (_){
+        if(_){
+          selectedColumn = _;
+        } else {
+          return selectedColumn;
+        }
+      };
+
+      // Computes the list of available columns,
+      // excluding the xColumn and yColumn.
+      my.columns = function (){
+        if(data){
+          return columns = Object.keys(data[0]).filter(function (column){
+            return column !== xColumn && column !== yColumn;
+          });
+        }
+      };
+
+      return my;
+    }
+
+    function main(){
+
+      var grid = Grid();
+
+      // Auto-tour
+      var i = 0;
+      var autoTourInterval = setInterval(function (){
+
+        var column = grid.columns()[i];
+        i = (i + 1) % grid.columns().length;
+
+        grid.selectedColumn(column);
+        grid();
+
+        d3.select("#chooser-field").node().value = column;
+      }, 2000);
+
+
+      // Load the data and kick-off the visualization.
+      d3.csv("../data/contributions1.csv", function (data){
+        grid.data(data);
+        grid();
+
+        d3.select("#chooser-field")
+            .on("change", function() {
+                var column = this.value;
+                grid.selectedColumn(column);
+                grid();
+                clearInterval(autoTourInterval);
+              })
+          .selectAll("option")
+            .data(grid.columns())
+          .enter().append("option")
+            .attr("value", function(d) { return d; })
+            .text(function(d) { return d; })
+        ;
+
+      });
+
+
+    }
+    main();
+  </script>
+
+</body>
+</html>
