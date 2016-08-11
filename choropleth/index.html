@@ -6,7 +6,7 @@
   <meta name="description" content="Proof of Concept map for Campaign Finance Institute">
   <meta name="author" content="Seemant Kulleen">
 
-  <title>PoC: CFI</title>
+  <title>CFI PoC: Chloropleth</title>
 
   <link rel="stylesheet" href="../css/bootstrap.min.css">
   <link rel="stylesheet" href="../css/tips.css">
@@ -14,7 +14,8 @@
 </head>
 <body>
   <div class="page-header text-center">
-    <h1>Proof of Concept: Campaign Finance Institute</h1>
+    <h1>CFI Proof of Concept</h1>
+    <h2>Chloropleth</h2>
   </div>
   <article>
     <div id="atlas" class="col-md-8"></div>
@@ -41,7 +42,7 @@
       .await(function(error, usa, dataset) {
           if(error) throw error;
 
-          var perspective = { year: "2002", field: "COLA" };
+          var perspective = { year: "1996", field: "COLA" };
 
           var data = d3.nest()
               .key(function(d) { return d.Year; })
@@ -77,6 +78,8 @@
               .attr("value", function(d) { return d; })
               .text(function(d) { return d; })
           ;
+
+          update();
 
 
           function update() {

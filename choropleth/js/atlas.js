@@ -44,15 +44,15 @@ function atlas() {
      * API Functions
      */
     widget.update = function(data, field) {
-        console.log(field);
         svg.selectAll(data.keys().map(function(k) { return "." + k; }))
             .each(function(s) {
                 var blah = data.get(s.feature.properties.usps);
-
-                console.log(blah, field, blah[field]);
-
                 d3.select(this).select("path")
-                    .style("fill", colors(blah[field]))
+                    .style("fill", function() {
+                        if(blah[field])
+                          return colors(blah[field]);
+                        return "#ccc";
+                      })
                 ;
                 d3.select(this)
                     .on("mouseover", function() {

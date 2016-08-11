@@ -7,23 +7,21 @@
   <meta name="author" content="Seemant Kulleen">
   <meta name="author" content="Curran Kelleher">
 
-  <title>CFI Data Inventory Grid</title>
+  <title>CFI PoC: Data Inventory Grid</title>
 
   <link rel="stylesheet" href="../css/bootstrap.min.css">
   <link rel="stylesheet" href="../css/tips.css">
 </head>
 <body>
   <div class="page-header text-center">
-    <h1>Proof of Concept: Data Inventory Grid</h1>
+    <h1>CFI Proof of Concept</h1>
+    <h2>Data Inventory Grid</h2 >
     <select id="chooser-field">
       <optgroup label="Select a field"></optgroup>
     </select>
   </div>
 
-
-  <svg width="960" height="380"></svg>
-
-  <div id="column-list"></div>
+  <svg width="960" height="500"></svg>
 
   <script src="../js/d3.min.js"></script>
   <script src="../js/d3-tip.js"></script>
@@ -126,7 +124,7 @@
           return data;
         }
       };
-    
+
       my.selectedColumn = function (_){
         if(_){
           selectedColumn = _;
