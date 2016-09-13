@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Please install mdb-tools on your system. It is available using homebrew
+# in macOS, and should be in most Linux package manager respositories
+# (Ubuntu, Arch, Gentoo at the very least).  That will pull in some gnome2# files.  Such is life.
+#
 # Place the mdb file in this repository's data/ directory.
 # From the repository's root, run:
 # 	./bin/parse-mdb.sh <path to .mdb file>
