@@ -22,4 +22,6 @@ mkdir -p ${csvdir}
 for table in ${tables}; do
 	echo "Exporting ${table} to CSV..."
 	mdb-export "$1" ${table} > "${csvdir}/${table}".csv || rm -f "${csvdir}/${table}".csv
+	rm -f "${csvdir}"/*_tmp_*.csv
+	rm -f "${csvdir}"/x_lookup*.csv
 done
