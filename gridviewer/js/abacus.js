@@ -21,10 +21,10 @@ function abacus() {
             , overlay: {} // svg axes, brush component and tooltip
             , width: 0
             , height: 0
+            , vh: 0, vw: 0 // viewport dimensions in domain scale
             , margin: { top: 100, right: 50, bottom: 10, left: 100 }
             , scale: {}
             , axis: {}
-            , viewport: {} // in domain scale
             , brush: d3.brush()
           }
       , minimap = { // overview display
@@ -50,7 +50,7 @@ function abacus() {
         dom = sel;
         data = dom.datum()
             .sort(function(a, b) {
-                return d3.ascending(+a.Year, +b.Year)
+                return d3.descending(+a.Year, +b.Year)
                     || d3.ascending(a.State, b.State)
                 ;
               })
@@ -136,16 +136,16 @@ function abacus() {
         var w = parseInt(sel.style("width")) - matrix.margin.left
           , h = parseInt(sel.style("height")) - matrix.margin.top
         ;
-        matrix.viewport.width = Math.floor(master.scale.x.invert(w));
-        matrix.viewport.height = Math.floor(master.scale.y.invert(h));
+        matrix.vw = Math.floor(master.scale.x.invert(w));
+        matrix.vh = Math.floor(master.scale.y.invert(h));
         matrix.width = Math.min(
               master.width
-            , master.scale.x(matrix.viewport.width)
+            , master.scale.x(matrix.vw)
           )
         ;
         matrix.height = Math.min(
               master.height
-            , master.scale.y(matrix.viewport.height)
+            , master.scale.y(matrix.vh)
           )
         ;
     } // sizeMatrix()
@@ -380,16 +380,12 @@ function abacus() {
           , thumb = minimap.canvas.node()
                   .getContext('2d', {preserveDrawingBuffer: true})
         ;
-        [master.canvas, master.overlay.laws/*, master.overlay.brushed*/]
-            .forEach(function(source) {
-                pic.drawImage(source
-                    , -master.scale.x(matrix.scale.x.domain()[0])
-                    , -master.scale.y(matrix.scale.y.domain()[0])
-                  )
-                ;
-                thumb.drawImage(source, 0, 0);
-              })
+        pic.drawImage(master.canvas
+            , -master.scale.x(matrix.scale.x.domain()[0])
+            , -master.scale.y(matrix.scale.y.domain()[0])
+          )
         ;
+        thumb.drawImage(master.canvas, 0, 0);
     } // renderCanvases()
 
     function draw() {
@@ -437,34 +433,7 @@ function abacus() {
     } // brushend()
 
     function pan() {
-        var extent = d3.event.selection
-          , x = extent[0][0]
-          , y = extent[0][1]
-          , x1 = minimap.scale.x.range()[1]
-          , y1 = minimap.scale.y.range()[1]
-        ;
-        // if(d3.event && (d3.event.selection || d3.event.mode === "resize")) {
-        //     extent = [
-        //           [x - minimap.width/2, y - minimap.height/2]
-        //         , [x + minimap.width/2, y + minimap.height/2]
-        //       ]
-        //     ;
-        // }
-        // if(extent[0][0] < 0) {
-        //     extent[0][0] = 0;
-        //     extent[1][0] = minimap.width;
-        // } else if(extent[1][0] > x1) {
-        //     extent[1][0] = x1;
-        //     extent[0][0] = x1 - minimap.width;
-        // }
-        //
-        // if(extent[0][1] < 0) {
-        //     extent[0][1] = 0;
-        //     extent[1][1] = minimap.height;
-        // } else if(extent[1][1] > y1) {
-        //     extent[1][1] = y1;
-        //     extent[0][1] = y1 - minimap.height;
-        // }
+        var extent = d3.event.selection;
 
         minimap.overlay.select(".brush")
             .call(minimap.brush)
@@ -487,10 +456,7 @@ function abacus() {
     function panned() {
         // Offset the brush
         // matrix.overlay.select(".brush")
-        //     .call(matrix.brush
-        //           .x(matrix.scale.x)
-        //           .y(matrix.scale.y)
-        //         )
+        //     .call(matrix.brush)
         //     .call(matrix.brush.event)
         // ;
         send = true;
@@ -543,7 +509,7 @@ function abacus() {
             .call(
                   minimap.brush.extent([
                     [0, 0]
-                  , [matrix.viewport.width, matrix.viewport.height]
+                  , [matrix.vw, matrix.vh]
                 ])
               )
         ;
