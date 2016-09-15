@@ -33,7 +33,6 @@ function abacus() {
             , width: 0
             , height: 0
             , scale: {}
-            , zoom: {}
             , brush: d3.brush()
           }
       , dataset = {
@@ -211,9 +210,7 @@ function abacus() {
     function setupMinimap() {
         var container = dom.select("#navigator");
         minimap.width = parseInt(container.style("width"));
-        minimap.zoom.x = minimap.width / master.width;
-        minimap.height = minimap.zoom.x * master.height;
-        minimap.zoom.y = minimap.height / master.height;
+        minimap.height = (minimap.width / master.width) * master.height;
 
         minimap.canvas = container
           .append("canvas")
@@ -231,30 +228,26 @@ function abacus() {
         ;
         // Add one to the domain, because d3's brush extent excludes the max
         minimap.scale.x = d3.scaleLinear()
-          .domain([master.scale.x.domain()[0], master.scale.x.domain()[1] + 1])
+          .domain(master.scale.x.domain())
           .range([0, minimap.width])
         ;
         minimap.scale.y = d3.scaleLinear()
-          .domain([master.scale.y.domain()[0], master.scale.y.domain()[1] + 1])
+          .domain(master.scale.y.domain())
           .range([0, minimap.height])
         ;
-        // minimap.brush
-        //     .x(minimap.scale.x)
-        //     .y(minimap.scale.y)
-        //     .clamp([true, true])
-        //     .extent([
-        //           [0, 0]
-        //         , [matrix.viewport.width, matrix.viewport.height]
-        //       ])
-        //   .on("brush", pan)
-        //   .on("brushend", panned)
-        // ;
-        // minimap.overlay
-        //   .append("g")
-        //     .attr("class", "brush")
-        //     .call(minimap.brush)
-        //     .call(minimap.brush.event)
-        // ;
+        minimap.brush
+            .extent([
+                  [0, 0]
+                , [minimap.width, minimap.height]
+              ])
+          .on("brush", pan)
+          .on("end", panned)
+        ;
+        minimap.overlay
+          .append("g")
+            .attr("class", "brush")
+            .call(minimap.brush)
+        ;
     } // setupMinimap()
 
     /*
@@ -448,34 +441,33 @@ function abacus() {
     } // brushend()
 
     function pan() {
-        send = false;
         var extent = minimap.brush.extent()
-          , y = extent[0][1]
-          , x = extent[0][0]
+          , y = extent()[0][1]
+          , x = extent()[0][0]
           , x1 = minimap.scale.x.domain()[1]
           , y1 = minimap.scale.y.domain()[1]
         ;
-        if(minimap.brush.empty() || (d3.event && d3.event.mode === "resize")) {
+        if(d3.event && (d3.event.selection || d3.event.mode === "resize")) {
             extent = [
-                  [x - matrix.viewport.width/2, y - matrix.viewport.height/2]
-                , [x + matrix.viewport.width/2, y + matrix.viewport.height/2]
+                  [x - minimap.width/2, y - minimap.height/2]
+                , [x + minimap.width/2, y + minimap.height/2]
               ]
             ;
         }
         if(extent[0][0] < 0) {
             extent[0][0] = 0;
-            extent[1][0] = matrix.viewport.width;
+            extent[1][0] = minimap.width;
         } else if(extent[1][0] > x1) {
             extent[1][0] = x1;
-            extent[0][0] = x1 - matrix.viewport.width;
+            extent[0][0] = x1 - minimap.width;
         }
 
         if(extent[0][1] < 0) {
             extent[0][1] = 0;
-            extent[1][1] = matrix.viewport.height;
+            extent[1][1] = minimap.height;
         } else if(extent[1][1] > y1) {
             extent[1][1] = y1;
-            extent[0][1] = y1 - matrix.viewport.height;
+            extent[0][1] = y1 - minimap.height;
         }
 
         extent = extent.map(function(e) { return e.map(Math.round); });
