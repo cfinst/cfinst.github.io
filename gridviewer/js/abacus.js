@@ -238,12 +238,9 @@ function abacus() {
           .range([0, minimap.height])
         ;
         minimap.brush
-            .extent([
-                  [0, 0]
-                , [minimap.width, minimap.height]
-              ])
-          .on("brush", pan)
-          .on("end", panned)
+            .extent([ [0, 0], [minimap.width, minimap.height] ])
+            .on("start brush", pan)
+            .on("end", panned)
         ;
         minimap.overlay
           .append("g")
@@ -412,12 +409,14 @@ function abacus() {
      *  - panned() is for the minimap brush
      */
     function brushed() {
-        dataset.extent = matrix.brush.extent()
-            .map(function(e) {
-                return e.map(function(c) { return Math.round(c); });
-              })
+        dataset.extent = d3.event.selection.map(function(e) {
+            return e.map(Math.round);
+          })
         ;
-        d3.select(this).call(matrix.brush.extent(dataset.extent));
+        d3.select(this)
+            .call(matrix.brush)
+            .call(matrix.brush.move, dataset.extent)
+        ;
         drawAxes();
         update();
     } // brushed()
@@ -429,11 +428,7 @@ function abacus() {
         ;
         d3.range(x[0], x[1]).forEach(function(i) {
             d3.range(y[0], y[1]).forEach(function(j) {
-                ret.push({
-                      i: i
-                    , j: j
-                  })
-                ;
+                ret.push({ i: i, j: j });
               })
             ;
           })
@@ -444,12 +439,11 @@ function abacus() {
 
     function pan() {
         var extent = d3.event.selection
-          , y = extent[0][1]
           , x = extent[0][0]
+          , y = extent[0][1]
           , x1 = minimap.scale.x.range()[1]
           , y1 = minimap.scale.y.range()[1]
         ;
-        console.log(extent);
         // if(d3.event && (d3.event.selection || d3.event.mode === "resize")) {
         //     extent = [
         //           [x - minimap.width/2, y - minimap.height/2]
@@ -474,7 +468,8 @@ function abacus() {
         // }
 
         minimap.overlay.select(".brush")
-            .call(minimap.brush.extent(extent))
+            .call(minimap.brush)
+            //.call(minimap.brush.move, extent)
         ;
         matrix.scale.x
             .domain(extent.map(function(e) {
