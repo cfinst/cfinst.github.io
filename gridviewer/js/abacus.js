@@ -51,7 +51,7 @@ function abacus() {
         dom = sel;
         data = dom.datum()
             .sort(function(a, b) {
-                return d3.ascending(+a.Year, +b.Year);
+                return d3.ascending(+a.Year, +b.Year) || d3.ascending(a.State, b.State);
               })
         ;
         rows = data.map(function(d) { return d.Identifier; });
@@ -86,7 +86,6 @@ function abacus() {
         ;
         // Now the data can be processed
         dataset.grid = [];
-        console.log(data);
         data.forEach(function(d, i) {
             fields.forEach(function(f, j) {
                 if(d[f]) dataset.grid.push({ x: j * side, y: i * side });
