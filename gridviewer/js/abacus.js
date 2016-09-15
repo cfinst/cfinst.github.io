@@ -39,7 +39,6 @@ function abacus() {
       , dataset = {
               grid: []
             , extent: [[0,0], [0,0]] // of selected/brushed data
-            , roles: {}
           }
       , dispatch = d3.dispatch("selected")
       , send = true // whether or not to dispatch the selected data
@@ -50,7 +49,11 @@ function abacus() {
      */
     function widget(sel) {
         dom = sel;
-        data = dom.datum();
+        data = dom.datum()
+            .sort(function(a, b) {
+                return d3.ascending(+a.Year, +b.Year);
+              })
+        ;
         rows = data.map(function(d) { return d.Identifier; });
         fields = d3.keys(data[0]);
 
@@ -81,18 +84,12 @@ function abacus() {
             .domain(master.indexbyname.y.range())
             .range(master.indexbyname.y.domain())
         ;
-        console.log(master.indexbyname, master.namebyindex);
         // Now the data can be processed
         dataset.grid = [];
+        console.log(data);
         data.forEach(function(d, i) {
             fields.forEach(function(f, j) {
-                if(d[f]) {
-                  dataset.grid.push({
-                        x: j * side
-                      , y: i * side
-                    })
-                  ;
-                }
+                if(d[f]) dataset.grid.push({ x: j * side, y: i * side });
               })
             ;
           })
@@ -123,7 +120,7 @@ function abacus() {
             .attr("height", master.height)
           .node()
         ;
-        ["roles", "brushed"]
+        ["laws", "brushed"]
             .forEach(function(c) {
                 master.overlay[c] = d3.select(document.createElement("canvas"))
                   .append("canvas")
@@ -354,8 +351,8 @@ function abacus() {
     } // drawCanvases()
 
     function updateCanvases() {
-        // Show the roles
-        var context = master.overlay.roles
+        // Show the laws
+        var context = master.overlay.laws
             .getContext('2d', {preserveDrawingBuffer: true})
         ;
         context.clearRect(0, 0, master.width, master.height);
@@ -392,7 +389,7 @@ function abacus() {
           , thumb = minimap.canvas.node()
                   .getContext('2d', {preserveDrawingBuffer: true})
         ;
-        [master.canvas, master.overlay.roles, master.overlay.brushed]
+        [master.canvas, master.overlay.laws, master.overlay.brushed]
             .forEach(function(source) {
                 pic.drawImage(source
                     , -master.scale.x(matrix.scale.x.domain()[0])
