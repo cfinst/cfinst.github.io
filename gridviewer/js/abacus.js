@@ -415,7 +415,6 @@ function abacus() {
         ;
         d3.select(this)
             .call(matrix.brush)
-            .call(matrix.brush.move, dataset.extent)
         ;
         drawAxes();
         update();
@@ -473,12 +472,12 @@ function abacus() {
         ;
         matrix.scale.x
             .domain(extent.map(function(e) {
-                return Math.round(minimap.scale.x.invert(e[0]));
+                return minimap.scale.x.invert(e[0]);
               }))
         ;
         matrix.scale.y
             .domain(extent.map(function(e) {
-                return Math.round(minimap.scale.y.invert(e[1]));
+                return minimap.scale.y.invert(e[1]);
               }))
         ;
         drawAxes();
@@ -509,22 +508,6 @@ function abacus() {
     widget.selected = function() {
         return dataset.extent;
       } // widget.dataset.selected
-    ;
-    widget.showRole = function(role, color) {
-        highlight.set(role, color);
-
-        return widget;
-      } // widget.showRole()
-    ;
-    widget.hideRole = function(role) {
-        if(!arguments.length)
-            return widget;
-
-        if(highlight.has(role)) {
-            highlight.remove(role);
-        }
-        return widget;
-      } // widget.hideRole()
     ;
     widget.data = function(arg) {
         if(!arguments.length)
