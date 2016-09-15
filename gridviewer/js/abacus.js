@@ -50,7 +50,9 @@ function abacus() {
         dom = sel;
         data = dom.datum()
             .sort(function(a, b) {
-                return d3.ascending(+a.Year, +b.Year) || d3.ascending(a.State, b.State);
+                return d3.ascending(+a.Year, +b.Year)
+                    || d3.ascending(a.State, b.State)
+                ;
               })
         ;
         rows = data.map(function(d) { return d.Identifier; });
@@ -344,35 +346,35 @@ function abacus() {
 
     function updateCanvases() {
         // Show the laws
-        var context = master.overlay.laws
-            .getContext('2d', {preserveDrawingBuffer: true})
-        ;
-        context.clearRect(0, 0, master.width, master.height);
+        // var context = master.overlay.laws
+        //     .getContext('2d', {preserveDrawingBuffer: true})
+        // ;
+        // context.clearRect(0, 0, master.width, master.height);
         // Show the brushed region
-        var x = dataset.extent.map(function(e) { return e[0]; })
-          , y = dataset.extent.map(function(e) { return e[1]; })
-        ;
-        context = master.overlay.brushed
-            .getContext('2d', {preserveDrawingBuffer: true})
-        ;
-        context.clearRect(0, 0, master.width, master.height);
-        context.fillStyle = rgba(brushcolor, 0.4);
-        context.fillRect(
-              master.scale.x(x[0])
-            , master.scale.y(y[0])
-            , master.scale.x(x[1] - x[0])
-            , master.scale.y(y[1] - y[0])
-          )
-        ;
+        // var x = dataset.extent.map(function(e) { return e[0]; })
+        //   , y = dataset.extent.map(function(e) { return e[1]; })
+        // ;
+        // context = master.overlay.brushed
+        //     .getContext('2d', {preserveDrawingBuffer: true})
+        // ;
+        // context.clearRect(0, 0, master.width, master.height);
+        // context.fillStyle = rgba(brushcolor, 0.4);
+        // context.fillRect(
+        //       master.scale.x(x[0])
+        //     , master.scale.y(y[0])
+        //     , master.scale.x(x[1] - x[0])
+        //     , master.scale.y(y[1] - y[0])
+        //   )
+        // ;
         // Utility function
-        function rgba(color, opacity) {
-            var rgb = d3.rgb(color);
-            return 'rgba('
-              + rgb.r + ',' + rgb.g + ',' + rgb.b + ','
-              + (opacity ? '0.5' : '0.9')
-              +')'
-            ;
-        } // rgba()
+        // function rgba(color, opacity) {
+        //     var rgb = d3.rgb(color);
+        //     return 'rgba('
+        //       + rgb.r + ',' + rgb.g + ',' + rgb.b + ','
+        //       + (opacity ? '0.5' : '0.9')
+        //       +')'
+        //     ;
+        // } // rgba()
     } // updateCanvases()
 
     function renderCanvases() {
@@ -381,7 +383,7 @@ function abacus() {
           , thumb = minimap.canvas.node()
                   .getContext('2d', {preserveDrawingBuffer: true})
         ;
-        [master.canvas, master.overlay.laws, master.overlay.brushed]
+        [master.canvas, master.overlay.laws/*, master.overlay.brushed*/]
             .forEach(function(source) {
                 pic.drawImage(source
                     , -master.scale.x(matrix.scale.x.domain()[0])
@@ -441,44 +443,48 @@ function abacus() {
     } // brushend()
 
     function pan() {
-        var extent = minimap.brush.extent()
-          , y = extent()[0][1]
-          , x = extent()[0][0]
-          , x1 = minimap.scale.x.domain()[1]
-          , y1 = minimap.scale.y.domain()[1]
+        var extent = d3.event.selection
+          , y = extent[0][1]
+          , x = extent[0][0]
+          , x1 = minimap.scale.x.range()[1]
+          , y1 = minimap.scale.y.range()[1]
         ;
-        if(d3.event && (d3.event.selection || d3.event.mode === "resize")) {
-            extent = [
-                  [x - minimap.width/2, y - minimap.height/2]
-                , [x + minimap.width/2, y + minimap.height/2]
-              ]
-            ;
-        }
-        if(extent[0][0] < 0) {
-            extent[0][0] = 0;
-            extent[1][0] = minimap.width;
-        } else if(extent[1][0] > x1) {
-            extent[1][0] = x1;
-            extent[0][0] = x1 - minimap.width;
-        }
+        console.log(extent);
+        // if(d3.event && (d3.event.selection || d3.event.mode === "resize")) {
+        //     extent = [
+        //           [x - minimap.width/2, y - minimap.height/2]
+        //         , [x + minimap.width/2, y + minimap.height/2]
+        //       ]
+        //     ;
+        // }
+        // if(extent[0][0] < 0) {
+        //     extent[0][0] = 0;
+        //     extent[1][0] = minimap.width;
+        // } else if(extent[1][0] > x1) {
+        //     extent[1][0] = x1;
+        //     extent[0][0] = x1 - minimap.width;
+        // }
+        //
+        // if(extent[0][1] < 0) {
+        //     extent[0][1] = 0;
+        //     extent[1][1] = minimap.height;
+        // } else if(extent[1][1] > y1) {
+        //     extent[1][1] = y1;
+        //     extent[0][1] = y1 - minimap.height;
+        // }
 
-        if(extent[0][1] < 0) {
-            extent[0][1] = 0;
-            extent[1][1] = minimap.height;
-        } else if(extent[1][1] > y1) {
-            extent[1][1] = y1;
-            extent[0][1] = y1 - minimap.height;
-        }
-
-        extent = extent.map(function(e) { return e.map(Math.round); });
         minimap.overlay.select(".brush")
             .call(minimap.brush.extent(extent))
         ;
         matrix.scale.x
-            .domain(extent.map(function(e) { return e[0]; }))
+            .domain(extent.map(function(e) {
+                return Math.round(minimap.scale.x.invert(e[0]));
+              }))
         ;
         matrix.scale.y
-            .domain(extent.map(function(e) { return e[1]; }))
+            .domain(extent.map(function(e) {
+                return Math.round(minimap.scale.y.invert(e[1]));
+              }))
         ;
         drawAxes();
         update();
