@@ -185,7 +185,7 @@ function abacus() {
         ;
         matrix.overlay
           .append("g")
-            .attr("class", "entitlement x axis")
+            .attr("class", "fields x axis")
         ;
         matrix.scale.y = d3.scaleLinear()
             .domain(master.scale.y.domain())
@@ -197,7 +197,7 @@ function abacus() {
         ;
         matrix.overlay
           .append("g")
-            .attr("class", "user y axis")
+            .attr("class", "state-year y axis")
         ;
         // matrix.brush
         //     .x(matrix.scale.x)
@@ -274,26 +274,26 @@ function abacus() {
                       ))
                     .tickSize(-matrix.height, 0, 0)
               )
-          // .selectAll("text")
-          //   .attr("transform", "rotate(" + label_rotation + ")")
-          //   .attr({
-          //         x: 9
-          //       , y: side / 2
-          //       , dy: ".35em"
-          //     })
-          //   .classed("brushed", function(d) {
-          //       return d >= dataset.extent[0][0] && d < dataset.extent[1][0];
-          //     })
-          //   .on("mouseover", function() {
-          //       var self = d3.select(this);
-          //       self.style("text-decoration", "underline overline");
-          //       tip
-          //         .direction('s')
-          //         .offset([self.node().getBBox().width / 2, 0])
-          //         .html(tiptext(self))
-          //         .show()
-          //       ;
-          //     })
+          .selectAll(".tick text")
+            .attr("transform", "rotate(" + label_rotation + ")")
+            .attr("x", 9)
+            .attr("y", side / 2)
+            .attr("dy", ".35em")
+            .style("text-anchor", "start")
+            .text(function(t) { return master.namebyindex.x(t); })
+            .classed("brushed", function(d) {
+                return d >= dataset.extent[0][0] && d < dataset.extent[1][0];
+              })
+            .on("mouseover", function() {
+                var self = d3.select(this);
+                self.style("text-decoration", "underline overline");
+                tip
+                  .direction('s')
+                  .offset([self.node().getBBox().width / 2, 0])
+                  .html(tiptext(self))
+                  .show()
+                ;
+              })
         ;
         matrix.overlay.select(".y.axis")
             .call(matrix.axis.y
@@ -303,24 +303,23 @@ function abacus() {
                   ))
                 .tickSize(-matrix.width, 0, 0)
               )
-          // .selectAll("text")
-          //   .attr({
-          //         y: side / 2
-          //       , dy: ".35em"
-          //     })
-          //   .classed("brushed", function(d) {
-          //       return d >= dataset.extent[0][1] && d < dataset.extent[1][1];
-          //     })
-          //   .on("mouseover", function() {
-          //       var self = d3.select(this);
-          //       self.style("text-decoration", "underline overline");
-          //       tip
-          //         .direction('se')
-          //         .offset([0,0])
-          //         .html(tiptext(self))
-          //         .show()
-          //       ;
-          //     })
+          .selectAll("text")
+            .attr("y", side / 2)
+            .attr("dy", ".35em")
+            .text(function(t) { return master.namebyindex.y(t); })
+            .classed("brushed", function(d) {
+                return d >= dataset.extent[0][1] && d < dataset.extent[1][1];
+              })
+            .on("mouseover", function() {
+                var self = d3.select(this);
+                self.style("text-decoration", "underline overline");
+                tip
+                  .direction('se')
+                  .offset([0,0])
+                  .html(tiptext(self))
+                  .show()
+                ;
+              })
         ;
         matrix.overlay.selectAll(".axis text")
             .on("mouseout", function() {
