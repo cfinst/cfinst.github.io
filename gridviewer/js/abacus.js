@@ -441,12 +441,12 @@ function abacus() {
         ;
         matrix.scale.x
             .domain(extent.map(function(e) {
-                return minimap.scale.x.invert(e[0]);
+                return Math.round(minimap.scale.x.invert(e[0]));
               }))
         ;
         matrix.scale.y
             .domain(extent.map(function(e) {
-                return minimap.scale.y.invert(e[1]);
+                return Math.round(minimap.scale.y.invert(e[1]));
               }))
         ;
         drawAxes();
