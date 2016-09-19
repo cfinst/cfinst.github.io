@@ -378,13 +378,22 @@ function abacus() {
         var pic = matrix.canvas.node()
                 .getContext('2d', {preserveDrawingBuffer: true})
           , thumb = minimap.canvas.node()
-                  .getContext('2d', {preserveDrawingBuffer: true})
+                .getContext('2d', {preserveDrawingBuffer: true})
         ;
-        pic.drawImage(master.canvas
-            , -master.scale.x(matrix.scale.x.domain()[0])
-            , -master.scale.y(matrix.scale.y.domain()[0])
-          )
+        //pic.save();
+        //pic.translate...
+        //pic.drawImage(master.canvas, 0, 0);
+        //pic.restore();
+        var sx = Math.round(master.scale.x(matrix.scale.x.domain()[0]))
+          , sy = Math.round(master.scale.y(matrix.scale.y.domain()[0]))
+          , sWidth = master.scale.x(matrix.scale.x.domain()[1]) - sx
+          , sHeight = master.scale.y(matrix.scale.y.domain()[1]) - sy
+          , dx = 0
+          , dy = 0
+          , dWidth = matrix.scale.x.range()[1] - matrix.scale.x.range()[0]
+          , dHeight = matrix.scale.y.range()[1] - matrix.scale.y.range()[0]
         ;
+        pic.drawImage(master.canvas, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
         thumb.drawImage(master.canvas, 0, 0);
     } // renderCanvases()
 
