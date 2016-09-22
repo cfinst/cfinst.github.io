@@ -100,7 +100,10 @@
               .attr("r", radius)
               .attr("fill", function (d){ return colorScale(d[selectedColumn]); })
           ;
-          circles.exit().remove();
+          circles.exit()
+            .transition().duration(500)
+              .attr("r", 0)
+            .remove();
 
           // Render the axes.
           xAxisG.call(d3.axisLeft().scale(yScale));
