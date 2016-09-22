@@ -21,7 +21,7 @@
     </select>
   </div>
 
-  <svg width="960" height="500"></svg>
+  <svg width="1000" height="1000"></svg>
 
   <script src="../js/d3.min.js"></script>
   <script src="../js/d3-tip.js"></script>
@@ -33,9 +33,9 @@
     function Grid(){
 
       // Configuration parameters.
-      var margin = { left: 200, right: 15, top: 35, bottom: 35 }
-        , radius = 10
-        , axisPadding = 0.35
+      var margin = { left: 50, right: 15, top: 35, bottom: 750 }
+        , radius = 9
+        , axisPadding = 0.6
         , xColumn = "State"
         , yColumn = "Year"
         , selectedColumn = "COLA"
@@ -50,7 +50,7 @@
         , yAxisG = g.append("g")
             .attr("class", "x axis")
         , legendG = svg.append("g")
-            .attr("transform", "translate(20,20)")
+            .attr("transform", "translate(20,255)")
       ;
 
       // D3 Objects.
@@ -72,28 +72,38 @@
             , height = svg.attr("height")
             , innerWidth = width - margin.right - margin.left
             , innerHeight = height - margin.bottom - margin.top
+            , filteredData = data.filter(function (d){
+                return d[selectedColumn] ? true : false;
+              })
           ;
           xScale.range([0, innerWidth]);
           yScale.range([innerHeight, 0]);
 
-          colorScale.domain(data.map(function (d){ return d[selectedColumn]; }));
+          colorScale.domain(
+            filteredData.map(function (d){
+              return d[selectedColumn];
+            }))
+          ;
 
           // Transform the g container element.
           g.attr("transform", "translate(" + [margin.left, margin.top] + ")");
 
           // Visualize the selectedColumn.
-          var circles = g.selectAll("circle").data(data);
-          circles = circles.enter().append("circle").merge(circles);
+          var circles = g.selectAll("circle").data(filteredData);
           circles
-            .attr("cx", function (d){ return xScale(d[xColumn]); })
-            .attr("cy", function (d){ return yScale(d[yColumn]); })
-            .transition().duration(500)
-            .attr("r", function (d){
-              return d[selectedColumn] ? radius : 0;
-            })
-            .attr("fill", function (d){ return colorScale(d[selectedColumn]); })
+            .enter()
+              .append("circle")
+            .merge(circles)
+              .attr("cx", function (d){ return xScale(d[xColumn]); })
+              .attr("cy", function (d){ return yScale(d[yColumn]); })
+              .transition().duration(500)
+              .attr("r", radius)
+              .attr("fill", function (d){ return colorScale(d[selectedColumn]); })
           ;
-          circles.exit().remove();
+          circles.exit()
+            .transition().duration(500)
+              .attr("r", 0)
+            .remove();
 
           // Render the axes.
           xAxisG.call(d3.axisLeft().scale(yScale));
@@ -138,7 +148,13 @@
       my.columns = function (){
         if(data){
           return columns = Object.keys(data[0]).filter(function (column){
-            return column !== xColumn && column !== yColumn;
+            return (
+                (column !== xColumn)
+              &&
+                (column !== yColumn)
+              &&
+                (column !== "Identifier")
+            );
           });
         }
       };
@@ -165,7 +181,8 @@
 
 
       // Load the data and kick-off the visualization.
-      d3.csv("../data/contributions1.csv", function (data){
+//      d3.csv("../data/contributions1.csv", function (data){
+      d3.csv("../data/CSVs/Laws_02_Contributions_1.csv", function (data){
         grid.data(data);
         grid();
 
