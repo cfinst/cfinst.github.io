@@ -21,7 +21,7 @@
     </select>
   </div>
 
-  <svg width="960" height="500"></svg>
+  <svg width="1000" height="1000"></svg>
 
   <script src="../js/d3.min.js"></script>
   <script src="../js/d3-tip.js"></script>
@@ -33,9 +33,9 @@
     function Grid(){
 
       // Configuration parameters.
-      var margin = { left: 200, right: 15, top: 35, bottom: 35 }
-        , radius = 7
-        , axisPadding = 0.35
+      var margin = { left: 50, right: 15, top: 35, bottom: 750 }
+        , radius = 9
+        , axisPadding = 0.6
         , xColumn = "State"
         , yColumn = "Year"
         , selectedColumn = "COLA"
@@ -50,7 +50,7 @@
         , yAxisG = g.append("g")
             .attr("class", "x axis")
         , legendG = svg.append("g")
-            .attr("transform", "translate(20,20)")
+            .attr("transform", "translate(20,255)")
       ;
 
       // D3 Objects.
