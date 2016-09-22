@@ -145,7 +145,13 @@
       my.columns = function (){
         if(data){
           return columns = Object.keys(data[0]).filter(function (column){
-            return column !== xColumn && column !== yColumn;
+            return (
+                (column !== xColumn)
+              &&
+                (column !== yColumn)
+              &&
+                (column !== "Identifier")
+            );
           });
         }
       };

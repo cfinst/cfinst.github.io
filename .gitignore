@@ -2,5 +2,6 @@ node_modules
 bower_components
 _site
 *.mdb
+*.swp
 data/CFI State Laws Update_Merge.zip
 data/CSVs/
