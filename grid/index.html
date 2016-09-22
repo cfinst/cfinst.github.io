@@ -34,7 +34,7 @@
 
       // Configuration parameters.
       var margin = { left: 200, right: 15, top: 35, bottom: 35 }
-        , radius = 10
+        , radius = 7
         , axisPadding = 0.35
         , xColumn = "State"
         , yColumn = "Year"
@@ -72,26 +72,33 @@
             , height = svg.attr("height")
             , innerWidth = width - margin.right - margin.left
             , innerHeight = height - margin.bottom - margin.top
+            , filteredData = data.filter(function (d){
+                return d[selectedColumn] ? true : false;
+              })
           ;
           xScale.range([0, innerWidth]);
           yScale.range([innerHeight, 0]);
 
-          colorScale.domain(data.map(function (d){ return d[selectedColumn]; }));
+          colorScale.domain(
+            filteredData.map(function (d){
+              return d[selectedColumn];
+            }))
+          ;
 
           // Transform the g container element.
           g.attr("transform", "translate(" + [margin.left, margin.top] + ")");
 
           // Visualize the selectedColumn.
-          var circles = g.selectAll("circle").data(data);
-          circles = circles.enter().append("circle").merge(circles);
+          var circles = g.selectAll("circle").data(filteredData);
           circles
-            .attr("cx", function (d){ return xScale(d[xColumn]); })
-            .attr("cy", function (d){ return yScale(d[yColumn]); })
-            .transition().duration(500)
-            .attr("r", function (d){
-              return d[selectedColumn] ? radius : 0;
-            })
-            .attr("fill", function (d){ return colorScale(d[selectedColumn]); })
+            .enter()
+              .append("circle")
+            .merge(circles)
+              .attr("cx", function (d){ return xScale(d[xColumn]); })
+              .attr("cy", function (d){ return yScale(d[yColumn]); })
+              .transition().duration(500)
+              .attr("r", radius)
+              .attr("fill", function (d){ return colorScale(d[selectedColumn]); })
           ;
           circles.exit().remove();
 
