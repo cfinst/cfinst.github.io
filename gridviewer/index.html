@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Visualization Concepts, Campaign Finance Institute">
+  <meta name="author" content="Seemant Kulleen">
+
+  <title>CFI PoC: Grid + Nav</title>
+
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/tips.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="page-header text-center">
+    <h1>CFI Visualization Concept</h1>
+    <h2>Visual Grid with Navigator</h2>
+  </div>
+  <article>
+    <!--
+    <section>
+      <select id="chooser-year">
+        <optgroup label="Select a Year"></optgroup>
+      </select>
+    </section>
+    -->
+    <section id="viz" class="flex-container">
+      <div id="magnifier"></div>
+      <div id="navigator"></div>
+    </section><!--#viz.flex-container-->
+  </article>
+
+  <script src="../js/d3.min.js"></script>
+  <script src="../js/d3-tip.js"></script>
+
+  <script src="js/abacus.js"></script>
+  <script>
+    d3.queue()
+      .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_1.csv")
+      .await(main)
+    ;
+    function main(error, dataset) {
+        if(error) throw error;
+
+        dataset.sort(function(a, b) {
+            return d3.ascending(a.Identifier, b.Identifier);
+          })
+        ;
+        var viz = abacus();
+        d3.select("#viz")
+            .datum(dataset)
+            .call(viz)
+        ;
+        viz.update();
+    } // main()
+  </script>
+</body>
+</html>
