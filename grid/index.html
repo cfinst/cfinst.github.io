@@ -89,7 +89,10 @@
           g.attr("transform", "translate(" + [margin.left, margin.top] + ")");
 
           // Visualize the selectedColumn.
-          var circles = g.selectAll("circle").data(filteredData);
+          var circles = g.selectAll("circle").data(
+            filteredData,
+            function (d){ return d.Identifier; }
+          );
           circles
             .enter()
               .append("circle")
