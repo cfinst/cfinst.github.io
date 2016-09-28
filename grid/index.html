@@ -38,8 +38,22 @@
         , axisPadding = 0.6
         , xColumn = "State"
         , yColumn = "Year"
-        , selectedColumn = "COLA"
+        , selectedColumn
         , data
+        , columns = [
+            "IndividualToCandLimit_H_Max",
+            "IndividualToCandLimit_S_Max",
+            "IndividualToCandLimit_G_Max",
+            "PACToCandLimit_H_Max",
+            "PACToCandLimit_S_Max",
+            "PACToCandLimit_G_Max",
+            "CorpToCandLimit_H_Max",
+            "CorpToCandLimit_S_Max",
+            "CorpToCandLimit_G_Max",
+            "LaborToCandLimit_H_Max",
+            "LaborToCandLimit_S_Max",
+            "LaborToCandLimit_G_Max"
+          ]
       ;
 
       // DOM Elements.
@@ -102,7 +116,7 @@
               .attr("cy", function (d){ return yScale(d[yColumn]); })
             .transition().duration(500)
               .attr("r", radius)
-              .attr("fill", function (d){ console.log(selectedColumn); return colorScale(d[selectedColumn]); })
+              .attr("fill", function (d){ return colorScale(d[selectedColumn]); })
           ;
           circles.exit()
             .transition().duration(500)
@@ -113,11 +127,9 @@
           xAxisG.call(d3.axisLeft().scale(yScale));
           yAxisG.call(d3.axisTop().scale(xScale).ticks(30));
 
-          console.log("Before"+colorScale.domain());
           legend.scale(colorScale);
 
           legendG.call(legend);
-          console.log("After"+colorScale.domain());
         }
       }
 
@@ -138,6 +150,8 @@
               .sort()
           );
 
+          return my;
+
         } else {
           return data;
         }
@@ -154,26 +168,7 @@
       // Computes the list of available columns,
       // excluding the xColumn and yColumn.
       my.columns = function (){
-        return [
-          "IndividualToCandLimit_H_Max",
-          "IndividualToCandLimit_S_Max",
-          "IndividualToCandLimit_G_Max",
-          "PACToCandLimit_H_Max",
-          "PACToCandLimit_S_Max",
-          "PACToCandLimit_G_Max",
-          "CorpToCandLimit_H_Max",
-          "CorpToCandLimit_S_Max",
-          "CorpToCandLimit_G_Max",
-          "LaborToCandLimit_H_Max",
-          "LaborToCandLimit_S_Max",
-          "LaborToCandLimit_G_Max",
-          "IndividualToPartyLimit_Max",
-          "CorpToPartyLimit_Max",
-          "LaborToPartyLimit_Max",
-          "IndividualToPACLimit_Max",
-          "CorpToPACLimit_Max",
-          "LaborToPACLimit_Max"
-        ];
+        return columns;
       };
 
       return my;
@@ -183,24 +178,12 @@
 
       var grid = Grid();
 
-      // Auto-tour
-      var i = 0;
-      var autoTourInterval = setInterval(function (){
-
-        var column = grid.columns()[i];
-        i = (i + 1) % grid.columns().length;
-
-        grid.selectedColumn(column);
-        grid();
-
-        d3.select("#chooser-field").node().value = column;
-      }, 2000);
-
-
       // Load the data and kick-off the visualization.
-//      d3.csv("../data/contributions1.csv", function (data){
       d3.csv("../data/CSVs/Laws_02_Contributions_1.csv", function (data){
-        grid.data(data);
+        grid
+          .data(data)
+          .selectedColumn(grid.columns()[0])
+        ;
         grid();
 
         d3.select("#chooser-field")
@@ -217,9 +200,19 @@
             .text(function(d) { return d; })
         ;
 
+        // Auto-tour
+        var i = 1;
+        var autoTourInterval = setInterval(function (){
+
+          var column = grid.columns()[i];
+          i = (i + 1) % grid.columns().length;
+
+          grid.selectedColumn(column);
+          grid();
+
+          d3.select("#chooser-field").node().value = column;
+        }, 2000);
       });
-
-
     }
     main();
   </script>
