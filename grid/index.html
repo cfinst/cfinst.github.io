@@ -26,7 +26,6 @@
   <script src="../js/d3.min.js"></script>
   <script src="../js/d3-tip.js"></script>
   <script src="../js/topojson.min.js"></script>
-  <script src="../js/d3-legend.min.js"></script>
 
   <script>
 
@@ -52,6 +51,9 @@
             "LaborToCandLimit_S_Max",
             "LaborToCandLimit_G_Max"
           ]
+        , legendSpacing = 20
+        , legendPadding = 5
+        , legendFormat = d3.format(",")
       ;
 
       // DOM Elements.
@@ -62,7 +64,7 @@
         , yAxisG = g.append("g")
             .attr("class", "x axis")
         , legendG = svg.append("g")
-            .attr("transform", "translate(20,255)")
+            .attr("transform", "translate(20,270)")
       ;
 
       // D3 Objects.
@@ -71,19 +73,15 @@
         , colorScale = d3.scaleThreshold()
 
           .domain([
-            0
-            , 1000
+            1000
             , 2500
             , 5000
             , 10000
           ])
 
-          // ColorBrewer YlOrRd scale
-          .range(["#ffffb2","#fed976","#feb24c","#fd8d3c","#f03b20","#bd0026"])
-
-        , legend = d3.legendColor()
-          .scale(colorScale);
-
+          // ColorBrewer YlOrRd
+          // From https://bl.ocks.org/mbostock/5577023
+          .range(["#fed976","#feb24c","#fd8d3c","#f03b20","#bd0026"]);
       ;
 
       // Internal state variables.
@@ -135,7 +133,40 @@
           xAxisG.call(d3.axisLeft().scale(yScale));
           yAxisG.call(d3.axisTop().scale(xScale).ticks(30));
 
-          legendG.call(legend);
+          // Render the color legend.
+          var legendGroups = legendG.selectAll("g")
+            .data(d3.range(colorScale.domain().length + 1));
+          var legendGroupsEnter = legendGroups.enter().append("g");
+          legendGroupsEnter.append("rect");
+          legendGroupsEnter.append("text");
+          legendGroups = legendGroupsEnter.merge(legendGroups)
+              .attr("transform", function (d, i){ return "translate(0," + (i * legendSpacing) + ")"; })
+
+          legendGroups.select("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", legendSpacing - legendPadding)
+            .attr("height", legendSpacing - legendPadding)
+            .attr("fill", function (d, i){ return colorScale.range()[i]; })
+          ;
+
+          legendGroups.select("text")
+            .attr("x", 23)
+            .attr("y", 12)
+            .text(function (d, i){
+              if(i === 0){
+                return "Less than $" + legendFormat(colorScale.domain()[i]);
+              } else if (i === colorScale.domain().length){
+                return "Greater than $" + legendFormat(colorScale.domain()[i-1]);
+              } else {
+                return (
+                  "$" + legendFormat(colorScale.domain()[i-1]) + " - " +
+                  "$" + legendFormat(colorScale.domain()[i])
+                );
+              }
+            })
+          ;
+
         }
       }
 
