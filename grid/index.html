@@ -38,8 +38,6 @@
         , axisPadding = 0.6
         , xColumn = "State"
         , yColumn = "Year"
-        , selectedColumn
-        , data
         , columns = [
             "IndividualToCandLimit_H_Max",
             "IndividualToCandLimit_S_Max",
@@ -70,16 +68,32 @@
       // D3 Objects.
       var xScale = d3.scalePoint().padding(axisPadding)
         , yScale = d3.scalePoint().padding(axisPadding)
-        , colorScale = d3.scaleOrdinal().range(d3.schemeCategory10)
+        , colorScale = d3.scaleThreshold()
+
+          .domain([
+            0
+            , 1000
+            , 2500
+            , 5000
+            , 10000
+          ])
+
+          // ColorBrewer YlOrRd scale
+          .range(["#ffffb2","#fed976","#feb24c","#fd8d3c","#f03b20","#bd0026"])
+
         , legend = d3.legendColor()
+          .scale(colorScale);
+
+      ;
+
+      // Internal state variables.
+      var selectedColumn
+        , data
       ;
 
       function my(){
 
         if(data){
-          //console.log(xScale.domain());
-          //console.log(yScale.domain());
-          //console.log(columns);
 
           // Compute X and Y ranges based on current size.
           var width = svg.attr("width")
@@ -92,12 +106,6 @@
           ;
           xScale.range([0, innerWidth]);
           yScale.range([innerHeight, 0]);
-
-          colorScale.domain(
-            filteredData.map(function (d){
-              return d[selectedColumn];
-            }))
-          ;
 
           // Transform the g container element.
           g.attr("transform", "translate(" + [margin.left, margin.top] + ")");
@@ -126,8 +134,6 @@
           // Render the axes.
           xAxisG.call(d3.axisLeft().scale(yScale));
           yAxisG.call(d3.axisTop().scale(xScale).ticks(30));
-
-          legend.scale(colorScale);
 
           legendG.call(legend);
         }
