@@ -26,7 +26,6 @@
   <script src="../js/d3.min.js"></script>
   <script src="../js/d3-tip.js"></script>
   <script src="../js/topojson.min.js"></script>
-  <script src="../js/d3-legend.min.js"></script>
 
   <script>
 
@@ -38,8 +37,23 @@
         , axisPadding = 0.6
         , xColumn = "State"
         , yColumn = "Year"
-        , selectedColumn = "COLA"
-        , data
+        , columns = [
+            "IndividualToCandLimit_H_Max",
+            "IndividualToCandLimit_S_Max",
+            "IndividualToCandLimit_G_Max",
+            "PACToCandLimit_H_Max",
+            "PACToCandLimit_S_Max",
+            "PACToCandLimit_G_Max",
+            "CorpToCandLimit_H_Max",
+            "CorpToCandLimit_S_Max",
+            "CorpToCandLimit_G_Max",
+            "LaborToCandLimit_H_Max",
+            "LaborToCandLimit_S_Max",
+            "LaborToCandLimit_G_Max"
+          ]
+        , legendSpacing = 20
+        , legendPadding = 5
+        , legendFormat = d3.format(",")
       ;
 
       // DOM Elements.
@@ -50,22 +64,34 @@
         , yAxisG = g.append("g")
             .attr("class", "x axis")
         , legendG = svg.append("g")
-            .attr("transform", "translate(20,255)")
+            .attr("transform", "translate(20,270)")
       ;
 
       // D3 Objects.
       var xScale = d3.scalePoint().padding(axisPadding)
         , yScale = d3.scalePoint().padding(axisPadding)
-        , colorScale = d3.scaleOrdinal().range(d3.schemeCategory10)
-        , legend = d3.legendColor()
+        , colorScale = d3.scaleThreshold()
+
+          .domain([
+            1000
+            , 2500
+            , 5000
+            , 10000
+          ])
+
+          // ColorBrewer YlOrRd
+          // From https://bl.ocks.org/mbostock/5577023
+          .range(["#fed976","#feb24c","#fd8d3c","#f03b20","#bd0026"]);
+      ;
+
+      // Internal state variables.
+      var selectedColumn
+        , data
       ;
 
       function my(){
 
         if(data){
-          //console.log(xScale.domain());
-          //console.log(yScale.domain());
-          //console.log(columns);
 
           // Compute X and Y ranges based on current size.
           var width = svg.attr("width")
@@ -79,24 +105,22 @@
           xScale.range([0, innerWidth]);
           yScale.range([innerHeight, 0]);
 
-          colorScale.domain(
-            filteredData.map(function (d){
-              return d[selectedColumn];
-            }))
-          ;
-
           // Transform the g container element.
           g.attr("transform", "translate(" + [margin.left, margin.top] + ")");
 
           // Visualize the selectedColumn.
-          var circles = g.selectAll("circle").data(filteredData);
+          var circles = g.selectAll("circle").data(
+            filteredData,
+            function (d){ return d.Identifier; }
+          );
           circles
             .enter()
               .append("circle")
+              .attr("r", 0)
             .merge(circles)
               .attr("cx", function (d){ return xScale(d[xColumn]); })
               .attr("cy", function (d){ return yScale(d[yColumn]); })
-              .transition().duration(500)
+            .transition().duration(500)
               .attr("r", radius)
               .attr("fill", function (d){ return colorScale(d[selectedColumn]); })
           ;
@@ -109,8 +133,40 @@
           xAxisG.call(d3.axisLeft().scale(yScale));
           yAxisG.call(d3.axisTop().scale(xScale).ticks(30));
 
-          legend.scale(colorScale);
-          legendG.call(legend);
+          // Render the color legend.
+          var legendGroups = legendG.selectAll("g")
+            .data(d3.range(colorScale.domain().length + 1));
+          var legendGroupsEnter = legendGroups.enter().append("g");
+          legendGroupsEnter.append("rect");
+          legendGroupsEnter.append("text");
+          legendGroups = legendGroupsEnter.merge(legendGroups)
+              .attr("transform", function (d, i){ return "translate(0," + (i * legendSpacing) + ")"; })
+
+          legendGroups.select("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", legendSpacing - legendPadding)
+            .attr("height", legendSpacing - legendPadding)
+            .attr("fill", function (d, i){ return colorScale.range()[i]; })
+          ;
+
+          legendGroups.select("text")
+            .attr("x", 23)
+            .attr("y", 12)
+            .text(function (d, i){
+              if(i === 0){
+                return "Less than $" + legendFormat(colorScale.domain()[i]);
+              } else if (i === colorScale.domain().length){
+                return "Greater than $" + legendFormat(colorScale.domain()[i-1]);
+              } else {
+                return (
+                  "$" + legendFormat(colorScale.domain()[i-1]) + " - " +
+                  "$" + legendFormat(colorScale.domain()[i])
+                );
+              }
+            })
+          ;
+
         }
       }
 
@@ -123,12 +179,15 @@
           xScale.domain(
             data
               .map(function (d){ return d[xColumn]; })
+              .sort()
           );
           yScale.domain(
             data
               .map(function (d){ return parseInt(d[yColumn]); })
               .sort()
           );
+
+          return my;
 
         } else {
           return data;
@@ -146,17 +205,7 @@
       // Computes the list of available columns,
       // excluding the xColumn and yColumn.
       my.columns = function (){
-        if(data){
-          return columns = Object.keys(data[0]).filter(function (column){
-            return (
-                (column !== xColumn)
-              &&
-                (column !== yColumn)
-              &&
-                (column !== "Identifier")
-            );
-          });
-        }
+        return columns;
       };
 
       return my;
@@ -166,24 +215,12 @@
 
       var grid = Grid();
 
-      // Auto-tour
-      var i = 0;
-      var autoTourInterval = setInterval(function (){
-
-        var column = grid.columns()[i];
-        i = (i + 1) % grid.columns().length;
-
-        grid.selectedColumn(column);
-        grid();
-
-        d3.select("#chooser-field").node().value = column;
-      }, 2000);
-
-
       // Load the data and kick-off the visualization.
-//      d3.csv("../data/contributions1.csv", function (data){
       d3.csv("../data/CSVs/Laws_02_Contributions_1.csv", function (data){
-        grid.data(data);
+        grid
+          .data(data)
+          .selectedColumn(grid.columns()[0])
+        ;
         grid();
 
         d3.select("#chooser-field")
@@ -200,9 +237,19 @@
             .text(function(d) { return d; })
         ;
 
+        // Auto-tour
+        var i = 1;
+        var autoTourInterval = setInterval(function (){
+
+          var column = grid.columns()[i];
+          i = (i + 1) % grid.columns().length;
+
+          grid.selectedColumn(column);
+          grid();
+
+          d3.select("#chooser-field").node().value = column;
+        }, 2000);
       });
-
-
     }
     main();
   </script>
