@@ -126,8 +126,7 @@ function Grid(){
   } // Main Function Object
 
   my.data = function (_){
-    if(_){
-
+      if(!arguments.length) return data;
       data = _;
 
       // Compute X and Y domains.
@@ -141,18 +140,12 @@ function Grid(){
           .map(function (d){ return parseInt(d[yColumn]); })
           .sort()
       );
-
       return my;
-
-    } else {
-      return data;
-    }
-  };
-
-  my.selectedColumn = function (value){
+    } // my.data()
+  ;
+  my.selectedColumn = function (_){
       if(!arguments.length) return selectedColumn;
-      var col = value.donor + "To" + value.recipient + "Limit";
-      selectedColumn = col + (data[0][col + "_Max"] ? "" : "_" + value.branch) + "_Max";
+      selectedColumn = _;
       return my;
     } // my.selectedColumn()
   ;
