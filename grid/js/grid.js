@@ -6,20 +6,6 @@ function Grid(){
     , axisPadding = 0.6
     , xColumn = "State"
     , yColumn = "Year"
-    , columns = [
-        "IndividualToCandLimit_H_Max",
-        "IndividualToCandLimit_S_Max",
-        "IndividualToCandLimit_G_Max",
-        "PACToCandLimit_H_Max",
-        "PACToCandLimit_S_Max",
-        "PACToCandLimit_G_Max",
-        "CorpToCandLimit_H_Max",
-        "CorpToCandLimit_S_Max",
-        "CorpToCandLimit_G_Max",
-        "LaborToCandLimit_H_Max",
-        "LaborToCandLimit_S_Max",
-        "LaborToCandLimit_G_Max"
-      ]
     , legendSpacing = 20
     , legendPadding = 5
     , moneyFormat = d3.format("($,")
@@ -57,18 +43,14 @@ function Grid(){
     , data
   ;
 
-  function my(){
-
-    if(data){
-
+  function my() {
+      if(!data) return;
       // Compute X and Y ranges based on current size.
       var width = svg.attr("width")
         , height = svg.attr("height")
         , innerWidth = width - margin.right - margin.left
         , innerHeight = height - margin.bottom - margin.top
-        , filteredData = data.filter(function (d){
-            return d[selectedColumn] ? true : false;
-          })
+        , filteredData = data.filter(function(d) { return d[selectedColumn]; })
       ;
       xScale.range([0, innerWidth]);
       yScale.range([innerHeight, 0]);
@@ -77,10 +59,9 @@ function Grid(){
       g.attr("transform", "translate(" + [margin.left, margin.top] + ")");
 
       // Visualize the selectedColumn.
-      var circles = g.selectAll("circle").data(
-        filteredData,
-        function (d){ return d.Identifier; }
-      );
+      var circles = g.selectAll("circle")
+            .data(filteredData, function (d){ return d.Identifier; })
+      ;
       circles
         .enter()
           .append("circle")
@@ -142,9 +123,7 @@ function Grid(){
             return moneyFormat(range[0]) + " - " + moneyFormat(range[1]);
         })
       ;
-
-    }
-  }
+  } // Main Function Object
 
   my.data = function (_){
     if(_){
@@ -170,18 +149,13 @@ function Grid(){
     }
   };
 
-  my.selectedColumn = function (_){
-    if(!arguments.length) return selectedColumn;
-
-    selectedColumn = _;
-    return my;
-  };
-
-  // Computes the list of available columns,
-  // excluding the xColumn and yColumn.
-  my.columns = function (){
-    return columns;
-  };
+  my.selectedColumn = function (value){
+      if(!arguments.length) return selectedColumn;
+      var col = value.donor + "To" + value.recipient + "Limit";
+      selectedColumn = col + (data[0][col + "_Max"] ? "" : "_" + value.branch) + "_Max";
+      return my;
+    } // my.selectedColumn()
+  ;
 
   return my;
 } // Grid()
