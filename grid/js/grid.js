@@ -22,7 +22,7 @@ function Grid(){
       ]
     , legendSpacing = 20
     , legendPadding = 5
-    , legendFormat = d3.format(",")
+    , moneyFormat = d3.format("($,")
     , tip = d3.tip().attr("class", "d3-tip")
   ;
 
@@ -90,7 +90,11 @@ function Grid(){
           .attr("cy", function (d){ return yScale(d[yColumn]); })
           .on("mouseover", function(d) {
               tip
-                  .html(d[xColumn] + " (" + d[yColumn] + "): " + d[selectedColumn])
+                  .html(
+                      "<h4>" + d[xColumn] + "</h4>"
+                      + "<h4>" + d[yColumn] + "</h4>"
+                      + moneyFormat(d[selectedColumn])
+                    )
                   .show()
               ;
             })
@@ -130,13 +134,13 @@ function Grid(){
         .attr("y", 12)
         .text(function (d, i){
           if(i === 0){
-            return "Less than $" + legendFormat(colorScale.domain()[i]);
+            return "Less than " + moneyFormat(colorScale.domain()[i]);
           } else if (i === colorScale.domain().length){
-            return "Greater than $" + legendFormat(colorScale.domain()[i-1]);
+            return "Greater than " + moneyFormat(colorScale.domain()[i-1]);
           } else {
             return (
-              "$" + legendFormat(colorScale.domain()[i-1]) + " - " +
-              "$" + legendFormat(colorScale.domain()[i])
+              moneyFormat(colorScale.domain()[i-1]) + " - " +
+              moneyFormat(colorScale.domain()[i])
             );
           }
         })
