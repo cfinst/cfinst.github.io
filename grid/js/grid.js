@@ -114,35 +114,33 @@ function Grid(){
 
       // Render the color legend.
       var legendGroups = legendG.selectAll("g")
-        .data(d3.range(colorScale.domain().length + 1));
+        .data(colorScale.range(), identity);
       var legendGroupsEnter = legendGroups.enter().append("g");
       legendGroupsEnter.append("rect");
       legendGroupsEnter.append("text");
       legendGroups = legendGroupsEnter.merge(legendGroups)
-          .attr("transform", function (d, i){ return "translate(0," + (i * legendSpacing) + ")"; })
-
+          .attr("transform", function (d, i){
+              return "translate(0," + (i * legendSpacing) + ")";
+            })
+      ;
+      console.log(colorScale)
       legendGroups.select("rect")
         .attr("x", 0)
         .attr("y", 0)
         .attr("width", legendSpacing - legendPadding)
         .attr("height", legendSpacing - legendPadding)
-        .attr("fill", function (d, i){ return colorScale.range()[i]; })
+        .attr("fill", identity)
       ;
-
       legendGroups.select("text")
         .attr("x", 23)
         .attr("y", 12)
-        .text(function (d, i){
-          if(i === 0){
-            return "Less than " + moneyFormat(colorScale.domain()[i]);
-          } else if (i === colorScale.domain().length){
-            return "Greater than " + moneyFormat(colorScale.domain()[i-1]);
-          } else {
-            return (
-              moneyFormat(colorScale.domain()[i-1]) + " - " +
-              moneyFormat(colorScale.domain()[i])
-            );
-          }
+        .text(function (d){
+            var range = colorScale.invertExtent(d);
+
+            if(!range[0]) return "Less than " + moneyFormat(range[1]);
+            if(!range[1]) return "Greater than " + moneyFormat(range[0]);
+
+            return moneyFormat(range[0]) + " - " + moneyFormat(range[1]);
         })
       ;
 
