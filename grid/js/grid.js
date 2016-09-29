@@ -23,10 +23,11 @@ function Grid(){
     , legendSpacing = 20
     , legendPadding = 5
     , legendFormat = d3.format(",")
+    , tip = d3.tip().attr("class", "d3-tip")
   ;
 
   // DOM Elements.
-  var svg = d3.select("svg")
+  var svg = d3.select("svg").call(tip)
     , g = svg.append("g")
     , xAxisG = g.append("g")
         .attr("class", "y axis")
@@ -40,14 +41,12 @@ function Grid(){
   var xScale = d3.scalePoint().padding(axisPadding)
     , yScale = d3.scalePoint().padding(axisPadding)
     , colorScale = d3.scaleThreshold()
-
-      .domain([
-        1000
-        , 2500
-        , 5000
-        , 10000
-      ])
-
+        .domain([
+            1000
+            , 2500
+            , 5000
+            , 10000
+          ])
       // ColorBrewer YlOrRd
       // From https://bl.ocks.org/mbostock/5577023
       .range(["#fed976","#feb24c","#fd8d3c","#f03b20","#bd0026"]);
@@ -89,6 +88,13 @@ function Grid(){
         .merge(circles)
           .attr("cx", function (d){ return xScale(d[xColumn]); })
           .attr("cy", function (d){ return yScale(d[yColumn]); })
+          .on("mouseover", function(d) {
+              tip
+                  .html(d[xColumn] + " (" + d[yColumn] + "): " + d[selectedColumn])
+                  .show()
+              ;
+            })
+          .on("mouseout", tip.hide)
         .transition().duration(500)
           .attr("r", radius)
           .attr("fill", function (d){ return colorScale(d[selectedColumn]); })
