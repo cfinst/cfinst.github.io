@@ -51,7 +51,6 @@
       , data_files = ["Laws_02_Contributions_1", "Laws_02_Contributions_2"]
       , query = { donor: false, recipient: false, branch: false }
     ;
-
     var grid = Grid();
 
     // Load the data and kick-off the visualization.
@@ -75,20 +74,18 @@
                   })
                 .map(d3.merge([contribs, contribs2]))
                 .values()
-          , columns = d3.merge([contribs.columns, contribs2.columns])
-        ;
-        columns = columns
-              .filter(function(c) { return c.endsWith("_Max"); })
-              .filter(function(c) { return ~requested_columns.indexOf(c); })
-              .map(function(c) {
-                  var ret = c
-                          .split("Limit_Max")[0]
-                          .split("_Max")[0]
-                          .split("To")
-                    , receiver = ret[1].split("Limit_")
-                  ;
-                  return [ret[0], receiver[0], receiver[1]];
-                })
+          , columns = d3.keys(data[0])
+                .filter(function(c) { return c.endsWith("_Max"); })
+                .filter(function(c) { return ~requested_columns.indexOf(c); })
+                .map(function(c) {
+                    var ret = c
+                            .split("Limit_Max")[0]
+                            .split("_Max")[0]
+                            .split("To")
+                      , receiver = ret[1].split("Limit_")
+                    ;
+                    return [ret[0], receiver[0], receiver[1]];
+                  })
         ;
         d3.select("form").selectAll(".chooser")
             .data(d3.keys(query), identity)
@@ -98,7 +95,7 @@
             .on("change", function() {
                 query[this.id.split("chooser-")[1]] = this.value;
                 grid
-                    .selectedColumn(query)
+                    .selectedColumn(querify())
                   () // call grid()
                 ;
                 d3.select("#query-string")
@@ -129,15 +126,29 @@
         ;
         grid
             .data(data)
-            .selectedColumn(query)
+            .selectedColumn(querify())
           () // Call grid()
         ;
         d3.select("#query-string")
             .text(grid.selectedColumn())
         ;
+
+        // Local Helper Functions
+        function querify() {
+            var col = query.donor + "To" + query.recipient + "Limit"
+              , branch = !d3.map(data[0]).has([col + "_Max"])
+            ;
+            d3.select("#chooser-branch")
+                .attr("disabled", !branch || null)
+                .property("value", !branch ? "" : query.branch)
+            ;
+            return col + ( branch ? "_" + query.branch : "") + "_Max";
+        } // querify()
     } // corpus()
 
+    // Helper Utility Function
     function identity(d) { return d; }
+
   </script>
 </body>
 </html>
