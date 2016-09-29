@@ -123,7 +123,6 @@ function Grid(){
               return "translate(0," + (i * legendSpacing) + ")";
             })
       ;
-      console.log(colorScale)
       legendGroups.select("rect")
         .attr("x", 0)
         .attr("y", 0)
