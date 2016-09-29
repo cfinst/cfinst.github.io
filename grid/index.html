@@ -55,8 +55,8 @@
 
     // Load the data and kick-off the visualization.
     d3.queue()
-        .defer(d3.csv, "/data/CSVs/Laws_02_Contributions_1.csv")
-        .defer(d3.csv, "/data/CSVs/Laws_02_Contributions_2.csv")
+        .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_1.csv")
+        .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_2.csv")
         .await(corpus)
     ;
     /*
