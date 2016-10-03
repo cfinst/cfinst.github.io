@@ -8,6 +8,10 @@ function Grid(){
     , legendSpacing = 20
     , legendPadding = 5
     , moneyFormat = function (n){ return isFinite(n) ? "$" + d3.format(",")(n) : null; }
+    , bins = [1000, 2500, 5000, 10000]
+    // ColorBrewer YlOrRd
+    // From https://bl.ocks.org/mbostock/5577023
+    , colors = ["#fed976","#feb24c","#fd8d3c","#f03b20","#bd0026"]
     , tip = d3.tip().attr("class", "d3-tip")
   ;
 
@@ -25,15 +29,8 @@ function Grid(){
   var xScale = d3.scalePoint().padding(axisPadding)
     , yScale = d3.scalePoint().padding(axisPadding)
     , colorScale = d3.scaleThreshold()
-        .domain([
-            1000
-            , 2500
-            , 5000
-            , 10000
-          ])
-      // ColorBrewer YlOrRd
-      // From https://bl.ocks.org/mbostock/5577023
-      .range(["#fed976","#feb24c","#fd8d3c","#f03b20","#bd0026"]);
+        .domain(bins)
+      .range(colors);
   ;
 
   // Internal state variables.
