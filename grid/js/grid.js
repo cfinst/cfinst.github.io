@@ -7,7 +7,7 @@ function Grid(){
     , yColumn = "Year"
     , legendSpacing = 20
     , legendPadding = 5
-    , moneyFormat = d3.format("($,")
+    , moneyFormat = function (n){ return isFinite(n) ? "$" + d3.format(",")(n) : null; }
     , tip = d3.tip().attr("class", "d3-tip")
   ;
 
