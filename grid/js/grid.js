@@ -3,6 +3,7 @@ function Grid(){
   // Configuration parameters.
   var margin = { left: 50, right: 15, top: 35, bottom: 5 }
     , axisPadding = 0.6
+    , radius = 9
     , xColumn = "State"
     , yColumn = "Year"
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
@@ -42,19 +43,15 @@ function Grid(){
   // Main Function Object
   function my() {
       if(!data) return;
-      // Compute X and Y ranges based on current size.
-      var width = parseInt(svg.style("width"))
-        , height = parseInt(svg.style("height"))
-        , innerWidth = width - margin.right - margin.left
-        , innerHeight = height - margin.bottom - margin.top
-      ;
-      xScale.range([0, innerWidth]);
-      yScale.range([0, innerHeight]);
-      var radius = d3.min([xScale.step(), yScale.step()]) * .45;
 
+      // Adjust to the size of the HTML container
+      size_up();
+
+      // Set the colorScale
       colorScale.domain(
         bins.concat(d3.max(data, function(d) { return +d[selectedColumn]; }))
       );
+
       // Initialize the tooltip
       svg.call(tip);
       // Transform the g container element.
@@ -119,6 +116,34 @@ function Grid(){
       // Render the legend
       legendG.call(legend.labels(labels));
   } // Main Function Object
+
+
+  // Internal Helper Functions
+  function size_up() {
+      // Compute X and Y ranges based on current size.
+      var width = parseInt(svg.style("width"))
+        , height = parseInt(svg.style("height"))
+        , innerWidth = width - margin.right - margin.left
+        , innerHeight = height - margin.bottom - margin.top
+      ;
+
+      // Set the scales
+      xScale.rangeRound([0, innerWidth]);
+      yScale.rangeRound([0, innerHeight]);
+      // Set the dimensions of the circles and grid cells
+      var x = xScale.step()
+        , y = yScale.step()
+      ;
+      if(x < y) {
+          yScale.rangeRound([0, x * yScale.domain().length]);
+      } else if(x > y) {
+          xScale.rangeRound([0, y * xScale.domain().length]);
+      }
+
+      // Set the radius of the circles
+      radius = d3.min([x, y]) * 0.45;
+  } // size_up()
+
 
   // API - Getter/Setter Methods
   my.data = function (_){
