@@ -150,18 +150,23 @@ function Grid(){
 
   my.data = function (_){
       if(!arguments.length) return data;
-      data = _;
-
+      data = _
+          .sort(function(a, b) {
+              return d3.ascending(a.Year, b.Year);
+            })
+          // UPDATE THIS WHEN THE YEAR IS COMPLETE
+          .filter(function(d) { return +d.Year != 2016; })
+      ;
       // Compute X and Y domains.
       xScale.domain(
         data
-          .map(function (d){ return d[xColumn]; })
-          .sort()
+            .map(function (d){ return d[xColumn]; })
+            .sort()
       );
       yScale.domain(
         data
-          .map(function (d){ return parseInt(d[yColumn]); })
-          .sort()
+            .map(function (d){ return parseInt(d[yColumn]); })
+            .sort()
       );
       return my;
     } // my.data()
