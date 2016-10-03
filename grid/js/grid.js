@@ -5,8 +5,6 @@ function Grid(){
     , axisPadding = 0.6
     , xColumn = "State"
     , yColumn = "Year"
-    // , legendSpacing = 20
-    // , legendPadding = 5
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
     , bins = [-Infinity, 1000, 2500, 5000, 10000, Infinity]
     // ColorBrewer Sequential 6-class YlOrRd
@@ -116,39 +114,8 @@ function Grid(){
               })
             .concat("No Limit")
       ;
-
       // Render the legend
       legendG.call(legend.labels(labels));
-
-      // var legendGroups = legendG.selectAll("g")
-      //   .data(colorScale.range(), identity);
-      // var legendGroupsEnter = legendGroups.enter().append("g");
-      // legendGroupsEnter.append("rect");
-      // legendGroupsEnter.append("text");
-      // legendGroups = legendGroupsEnter.merge(legendGroups)
-      //     .attr("transform", function (d, i){
-      //         return "translate(0," + (i * legendSpacing) + ")";
-      //       })
-      // ;
-      // legendGroups.select("rect")
-      //   .attr("x", 0)
-      //   .attr("y", 0)
-      //   .attr("width", legendSpacing - legendPadding)
-      //   .attr("height", legendSpacing - legendPadding)
-      //   .attr("fill", identity)
-      // ;
-      // legendGroups.select("text")
-      //   .attr("x", 23)
-      //   .attr("y", 12)
-      //   .text(function (d){
-      //       var range = colorScale.invertExtent(d);
-      //
-      //       if(!range[0]) return "Less than " + moneyFormat(range[1]);
-      //       if(!range[1]) return "Greater than " + moneyFormat(range[0]);
-      //
-      //       return moneyFormat(range[0]) + " - " + moneyFormat(range[1]);
-      //   })
-      // ;
   } // Main Function Object
 
   // API - Getter/Setter Methods
