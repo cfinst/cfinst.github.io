@@ -164,7 +164,7 @@ function Grid(){
               return d3.ascending(a.Year, b.Year);
             })
           // UPDATE THIS WHEN THE YEAR IS COMPLETE
-          .filter(function(d) { return +d.Year != 2016; })
+          .filter(function(d) { return d.Year != 2016; })
       ;
       // Compute X and Y domains.
       xScale.domain(
@@ -174,7 +174,7 @@ function Grid(){
       );
       yScale.domain(
         data
-            .map(function (d){ return parseInt(d[yColumn]); })
+            .map(function (d){ return d[yColumn]; })
             .sort()
       );
       return my;
