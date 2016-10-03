@@ -186,6 +186,11 @@ function Grid(){
       return my;
     } // my.selectedColumn()
   ;
+  my.resize = function (){
+      size_up();
+      return my;
+    } // my.resize()
+  ;
 
   // This is always the last thing returned
   return my;

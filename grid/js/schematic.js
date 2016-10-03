@@ -29,6 +29,9 @@ d3.queue()
     .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_2.csv")
     .await(corpus)
 ;
+// Responsive
+d3.select(window).on("resize", function() { grid.resize()(); });
+
 /*
 ** Helper Functions
 */
@@ -103,6 +106,8 @@ function corpus(error, contribs, contribs2) {
     d3.select("#query-string")
         .text(grid.selectedColumn())
     ;
+    // Responsive
+    d3.select(window).on("resize", function() { grid.resize()(); });
 
     // Local Helper Functions
     function querify() {
