@@ -7,11 +7,11 @@ function Grid(){
     , yColumn = "Year"
     , legendSpacing = 20
     , legendPadding = 5
-    , moneyFormat = function (n){ return isFinite(n) ? "$" + d3.format(",")(n) : null; }
+    , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
     , bins = [1000, 2500, 5000, 10000]
-    // ColorBrewer YlOrRd
-    // From https://bl.ocks.org/mbostock/5577023
-    , colors = ["#fed976","#feb24c","#fd8d3c","#f03b20","#bd0026"]
+    // ColorBrewer Sequential 6-class YlOrRd
+    // From http://colorbrewer2.org/#type=sequential&scheme=YlOrRd&n=6
+    , colors = ["#fed976","#feb24c","#fd8d3c","#fc4e2a", "#e31a1c", "#800026"]
     , tip = d3.tip().attr("class", "d3-tip")
   ;
 
@@ -95,8 +95,26 @@ function Grid(){
       xAxisG.call(d3.axisLeft().scale(yScale));
       yAxisG.call(d3.axisTop().scale(xScale).ticks(30));
 
-      // Render the color legend.
-      legendG.call(legend);
+      // Calculate the legend's labels
+      var pairs = d3.pairs(
+              ([-Infinity].concat(colorScale.domain()).concat(Infinity))
+            )
+        , labels = pairs
+              .map(function(d, idx) {
+                  var money = [d[0], d[1] - (idx > 0 ? 1 : 0)].map(moneyFormat);
+
+                  return d.every(isFinite)
+                    ? money.join(" - ")
+                    : !isFinite(d[0])
+                      ? "Less than " + money[1]
+                      : money[0] + " or Greater"
+                  ;
+                })
+              .concat("No Limit")
+      ;
+
+      // Render the legend
+      legendG.call(legend.labels(labels));
 
       // var legendGroups = legendG.selectAll("g")
       //   .data(colorScale.range(), identity);
