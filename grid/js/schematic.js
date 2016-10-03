@@ -37,6 +37,7 @@ function corpus(error, contribs, contribs2) {
     var data = d3.nest()
             .key(function(d) { return d.Identifier; })
             .rollup(function(leaves) {
+                // Combine the two datasets
                 d3.keys(leaves[1]).forEach(function(l) {
                     leaves[0][l] = leaves[1][l];
                 })
@@ -112,7 +113,7 @@ function corpus(error, contribs, contribs2) {
             .attr("disabled", !branch || null)
             .property("value", !branch ? "" : query.branch)
         ;
-        return col + ( branch ? "_" + query.branch : "") + "_Max";
+        return col + (branch ? "_" + query.branch : "") + "_Max";
     } // querify()
 } // corpus()
 
