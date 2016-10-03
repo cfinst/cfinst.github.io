@@ -2,7 +2,6 @@ function Grid(){
 
   // Configuration parameters.
   var margin = { left: 50, right: 15, top: 35, bottom: 5 }
-    , radius = 9
     , axisPadding = 0.6
     , xColumn = "State"
     , yColumn = "Year"
@@ -53,6 +52,7 @@ function Grid(){
       ;
       xScale.range([0, innerWidth]);
       yScale.range([innerHeight, 0]);
+      var radius = d3.min([xScale.step(), yScale.step()]) * .45;
 
       // Transform the g container element.
       g.attr("transform", "translate(" + [margin.left, margin.top] + ")");
