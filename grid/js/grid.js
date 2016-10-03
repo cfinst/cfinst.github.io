@@ -22,7 +22,8 @@ function Grid(){
         .attr("class", "y axis")
     , yAxisG = g.append("g")
         .attr("class", "x axis")
-    , legendG = d3.select("#meta svg")
+        , legendG = d3.select("#meta svg").append("g")
+            .attr("transform", "translate(20, 20)")
   ;
 
   // D3 Objects.
