@@ -52,7 +52,9 @@ function Grid(){
       yScale.range([0, innerHeight]);
       var radius = d3.min([xScale.step(), yScale.step()]) * .45;
 
-      colorScale.domain(bins.concat(d3.max(data, function(d) { return d[selectedColumn]; })));
+      colorScale.domain(
+        bins.concat(d3.max(data, function(d) { return +d[selectedColumn]; }))
+      );
       // Initialize the tooltip
       svg.call(tip);
       // Transform the g container element.
@@ -99,18 +101,21 @@ function Grid(){
       yAxisG.call(d3.axisTop().scale(xScale).ticks(30));
 
       // Calculate the legend's labels
-      var labels = d3.pairs([-Infinity].concat(bins).concat(Infinity))
+      var binmax = d3.max(bins)
+        , labels = d3.pairs([-Infinity].concat(colorScale.domain()).concat(Infinity))
             .map(function(d, idx) {
                 var money = [d[0], d[1] - (idx > 0 ? 1 : 0)].map(moneyFormat);
 
-                return d.every(isFinite)
-                  ? money.join(" - ")
-                  : !isFinite(d[0])
-                    ? "Less than " + money[1]
-                    : money[0] + " or Greater"
+                if(d.every(isFinite))
+                    return(d[0] === binmax)
+                      ? money[0] + " or Greater"
+                      : money.join(" - ")
+                    ;
+                return !isFinite(d[0])
+                  ? "Less than " + money[1]
+                  : "No Limit"
                 ;
               })
-            .concat("No Limit")
       ;
       // Render the legend
       legendG.call(legend.labels(labels));
