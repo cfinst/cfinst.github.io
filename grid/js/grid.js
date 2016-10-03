@@ -1,7 +1,7 @@
 function Grid(){
 
   // Configuration parameters.
-  var margin = { left: 50, right: 15, top: 35, bottom: 750 }
+  var margin = { left: 50, right: 15, top: 35, bottom: 5 }
     , radius = 9
     , axisPadding = 0.6
     , xColumn = "State"
@@ -19,8 +19,7 @@ function Grid(){
         .attr("class", "y axis")
     , yAxisG = g.append("g")
         .attr("class", "x axis")
-    , legendG = svg.append("g")
-        .attr("transform", "translate(20,270)")
+    , legendG = d3.select("#meta svg")
   ;
 
   // D3 Objects.
@@ -46,8 +45,8 @@ function Grid(){
   function my() {
       if(!data) return;
       // Compute X and Y ranges based on current size.
-      var width = svg.attr("width")
-        , height = svg.attr("height")
+      var width = parseInt(svg.style("width"))
+        , height = parseInt(svg.style("height"))
         , innerWidth = width - margin.right - margin.left
         , innerHeight = height - margin.bottom - margin.top
         , filteredData = data.filter(function(d) { return d[selectedColumn]; })
