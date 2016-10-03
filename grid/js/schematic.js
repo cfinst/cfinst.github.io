@@ -48,10 +48,14 @@ function corpus(error, contribs, contribs2) {
             .key(function(d) { return d.Identifier; })
             .rollup(function(leaves) {
                 // Combine the two datasets
-                d3.keys(leaves[1]).forEach(function(l) {
-                    leaves[0][l] = leaves[1][l];
+                var leaf = leaves[0]
+                  , newleaf = leaves[1]
+                ;
+                d3.keys(newleaf).forEach(function(k) {
+                    leaf[k] = newleaf[k];
                 })
-                return leaves[0];
+                leaf.Year = +leaf.Year;
+                return leaf;
               })
             .map(d3.merge([contribs, contribs2]))
             .values()
