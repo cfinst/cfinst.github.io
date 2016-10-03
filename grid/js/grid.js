@@ -8,7 +8,7 @@ function Grid(){
     , legendSpacing = 20
     , legendPadding = 5
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
-    , bins = [1000, 2500, 5000, 10000]
+    , bins = [-Infinity, 1000, 2500, 5000, 10000, Infinity]
     // ColorBrewer Sequential 6-class YlOrRd
     // From http://colorbrewer2.org/#type=sequential&scheme=YlOrRd&n=6
     , colors = ["#fed976","#feb24c","#fd8d3c","#fc4e2a", "#e31a1c", "#800026"]
@@ -51,7 +51,6 @@ function Grid(){
         , height = parseInt(svg.style("height"))
         , innerWidth = width - margin.right - margin.left
         , innerHeight = height - margin.bottom - margin.top
-        , filteredData = data.filter(function(d) { return d[selectedColumn]; })
       ;
       xScale.range([0, innerWidth]);
       yScale.range([innerHeight, 0]);
@@ -62,7 +61,7 @@ function Grid(){
 
       // Visualize the selectedColumn.
       var circles = g.selectAll("circle")
-            .data(filteredData, function (d){ return d.Identifier; })
+            .data(data, function (d){ return d.Identifier; })
       ;
       circles
         .enter()
@@ -76,7 +75,10 @@ function Grid(){
                   .html(
                       "<h4>" + d[xColumn] + "</h4>"
                       + "<h4>" + d[yColumn] + "</h4>"
-                      + moneyFormat(d[selectedColumn])
+                      + (d[selectedColumn]
+                          ? moneyFormat(d[selectedColumn])
+                          : "No Limit"
+                        )
                     )
                   .show()
               ;
@@ -84,7 +86,9 @@ function Grid(){
           .on("mouseout", tip.hide)
         .transition().duration(500)
           .attr("r", radius)
-          .attr("fill", function (d){ return colorScale(d[selectedColumn]); })
+          .attr("fill", function (d){
+              return colorScale(d[selectedColumn] ? d[selectedColumn] : Infinity);
+            })
       ;
       circles.exit()
         .transition().duration(500)
@@ -96,21 +100,18 @@ function Grid(){
       yAxisG.call(d3.axisTop().scale(xScale).ticks(30));
 
       // Calculate the legend's labels
-      var pairs = d3.pairs(
-              ([-Infinity].concat(colorScale.domain()).concat(Infinity))
-            )
-        , labels = pairs
-              .map(function(d, idx) {
-                  var money = [d[0], d[1] - (idx > 0 ? 1 : 0)].map(moneyFormat);
+      var labels = d3.pairs(colorScale.domain())
+            .map(function(d, idx) {
+                var money = [d[0], d[1] - (idx > 0 ? 1 : 0)].map(moneyFormat);
 
-                  return d.every(isFinite)
-                    ? money.join(" - ")
-                    : !isFinite(d[0])
-                      ? "Less than " + money[1]
-                      : money[0] + " or Greater"
-                  ;
-                })
-              .concat("No Limit")
+                return d.every(isFinite)
+                  ? money.join(" - ")
+                  : !isFinite(d[0])
+                    ? "Less than " + money[1]
+                    : money[0] + " or Greater"
+                ;
+              })
+            .concat("No Limit")
       ;
 
       // Render the legend
