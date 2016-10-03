@@ -12,11 +12,10 @@ function Grid(){
     // ColorBrewer Sequential 6-class YlOrRd
     // From http://colorbrewer2.org/#type=sequential&scheme=YlOrRd&n=6
     , colors = ["#fed976","#feb24c","#fd8d3c","#fc4e2a", "#e31a1c", "#800026"]
-    , tip = d3.tip().attr("class", "d3-tip")
   ;
 
   // DOM Elements.
-  var svg = d3.select("svg").call(tip)
+  var svg = d3.select("svg")
     , g = svg.append("g")
     , xAxisG = g.append("g")
         .attr("class", "y axis")
@@ -30,8 +29,9 @@ function Grid(){
   var xScale = d3.scalePoint().padding(axisPadding)
     , yScale = d3.scalePoint().padding(axisPadding)
     , colorScale = d3.scaleThreshold()
-        .domain(bins)
-        .range(colors)
+          .domain(bins)
+          .range(colors)
+    , tip = d3.tip().attr("class", "d3-tip")
     , legend = d3.legendColor()
           .scale(colorScale)
           .shape("circle")
@@ -57,6 +57,8 @@ function Grid(){
       yScale.range([innerHeight, 0]);
       var radius = d3.min([xScale.step(), yScale.step()]) * .45;
 
+      // Initialize the tooltip
+      svg.call(tip);
       // Transform the g container element.
       g.attr("transform", "translate(" + [margin.left, margin.top] + ")");
 
