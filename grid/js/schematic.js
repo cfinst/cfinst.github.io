@@ -30,7 +30,14 @@ d3.queue()
     .await(corpus)
 ;
 // Responsive
-d3.select(window).on("resize", function() { grid.resize()(); });
+d3.select(window)
+    .on("resize", function() {
+        grid
+            .resize()
+          () // Call the grid as well
+        ;
+      })
+;
 
 /*
 ** Helper Functions
