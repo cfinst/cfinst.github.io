@@ -31,6 +31,11 @@ function Grid(){
     , colorScale = d3.scaleThreshold()
         .domain(bins)
         .range(colors)
+    , legend = d3.legendColor()
+          .scale(colorScale)
+          .shape("circle")
+          .labelFormat(moneyFormat)
+          .title("Maximum Contribution Limits")
   ;
 
   // Internal state variables.
@@ -90,6 +95,8 @@ function Grid(){
       yAxisG.call(d3.axisTop().scale(xScale).ticks(30));
 
       // Render the color legend.
+      legendG.call(legend);
+
       // var legendGroups = legendG.selectAll("g")
       //   .data(colorScale.range(), identity);
       // var legendGroupsEnter = legendGroups.enter().append("g");
