@@ -17,9 +17,9 @@ function Grid(){
   var svg = d3.select("svg")
     , g = svg.append("g")
     , xAxisG = g.append("g")
-        .attr("class", "y axis")
-    , yAxisG = g.append("g")
         .attr("class", "x axis")
+    , yAxisG = g.append("g")
+        .attr("class", "y axis")
         , legendG = d3.select("#meta svg").append("g")
             .attr("transform", "translate(20, 20)")
   ;
@@ -94,8 +94,8 @@ function Grid(){
         .remove();
 
       // Render the axes.
-      xAxisG.call(d3.axisLeft().scale(yScale));
-      yAxisG.call(d3.axisTop().scale(xScale).ticks(30));
+      xAxisG.call(d3.axisTop().scale(xScale));
+      yAxisG.call(d3.axisLeft().scale(yScale));
 
       // Render the legend
       render_legend();
