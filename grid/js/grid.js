@@ -97,24 +97,8 @@ function Grid(){
       xAxisG.call(d3.axisLeft().scale(yScale));
       yAxisG.call(d3.axisTop().scale(xScale).ticks(30));
 
-      // Calculate the legend's labels
-      var binmax = d3.max(bins)
-        , labels = d3.pairs([-Infinity].concat(colorScale.domain()).concat(Infinity))
-            .map(function(d, idx) {
-                var money = [d[0], d[1] - (idx > 0 ? 1 : 0)].map(moneyFormat);
-
-                if(d.every(isFinite))
-                    return money[0]
-                        + (d[0] === binmax ? " or Greater" : " - " + money[1])
-                    ;
-                return !isFinite(d[0])
-                  ? "Less than " + money[1]
-                  : "No Limit"
-                ;
-              })
-      ;
       // Render the legend
-      legendG.call(legend.labels(labels));
+      render_legend();
   } // Main Function Object
 
 
@@ -143,6 +127,33 @@ function Grid(){
       // Set the radius of the circles
       radius = d3.min([x, y]) * 0.45;
   } // size_up()
+
+  function render_legend() {
+    // Work out the legend's labels
+    var binmax = d3.max(bins)
+      , labels = d3.pairs( // Infinity padding
+              [ -Infinity ]
+                .concat(colorScale.domain())
+                .concat(Infinity)
+            )
+          .map(function(d, idx) {
+              var money = [d[0], d[1] - (idx > 0 ? 1 : 0)].map(moneyFormat);
+
+              // within the bounds of the infinity padding
+              if(d.every(isFinite))
+                  return money[0]
+                      + (d[0] === binmax ? " or Greater" : " - " + money[1])
+                  ;
+              // At the extremes (one of the infinity paddings)
+              return !isFinite(d[0])
+                ? "Less than " + money[1]
+                : "No Limit"
+              ;
+            })
+    ;
+    // Render the legend
+    legendG.call(legend.labels(labels));
+  } // render_legend()
 
 
   // API - Getter/Setter Methods
