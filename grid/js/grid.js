@@ -6,7 +6,7 @@ function Grid(){
     , xColumn = "State"
     , yColumn = "Year"
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
-    , bins = [-Infinity, 1000, 2500, 5000, 10000, Infinity]
+    , bins = [1000, 2500, 5000, 10000]
     // ColorBrewer Sequential 6-class YlOrRd
     // From http://colorbrewer2.org/#type=sequential&scheme=YlOrRd&n=6
     , colors = ["#fed976","#feb24c","#fd8d3c","#fc4e2a", "#e31a1c", "#800026"]
@@ -26,9 +26,7 @@ function Grid(){
   // D3 Objects.
   var xScale = d3.scalePoint().padding(axisPadding)
     , yScale = d3.scalePoint().padding(axisPadding)
-    , colorScale = d3.scaleThreshold()
-          .domain(bins)
-          .range(colors)
+    , colorScale = d3.scaleThreshold().range(colors)
     , tip = d3.tip().attr("class", "d3-tip")
     , legend = d3.legendColor()
           .scale(colorScale)
@@ -36,7 +34,6 @@ function Grid(){
           .labelFormat(moneyFormat)
           .title("Maximum Contribution Limits")
   ;
-
   // Internal state variables.
   var selectedColumn
     , data
@@ -52,9 +49,10 @@ function Grid(){
         , innerHeight = height - margin.bottom - margin.top
       ;
       xScale.range([0, innerWidth]);
-      yScale.range([innerHeight, 0]);
+      yScale.range([0, innerHeight]);
       var radius = d3.min([xScale.step(), yScale.step()]) * .45;
 
+      colorScale.domain(bins.concat(d3.max(data, function(d) { return d[selectedColumn]; })));
       // Initialize the tooltip
       svg.call(tip);
       // Transform the g container element.
@@ -101,7 +99,7 @@ function Grid(){
       yAxisG.call(d3.axisTop().scale(xScale).ticks(30));
 
       // Calculate the legend's labels
-      var labels = d3.pairs(colorScale.domain())
+      var labels = d3.pairs([-Infinity].concat(bins).concat(Infinity))
             .map(function(d, idx) {
                 var money = [d[0], d[1] - (idx > 0 ? 1 : 0)].map(moneyFormat);
 
