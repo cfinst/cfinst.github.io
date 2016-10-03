@@ -5,8 +5,8 @@ function Grid(){
     , axisPadding = 0.6
     , xColumn = "State"
     , yColumn = "Year"
-    , legendSpacing = 20
-    , legendPadding = 5
+    // , legendSpacing = 20
+    // , legendPadding = 5
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
     , bins = [-Infinity, 1000, 2500, 5000, 10000, Infinity]
     // ColorBrewer Sequential 6-class YlOrRd
