@@ -107,9 +107,8 @@ function Grid(){
                 var money = [d[0], d[1] - (idx > 0 ? 1 : 0)].map(moneyFormat);
 
                 if(d.every(isFinite))
-                    return(d[0] === binmax)
-                      ? money[0] + " or Greater"
-                      : money.join(" - ")
+                    return money[0]
+                        + (d[0] === binmax ? " or Greater" : " - " + money[1])
                     ;
                 return !isFinite(d[0])
                   ? "Less than " + money[1]
