@@ -44,6 +44,7 @@ function Grid(){
     , data
   ;
 
+  // Main Function Object
   function my() {
       if(!data) return;
       // Compute X and Y ranges based on current size.
@@ -148,6 +149,7 @@ function Grid(){
       // ;
   } // Main Function Object
 
+  // API - Getter/Setter Methods
   my.data = function (_){
       if(!arguments.length) return data;
       data = _
@@ -178,5 +180,6 @@ function Grid(){
     } // my.selectedColumn()
   ;
 
+  // This is always the last thing returned
   return my;
 } // Grid()
