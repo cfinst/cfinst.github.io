@@ -30,7 +30,7 @@ function Grid(){
     , yScale = d3.scalePoint().padding(axisPadding)
     , colorScale = d3.scaleThreshold()
         .domain(bins)
-      .range(colors);
+        .range(colors)
   ;
 
   // Internal state variables.
@@ -90,35 +90,35 @@ function Grid(){
       yAxisG.call(d3.axisTop().scale(xScale).ticks(30));
 
       // Render the color legend.
-      var legendGroups = legendG.selectAll("g")
-        .data(colorScale.range(), identity);
-      var legendGroupsEnter = legendGroups.enter().append("g");
-      legendGroupsEnter.append("rect");
-      legendGroupsEnter.append("text");
-      legendGroups = legendGroupsEnter.merge(legendGroups)
-          .attr("transform", function (d, i){
-              return "translate(0," + (i * legendSpacing) + ")";
-            })
-      ;
-      legendGroups.select("rect")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("width", legendSpacing - legendPadding)
-        .attr("height", legendSpacing - legendPadding)
-        .attr("fill", identity)
-      ;
-      legendGroups.select("text")
-        .attr("x", 23)
-        .attr("y", 12)
-        .text(function (d){
-            var range = colorScale.invertExtent(d);
-
-            if(!range[0]) return "Less than " + moneyFormat(range[1]);
-            if(!range[1]) return "Greater than " + moneyFormat(range[0]);
-
-            return moneyFormat(range[0]) + " - " + moneyFormat(range[1]);
-        })
-      ;
+      // var legendGroups = legendG.selectAll("g")
+      //   .data(colorScale.range(), identity);
+      // var legendGroupsEnter = legendGroups.enter().append("g");
+      // legendGroupsEnter.append("rect");
+      // legendGroupsEnter.append("text");
+      // legendGroups = legendGroupsEnter.merge(legendGroups)
+      //     .attr("transform", function (d, i){
+      //         return "translate(0," + (i * legendSpacing) + ")";
+      //       })
+      // ;
+      // legendGroups.select("rect")
+      //   .attr("x", 0)
+      //   .attr("y", 0)
+      //   .attr("width", legendSpacing - legendPadding)
+      //   .attr("height", legendSpacing - legendPadding)
+      //   .attr("fill", identity)
+      // ;
+      // legendGroups.select("text")
+      //   .attr("x", 23)
+      //   .attr("y", 12)
+      //   .text(function (d){
+      //       var range = colorScale.invertExtent(d);
+      //
+      //       if(!range[0]) return "Less than " + moneyFormat(range[1]);
+      //       if(!range[1]) return "Greater than " + moneyFormat(range[0]);
+      //
+      //       return moneyFormat(range[0]) + " - " + moneyFormat(range[1]);
+      //   })
+      // ;
   } // Main Function Object
 
   my.data = function (_){
