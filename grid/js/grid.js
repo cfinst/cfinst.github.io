@@ -57,41 +57,8 @@ function Grid(){
       // Transform the g container element.
       g.attr("transform", "translate(" + [margin.left, margin.top] + ")");
 
-      // Visualize the selectedColumn.
-      var circles = g.selectAll("circle")
-            .data(data, function (d){ return d.Identifier; })
-      ;
-      circles
-        .enter()
-          .append("circle")
-          .attr("r", 0)
-        .merge(circles)
-          .attr("cx", function (d){ return xScale(d[xColumn]); })
-          .attr("cy", function (d){ return yScale(d[yColumn]); })
-          .on("mouseover", function(d) {
-              tip
-                  .html(
-                      "<h4>" + d[xColumn] + "</h4>"
-                      + "<h4>" + d[yColumn] + "</h4>"
-                      + (d[selectedColumn]
-                          ? moneyFormat(d[selectedColumn])
-                          : "No Limit"
-                        )
-                    )
-                  .show()
-              ;
-            })
-          .on("mouseout", tip.hide)
-        .transition().duration(500)
-          .attr("r", radius)
-          .attr("fill", function (d){
-              return colorScale(d[selectedColumn] ? d[selectedColumn] : Infinity);
-            })
-      ;
-      circles.exit()
-        .transition().duration(500)
-          .attr("r", 0)
-        .remove();
+      // Render the grid
+      render_cells();
 
       // Render the axes.
       xAxisG.call(d3.axisTop().scale(xScale));
@@ -127,6 +94,44 @@ function Grid(){
       // Set the radius of the circles
       radius = d3.min([x, y]) * 0.45;
   } // size_up()
+
+  function render_cells() {
+    // Visualize the selectedColumn.
+    var circles = g.selectAll("circle")
+          .data(data, function (d){ return d.Identifier; })
+    ;
+    circles
+      .enter()
+        .append("circle")
+        .attr("r", 0)
+      .merge(circles)
+        .attr("cx", function (d){ return xScale(d[xColumn]); })
+        .attr("cy", function (d){ return yScale(d[yColumn]); })
+        .on("mouseover", function(d) {
+            tip
+                .html(
+                    "<h4>" + d[xColumn] + "</h4>"
+                    + "<h4>" + d[yColumn] + "</h4>"
+                    + (d[selectedColumn]
+                        ? moneyFormat(d[selectedColumn])
+                        : "No Limit"
+                      )
+                  )
+                .show()
+            ;
+          })
+        .on("mouseout", tip.hide)
+      .transition().duration(500)
+        .attr("r", radius)
+        .attr("fill", function (d){
+            return colorScale(d[selectedColumn] ? d[selectedColumn] : Infinity);
+          })
+    ;
+    circles.exit()
+      .transition().duration(500)
+        .attr("r", 0)
+      .remove();
+  } // render_cells()
 
   function render_legend() {
     // Work out the legend's labels
