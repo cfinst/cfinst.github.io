@@ -28,6 +28,11 @@ function Grid(){
   var xScale = d3.scalePoint().padding(axisPadding)
     , yScale = d3.scalePoint().padding(axisPadding)
     , colorScale = d3.scaleThreshold().range(colors)
+    , colorScaleFillOpacity = function (d){
+
+          // Represent "unlimited" as empty circles.
+          return d[selectedColumn] ? 1 : 0;
+        }
     , tip = d3.tip().attr("class", "d3-tip")
     , legend = d3.legendColor()
           .scale(colorScale)
@@ -111,6 +116,7 @@ function Grid(){
     circles
       .enter()
         .append("circle")
+        .attr("class", "grid-circle")
         .attr("r", 0)
       .merge(circles)
         .on("mouseover", function(d) {
@@ -131,12 +137,10 @@ function Grid(){
         .attr("cx", function (d){ return xScale(d[xColumn]); })
         .attr("cy", function (d){ return yScale(d[yColumn]); })
         .attr("r", radius)
-        .style("fill", function (d){
-            return d[selectedColumn] ? colorScale(d[selectedColumn]) : "none";
+        .style("color", function (d){
+            return colorScale(d[selectedColumn] ? d[selectedColumn] : Infinity);
           })
-        .style("stroke", function (d){
-            return d[selectedColumn] ? "none" : colorScale(Infinity);
-          })
+        .style("fill-opacity", colorScaleFillOpacity)
     ;
 
     circles.exit()
@@ -171,6 +175,15 @@ function Grid(){
     ;
     // Render the legend
     legendG.call(legend.labels(labels));
+
+    // Handle the empty circle case.
+    legendG.selectAll("circle")
+        .attr("class", "grid-circle")
+        .style("color", function (color){ return color; })
+        .style("fill-opacity", function (color){
+          return color === colors[colors.length - 1] ? 0 : 1;
+        })
+    ;
   } // render_legend()
 
   function resort(tick) {
