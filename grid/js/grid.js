@@ -128,7 +128,7 @@ function Grid(){
         .attr("cx", function (d){ return xScale(d[xColumn]); })
         .attr("cy", function (d){ return yScale(d[yColumn]); })
         .attr("r", radius)
-        .attr("fill", function (d){
+        .style("fill", function (d){
             return colorScale(d[selectedColumn] ? d[selectedColumn] : Infinity);
           })
     ;
