@@ -110,8 +110,6 @@ function Grid(){
         .append("circle")
         .attr("r", 0)
       .merge(circles)
-        .attr("cx", function (d){ return xScale(d[xColumn]); })
-        .attr("cy", function (d){ return yScale(d[yColumn]); })
         .on("mouseover", function(d) {
             tip
                 .html(
@@ -127,6 +125,8 @@ function Grid(){
           })
         .on("mouseout", tip.hide)
       .transition().duration(500)
+        .attr("cx", function (d){ return xScale(d[xColumn]); })
+        .attr("cy", function (d){ return yScale(d[yColumn]); })
         .attr("r", radius)
         .attr("fill", function (d){
             return colorScale(d[selectedColumn] ? d[selectedColumn] : Infinity);
@@ -135,7 +135,8 @@ function Grid(){
     circles.exit()
       .transition().duration(500)
         .attr("r", 0)
-      .remove();
+      .remove()
+    ;
   } // render_cells()
 
   function render_legend() {
