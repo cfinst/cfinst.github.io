@@ -132,9 +132,13 @@ function Grid(){
         .attr("cy", function (d){ return yScale(d[yColumn]); })
         .attr("r", radius)
         .style("fill", function (d){
-            return colorScale(d[selectedColumn] ? d[selectedColumn] : Infinity);
+            return d[selectedColumn] ? colorScale(d[selectedColumn]) : "none";
+          })
+        .style("stroke", function (d){
+            return d[selectedColumn] ? "none" : colorScale(Infinity);
           })
     ;
+
     circles.exit()
       .transition().duration(500)
         .attr("r", 0)
