@@ -54,7 +54,7 @@ function Grid(){
 
       // Set the colorScale
       colorScale.domain(
-        bins.concat(d3.max(data, function(d) { return +d[selectedColumn]; }))
+        bins.concat(d3.max(data, function(d) { return +d[selectedColumn] + 1; }))
       );
 
       // Initialize the tooltip
