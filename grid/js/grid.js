@@ -64,6 +64,11 @@ function Grid(){
       xAxisG.call(d3.axisTop().scale(xScale));
       yAxisG.call(d3.axisLeft().scale(yScale));
 
+      // Sort the dataset when the y-axis labels are clicked
+      yAxisG.selectAll(".tick text")
+          .on("click", resort)
+      ;
+
       // Render the legend
       render_legend();
   } // Main Function Object
@@ -159,6 +164,16 @@ function Grid(){
     // Render the legend
     legendG.call(legend.labels(labels));
   } // render_legend()
+
+  function resort(tick) {
+      var sorted = data
+          .filter(function(d) { return d[yColumn] === tick; })
+          .sort(function(a, b) { return b[selectedColumn] - a[selectedColumn]; })
+          .map(function(d) { return d[xColumn]; })
+      ;
+      xAxisG.call(d3.axisTop().scale(xScale.domain(sorted)));
+      render_cells();
+  } // resort()
 
 
   // API - Getter/Setter Methods
