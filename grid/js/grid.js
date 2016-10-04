@@ -61,12 +61,15 @@ function Grid(){
       render_cells();
 
       // Render the axes.
-      xAxisG.call(d3.axisTop().scale(xScale));
-      yAxisG.call(d3.axisLeft().scale(yScale));
-
-      // Sort the dataset when the y-axis labels are clicked
-      yAxisG.selectAll(".tick text")
-          .on("click", resort)
+      xAxisG
+          .call(d3.axisTop().scale(xScale))
+        .selectAll(".tick text")
+          .attr("dy", "-.7em")
+      ;
+      yAxisG
+          .call(d3.axisLeft().scale(yScale))
+        .selectAll(".tick text")
+          .on("click", resort) // Sort dataset when y-axis labels are clicked
       ;
 
       // Render the legend
