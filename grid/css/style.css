@@ -20,3 +20,6 @@
 .y.axis .tick text {
     cursor: pointer;
 }
+.sortby {
+    font-weight: bold;
+}

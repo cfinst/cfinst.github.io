@@ -71,7 +71,13 @@ function Grid(){
       yAxisG
           .call(d3.axisLeft().scale(yScale))
         .selectAll(".tick text")
-          .on("click", resort) // Sort dataset when y-axis labels are clicked
+          .on("click", function(d) {
+              yAxisG.selectAll(".tick text")
+                  .classed("sortby", function(e) {
+                      return d === e;
+                  })
+              resort(d); // Sort dataset when y-axis labels are clicked
+            })
       ;
 
       // Render the legend
