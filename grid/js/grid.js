@@ -38,6 +38,7 @@ function Grid(){
   // Internal state variables.
   var selectedColumn
     , data
+    , scorecard
     , empty = true
   ;
 
@@ -70,7 +71,13 @@ function Grid(){
       yAxisG
           .call(d3.axisLeft().scale(yScale))
         .selectAll(".tick text")
-          .on("click", resort) // Sort dataset when y-axis labels are clicked
+          .on("click", function(d) {
+              yAxisG.selectAll(".tick text")
+                  .classed("sortby", function(e) {
+                      return d === e;
+                  })
+              resort(d); // Sort dataset when y-axis labels are clicked
+            })
       ;
 
       // Render the legend
@@ -191,7 +198,22 @@ function Grid(){
   function resort(tick) {
       var sorted = data
           .filter(function(d) { return d[yColumn] === tick; })
-          .sort(function(a, b) { return b[selectedColumn] - a[selectedColumn]; })
+          .sort(function(m, n) {
+              var a = m[selectedColumn]
+                , b = n[selectedColumn]
+              ;
+              if(a != b) return b - a;
+
+              a = scorecard[m.State].unltd[selectedColumn];
+              b = scorecard[n.State].unltd[selectedColumn];
+              if(a != b) return b - a;
+
+              a = scorecard[m.State].sum[selectedColumn];
+              b = scorecard[n.State].sum[selectedColumn];
+              if(a != b) return b - a;
+
+              return d3.ascending(m.State, n.State);
+            })
           .map(function(d) { return d[xColumn]; })
       ;
       xAxisG.call(d3.axisTop().scale(xScale.domain(sorted)));
@@ -239,6 +261,12 @@ function Grid(){
       empty = _
       return my;
     } // my.empty()
+  ;
+  my.scorecard = function (_){
+      if(!arguments.length) return scorecard;
+      scorecard = _;
+      return my;
+    } // my.scorecard()
   ;
 
   // This is always the last thing returned
