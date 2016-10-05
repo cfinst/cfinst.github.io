@@ -28,11 +28,6 @@ function Grid(){
   var xScale = d3.scalePoint().padding(axisPadding)
     , yScale = d3.scalePoint().padding(axisPadding)
     , colorScale = d3.scaleThreshold().range(colors)
-    , colorScaleFillOpacity = function (d){
-
-          // Represent "unlimited" as empty circles.
-          return d[selectedColumn] ? 1 : 0;
-        }
     , tip = d3.tip().attr("class", "d3-tip")
     , legend = d3.legendColor()
           .scale(colorScale)
