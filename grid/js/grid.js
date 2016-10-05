@@ -28,11 +28,6 @@ function Grid(){
   var xScale = d3.scalePoint().padding(axisPadding)
     , yScale = d3.scalePoint().padding(axisPadding)
     , colorScale = d3.scaleThreshold().range(colors)
-    , colorScaleFillOpacity = function (d){
-
-          // Represent "unlimited" as empty circles.
-          return d[selectedColumn] ? 1 : 0;
-        }
     , tip = d3.tip().attr("class", "d3-tip")
     , legend = d3.legendColor()
           .scale(colorScale)
@@ -43,6 +38,7 @@ function Grid(){
   // Internal state variables.
   var selectedColumn
     , data
+    , empty = true
   ;
 
   // Main Function Object
@@ -98,11 +94,10 @@ function Grid(){
       var x = xScale.step()
         , y = yScale.step()
       ;
-      if(x < y) {
+      if(x < y)
           yScale.rangeRound([0, x * yScale.domain().length]);
-      } else if(x > y) {
+      else
           xScale.rangeRound([0, y * xScale.domain().length]);
-      }
 
       // Set the radius of the circles
       radius = d3.min([x, y]) * 0.45;
@@ -116,9 +111,16 @@ function Grid(){
     circles
       .enter()
         .append("circle")
-        .attr("class", "grid-circle")
+        .attr("cx", function (d){ return xScale(d[xColumn]); })
+        .attr("cy", function (d){ return yScale(d[yColumn]); })
         .attr("r", 0)
       .merge(circles)
+        .attr("class", function (d){
+            var unltd = !d[selectedColumn];
+            return "grid-circle "
+              + (unltd ? "unlimited" + (empty ? " empty" : "") : "")
+            ;
+          })
         .on("mouseover", function(d) {
             tip
                 .html(
@@ -140,7 +142,6 @@ function Grid(){
         .style("color", function (d){
             return colorScale(d[selectedColumn] ? d[selectedColumn] : Infinity);
           })
-        .style("fill-opacity", colorScaleFillOpacity)
     ;
 
     circles.exit()
@@ -180,9 +181,10 @@ function Grid(){
     legendG.selectAll("circle")
         .attr("class", "grid-circle")
         .style("color", function (color){ return color; })
+      .transition(d3.transition().duration(500))
         .style("fill-opacity", function (color){
-          return color === colors[colors.length - 1] ? 0 : 1;
-        })
+            return color === colors[colors.length - 1] && empty ? 0 : 1;
+          })
     ;
   } // render_legend()
 
@@ -231,6 +233,12 @@ function Grid(){
       size_up();
       return my;
     } // my.resize()
+  ;
+  my.empty = function (_){
+      if(!arguments.length) return empty;
+      empty = _
+      return my;
+    } // my.empty()
   ;
 
   // This is always the last thing returned

@@ -88,15 +88,18 @@ function corpus(error, contribs, contribs2) {
             ;
           })
         .each(function(d, i) {
-            var opts = columns
-                  .map(function(c) { return c[i]; })
-                  .filter(identity)
+            var opts = d3.set(
+                    columns
+                      .map(function(c) { return c[i]; })
+                      .filter(identity)
+                  )
+                .values()
             ;
             d3.select(this)
               .append("optgroup")
                 .attr("label", "Select a " + d)
               .selectAll("option")
-                .data(d3.set(opts).values(), identity)
+                .data(opts, identity)
               .enter().append("option")
                 .attr("value", identity)
                 .text(identity)
@@ -119,6 +122,11 @@ function corpus(error, contribs, contribs2) {
     ;
     // Responsive
     d3.select(window).on("resize", function() { grid.resize()(); });
+
+    // Signal Handling
+    d3.select(".controls .checkbox input")
+        .on("change", function() { grid.empty(this.checked)(); })
+    ;
 
     // Local Helper Functions
     function querify() {
