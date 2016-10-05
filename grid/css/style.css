@@ -1,12 +1,16 @@
 #main, .legend {
     height: 50vh;
 }
-
 .grid-circle {
+    transition: fill-opacity .5s linear,
+      fill .5s linear;
     fill: currentColor;
     stroke: currentColor;
+    fill-opacity: 1;
 }
-
+.grid-circle.empty {
+    fill-opacity: 0;
+}
 /*
 .x.axis .tick text {
     writing-mode: vertical-lr;
