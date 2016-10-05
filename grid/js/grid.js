@@ -71,12 +71,14 @@ function Grid(){
       yAxisG
           .call(d3.axisLeft().scale(yScale))
         .selectAll(".tick text")
+          .classed("sortby", false) // Set the ticks to normal font-weight
           .on("click", function(d) {
+              // Sort dataset when y-axis labels are clicked
+              resort(d);
+              // Highlight the clicked tick
               yAxisG.selectAll(".tick text")
-                  .classed("sortby", function(e) {
-                      return d === e;
-                  })
-              resort(d); // Sort dataset when y-axis labels are clicked
+                  .classed("sortby", function(e) { return d === e; })
+              ;
             })
       ;
 
