@@ -123,6 +123,11 @@ function corpus(error, contribs, contribs2) {
     // Responsive
     d3.select(window).on("resize", function() { grid.resize()(); });
 
+    // Signal Handling
+    d3.select(".controls .checkbox input")
+        .on("change", function() { grid.empty(this.checked)(); })
+    ;
+
     // Local Helper Functions
     function querify() {
         var col = query.donor + "To" + query.recipient + "Limit"
