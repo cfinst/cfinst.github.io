@@ -43,6 +43,7 @@ function Grid(){
   // Internal state variables.
   var selectedColumn
     , data
+    , empty = true
   ;
 
   // Main Function Object
@@ -232,6 +233,12 @@ function Grid(){
       size_up();
       return my;
     } // my.resize()
+  ;
+  my.empty = function (_){
+      if(!arguments.length) return empty;
+      empty = _
+      return my;
+    } // my.empty()
   ;
 
   // This is always the last thing returned
