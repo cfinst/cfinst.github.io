@@ -13,3 +13,6 @@
     text-orientation: upright;
 }
 */
+.y.axis .tick text {
+    cursor: pointer;
+}
