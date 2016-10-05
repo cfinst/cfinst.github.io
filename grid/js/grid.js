@@ -98,11 +98,10 @@ function Grid(){
       var x = xScale.step()
         , y = yScale.step()
       ;
-      if(x < y) {
+      if(x < y)
           yScale.rangeRound([0, x * yScale.domain().length]);
-      } else if(x > y) {
+      else
           xScale.rangeRound([0, y * xScale.domain().length]);
-      }
 
       // Set the radius of the circles
       radius = d3.min([x, y]) * 0.45;
@@ -117,6 +116,8 @@ function Grid(){
       .enter()
         .append("circle")
         .attr("class", "grid-circle")
+        .attr("cx", function (d){ return xScale(d[xColumn]); })
+        .attr("cy", function (d){ return yScale(d[yColumn]); })
         .attr("r", 0)
       .merge(circles)
         .on("mouseover", function(d) {
