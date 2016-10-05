@@ -1,5 +1,5 @@
-svg {
-      height: 80vh;
+#main, .legend {
+    height: 50vh;
 }
 
 .grid-circle {
