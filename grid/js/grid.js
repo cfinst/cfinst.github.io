@@ -116,11 +116,16 @@ function Grid(){
     circles
       .enter()
         .append("circle")
-        .attr("class", "grid-circle")
         .attr("cx", function (d){ return xScale(d[xColumn]); })
         .attr("cy", function (d){ return yScale(d[yColumn]); })
         .attr("r", 0)
       .merge(circles)
+        .attr("class", function (d){
+            var unltd = !d[selectedColumn];
+            return "grid-circle "
+              + (unltd ? "unlimited" + (empty ? " empty" : "") : "")
+            ;
+          })
         .on("mouseover", function(d) {
             tip
                 .html(
@@ -142,7 +147,6 @@ function Grid(){
         .style("color", function (d){
             return colorScale(d[selectedColumn] ? d[selectedColumn] : Infinity);
           })
-        .style("fill-opacity", colorScaleFillOpacity)
     ;
 
     circles.exit()
@@ -182,9 +186,10 @@ function Grid(){
     legendG.selectAll("circle")
         .attr("class", "grid-circle")
         .style("color", function (color){ return color; })
+      .transition(d3.transition().duration(500))
         .style("fill-opacity", function (color){
-          return color === colors[colors.length - 1] ? 0 : 1;
-        })
+            return color === colors[colors.length - 1] && empty ? 0 : 1;
+          })
     ;
   } // render_legend()
 
