@@ -2,6 +2,11 @@ svg {
       height: 80vh;
 }
 
+.grid-circle {
+    fill: currentColor;
+    stroke: currentColor;
+}
+
 /*
 .x.axis .tick text {
     writing-mode: vertical-lr;
