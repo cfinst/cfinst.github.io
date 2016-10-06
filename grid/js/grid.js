@@ -40,6 +40,7 @@ function Grid(){
     , data
     , scorecard
     , empty = true
+    , reset = true
   ;
 
   // Main Function Object
@@ -72,16 +73,25 @@ function Grid(){
           .call(d3.axisLeft().scale(yScale))
         .selectAll(".tick text")
           .on("click", function(d) {
+              // Sort dataset when y-axis labels are clicked
+              resort(d);
+              // Highlight the clicked tick
               yAxisG.selectAll(".tick text")
-                  .classed("sortby", function(e) {
-                      return d === e;
-                  })
-              resort(d); // Sort dataset when y-axis labels are clicked
+                  .classed("sortby", function(e) { return d === e; })
+              ;
             })
       ;
+      if(reset)
+          // Set the ticks to normal font-weight
+          yAxisG.selectAll(".tick text")
+              .classed("sortby", false)
+          ;
 
       // Render the legend
       render_legend();
+
+      // Further changes will cause a reset
+      reset = true;
   } // Main Function Object
 
 
@@ -199,18 +209,18 @@ function Grid(){
       var sorted = data
           .filter(function(d) { return d[yColumn] === tick; })
           .sort(function(m, n) {
-              var a = m[selectedColumn]
-                , b = n[selectedColumn]
+              var a = m[selectedColumn] || Infinity
+                , b = n[selectedColumn] || Infinity
               ;
-              if(a != b) return b - a;
+              if(a != b) return a - b;
 
               a = scorecard[m.State].unltd[selectedColumn];
               b = scorecard[n.State].unltd[selectedColumn];
-              if(a != b) return b - a;
+              if(a != b) return a - b;
 
               a = scorecard[m.State].sum[selectedColumn];
               b = scorecard[n.State].sum[selectedColumn];
-              if(a != b) return b - a;
+              if(a != b) return a - b;
 
               return d3.ascending(m.State, n.State);
             })
@@ -258,7 +268,8 @@ function Grid(){
   ;
   my.empty = function (_){
       if(!arguments.length) return empty;
-      empty = _
+      empty = _;
+      reset = false;
       return my;
     } // my.empty()
   ;
