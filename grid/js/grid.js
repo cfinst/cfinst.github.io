@@ -209,8 +209,8 @@ function Grid(){
       var sorted = data
           .filter(function(d) { return d[yColumn] === tick; })
           .sort(function(m, n) {
-              var a = m[selectedColumn] || 1000000
-                , b = n[selectedColumn] || 1000000
+              var a = m[selectedColumn] || Infinity
+                , b = n[selectedColumn] || Infinity
               ;
               if(a != b) return a - b;
 
