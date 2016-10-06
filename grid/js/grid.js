@@ -209,18 +209,18 @@ function Grid(){
       var sorted = data
           .filter(function(d) { return d[yColumn] === tick; })
           .sort(function(m, n) {
-              var a = m[selectedColumn]
-                , b = n[selectedColumn]
+              var a = m[selectedColumn] || 1000000
+                , b = n[selectedColumn] || 1000000
               ;
-              if(a != b) return b - a;
+              if(a != b) return a - b;
 
               a = scorecard[m.State].unltd[selectedColumn];
               b = scorecard[n.State].unltd[selectedColumn];
-              if(a != b) return b - a;
+              if(a != b) return a - b;
 
               a = scorecard[m.State].sum[selectedColumn];
               b = scorecard[n.State].sum[selectedColumn];
-              if(a != b) return b - a;
+              if(a != b) return a - b;
 
               return d3.ascending(m.State, n.State);
             })
