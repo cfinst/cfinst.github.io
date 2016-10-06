@@ -40,6 +40,7 @@ function Grid(){
     , data
     , scorecard
     , empty = true
+    , reset = true
   ;
 
   // Main Function Object
@@ -71,7 +72,6 @@ function Grid(){
       yAxisG
           .call(d3.axisLeft().scale(yScale))
         .selectAll(".tick text")
-          .classed("sortby", false) // Set the ticks to normal font-weight
           .on("click", function(d) {
               // Sort dataset when y-axis labels are clicked
               resort(d);
@@ -81,9 +81,17 @@ function Grid(){
               ;
             })
       ;
+      if(reset)
+          // Set the ticks to normal font-weight
+          yAxisG.selectAll(".tick text")
+              .classed("sortby", false)
+          ;
 
       // Render the legend
       render_legend();
+
+      // Further changes will cause a reset
+      reset = true;
   } // Main Function Object
 
 
@@ -260,7 +268,8 @@ function Grid(){
   ;
   my.empty = function (_){
       if(!arguments.length) return empty;
-      empty = _
+      empty = _;
+      reset = false;
       return my;
     } // my.empty()
   ;
