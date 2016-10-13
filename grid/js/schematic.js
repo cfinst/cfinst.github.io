@@ -65,9 +65,13 @@ function corpus(error, contribs, contribs2) {
             .rollup(function(leaves) {
                 var ret = { sum: {}, unltd: {} };
                 requested_columns.forEach(function(c) {
+
+                    // The sum total across all years.
                     ret.sum[c] = d3.sum(leaves, function(d) { return +d[c]; });
+
+                    // The count of unlimited values across all years.
                     ret.unltd[c] = leaves
-                        .filter(function(d) { return d[c]; })
+                        .filter(function(d) { return !d[c]; })
                         .length
                     ;
                   })
