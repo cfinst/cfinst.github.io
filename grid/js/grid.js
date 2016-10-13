@@ -50,13 +50,9 @@ function Grid(){
       // Adjust to the size of the HTML container
       size_up();
 
-      // Set the colorScale
-      colorScale.domain(
-        bins.concat(d3.max(data, function(d) { return +d[selectedColumn] + 1; }))
-      );
+      // Set up the domains
+      domainify();
 
-      // Initialize the tooltip
-      svg.call(tip);
       // Transform the g container element.
       g.attr("transform", "translate(" + [margin.left, margin.top] + ")");
 
@@ -90,6 +86,8 @@ function Grid(){
       // Render the legend
       render_legend();
 
+      // Initialize the tooltip
+      svg.call(tip);
       // Further changes will cause a reset
       reset = true;
   } // Main Function Object
@@ -230,6 +228,21 @@ function Grid(){
       render_cells();
   } // resort()
 
+  function domainify() {
+      xScale.domain(
+        data
+            .map(function (d){ return d[xColumn]; })
+            .sort()
+      );
+      yScale.domain(
+        data
+            .map(function (d){ return d[yColumn]; })
+            .sort()
+      );
+      colorScale.domain(
+        bins.concat(d3.max(data, function(d) { return +d[selectedColumn] + 1; }))
+      );
+  } // domainify()
 
   // API - Getter/Setter Methods
   my.data = function (_){
@@ -241,17 +254,7 @@ function Grid(){
           // UPDATE THIS WHEN THE YEAR IS COMPLETE
           .filter(function(d) { return d.Year != 2016; })
       ;
-      // Compute X and Y domains.
-      xScale.domain(
-        data
-            .map(function (d){ return d[xColumn]; })
-            .sort()
-      );
-      yScale.domain(
-        data
-            .map(function (d){ return d[yColumn]; })
-            .sort()
-      );
+      domainify();
       return my;
     } // my.data()
   ;
