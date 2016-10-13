@@ -43,9 +43,13 @@ function Grid(){
   function my() {
       if(!data) return;
 
-      // Adjust to the size of the HTML container and calculate domains
+      // Adjust to the size of the HTML container
       size_up();
-      domainify();
+
+      // Set up the colorspace
+      colorScale.domain(
+        bins.concat(d3.max(data, function(d) { return +d[selectedColumn] + 1; }))
+      );
 
       // Render DOM elements
       render_cells();
@@ -222,22 +226,6 @@ function Grid(){
       render_cells();
   } // resort()
 
-  function domainify() {
-      xScale.domain(
-        data
-            .map(function (d){ return d[xColumn]; })
-            .sort()
-      );
-      yScale.domain(
-        data
-            .map(function (d){ return d[yColumn]; })
-            .sort()
-      );
-      colorScale.domain(
-        bins.concat(d3.max(data, function(d) { return +d[selectedColumn] + 1; }))
-      );
-  } // domainify()
-
   // API - Getter/Setter Methods
   my.svg = function(_) {
       if(!arguments.length) return svg;
@@ -268,7 +256,16 @@ function Grid(){
           // UPDATE THIS WHEN THE YEAR IS COMPLETE
           .filter(function(d) { return d.Year != 2016; })
       ;
-      domainify();
+      xScale.domain(
+        data
+            .map(function (d){ return d[xColumn]; })
+            .sort()
+      );
+      yScale.domain(
+        data
+            .map(function (d){ return d[yColumn]; })
+            .sort()
+      );
       return my;
     } // my.data()
   ;
