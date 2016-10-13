@@ -13,14 +13,10 @@ function Grid(){
   ;
 
   // DOM Elements.
-  var svg = d3.select("svg")
-    , g = svg.append("g")
-    , xAxisG = g.append("g")
-        .attr("class", "x axis")
-    , yAxisG = g.append("g")
-        .attr("class", "y axis")
-    , legendG = d3.select("#meta svg").append("g")
-          .attr("transform", "translate(20, 20)")
+  var svg
+    , xAxisG
+    , yAxisG
+    , legendG
   ;
 
   // D3 Objects.
@@ -53,9 +49,6 @@ function Grid(){
 
       // Set up the domains
       domainify();
-
-      // Transform the g container element.
-      g.attr("transform", "translate(" + [margin.left, margin.top] + ")");
 
       // Render the grid
       render_cells();
@@ -99,7 +92,7 @@ function Grid(){
 
   function render_cells() {
     // Visualize the selectedColumn.
-    var rects = g.selectAll("rect")
+    var rects = svg.select(".viz").selectAll("rect")
           .data(data, function (d){ return d.Identifier; })
       , w = xScale.step()
       , h = yScale.step()
