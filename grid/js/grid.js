@@ -31,7 +31,7 @@ function Grid(){
     , tip = d3.tip().attr("class", "d3-tip")
     , legend = d3.legendColor()
           .scale(colorScale)
-          .shape("circle")
+          .shape("rect")
           .labelFormat(moneyFormat)
           .title("Maximum Contribution Limits")
     , axisX = d3.axisTop()
@@ -170,9 +170,9 @@ function Grid(){
     // Render the legend
     legendG.call(legend.labels(labels));
 
-    // Handle the empty circle case.
-    legendG.selectAll("circle")
-        .attr("class", "grid-circle")
+    // Handle the empty rect case.
+    legendG.selectAll("rect")
+        .attr("class", "grid-rect")
         .style("color", function (color){ return color; })
       .transition(d3.transition().duration(500))
         .style("fill-opacity", function (color){
