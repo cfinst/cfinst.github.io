@@ -39,7 +39,7 @@ function Grid(){
   var selectedColumn
     , data
     , scorecard
-    , empty = true
+    , empty = false
     , reset = true
   ;
 
