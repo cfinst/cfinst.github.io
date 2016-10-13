@@ -228,7 +228,7 @@ function Grid(){
 
               a = scorecard[m.State].unltd[selectedColumn];
               b = scorecard[n.State].unltd[selectedColumn];
-              if(a != b) return a - b;
+              if(a != b) return b - a;
 
               a = scorecard[m.State].sum[selectedColumn];
               b = scorecard[n.State].sum[selectedColumn];
