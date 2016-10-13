@@ -86,34 +86,36 @@ function Grid(){
       // Set the scales
       xScale.rangeRound([0, innerWidth]);
       yScale.rangeRound([0, innerHeight]);
-      // Set the dimensions of the circles and grid cells
-      var x = xScale.step()
-        , y = yScale.step()
-      ;
-      if(x < y)
-          yScale.rangeRound([0, x * yScale.domain().length]);
-      else
-          xScale.rangeRound([0, y * xScale.domain().length]);
 
-      // Set the radius of the circles
-      radius = d3.min([x, y]) * 0.45;
+      // Set the dimensions of the grid cells
+      var w = xScale.step()
+        , h = yScale.step()
+      ;
+      if(w < h)
+          yScale.rangeRound([0, w * yScale.domain().length]);
+      else
+          xScale.rangeRound([0, h * xScale.domain().length]);
+
   } // size_up()
 
   function render_cells() {
     // Visualize the selectedColumn.
-    var circles = g.selectAll("circle")
+    var rects = g.selectAll("rect")
           .data(data, function (d){ return d.Identifier; })
+      , w = xScale.step()
+      , h = yScale.step()
     ;
-    circles
+    rects
       .enter()
-        .append("circle")
-        .attr("cx", function (d){ return xScale(d[xColumn]); })
-        .attr("cy", function (d){ return yScale(d[yColumn]); })
-        .attr("r", 0)
-      .merge(circles)
+        .append("rect")
+        .attr("x", function (d){ return xScale(d[xColumn]); })
+        .attr("y", function (d){ return yScale(d[yColumn]); })
+        .attr("width", 0)
+        .attr("height", 0)
+      .merge(rects)
         .attr("class", function (d){
             var unltd = !d[selectedColumn];
-            return "grid-circle "
+            return "grid-rect "
               + (unltd ? "unlimited" + (empty ? " empty" : "") : "")
             ;
           })
@@ -132,18 +134,13 @@ function Grid(){
           })
         .on("mouseout", tip.hide)
       .transition().duration(500)
-        .attr("cx", function (d){ return xScale(d[xColumn]); })
-        .attr("cy", function (d){ return yScale(d[yColumn]); })
-        .attr("r", radius)
+        .attr("x", function (d){ return xScale(d[xColumn]); })
+        .attr("y", function (d){ return yScale(d[yColumn]); })
+        .attr("width", w)
+        .attr("height", h)
         .style("color", function (d){
             return colorScale(d[selectedColumn] ? d[selectedColumn] : Infinity);
           })
-    ;
-
-    circles.exit()
-      .transition().duration(500)
-        .attr("r", 0)
-      .remove()
     ;
   } // render_cells()
 
