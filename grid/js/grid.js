@@ -26,6 +26,7 @@ function Grid(){
     , legend = d3.legendColor()
           .scale(colorScale)
           .shape("rect")
+          .labelOffset(5)
           .labelFormat(moneyFormat)
           .title("Maximum Contribution Limits")
     , axisX = d3.axisTop()
@@ -165,6 +166,13 @@ function Grid(){
           })
         .style("color", function (color){ return color; })
     ;
+
+    // Remove the automatically added "label" class,
+    // because it unintentionally triggered the "label" class from Bootstrap,
+    // which made the font small and bold.
+    legendG.selectAll("text")
+        .classed("label", false);
+
   } // render_legend()
 
   function render_axes() {
