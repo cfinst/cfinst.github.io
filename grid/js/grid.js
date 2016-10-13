@@ -19,8 +19,8 @@ function Grid(){
   ;
 
   // D3 Objects.
-  var xScale = d3.scaleBand().padding(0)
-    , yScale = d3.scaleBand().padding(0)
+  var xScale = d3.scaleBand().padding(0).align(0)
+    , yScale = d3.scaleBand().padding(0).align(0)
     , colorScale = d3.scaleThreshold().range(colors)
     , tip = d3.tip().attr("class", "d3-tip")
     , legend = d3.legendColor()
@@ -164,7 +164,9 @@ function Grid(){
     // Handle the empty rect case.
     legendG.selectAll("rect")
         .attr("class", "grid-rect")
-        .classed("empty", function(color) { return color === colors[colors.length - 1] && empty; })
+        .classed("empty", function(color) {
+            return color === colors[colors.length - 1] && empty;
+          })
         .style("color", function (color){ return color; })
     ;
   } // render_legend()
