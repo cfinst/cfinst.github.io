@@ -2,7 +2,7 @@ function Grid(){
 
   // Configuration parameters.
   var margin = { left: 50, right: 15, top: 35, bottom: 750 }
-    , radius = 15
+    , radius = 10
     , axisPadding = 0.6
     , xColumn = "State"
     , yColumn = "Year"
