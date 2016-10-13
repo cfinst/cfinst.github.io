@@ -2,7 +2,6 @@ function Grid(){
 
   // Configuration parameters.
   var margin = { left: 50, right: 15, top: 35, bottom: 5 }
-    , axisPadding = 0.6
     , xColumn = "State"
     , yColumn = "Year"
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
@@ -20,8 +19,8 @@ function Grid(){
   ;
 
   // D3 Objects.
-  var xScale = d3.scalePoint().padding(axisPadding)
-    , yScale = d3.scalePoint().padding(axisPadding)
+  var xScale = d3.scaleBand().padding(0)
+    , yScale = d3.scaleBand().padding(0)
     , colorScale = d3.scaleThreshold().range(colors)
     , tip = d3.tip().attr("class", "d3-tip")
     , legend = d3.legendColor()
@@ -174,15 +173,18 @@ function Grid(){
       xAxisG
         .transition().duration(500)
           .call(axisX.scale(xScale))
-        .selectAll(".tick text")
-          .attr("dx", "1em")
+      ;
+      xAxisG.selectAll(".tick line")
+          .attr("transform", "translate(" + (xScale.step() / 2) + ",0)")
       ;
       yAxisG
         .transition().duration(500)
           .call(axisY.scale(yScale))
       ;
+      yAxisG.selectAll(".tick line")
+          .attr("transform", "translate(0," + (yScale.step() / 2) + ")")
+      ;
       yAxisG.selectAll(".tick text")
-          .attr("dy", "1em")
           .on("click", function(d) {
               // Sort dataset when y-axis labels are clicked
               resort(d);
