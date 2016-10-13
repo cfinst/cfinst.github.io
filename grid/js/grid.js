@@ -251,6 +251,26 @@ function Grid(){
   } // domainify()
 
   // API - Getter/Setter Methods
+  my.svg = function(_) {
+      if(!arguments.length) return svg;
+      svg = _;
+      var g = svg.append("g")
+              .attr("transform", "translate(" + [margin.left, margin.top] + ")")
+        , viz = g.append("g")
+              .attr("class", "viz")
+        , axes = g.append("g")
+              .attr("class", "axes")
+      ;
+      xAxisG = axes.append("g")
+          .attr("class", "x axis")
+      yAxisG = axes.append("g")
+          .attr("class", "y axis")
+      legendG = d3.select("#meta svg").append("g")
+          .attr("transform", "translate(20, 20)")
+      ;
+      return my;
+    } // my.svg()
+  ;
   my.data = function (_){
       if(!arguments.length) return data;
       data = _
