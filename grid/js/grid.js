@@ -6,9 +6,9 @@ function Grid(){
     , yColumn = "Year"
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
     , bins = [1000, 2500, 5000, 10000]
-    // ColorBrewer Sequential 6-class YlOrRd
+    // ColorBrewer Sequential 6-class YlGnBu
     // From http://colorbrewer2.org/#type=sequential&scheme=YlOrRd&n=6
-    , colors = ["#fed976","#feb24c","#fd8d3c","#fc4e2a", "#e31a1c", "#800026"]
+    , colors = ["#ffffcc","#c7e9b4","#7fcdbb","#41b6c4","#2c7fb8","#253494"]
   ;
 
   // DOM Elements.
