@@ -1,0 +1,30 @@
+/* 
+   This CSS intents to emulate the CFI theme.
+   Draws from the CFI Web site CSS theme found at
+   http://www.cfinst.org/App_Themes/frange_HomeAlt/css/screen.css
+*/
+body {
+    font:12px/1.2em verdana, arial, sans-serif;
+    color:#000;
+    background-color:#efefef;
+}
+
+.cfi-theme-content {
+    background-color:#fff;
+    border-left:1px solid #404040;
+    border-right:1px solid #404040;
+    margin-left:25px;
+    margin-right:25px;
+}
+
+.cfi-theme-content h1 {
+    padding-bottom: 30px;
+    padding-top:30px;
+}
+
+.cfi-theme-logo {
+    position: absolute;
+    background-color: #16275a;
+    padding: 10px;
+    width: 120px;
+}
