@@ -2,8 +2,6 @@ function Grid(){
 
   // Configuration parameters.
   var margin = { left: 50, right: 15, top: 35, bottom: 5 }
-    , axisPadding = 0.6
-    , radius = 9
     , xColumn = "State"
     , yColumn = "Year"
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
@@ -14,32 +12,30 @@ function Grid(){
   ;
 
   // DOM Elements.
-  var svg = d3.select("svg")
-    , g = svg.append("g")
-    , xAxisG = g.append("g")
-        .attr("class", "x axis")
-    , yAxisG = g.append("g")
-        .attr("class", "y axis")
-        , legendG = d3.select("#meta svg").append("g")
-            .attr("transform", "translate(20, 20)")
+  var svg
+    , xAxisG
+    , yAxisG
+    , legendG
   ;
 
   // D3 Objects.
-  var xScale = d3.scalePoint().padding(axisPadding)
-    , yScale = d3.scalePoint().padding(axisPadding)
+  var xScale = d3.scaleBand().padding(0).align(0)
+    , yScale = d3.scaleBand().padding(0).align(0)
     , colorScale = d3.scaleThreshold().range(colors)
     , tip = d3.tip().attr("class", "d3-tip")
     , legend = d3.legendColor()
           .scale(colorScale)
-          .shape("circle")
+          .shape("rect")
           .labelFormat(moneyFormat)
           .title("Maximum Contribution Limits")
+    , axisX = d3.axisTop()
+    , axisY = d3.axisLeft()
   ;
   // Internal state variables.
   var selectedColumn
     , data
     , scorecard
-    , empty = true
+    , empty = false
     , reset = true
   ;
 
@@ -50,45 +46,18 @@ function Grid(){
       // Adjust to the size of the HTML container
       size_up();
 
-      // Set the colorScale
+      // Set up the colorspace
       colorScale.domain(
         bins.concat(d3.max(data, function(d) { return +d[selectedColumn] + 1; }))
       );
 
+      // Render DOM elements
+      render_cells();
+      render_axes();
+      render_legend();
+
       // Initialize the tooltip
       svg.call(tip);
-      // Transform the g container element.
-      g.attr("transform", "translate(" + [margin.left, margin.top] + ")");
-
-      // Render the grid
-      render_cells();
-
-      // Render the axes.
-      xAxisG
-          .call(d3.axisTop().scale(xScale))
-        .selectAll(".tick text")
-          .attr("dy", "-.7em")
-      ;
-      yAxisG
-          .call(d3.axisLeft().scale(yScale))
-        .selectAll(".tick text")
-          .on("click", function(d) {
-              // Sort dataset when y-axis labels are clicked
-              resort(d);
-              // Highlight the clicked tick
-              yAxisG.selectAll(".tick text")
-                  .classed("sortby", function(e) { return d === e; })
-              ;
-            })
-      ;
-      if(reset)
-          // Set the ticks to normal font-weight
-          yAxisG.selectAll(".tick text")
-              .classed("sortby", false)
-          ;
-
-      // Render the legend
-      render_legend();
 
       // Further changes will cause a reset
       reset = true;
@@ -107,34 +76,35 @@ function Grid(){
       // Set the scales
       xScale.rangeRound([0, innerWidth]);
       yScale.rangeRound([0, innerHeight]);
-      // Set the dimensions of the circles and grid cells
-      var x = xScale.step()
-        , y = yScale.step()
-      ;
-      if(x < y)
-          yScale.rangeRound([0, x * yScale.domain().length]);
-      else
-          xScale.rangeRound([0, y * xScale.domain().length]);
 
-      // Set the radius of the circles
-      radius = d3.min([x, y]) * 0.45;
+      // Set the dimensions of the grid cells
+      var w = xScale.step()
+        , h = yScale.step()
+      ;
+      if(w < h)
+          yScale.rangeRound([0, w * yScale.domain().length]);
+      else
+          xScale.rangeRound([0, h * xScale.domain().length]);
   } // size_up()
 
   function render_cells() {
     // Visualize the selectedColumn.
-    var circles = g.selectAll("circle")
+    var rects = svg.select(".viz").selectAll("rect")
           .data(data, function (d){ return d.Identifier; })
+      , w = xScale.step()
+      , h = yScale.step()
     ;
-    circles
+    rects
       .enter()
-        .append("circle")
-        .attr("cx", function (d){ return xScale(d[xColumn]); })
-        .attr("cy", function (d){ return yScale(d[yColumn]); })
-        .attr("r", 0)
-      .merge(circles)
+        .append("rect")
+        .attr("x", function (d){ return xScale(d[xColumn]); })
+        .attr("y", function (d){ return yScale(d[yColumn]); })
+        .attr("width", 0)
+        .attr("height", 0)
+      .merge(rects)
         .attr("class", function (d){
             var unltd = !d[selectedColumn];
-            return "grid-circle "
+            return "grid-rect "
               + (unltd ? "unlimited" + (empty ? " empty" : "") : "")
             ;
           })
@@ -153,18 +123,13 @@ function Grid(){
           })
         .on("mouseout", tip.hide)
       .transition().duration(500)
-        .attr("cx", function (d){ return xScale(d[xColumn]); })
-        .attr("cy", function (d){ return yScale(d[yColumn]); })
-        .attr("r", radius)
+        .attr("x", function (d){ return xScale(d[xColumn]); })
+        .attr("y", function (d){ return yScale(d[yColumn]); })
+        .attr("width", w)
+        .attr("height", h)
         .style("color", function (d){
             return colorScale(d[selectedColumn] ? d[selectedColumn] : Infinity);
           })
-    ;
-
-    circles.exit()
-      .transition().duration(500)
-        .attr("r", 0)
-      .remove()
     ;
   } // render_cells()
 
@@ -194,16 +159,47 @@ function Grid(){
     // Render the legend
     legendG.call(legend.labels(labels));
 
-    // Handle the empty circle case.
-    legendG.selectAll("circle")
-        .attr("class", "grid-circle")
-        .style("color", function (color){ return color; })
-      .transition(d3.transition().duration(500))
-        .style("fill-opacity", function (color){
-            return color === colors[colors.length - 1] && empty ? 0 : 1;
+    // Handle the empty rect case.
+    legendG.selectAll("rect")
+        .attr("class", "grid-rect")
+        .classed("empty", function(color) {
+            return color === colors[colors.length - 1] && empty;
           })
+        .style("color", function (color){ return color; })
     ;
   } // render_legend()
+
+  function render_axes() {
+      xAxisG
+        .transition().duration(500)
+          .call(axisX.scale(xScale))
+      ;
+      xAxisG.selectAll(".tick line")
+          .attr("transform", "translate(" + (xScale.step() / 2) + ",0)")
+      ;
+      yAxisG
+        .transition().duration(500)
+          .call(axisY.scale(yScale))
+      ;
+      yAxisG.selectAll(".tick line")
+          .attr("transform", "translate(0," + (yScale.step() / 2) + ")")
+      ;
+      yAxisG.selectAll(".tick text")
+          .on("click", function(d) {
+              // Sort dataset when y-axis labels are clicked
+              resort(d);
+              // Highlight the clicked tick
+              yAxisG.selectAll(".tick text")
+                  .classed("sortby", function(e) { return d === e; })
+              ;
+            })
+      ;
+      if(reset)
+          // Set the ticks to normal font-weight
+          yAxisG.selectAll(".tick text")
+              .classed("sortby", false)
+          ;
+  } // render_axes()
 
   function resort(tick) {
       var sorted = data
@@ -230,8 +226,27 @@ function Grid(){
       render_cells();
   } // resort()
 
-
   // API - Getter/Setter Methods
+  my.svg = function(_) {
+      if(!arguments.length) return svg;
+      svg = _;
+      var g = svg.append("g")
+              .attr("transform", "translate(" + [margin.left, margin.top] + ")")
+        , viz = g.append("g")
+              .attr("class", "viz")
+        , axes = g.append("g")
+              .attr("class", "axes")
+      ;
+      xAxisG = axes.append("g")
+          .attr("class", "x axis")
+      yAxisG = axes.append("g")
+          .attr("class", "y axis")
+      legendG = d3.select("#meta svg").append("g")
+          .attr("transform", "translate(20, 20)")
+      ;
+      return my;
+    } // my.svg()
+  ;
   my.data = function (_){
       if(!arguments.length) return data;
       data = _
@@ -241,7 +256,6 @@ function Grid(){
           // UPDATE THIS WHEN THE YEAR IS COMPLETE
           .filter(function(d) { return d.Year != 2016; })
       ;
-      // Compute X and Y domains.
       xScale.domain(
         data
             .map(function (d){ return d[xColumn]; })

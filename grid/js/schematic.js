@@ -129,6 +129,7 @@ function corpus(error, contribs, contribs2) {
           })
     ;
     grid
+        .svg(d3.select("#main svg"))
         .data(data)
         .scorecard(scorecard)
         .selectedColumn(querify())
