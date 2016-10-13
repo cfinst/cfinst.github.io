@@ -20,8 +20,8 @@ function Grid(){
         .attr("class", "x axis")
     , yAxisG = g.append("g")
         .attr("class", "y axis")
-        , legendG = d3.select("#meta svg").append("g")
-            .attr("transform", "translate(20, 20)")
+    , legendG = d3.select("#meta svg").append("g")
+          .attr("transform", "translate(20, 20)")
   ;
 
   // D3 Objects.
@@ -34,6 +34,8 @@ function Grid(){
           .shape("circle")
           .labelFormat(moneyFormat)
           .title("Maximum Contribution Limits")
+    , axisX = d3.axisTop()
+    , axisY = d3.axisLeft()
   ;
   // Internal state variables.
   var selectedColumn
@@ -59,29 +61,8 @@ function Grid(){
       // Render the grid
       render_cells();
 
-      // Render the axes.
-      xAxisG
-          .call(d3.axisTop().scale(xScale))
-        .selectAll(".tick text")
-          .attr("dy", "-.7em")
-      ;
-      yAxisG
-          .call(d3.axisLeft().scale(yScale))
-        .selectAll(".tick text")
-          .on("click", function(d) {
-              // Sort dataset when y-axis labels are clicked
-              resort(d);
-              // Highlight the clicked tick
-              yAxisG.selectAll(".tick text")
-                  .classed("sortby", function(e) { return d === e; })
-              ;
-            })
-      ;
-      if(reset)
-          // Set the ticks to normal font-weight
-          yAxisG.selectAll(".tick text")
-              .classed("sortby", false)
-          ;
+      // Render the axes
+      render_axes();
 
       // Render the legend
       render_legend();
@@ -202,6 +183,35 @@ function Grid(){
           })
     ;
   } // render_legend()
+
+  function render_axes() {
+      xAxisG
+        .transition().duration(500)
+          .call(axisX.scale(xScale))
+        .selectAll(".tick text")
+          .attr("dx", "1em")
+      ;
+      yAxisG
+        .transition().duration(500)
+          .call(axisY.scale(yScale))
+      ;
+      yAxisG.selectAll(".tick text")
+          .attr("dy", "1em")
+          .on("click", function(d) {
+              // Sort dataset when y-axis labels are clicked
+              resort(d);
+              // Highlight the clicked tick
+              yAxisG.selectAll(".tick text")
+                  .classed("sortby", function(e) { return d === e; })
+              ;
+            })
+      ;
+      if(reset)
+          // Set the ticks to normal font-weight
+          yAxisG.selectAll(".tick text")
+              .classed("sortby", false)
+          ;
+  } // render_axes()
 
   function resort(tick) {
       var sorted = data
