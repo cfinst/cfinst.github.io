@@ -165,11 +165,8 @@ function Grid(){
     // Handle the empty rect case.
     legendG.selectAll("rect")
         .attr("class", "grid-rect")
+        .classed("empty", function(color) { return color === colors[colors.length - 1] && empty; })
         .style("color", function (color){ return color; })
-      .transition(d3.transition().duration(500))
-        .style("fill-opacity", function (color){
-            return color === colors[colors.length - 1] && empty ? 0 : 1;
-          })
     ;
   } // render_legend()
 
