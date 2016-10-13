@@ -3,7 +3,6 @@ function Grid(){
   // Configuration parameters.
   var margin = { left: 50, right: 15, top: 35, bottom: 5 }
     , axisPadding = 0.6
-    , radius = 9
     , xColumn = "State"
     , yColumn = "Year"
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
