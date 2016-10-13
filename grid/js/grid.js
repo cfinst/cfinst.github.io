@@ -26,6 +26,7 @@ function Grid(){
     , legend = d3.legendColor()
           .scale(colorScale)
           .shape("rect")
+          .labelOffset(5)
           .labelFormat(moneyFormat)
           .title("Maximum Contribution Limits")
     , axisX = d3.axisTop()
@@ -165,6 +166,13 @@ function Grid(){
           })
         .style("color", function (color){ return color; })
     ;
+
+    // Remove the automatically added "label" class,
+    // because it unintentionally triggered the "label" class from Bootstrap,
+    // which made the font small and bold.
+    legendG.selectAll("text")
+        .classed("label", false);
+
   } // render_legend()
 
   function render_axes() {
@@ -224,16 +232,22 @@ function Grid(){
               var a = m[selectedColumn] || Infinity
                 , b = n[selectedColumn] || Infinity
               ;
+
+              // If the values differ, perform straightforward sorting.
               if(a != b) return a - b;
 
+              // First try to break ties based on the count of unlimited values.
               a = scorecard[m.State].unltd[selectedColumn];
               b = scorecard[n.State].unltd[selectedColumn];
               if(a != b) return a - b;
 
+              // If there is also a tie in terms of the count of unlimired values,
+              // then break ties by the sum across all years.
               a = scorecard[m.State].sum[selectedColumn];
               b = scorecard[n.State].sum[selectedColumn];
               if(a != b) return a - b;
 
+              // As a last resort tie breaker, use alphabetical ordering.
               return d3.ascending(m.State, n.State);
             })
           .map(function(d) { return d[xColumn]; })
