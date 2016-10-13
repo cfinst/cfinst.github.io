@@ -145,8 +145,10 @@ function corpus(error, contribs, contribs2) {
     d3.select(".controls .checkbox input")
         .on("change", function() { grid.empty(this.checked)(); })
     ;
+    d3.select(".controls button")
+        .on("click", function() { grid.reset()(); })
+    ;
 
-    // Local Helper Functions
     function querify() {
         var col = query.donor + "To" + query.recipient + "Limit"
           , branch = !d3.map(data[0]).has([col + "_Max"])

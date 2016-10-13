@@ -46,10 +46,8 @@ function Grid(){
       // Adjust to the size of the HTML container
       size_up();
 
-      // Set up the colorspace
-      colorScale.domain(
-        bins.concat(d3.max(data, function(d) { return +d[selectedColumn] + 1; }))
-      );
+      // Set up the domains
+      domainify();
 
       // Render DOM elements
       render_cells();
@@ -201,6 +199,24 @@ function Grid(){
           ;
   } // render_axes()
 
+  function domainify() {
+      colorScale.domain(
+        bins.concat(d3.max(data, function(d) { return +d[selectedColumn] + 1; }))
+      );
+      if(reset) {
+          xScale.domain(
+            data
+                .map(function (d){ return d[xColumn]; })
+                .sort()
+          );
+          yScale.domain(
+            data
+                .map(function (d){ return d[yColumn]; })
+                .sort()
+          );
+      }
+  } // domainify()
+
   function resort(tick) {
       var sorted = data
           .filter(function(d) { return d[yColumn] === tick; })
@@ -256,16 +272,8 @@ function Grid(){
           // UPDATE THIS WHEN THE YEAR IS COMPLETE
           .filter(function(d) { return d.Year != 2016; })
       ;
-      xScale.domain(
-        data
-            .map(function (d){ return d[xColumn]; })
-            .sort()
-      );
-      yScale.domain(
-        data
-            .map(function (d){ return d[yColumn]; })
-            .sort()
-      );
+      reset = true;
+      domainify();
       return my;
     } // my.data()
   ;
@@ -286,6 +294,11 @@ function Grid(){
       reset = false;
       return my;
     } // my.empty()
+  ;
+  my.reset = function (){ // setter only
+      reset = true;
+      return my;
+    } // my.reset()
   ;
   my.scorecard = function (_){
       if(!arguments.length) return scorecard;
