@@ -43,23 +43,18 @@ function Grid(){
   function my() {
       if(!data) return;
 
-      // Adjust to the size of the HTML container
+      // Adjust to the size of the HTML container and calculate domains
       size_up();
-
-      // Set up the domains
       domainify();
 
-      // Render the grid
+      // Render DOM elements
       render_cells();
-
-      // Render the axes
       render_axes();
-
-      // Render the legend
       render_legend();
 
       // Initialize the tooltip
       svg.call(tip);
+
       // Further changes will cause a reset
       reset = true;
   } // Main Function Object
@@ -86,7 +81,6 @@ function Grid(){
           yScale.rangeRound([0, w * yScale.domain().length]);
       else
           xScale.rangeRound([0, h * xScale.domain().length]);
-
   } // size_up()
 
   function render_cells() {
