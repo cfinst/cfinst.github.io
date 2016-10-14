@@ -7,13 +7,12 @@
       fill .5s linear,
       stroke-width .5s linear;
     fill: currentColor;
-    stroke: currentColor;
-    stroke-width: 0;
+    stroke: #efefef;
+    stroke-width: 0.25;
     fill-opacity: 1;
 }
 .grid-rect.empty {
     fill-opacity: 0;
-    stroke-width: .5;
 }
 /*
 .x.axis .tick text {
