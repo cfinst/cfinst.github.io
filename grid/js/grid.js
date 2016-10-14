@@ -33,7 +33,7 @@ function Grid(){
     , axisY = d3.axisLeft()
   ;
   // Internal state variables.
-  var selectedColumn
+  var selectedColumn, keyColumn
     , data
     , scorecard
     , empty = false
@@ -297,6 +297,7 @@ function Grid(){
   my.selectedColumn = function (_){
       if(!arguments.length) return selectedColumn;
       selectedColumn = _;
+      keyColumn = selectedColumn.split('Limit')[0];
       return my;
     } // my.selectedColumn()
   ;
