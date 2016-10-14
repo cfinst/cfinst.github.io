@@ -14,12 +14,10 @@
 .grid-rect.empty {
     fill-opacity: 0;
 }
-/*
 .x.axis .tick text {
     writing-mode: vertical-lr;
     text-orientation: upright;
 }
-*/
 .y.axis .tick text {
     cursor: pointer;
 }

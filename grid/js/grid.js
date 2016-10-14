@@ -183,6 +183,9 @@ function Grid(){
       xAxisG.selectAll(".tick line")
           .attr("transform", "translate(" + (xScale.step() / 2) + ",0)")
       ;
+      xAxisG.selectAll(".tick text")
+          .attr("dy", "-1em")
+      ;
       yAxisG
         .transition().duration(500)
           .call(axisY.scale(yScale))
