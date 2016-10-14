@@ -44,41 +44,19 @@ d3.select(window)
 */
 function corpus(error, contribs, contribs2) {
     if(error) throw error;
-    var contribs = d3.merge([contribs, contribs2])
-      , data = d3.nest()
+    var data = d3.nest()
             .key(function(d) { return d.Identifier; })
             .rollup(function(leaves) {
                 // Combine the two datasets
                 var leaf = leaves[0]
                   , newleaf = leaves[1]
                 ;
-                d3.keys(newleaf).forEach(function(k) {
-                    leaf[k] = newleaf[k];
-                })
+                d3.keys(newleaf).forEach(function(k) { leaf[k] = newleaf[k]; })
                 leaf.Year = +leaf.Year;
                 return leaf;
               })
-            .map(contribs)
+            .map(d3.merge([contribs, contribs2]))
             .values()
-      , scorecard = d3.nest()
-            .key(function(d) { return d.State; })
-            .rollup(function(leaves) {
-                var ret = { sum: {}, unltd: {} };
-                requested_columns.forEach(function(c) {
-
-                    // The sum total across all years.
-                    ret.sum[c] = d3.sum(leaves, function(d) { return +d[c]; });
-
-                    // The count of unlimited values across all years.
-                    ret.unltd[c] = leaves
-                        .filter(function(d) { return !d[c]; })
-                        .length
-                    ;
-                  })
-                ;
-                return ret;
-              })
-            .object(contribs)
       , columns = d3.keys(data[0])
             .filter(function(c) { return c.endsWith("_Max"); })
             .filter(function(c) { return ~requested_columns.indexOf(c); })
@@ -135,7 +113,6 @@ function corpus(error, contribs, contribs2) {
     grid
         .svg(d3.select("#main svg"))
         .data(data)
-        .scorecard(scorecard)
         .selectedColumn(querify())
       () // Call grid()
     ;
