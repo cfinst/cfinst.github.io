@@ -105,19 +105,22 @@ function Grid(){
         .classed("unlimited", function (d){
             return d[keyColumn] === "Unlimited";
           })
-        .on("mouseover", function(d) {
-            tip
-                .html(
-                    "<h4>" + d[xColumn] + "</h4>"
-                    + "<h4>" + d[yColumn] + "</h4>"
-                    + (d[selectedColumn]
-                        ? moneyFormat(d[selectedColumn])
-                        : "No Limit"
-                      )
-                  )
-                .show()
-            ;
-          })
+          .on("mouseover", function(d) {
+              var value = d[keyColumn] === "Unlimited" ? "No Limit"
+                : d[keyColumn] === "Limited"
+                  ? moneyFormat(d[selectedColumn])
+                  : "Prohibited"
+              ;
+              tip
+                  .html("<span style='text-align: center;'>"
+                      + "<h4>" + d[xColumn] + " " + d[yColumn] + "</h4>"
+                      + "<p>" + selectedColumn + ":</p>"
+                      + "<p>" + value + "</p>"
+                      + "</span>"
+                    )
+                  .show()
+              ;
+            })
         .on("mouseout", tip.hide)
       .transition().duration(500)
         .attr("x", function (d){ return xScale(d[xColumn]); })
