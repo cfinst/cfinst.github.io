@@ -101,11 +101,9 @@ function Grid(){
         .attr("width", 0)
         .attr("height", 0)
       .merge(rects)
-        .attr("class", function (d){
-            var unltd = !d[selectedColumn];
-            return "grid-rect "
-              + (unltd ? "unlimited" + (empty ? " empty" : "") : "")
-            ;
+        .attr("class", "grid-rect")
+        .classed("unlimited", function (d){
+            return d[keyColumn] === "Unlimited";
           })
         .on("mouseover", function(d) {
             tip
