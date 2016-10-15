@@ -128,7 +128,13 @@ function Grid(){
         .attr("width", w)
         .attr("height", h)
         .style("color", function (d){
-            return colorScale(d[selectedColumn] ? d[selectedColumn] : Infinity);
+            var value = d[keyColumn] === "Limited"
+              ? d[selectedColumn]
+              : d[keyColumn] === "No"
+                ? -Infinity
+                : Infinity
+            ;
+            return colorScale(value);
           })
     ;
   } // render_cells()
