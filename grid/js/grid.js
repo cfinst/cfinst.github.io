@@ -264,7 +264,10 @@ function Grid(){
             })
           .map(function(d) { return d[xColumn]; })
       ;
-      xAxisG.call(d3.axisTop().scale(xScale.domain(sorted)));
+      xAxisG
+        .transition(d3.transition().duration(500))
+          .call(d3.axisTop().scale(xScale.domain(sorted)))
+      ;
       render_cells();
   } // resort()
 
