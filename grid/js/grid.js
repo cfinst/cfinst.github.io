@@ -228,18 +228,20 @@ function Grid(){
 
   function domainify() {
       colorScale.domain(
-        bins.concat(d3.max(data, function(d) { return +d[selectedColumn] + 1; }))
+        [0]
+            .concat(bins)
+            .concat(d3.max(data, function(d) { return +d[selectedColumn] + 1; }))
       );
       if(reset) {
           xScale.domain(
             data
                 .map(function (d){ return d[xColumn]; })
-                .sort()
+                .sort(d3.ascending)
           );
           yScale.domain(
             data
                 .map(function (d){ return d[yColumn]; })
-                .sort()
+                .sort(d3.descending)
           );
       }
   } // domainify()
