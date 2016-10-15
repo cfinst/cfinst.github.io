@@ -148,7 +148,7 @@ function Grid(){
     // Work out the legend's labels
     var binmax = d3.max(bins)
       , labels = d3.pairs( // Infinity padding
-              [ -Infinity ]
+              [-Infinity]
                 .concat(colorScale.domain())
                 .concat(Infinity)
             )
@@ -156,15 +156,19 @@ function Grid(){
               var money = [d[0], d[1] - (idx > 0 ? 1 : 0)].map(moneyFormat);
 
               // within the bounds of the infinity padding
-              if(d.every(isFinite))
-                  return money[0]
-                      + (d[0] === binmax ? " or Greater" : " - " + money[1])
-                  ;
+              if(d.every(isFinite)) {
+                  if(d[0] === 0)
+                      return "Less than " + moneyFormat(d[1]);
+                  if(d[0] === binmax)
+                      return money[0] + " or Greater";
+
+                  return money[0] + " - " + money[1];
+              }
               // At the extremes (one of the infinity paddings)
-              return !isFinite(d[0])
-                ? "Less than " + money[1]
-                : "No Limit"
-              ;
+              if(d[0] < 0)
+                  return "Prohibited";
+
+              return "No Limit";
             })
     ;
     // Render the legend
