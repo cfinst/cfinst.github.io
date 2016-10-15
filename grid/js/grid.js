@@ -259,23 +259,37 @@ function Grid(){
       var sorted = data
           .filter(function(d) { return d[yColumn] === tick; })
           .sort(function(m, n) {
-              var a = m[selectedColumn] || Infinity
-                , b = n[selectedColumn] || Infinity
+              var akey = m[keyColumn]
+                , bkey = n[keyColumn]
+                , aval = m[selectedColumn]
+                , bval = n[selectedColumn]
+                , acol = colorScale(m[selectedColumn])
+                , bcol = colorScale(n[selectedColumn])
               ;
+              if(akey != bkey) {
+                  if(akey === "No") {
+                      if(bkey != "No") return -1;
+                  }
+                  else {
+                      if(bkey === "No") return 1;
+                      return akey === "Limited" ? -1 : 1;
+                  }
+              }
 
-              // If the values differ, perform straightforward sorting.
-              if(a != b) return a - b;
+              if(aval != bval) return aval - bval;
 
-              // First try to break ties based on the count of unlimited values.
-              a = scorecard[m.State].unltd[selectedColumn];
-              b = scorecard[n.State].unltd[selectedColumn];
-              if(a != b) return a - b;
-
-              // If there is also a tie in terms of the count of unlimired values,
-              // then break ties by the sum across all years.
-              a = scorecard[m.State].sum[selectedColumn];
-              b = scorecard[n.State].sum[selectedColumn];
-              if(a != b) return a - b;
+              if(acol === bcol) {
+                  var acols = scorecard[m[xColumn]]
+                          .map(function(d) { return colorScale(d[selectedColumn]); })
+                          .filter(function(d) { return d === acol; })
+                          .length
+                    , bcols = scorecard[n[xColumn]]
+                          .map(function(d) { return colorScale(d[selectedColumn]); })
+                          .filter(function(d) { return d === bcol; })
+                          .length
+                  ;
+                  if(acols != bcols) return acols - bcols;
+              }
 
               // As a last resort tie breaker, use alphabetical ordering.
               return d3.ascending(m.State, n.State);
