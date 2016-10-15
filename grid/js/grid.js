@@ -7,8 +7,13 @@ function Grid(){
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
     , bins = [1000, 2500, 5000, 10000]
     // ColorBrewer Sequential 6-class YlGnBu
-    // From http://colorbrewer2.org/#type=sequential&scheme=YlOrRd&n=6
-    , colors = ["#ffffcc","#c7e9b4","#7fcdbb","#41b6c4","#2c7fb8","#253494"]
+    // Blues: http://colorbrewer2.org/#type=sequential&scheme=Blues&n=9
+    // Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
+    , colors = [
+            "#fcbba1" // Prohibited
+          , "#f7fbbf","#c6dbef","#6baed6","#2171b5","#08306b" // Thresholds
+          , "#a50f15" // Unlimited
+        ]
   ;
 
   // DOM Elements.
