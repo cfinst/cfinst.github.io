@@ -6,9 +6,9 @@ function Grid(){
     , yColumn = "Year"
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
     , bins = [1000, 2500, 5000, 10000]
-    // ColorBrewer Sequential 6-class YlGnBu
-    // Blues: http://colorbrewer2.org/#type=sequential&scheme=Blues&n=9
-    // Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
+      // ColorBrewer Sequential 6-class YlGnBu
+      // Blues: http://colorbrewer2.org/#type=sequential&scheme=Blues&n=9
+      // Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
     , colors = [
             "#fcbba1" // Prohibited
           , "#f7fbbf","#c6dbef","#6baed6","#2171b5","#08306b" // Thresholds
@@ -110,22 +110,22 @@ function Grid(){
         .classed("unlimited", function (d){
             return d[keyColumn] === "Unlimited";
           })
-          .on("mouseover", function(d) {
-              var value = d[keyColumn] === "Unlimited" ? "No Limit"
-                : d[keyColumn] === "Limited"
-                  ? moneyFormat(d[selectedColumn])
-                  : "Prohibited"
-              ;
-              tip
-                  .html("<span style='text-align: center;'>"
-                      + "<h4>" + d[xColumn] + " " + d[yColumn] + "</h4>"
-                      + "<p>" + selectedColumn + ":</p>"
-                      + "<p>" + value + "</p>"
-                      + "</span>"
-                    )
-                  .show()
-              ;
-            })
+        .on("mouseover", function(d) {
+            var value = d[keyColumn] === "Unlimited" ? "No Limit"
+              : d[keyColumn] === "Limited"
+                ? moneyFormat(d[selectedColumn])
+                : "Prohibited"
+            ;
+            tip
+                .html("<span style='text-align: center;'>"
+                    + "<h4>" + d[xColumn] + " " + d[yColumn] + "</h4>"
+                    + "<p>" + selectedColumn + ":</p>"
+                    + "<p>" + value + "</p>"
+                    + "</span>"
+                  )
+                .show()
+            ;
+          })
         .on("mouseout", tip.hide)
       .transition().duration(500)
         .attr("x", function (d){ return xScale(d[xColumn]); })
