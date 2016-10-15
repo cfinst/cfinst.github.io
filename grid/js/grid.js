@@ -228,6 +228,15 @@ function Grid(){
       }
   } // domainify()
 
+  function score() {
+      scorecard = d3.nest()
+          .key(function(d) { return d[xColumn]; })
+          // .key(function(d) { return d[yColumn]; })
+          // .rollup(function(leaves) { return leaves[0]; })
+          .object(data);
+      ;
+  } // score();
+
   function resort(tick) {
       var sorted = data
           .filter(function(d) { return d[yColumn] === tick; })
@@ -291,6 +300,7 @@ function Grid(){
       ;
       reset = true;
       domainify();
+      score();
       return my;
     } // my.data()
   ;
@@ -317,12 +327,6 @@ function Grid(){
       reset = true;
       return my;
     } // my.reset()
-  ;
-  my.scorecard = function (_){
-      if(!arguments.length) return scorecard;
-      scorecard = _;
-      return my;
-    } // my.scorecard()
   ;
 
   // This is always the last thing returned
