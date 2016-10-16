@@ -12,7 +12,7 @@ function Grid(){
       // Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
     , colors = [
             "#fcbba1" // Prohibited
-          , "#f7fbbf","#c6dbef","#6baed6","#2171b5","#08306b" // Thresholds
+          , "#f7fbff","#c6dbef","#6baed6","#2171b5","#08306b" // Thresholds
           , "#a50f15" // Unlimited
         ]
   ;
