@@ -1,7 +1,8 @@
 function Grid(){
 
   // Configuration parameters.
-  var margin = { left: 50, right: 15, top: 35, bottom: 5 }
+  var margin = { left: 40, right: 40, top: 35, bottom: 5 }
+    , width, height
     , xColumn = "State"
     , yColumn = "Year"
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
@@ -20,6 +21,7 @@ function Grid(){
   var svg
     , xAxisG
     , yAxisG
+    , yAxis2G
     , legendG
   ;
 
@@ -36,6 +38,7 @@ function Grid(){
           .title("Maximum Contribution Limits")
     , axisX = d3.axisTop()
     , axisY = d3.axisLeft()
+    , axisY2 = d3.axisRight()
   ;
   // Internal state variables.
   var selectedColumn, keyColumn
@@ -71,15 +74,15 @@ function Grid(){
   // Internal Helper Functions
   function size_up() {
       // Compute X and Y ranges based on current size.
-      var width = parseInt(svg.style("width"))
-        , height = parseInt(svg.style("height"))
-        , innerWidth = width - margin.right - margin.left
-        , innerHeight = height - margin.bottom - margin.top
+      var w = parseInt(svg.style("width"))
+        , h = parseInt(svg.style("height"))
       ;
+      width = w - margin.right - margin.left;
+      height = h - margin.bottom - margin.top;
 
       // Set the scales
-      xScale.rangeRound([0, innerWidth]);
-      yScale.rangeRound([0, innerHeight]);
+      xScale.rangeRound([0, width]);
+      yScale.rangeRound([0, height]);
 
       // Set the dimensions of the grid cells
       var w = xScale.step()
@@ -192,8 +195,9 @@ function Grid(){
   } // render_legend()
 
   function render_axes() {
+      var t = d3.transition().duration(500);
       xAxisG
-        .transition().duration(500)
+        .transition(t)
           .call(axisX.scale(xScale))
       ;
       xAxisG.selectAll(".tick line")
@@ -203,25 +207,31 @@ function Grid(){
           .attr("dy", "-1em")
       ;
       yAxisG
-        .transition().duration(500)
+        .transition(t)
           .call(axisY.scale(yScale))
       ;
-      yAxisG.selectAll(".tick line")
+      console.log(width);
+      yAxis2G
+          .attr("transform", "translate(" + width + ",0)")
+        .transition(t)
+          .call(axisY2.scale(yScale))
+      ;
+      svg.selectAll(".y.axis .tick line")
           .attr("transform", "translate(0," + (yScale.step() / 2) + ")")
       ;
-      yAxisG.selectAll(".tick text")
+      svg.selectAll(".y.axis .tick text")
           .on("click", function(d) {
               // Sort dataset when y-axis labels are clicked
               resort(d);
               // Highlight the clicked tick
-              yAxisG.selectAll(".tick text")
+              svg.selectAll(".y.axis .tick text")
                   .classed("sortby", function(e) { return d === e; })
               ;
             })
       ;
       if(reset)
           // Set the ticks to normal font-weight
-          yAxisG.selectAll(".tick text")
+          svg.selectAll(".y.axis .tick text")
               .classed("sortby", false)
           ;
   } // render_axes()
@@ -316,8 +326,13 @@ function Grid(){
       ;
       xAxisG = axes.append("g")
           .attr("class", "x axis")
+      ;
       yAxisG = axes.append("g")
           .attr("class", "y axis")
+      ;
+      yAxis2G = axes.append("g")
+          .attr("class", "y axis")
+      ;
       legendG = d3.select("#meta svg").append("g")
           .attr("transform", "translate(20, 20)")
       ;
