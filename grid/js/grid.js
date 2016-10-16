@@ -363,6 +363,7 @@ function Grid(){
   ;
   my.resize = function (){
       size_up();
+      reset = false;
       return my;
     } // my.resize()
   ;
