@@ -6,9 +6,14 @@ function Grid(){
     , yColumn = "Year"
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
     , bins = [1000, 2500, 5000, 10000]
-    // ColorBrewer Sequential 6-class YlGnBu
-    // From http://colorbrewer2.org/#type=sequential&scheme=YlOrRd&n=6
-    , colors = ["#ffffcc","#c7e9b4","#7fcdbb","#41b6c4","#2c7fb8","#253494"]
+      // ColorBrewer Sequential 6-class YlGnBu
+      // Blues: http://colorbrewer2.org/#type=sequential&scheme=Blues&n=9
+      // Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
+    , colors = [
+            "#fcbba1" // Prohibited
+          , "#f7fbbf","#c6dbef","#6baed6","#2171b5","#08306b" // Thresholds
+          , "#a50f15" // Unlimited
+        ]
   ;
 
   // DOM Elements.
@@ -33,7 +38,7 @@ function Grid(){
     , axisY = d3.axisLeft()
   ;
   // Internal state variables.
-  var selectedColumn
+  var selectedColumn, keyColumn
     , data
     , scorecard
     , empty = false
@@ -101,21 +106,22 @@ function Grid(){
         .attr("width", 0)
         .attr("height", 0)
       .merge(rects)
-        .attr("class", function (d){
-            var unltd = !d[selectedColumn];
-            return "grid-rect "
-              + (unltd ? "unlimited" + (empty ? " empty" : "") : "")
-            ;
+        .attr("class", "grid-rect")
+        .classed("unlimited", function (d){
+            return d[keyColumn] === "Unlimited";
           })
         .on("mouseover", function(d) {
+            var value = d[keyColumn] === "Unlimited" ? "No Limit"
+              : d[keyColumn] === "Limited"
+                ? moneyFormat(d[selectedColumn])
+                : "Prohibited"
+            ;
             tip
-                .html(
-                    "<h4>" + d[xColumn] + "</h4>"
-                    + "<h4>" + d[yColumn] + "</h4>"
-                    + (d[selectedColumn]
-                        ? moneyFormat(d[selectedColumn])
-                        : "No Limit"
-                      )
+                .html("<span style='text-align: center;'>"
+                    + "<h4>" + d[xColumn] + " " + d[yColumn] + "</h4>"
+                    + "<p>" + selectedColumn + ":</p>"
+                    + "<p>" + value + "</p>"
+                    + "</span>"
                   )
                 .show()
             ;
@@ -127,7 +133,13 @@ function Grid(){
         .attr("width", w)
         .attr("height", h)
         .style("color", function (d){
-            return colorScale(d[selectedColumn] ? d[selectedColumn] : Infinity);
+            var value = d[keyColumn] === "Limited"
+              ? d[selectedColumn]
+              : d[keyColumn] === "No"
+                ? -Infinity
+                : Infinity
+            ;
+            return colorScale(value);
           })
     ;
   } // render_cells()
@@ -136,7 +148,7 @@ function Grid(){
     // Work out the legend's labels
     var binmax = d3.max(bins)
       , labels = d3.pairs( // Infinity padding
-              [ -Infinity ]
+              [-Infinity]
                 .concat(colorScale.domain())
                 .concat(Infinity)
             )
@@ -144,15 +156,19 @@ function Grid(){
               var money = [d[0], d[1] - (idx > 0 ? 1 : 0)].map(moneyFormat);
 
               // within the bounds of the infinity padding
-              if(d.every(isFinite))
-                  return money[0]
-                      + (d[0] === binmax ? " or Greater" : " - " + money[1])
-                  ;
+              if(d.every(isFinite)) {
+                  if(d[0] === 0)
+                      return "Less than " + moneyFormat(d[1]);
+                  if(d[0] === binmax)
+                      return money[0] + " or Greater";
+
+                  return money[0] + " - " + money[1];
+              }
               // At the extremes (one of the infinity paddings)
-              return !isFinite(d[0])
-                ? "Less than " + money[1]
-                : "No Limit"
-              ;
+              if(d[0] < 0)
+                  return "Prohibited";
+
+              return "No Limit";
             })
     ;
     // Render the legend
@@ -183,6 +199,9 @@ function Grid(){
       xAxisG.selectAll(".tick line")
           .attr("transform", "translate(" + (xScale.step() / 2) + ",0)")
       ;
+      xAxisG.selectAll(".tick text")
+          .attr("dy", "-1em")
+      ;
       yAxisG
         .transition().duration(500)
           .call(axisY.scale(yScale))
@@ -209,50 +228,78 @@ function Grid(){
 
   function domainify() {
       colorScale.domain(
-        bins.concat(d3.max(data, function(d) { return +d[selectedColumn] + 1; }))
+        [0]
+            .concat(bins)
+            .concat(d3.max(data, function(d) { return +d[selectedColumn] + 1; }))
       );
       if(reset) {
           xScale.domain(
             data
                 .map(function (d){ return d[xColumn]; })
-                .sort()
+                .sort(d3.ascending)
           );
           yScale.domain(
             data
                 .map(function (d){ return d[yColumn]; })
-                .sort()
+                .sort(d3.descending)
           );
       }
   } // domainify()
+
+  function score() {
+      scorecard = d3.nest()
+          .key(function(d) { return d[xColumn]; })
+          // .key(function(d) { return d[yColumn]; })
+          // .rollup(function(leaves) { return leaves[0]; })
+          .object(data);
+      ;
+  } // score();
 
   function resort(tick) {
       var sorted = data
           .filter(function(d) { return d[yColumn] === tick; })
           .sort(function(m, n) {
-              var a = m[selectedColumn] || Infinity
-                , b = n[selectedColumn] || Infinity
+              var akey = m[keyColumn]
+                , bkey = n[keyColumn]
+                , aval = m[selectedColumn]
+                , bval = n[selectedColumn]
+                , acol = colorScale(m[selectedColumn])
+                , bcol = colorScale(n[selectedColumn])
               ;
+              if(akey != bkey) {
+                  if(akey === "No") {
+                      if(bkey != "No") return -1;
+                  }
+                  else {
+                      if(bkey === "No") return 1;
+                      return akey === "Limited" ? -1 : 1;
+                  }
+              }
 
-              // If the values differ, perform straightforward sorting.
-              if(a != b) return a - b;
+              if(aval != bval) return aval - bval;
 
-              // First try to break ties based on the count of unlimited values.
-              a = scorecard[m.State].unltd[selectedColumn];
-              b = scorecard[n.State].unltd[selectedColumn];
-              if(a != b) return a - b;
-
-              // If there is also a tie in terms of the count of unlimired values,
-              // then break ties by the sum across all years.
-              a = scorecard[m.State].sum[selectedColumn];
-              b = scorecard[n.State].sum[selectedColumn];
-              if(a != b) return a - b;
+              if(acol === bcol) {
+                  var acols = scorecard[m[xColumn]]
+                          .map(function(d) { return colorScale(d[selectedColumn]); })
+                          .filter(function(d) { return d === acol; })
+                          .length
+                    , bcols = scorecard[n[xColumn]]
+                          .map(function(d) { return colorScale(d[selectedColumn]); })
+                          .filter(function(d) { return d === bcol; })
+                          .length
+                  ;
+                  if(acols != bcols) return acols - bcols;
+              }
 
               // As a last resort tie breaker, use alphabetical ordering.
               return d3.ascending(m.State, n.State);
             })
           .map(function(d) { return d[xColumn]; })
       ;
-      xAxisG.call(d3.axisTop().scale(xScale.domain(sorted)));
+      xAxisG
+        .transition(d3.transition().duration(500))
+          .call(d3.axisTop().scale(xScale.domain(sorted)))
+      ;
       render_cells();
   } // resort()
 
@@ -288,12 +335,14 @@ function Grid(){
       ;
       reset = true;
       domainify();
+      score();
       return my;
     } // my.data()
   ;
   my.selectedColumn = function (_){
       if(!arguments.length) return selectedColumn;
       selectedColumn = _;
+      keyColumn = selectedColumn.split('Limit')[0];
       return my;
     } // my.selectedColumn()
   ;
@@ -313,12 +362,6 @@ function Grid(){
       reset = true;
       return my;
     } // my.reset()
-  ;
-  my.scorecard = function (_){
-      if(!arguments.length) return scorecard;
-      scorecard = _;
-      return my;
-    } // my.scorecard()
   ;
 
   // This is always the last thing returned
