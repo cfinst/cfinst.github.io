@@ -35,7 +35,6 @@ function Grid(){
           .shape("rect")
           .labelOffset(5)
           .labelFormat(moneyFormat)
-          .title("Maximum Contribution Limits")
     , axisX = d3.axisTop()
     , axisY = d3.axisLeft()
     , axisY2 = d3.axisRight()
