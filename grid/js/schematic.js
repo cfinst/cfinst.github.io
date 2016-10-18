@@ -120,7 +120,7 @@ function corpus(error, contribs, contribs2) {
         .text(grid.selectedColumn())
     ;
     // Responsive
-    d3.select(window).on("resize", function() { grid.resize()(); });
+    // d3.select(window).on("resize", function() { grid.resize()(); });
 
     // Signal Handling
     d3.select(".controls .checkbox input")
