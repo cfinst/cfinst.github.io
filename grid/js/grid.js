@@ -2,12 +2,12 @@ function Grid(){
 
   // Configuration parameters.
   var margin = { left: 40, right: 40, top: 35, bottom: 5 }
-    , width, height
+    , side = 16 // length of each square cell
+    , width, height // of the viz
     , xColumn = "State"
     , yColumn = "Year"
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
     , bins = [1000, 2500, 5000, 10000]
-      // ColorBrewer Sequential 6-class YlGnBu
       // Blues: http://colorbrewer2.org/#type=sequential&scheme=Blues&n=9
       // Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
     , colors = [
@@ -23,6 +23,7 @@ function Grid(){
     , yAxisG
     , yAxis2G
     , legendG
+    , buttonG
   ;
 
   // D3 Objects.
@@ -35,7 +36,6 @@ function Grid(){
           .shape("rect")
           .labelOffset(5)
           .labelFormat(moneyFormat)
-          .title("Maximum Contribution Limits")
     , axisX = d3.axisTop()
     , axisY = d3.axisLeft()
     , axisY2 = d3.axisRight()
@@ -62,6 +62,7 @@ function Grid(){
       render_cells();
       render_axes();
       render_legend();
+      render_button();
 
       // Initialize the tooltip
       svg.call(tip);
@@ -73,26 +74,21 @@ function Grid(){
 
   // Internal Helper Functions
   function size_up() {
-      // Compute X and Y ranges based on current size.
-      var w = parseInt(svg.style("width"))
-        , h = parseInt(svg.style("height"))
-      ;
-      width = w - margin.right - margin.left;
-      height = h - margin.bottom - margin.top;
+      width = xScale.domain().length * side;
+      height = yScale.domain().length * side;
 
-      // Set the scales
       xScale.rangeRound([0, width]);
       yScale.rangeRound([0, height]);
 
-      // Set the dimensions of the grid cells
-      var w = xScale.step()
-        , h = yScale.step()
-      ;
-      if(w < h)
-          yScale.rangeRound([0, w * yScale.domain().length]);
-      else
-          xScale.rangeRound([0, h * xScale.domain().length]);
+      svg.attr(
+          "viewBox"
+        , "0 0 "
+            + (width + margin.left + margin.right)
+            + " "
+            + (height + margin.top + margin.bottom)
+      );
   } // size_up()
+
 
   function render_cells() {
     // Visualize the selectedColumn.
@@ -210,7 +206,6 @@ function Grid(){
         .transition(t)
           .call(axisY.scale(yScale))
       ;
-      console.log(width);
       yAxis2G
           .attr("transform", "translate(" + width + ",0)")
         .transition(t)
@@ -235,6 +230,26 @@ function Grid(){
               .classed("sortby", false)
           ;
   } // render_axes()
+
+
+  function render_button() {
+      buttonG
+          .attr("transform", "translate(" + width + ",0)")
+        .selectAll("foreignObject")
+          .data([1])
+        .enter().append("foreignObject")
+          .attr("width", side)
+          .attr("height", side)
+          .each(function(d) {
+              d3.select(this)
+                .append("button")
+                .append("i")
+                  .attr("class", "fa fa-sort-alpha-asc")
+                  .text("Blah")
+              ;
+            })
+      ;
+  } // render_button()
 
   function domainify() {
       colorScale.domain(
@@ -316,7 +331,9 @@ function Grid(){
   // API - Getter/Setter Methods
   my.svg = function(_) {
       if(!arguments.length) return svg;
-      svg = _;
+      svg = _
+            .attr("preserveAspectRatio", "xMinYMin meet")
+      ;
       var g = svg.append("g")
               .attr("transform", "translate(" + [margin.left, margin.top] + ")")
         , viz = g.append("g")
@@ -335,6 +352,9 @@ function Grid(){
       ;
       legendG = d3.select("#meta svg").append("g")
           .attr("transform", "translate(20, 20)")
+      ;
+      buttonG = g.append("g")
+          .attr("class", "reset-sort")
       ;
       return my;
     } // my.svg()

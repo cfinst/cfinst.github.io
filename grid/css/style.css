@@ -1,5 +1,5 @@
-#main, .legend {
-    height: 30vh;
+svg {
+    display: block;
 }
 .grid-rect {
     transition:
