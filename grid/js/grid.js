@@ -73,26 +73,15 @@ function Grid(){
 
   // Internal Helper Functions
   function size_up() {
-      // Compute X and Y ranges based on current size.
-      var w = parseInt(svg.style("width"))
-        , h = parseInt(svg.style("height"))
-      ;
-      width = w - margin.right - margin.left;
-      height = h - margin.bottom - margin.top;
+      width = xScale.domain().length * side;
+      height = yScale.domain().length * side;
 
-      // Set the scales
       xScale.rangeRound([0, width]);
       yScale.rangeRound([0, height]);
 
-      // Set the dimensions of the grid cells
-      var w = xScale.step()
-        , h = yScale.step()
-      ;
-      if(w < h)
-          yScale.rangeRound([0, w * yScale.domain().length]);
-      else
-          xScale.rangeRound([0, h * xScale.domain().length]);
+      svg.attr("viewBox", "0 0 " + (width + margin.left + margin.right) + " " + (height + margin.top + margin.bottom))
   } // size_up()
+
 
   function render_cells() {
     // Visualize the selectedColumn.
@@ -210,7 +199,6 @@ function Grid(){
         .transition(t)
           .call(axisY.scale(yScale))
       ;
-      console.log(width);
       yAxis2G
           .attr("transform", "translate(" + width + ",0)")
         .transition(t)
@@ -316,7 +304,9 @@ function Grid(){
   // API - Getter/Setter Methods
   my.svg = function(_) {
       if(!arguments.length) return svg;
-      svg = _;
+      svg = _
+            .attr("preserveAspectRatio", "xMinYMin meet")
+      ;
       var g = svg.append("g")
               .attr("transform", "translate(" + [margin.left, margin.top] + ")")
         , viz = g.append("g")
