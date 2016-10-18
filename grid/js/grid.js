@@ -8,7 +8,6 @@ function Grid(){
     , yColumn = "Year"
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
     , bins = [1000, 2500, 5000, 10000]
-      // ColorBrewer Sequential 6-class YlGnBu
       // Blues: http://colorbrewer2.org/#type=sequential&scheme=Blues&n=9
       // Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
     , colors = [
