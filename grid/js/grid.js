@@ -2,7 +2,7 @@ function Grid(){
 
   // Configuration parameters.
   var margin = { left: 40, right: 40, top: 35, bottom: 5 }
-    , side = 15 // length of each square cell
+    , side = 16 // length of each square cell
     , width, height // of the viz
     , xColumn = "State"
     , yColumn = "Year"
