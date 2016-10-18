@@ -12,7 +12,7 @@ function Grid(){
       // Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
     , colors = [
             "#fcbba1" // Prohibited
-          , "#f7fbbf","#c6dbef","#6baed6","#2171b5","#08306b" // Thresholds
+          , "#f7fbff","#c6dbef","#6baed6","#2171b5","#08306b" // Thresholds
           , "#a50f15" // Unlimited
         ]
   ;
@@ -23,6 +23,7 @@ function Grid(){
     , yAxisG
     , yAxis2G
     , legendG
+    , buttonG
   ;
 
   // D3 Objects.
@@ -61,6 +62,7 @@ function Grid(){
       render_cells();
       render_axes();
       render_legend();
+      render_button();
 
       // Initialize the tooltip
       svg.call(tip);
@@ -78,7 +80,13 @@ function Grid(){
       xScale.rangeRound([0, width]);
       yScale.rangeRound([0, height]);
 
-      svg.attr("viewBox", "0 0 " + (width + margin.left + margin.right) + " " + (height + margin.top + margin.bottom))
+      svg.attr(
+          "viewBox"
+        , "0 0 "
+            + (width + margin.left + margin.right)
+            + " "
+            + (height + margin.top + margin.bottom)
+      );
   } // size_up()
 
 
@@ -223,6 +231,26 @@ function Grid(){
           ;
   } // render_axes()
 
+
+  function render_button() {
+      buttonG
+          .attr("transform", "translate(" + width + ",0)")
+        .selectAll("foreignObject")
+          .data([1])
+        .enter().append("foreignObject")
+          .attr("width", side)
+          .attr("height", side)
+          .each(function(d) {
+              d3.select(this)
+                .append("button")
+                .append("i")
+                  .attr("class", "fa fa-sort-alpha-asc")
+                  .text("Blah")
+              ;
+            })
+      ;
+  } // render_button()
+
   function domainify() {
       colorScale.domain(
         [0]
@@ -324,6 +352,9 @@ function Grid(){
       ;
       legendG = d3.select("#meta svg").append("g")
           .attr("transform", "translate(20, 20)")
+      ;
+      buttonG = g.append("g")
+          .attr("class", "reset-sort")
       ;
       return my;
     } // my.svg()
