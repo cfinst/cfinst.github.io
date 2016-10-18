@@ -1,7 +1,4 @@
-#main, .legend {
-    height: 30vh;
-}
-#main svg {
+svg {
     display: block;
 }
 .grid-rect {
