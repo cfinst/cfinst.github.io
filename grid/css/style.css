@@ -1,6 +1,9 @@
 #main, .legend {
     height: 30vh;
 }
+#main svg {
+    display: block;
+}
 .grid-rect {
     transition:
       fill-opacity .5s linear,
