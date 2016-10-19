@@ -1,151 +1,383 @@
 function Grid(){
 
   // Configuration parameters.
-  var margin = { left: 50, right: 15, top: 35, bottom: 750 }
-    , radius = 10
-    , axisPadding = 0.6
+  var margin = { left: 40, right: 40, top: 35, bottom: 5 }
+    , side = 16 // length of each square cell
+    , width, height // of the viz
     , xColumn = "State"
     , yColumn = "Year"
-    , columns = [
-        "IndividualToCandLimit_H_Max",
-        "IndividualToCandLimit_S_Max",
-        "IndividualToCandLimit_G_Max",
-        "PACToCandLimit_H_Max",
-        "PACToCandLimit_S_Max",
-        "PACToCandLimit_G_Max",
-        "CorpToCandLimit_H_Max",
-        "CorpToCandLimit_S_Max",
-        "CorpToCandLimit_G_Max",
-        "LaborToCandLimit_H_Max",
-        "LaborToCandLimit_S_Max",
-        "LaborToCandLimit_G_Max"
-      ]
-    , legendSpacing = 20
-    , legendPadding = 5
-    , moneyFormat = d3.format("($,")
-    , tip = d3.tip().attr("class", "d3-tip")
+    , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
+    , colors = {
+        prohibited: "#cf0100" // Prohibited - Traffic light red
+        , limited: "#3182bd" // Limited circle color
+        , limitedBackground: "#c6dbef" // Limited background rect color
+        , unlimited: "#08c900" // Unlimited - Traffic light green
+      }
+    , transitionDuration = 500
+    , nonLimitedSize = 0.5 // The fraction of the cell size for "traffic lights"
   ;
 
   // DOM Elements.
-  var svg = d3.select("svg").call(tip)
-    , g = svg.append("g")
-    , xAxisG = g.append("g")
-        .attr("class", "y axis")
-    , yAxisG = g.append("g")
-        .attr("class", "x axis")
-    , legendG = svg.append("g")
-        .attr("transform", "translate(20,270)")
+  var svg
+    , xAxisG
+    , yAxisG
+    , yAxis2G
+    , legendG
+    , buttonG
   ;
 
   // D3 Objects.
-  var xScale = d3.scalePoint().padding(axisPadding)
-    , yScale = d3.scalePoint().padding(axisPadding)
-    , rScale = d3.scaleSqrt()
-      .range([0, radius])
+  var xScale = d3.scaleBand().padding(0).align(0)
+    , yScale = d3.scaleBand().padding(0).align(0)
+    , radiusScale = d3.scaleSqrt()
+    , tip = d3.tip().attr("class", "d3-tip")
+    , axisX = d3.axisTop()
+    , axisY = d3.axisLeft()
+    , axisY2 = d3.axisRight()
   ;
-
   // Internal state variables.
-  var selectedColumn
+  var selectedColumn, keyColumn
     , data
+    , scorecard
+    , empty = false
+    , reset = true
   ;
 
-  function my(){
+  // Main Function Object
+  function my() {
+      if(!data) return;
 
-    if(data){
+      // Adjust to the size of the HTML container
+      size_up();
 
-      // Compute X and Y ranges based on current size.
-      var width = svg.attr("width")
-        , height = svg.attr("height")
-        , innerWidth = width - margin.right - margin.left
-        , innerHeight = height - margin.bottom - margin.top
-        , filteredData = data.filter(function (d){
-            return d[selectedColumn] ? true : false;
-          })
-      ;
-      xScale.range([0, innerWidth]);
-      yScale.range([innerHeight, 0]);
-      rScale.domain([0, d3.max(filteredData, function (d){ return +d[selectedColumn]; })]);
+      // Set up the domains
+      domainify();
 
-      // Transform the g container element.
-      g.attr("transform", "translate(" + [margin.left, margin.top] + ")");
+      // Render DOM elements
+      render_cells();
+      render_axes();
+      render_button();
 
-      // Visualize the selectedColumn.
-      var circles = g.selectAll("circle").data(
-        filteredData,
-        function (d){ return d.Identifier; }
+      // Initialize the tooltip
+      svg.call(tip);
+
+      // Further changes will cause a reset
+      reset = true;
+  } // Main Function Object
+
+
+  // Internal Helper Functions
+  function size_up() {
+      width = xScale.domain().length * side;
+      height = yScale.domain().length * side;
+
+      xScale.rangeRound([0, width]);
+      yScale.rangeRound([0, height]);
+
+      svg.attr(
+          "viewBox"
+        , "0 0 "
+            + (width + margin.left + margin.right)
+            + " "
+            + (height + margin.top + margin.bottom)
       );
-      circles
-        .enter()
-          .append("circle")
-          .attr("r", 0)
-        .merge(circles)
-          .attr("cx", function (d){ return xScale(d[xColumn]); })
-          .attr("cy", function (d){ return yScale(d[yColumn]); })
-          .on("mouseover", function(d) {
-              tip
-                  .html(
-                      "<h4>" + d[xColumn] + "</h4>"
-                      + "<h4>" + d[yColumn] + "</h4>"
-                      + moneyFormat(d[selectedColumn])
-                    )
-                  .show()
+  } // size_up()
+
+
+  function render_cells() {
+    var cell = svg.select(".viz").selectAll(".grid-cell")
+          .data(data, function (d){ return d.Identifier; })
+      , w = xScale.step()
+      , h = yScale.step()
+      , maxRadius = Math.min(w, h) / 2
+      , nonLimitedRadius = maxRadius * nonLimitedSize // The size of the red/green "traffic lights"
+    ;
+
+    // Subtract 1 here so circle edges don't get cut off by the grid lines.
+    radiusScale.range([0, maxRadius - 1]);
+    
+    // Each cell will have a rectangle and a circle inside it.
+    var cellEnter = cell
+      .enter()
+        .append("g")
+        .attr("class", "grid-cell")
+        .attr("transform", function (d){
+            return "translate(" + [
+                xScale(d[xColumn]),
+                yScale(d[yColumn])
+            ] + ")";
+        })
+    ;
+    cellEnter.append("rect")
+        .attr("width", 0)
+        .attr("height", 0)
+        .attr("class", "grid-rect")
+    ;
+    cellEnter.append("circle")
+        .attr("cx", maxRadius) // Center the circle within the cell.
+        .attr("cy", maxRadius)
+        .attr("r", 0)
+        .attr("class", "grid-circle")
+    ;
+
+    cell = cellEnter.merge(cell);
+
+    cell.transition().duration(transitionDuration)
+        .attr("transform", function (d){
+            return "translate(" + [
+                xScale(d[xColumn]),
+                yScale(d[yColumn])
+            ] + ")";
+        })
+    ;
+
+    cell.select(".grid-rect")
+        .classed("unlimited", function (d){
+            return d[keyColumn] === "Unlimited";
+          })
+        .on("mouseover", function(d) {
+            var value = d[keyColumn] === "Unlimited" ? "No Limit"
+              : d[keyColumn] === "Limited"
+                ? moneyFormat(d[selectedColumn])
+                : "Prohibited"
+            ;
+            tip
+                .html("<span style='text-align: center;'>"
+                    + "<h4>" + d[xColumn] + " " + d[yColumn] + "</h4>"
+                    + "<p>" + selectedColumn + ":</p>"
+                    + "<p>" + value + "</p>"
+                    + "</span>"
+                  )
+                .show()
+            ;
+          })
+        .on("mouseout", tip.hide)
+      .transition().duration(transitionDuration)
+        .attr("width", w)
+        .attr("height", h)
+        .style("color", function (d){
+            return d[keyColumn] === "Limited"
+              ? colors.limitedBackground
+              : "white"
+            ;
+          })
+    ;
+
+    cell.select(".grid-circle")
+      .transition().duration(transitionDuration)
+        .attr("r", function (d){
+            return d[keyColumn] === "Limited"
+              ? radiusScale(d[selectedColumn])
+              : nonLimitedRadius
+            ;
+        })
+        .style("color", function (d){
+            var value = d[keyColumn] === "Limited"
+              ? "limited"
+              : d[keyColumn] === "No"
+                ? "prohibited"
+                : "unlimited"
+            ;
+            return colors[value];
+          })
+    ;
+  } // render_cells()
+
+
+  function render_axes() {
+      var t = d3.transition().duration(500);
+      xAxisG
+        .transition(t)
+          .call(axisX.scale(xScale))
+      ;
+      xAxisG.selectAll(".tick line")
+          .attr("transform", "translate(" + (xScale.step() / 2) + ",0)")
+      ;
+      xAxisG.selectAll(".tick text")
+          .attr("dy", "-1em")
+      ;
+      yAxisG
+        .transition(t)
+          .call(axisY.scale(yScale))
+      ;
+      yAxis2G
+          .attr("transform", "translate(" + width + ",0)")
+        .transition(t)
+          .call(axisY2.scale(yScale))
+      ;
+      svg.selectAll(".y.axis .tick line")
+          .attr("transform", "translate(0," + (yScale.step() / 2) + ")")
+      ;
+      svg.selectAll(".y.axis .tick text")
+          .on("click", function(d) {
+              // Sort dataset when y-axis labels are clicked
+              resort(d);
+              // Highlight the clicked tick
+              svg.selectAll(".y.axis .tick text")
+                  .classed("sortby", function(e) { return d === e; })
               ;
             })
-          .on("mouseout", tip.hide)
-        .transition().duration(500)
-          .attr("r", function (d){ return rScale(d[selectedColumn]); })
-          .attr("fill", "rgba(0,0,0,0.2)")
-          .attr("stroke", "black")
       ;
-      circles.exit()
-        .transition().duration(500)
-          .attr("r", 0)
-        .remove();
-
-      // Render the axes.
-      xAxisG.call(d3.axisLeft().scale(yScale));
-      yAxisG.call(d3.axisTop().scale(xScale).ticks(30));
+      if(reset)
+          // Set the ticks to normal font-weight
+          svg.selectAll(".y.axis .tick text")
+              .classed("sortby", false)
+          ;
+  } // render_axes()
 
 
-    }
-  }
+  function render_button() {
+      buttonG
+          .attr("transform", "translate(" + width + ",0)")
+        .selectAll("foreignObject")
+          .data([1])
+        .enter().append("foreignObject")
+          .attr("width", side)
+          .attr("height", side)
+          .each(function(d) {
+              d3.select(this)
+                .append("button")
+                .append("i")
+                  .attr("class", "fa fa-sort-alpha-asc")
+                  .text("Blah")
+              ;
+            })
+      ;
+  } // render_button()
 
-  my.data = function (_){
-    if(_){
+  function domainify() {
+      if(reset) {
+          xScale.domain(
+            data
+                .map(function (d){ return d[xColumn]; })
+                .sort(d3.ascending)
+          );
+          yScale.domain(
+            data
+                .map(function (d){ return d[yColumn]; })
+                .sort(d3.descending)
+          );
+          radiusScale.domain([
+            0,
+            d3.max(data, function(d) { return +d[selectedColumn]; })
+          ]);
+      }
+  } // domainify()
 
-      data = _;
+  function score() {
+      scorecard = d3.nest()
+          .key(function(d) { return d[xColumn]; })
+          // .key(function(d) { return d[yColumn]; })
+          // .rollup(function(leaves) { return leaves[0]; })
+          .object(data);
+      ;
+  } // score();
 
-      // Compute X and Y domains.
-      xScale.domain(
-        data
-          .map(function (d){ return d[xColumn]; })
-          .sort()
-      );
-      yScale.domain(
-        data
-          .map(function (d){ return parseInt(d[yColumn]); })
-          .sort()
-      );
+  function resort(tick) {
+      var sorted = data
+          .filter(function(d) { return d[yColumn] === tick; })
+          .sort(function(m, n) {
+              var akey = m[keyColumn]
+                , bkey = n[keyColumn]
+                , aval = m[selectedColumn]
+                , bval = n[selectedColumn]
+              ;
+              if(akey != bkey) {
+                  if(akey === "No") {
+                      if(bkey != "No") return -1;
+                  }
+                  else {
+                      if(bkey === "No") return 1;
+                      return akey === "Limited" ? -1 : 1;
+                  }
+              }
 
+              if(aval != bval) return aval - bval;
+
+              // As a last resort tie breaker, use alphabetical ordering.
+              return d3.ascending(m.State, n.State);
+            })
+          .map(function(d) { return d[xColumn]; })
+      ;
+      xAxisG
+        .transition(d3.transition().duration(500))
+          .call(d3.axisTop().scale(xScale.domain(sorted)))
+      ;
+      render_cells();
+  } // resort()
+
+  // API - Getter/Setter Methods
+  my.svg = function(_) {
+      if(!arguments.length) return svg;
+      svg = _
+            .attr("preserveAspectRatio", "xMinYMin meet")
+      ;
+      var g = svg.append("g")
+              .attr("transform", "translate(" + [margin.left, margin.top] + ")")
+        , viz = g.append("g")
+              .attr("class", "viz")
+        , axes = g.append("g")
+              .attr("class", "axes")
+      ;
+      xAxisG = axes.append("g")
+          .attr("class", "x axis")
+      ;
+      yAxisG = axes.append("g")
+          .attr("class", "y axis")
+      ;
+      yAxis2G = axes.append("g")
+          .attr("class", "y axis")
+      ;
+      legendG = d3.select("#meta svg").append("g")
+          .attr("transform", "translate(20, 20)")
+      ;
+      buttonG = g.append("g")
+          .attr("class", "reset-sort")
+      ;
       return my;
-
-    } else {
-      return data;
-    }
-  };
-
+    } // my.svg()
+  ;
+  my.data = function (_){
+      if(!arguments.length) return data;
+      data = _
+          .sort(function(a, b) {
+              return d3.ascending(a.Year, b.Year);
+            })
+          // UPDATE THIS WHEN THE YEAR IS COMPLETE
+          .filter(function(d) { return d.Year != 2016; })
+      ;
+      reset = true;
+      domainify();
+      score();
+      return my;
+    } // my.data()
+  ;
   my.selectedColumn = function (_){
-    if(!arguments.length) return selectedColumn;
+      if(!arguments.length) return selectedColumn;
+      selectedColumn = _;
+      keyColumn = selectedColumn.split('Limit')[0];
+      return my;
+    } // my.selectedColumn()
+  ;
+  my.resize = function (){
+      size_up();
+      reset = false;
+      return my;
+    } // my.resize()
+  ;
+  my.empty = function (_){
+      if(!arguments.length) return empty;
+      empty = _;
+      reset = false;
+      return my;
+    } // my.empty()
+  ;
+  my.reset = function (){ // setter only
+      reset = true;
+      return my;
+    } // my.reset()
+  ;
 
-    selectedColumn = _;
-    return my;
-  };
-
-  // Computes the list of available columns,
-  // excluding the xColumn and yColumn.
-  my.columns = function (){
-    return columns;
-  };
-
+  // This is always the last thing returned
   return my;
 } // Grid()
