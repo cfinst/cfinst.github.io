@@ -1,0 +1,31 @@
+svg {
+    display: block;
+}
+.grid-rect {
+    transition:
+      fill-opacity .5s linear,
+      fill .5s linear,
+      stroke-width .5s linear;
+    fill: currentColor;
+    stroke: #efefef;
+    stroke-width: 0.25;
+    fill-opacity: 1;
+}
+.grid-rect.empty {
+    fill-opacity: 0;
+}
+.x.axis .tick text {
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+}
+.y.axis .tick text {
+    cursor: pointer;
+}
+.sortby {
+    font-weight: bold;
+}
+
+.grid-circle {
+    pointer-events: none; /* Let tooltips trigger on the rects beneath the circles. */
+    fill: #3182bd; /* The color of circles for limited values. */
+}

@@ -3,80 +3,58 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Proof of Concept data inventory grid for Campaign Finance Institute">
+  <meta name="description"
+        content="Proof of Concept data inventory grid for Campaign Finance Institute">
   <meta name="author" content="Seemant Kulleen">
   <meta name="author" content="Curran Kelleher">
 
-  <title>CFI PoC: Data Inventory Grid</title>
+  <title>Contribution Limits</title>
 
   <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/font-awesome.min.css">
   <link rel="stylesheet" href="../css/tips.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <link rel="stylesheet" href="../css/cfi-theme.css">
 </head>
 <body>
-  <div class="page-header text-center">
-    <h1>CFI Proof of Concept</h1>
-    <h2>Data Inventory Grid using Size</h2 >
-    <select id="chooser-field">
-      <optgroup label="Select a field"></optgroup>
-    </select>
-  </div>
 
-  <svg width="1000" height="1000"></svg>
+  <div class="cfi-theme-content">
+    <img src="../img/CFI-logo-white.svg" class="cfi-theme-logo">
+    <header class="page-header text-center">
+      <h1>Maximum Contribution Limits</h1>
+      <form class="form-inline text-center"></form>
+    </header>
+
+    <article>
+      <p class="lead text-center">
+        Please click on a year to sort the states by max contribution limits
+      </p>
+      <!-- <p id="query-string" class="text-center"></p> -->
+      <div class="container-fluid">
+        <div class="row">
+          <div id="main" class="col-md-9">
+            <svg></svg>
+          </div><!--/#main-->
+          <div id="meta" class="col-md-3">
+            <div class="controls">
+              <div class="checkbox">
+             </div><!--.checkbox-->
+             <button><i class="fa fa-sort-alpha-asc"></i> Sort States Alphabetically</button>
+            </div><!--.controls-->
+            <div class="legend">
+              <svg></svg>
+            </div><!--.legend-->
+          </div><!--/#meta-->
+        </div><!--.row-->
+      </div><!--.container-fluid-->
+    </article>
+  </div><!--.cfi-theme-content-->
 
   <script src="../js/d3.min.js"></script>
   <script src="../js/d3-tip.js"></script>
-  <script src="./js/grid.js"></script>
-  <script>
-    function identity(d) { return d; }
-
-    function main(){
-
-      var grid = Grid();
-
-      // Load the data and kick-off the visualization.
-      d3.queue()
-        .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_1.csv")
-        .await(function (error, data){
-            grid
-                .data(data)
-                .selectedColumn(grid.columns()[0])
-              () // Call grid()
-            ;
-            d3.select("#chooser-field")
-                .on("change", function() {
-                    var column = this.value;
-                    grid
-                        .selectedColumn(column)
-                      () // call grid()
-                    ;
-                    clearInterval(autoTourInterval);
-                  })
-              .selectAll("option")
-                .data(grid.columns(), identity)
-              .enter().append("option")
-                .attr("value", identity)
-                .text(identity)
-            ;
-            // Auto-tour
-            var i = 1;
-            var autoTourInterval = setInterval(
-                      function (){
-                        var column = grid.columns()[i];
-                        i = (i + 1) % grid.columns().length;
-
-                        grid
-                            .selectedColumn(column)
-                          () // call grid()
-                        ;
-                        d3.select("#chooser-field").node().value = column;
-                      }
-                    , 2000
-                  )
-          ;
-      });
-    }
-    main();
-  </script>
-
+  <script src="../js/d3-legend.min.js"></script>
+  <script src="js/grid.js"></script>
+  <script src="js/schematic.js"></script>
 </body>
 </html>
