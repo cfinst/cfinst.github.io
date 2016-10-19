@@ -80,6 +80,9 @@ function Grid(){
       xScale.rangeRound([0, width]);
       yScale.rangeRound([0, height]);
 
+      axisX.tickSize(-height,0,0);
+      axisY.tickSize(-width,0,0);
+
       svg.attr(
           "viewBox"
         , "0 0 "
@@ -323,7 +326,7 @@ function Grid(){
       ;
       xAxisG
         .transition(d3.transition().duration(500))
-          .call(d3.axisTop().scale(xScale.domain(sorted)))
+          .call(axisX.scale(xScale.domain(sorted)))
       ;
       render_cells();
   } // resort()
@@ -370,6 +373,7 @@ function Grid(){
       ;
       reset = true;
       domainify();
+      size_up();
       score();
       return my;
     } // my.data()
