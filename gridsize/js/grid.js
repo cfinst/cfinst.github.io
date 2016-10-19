@@ -8,11 +8,13 @@ function Grid(){
     , yColumn = "Year"
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
     , colors = {
-        prohibited: "#f99" // Prohibited - Traffic light red
-        , limited: "#9ecae1" // Limited (background rect color)
-        , unlimited: "#119205" // Unlimited - Traffic light green
+        prohibited: "#cf0100" // Prohibited - Traffic light red
+        , limited: "#3182bd" // Limited circle color
+        , limitedBackground: "#c6dbef" // Limited background rect color
+        , unlimited: "#08c900" // Unlimited - Traffic light green
       }
     , transitionDuration = 500
+    , nonLimitedSize = 0.5 // The fraction of the cell size for "traffic lights"
   ;
 
   // DOM Elements.
@@ -88,10 +90,13 @@ function Grid(){
       , w = xScale.step()
       , h = yScale.step()
       , maxRadius = Math.min(w, h) / 2
+      , nonLimitedRadius = maxRadius * nonLimitedSize // The size of the red/green "traffic lights"
     ;
 
-    radiusScale.range([0, maxRadius]);
+    // Subtract 1 here so circle edges don't get cut off by the grid lines.
+    radiusScale.range([0, maxRadius - 1]);
     
+    // Each cell will have a rectangle and a circle inside it.
     var cellEnter = cell
       .enter()
         .append("g")
@@ -103,15 +108,13 @@ function Grid(){
             ] + ")";
         })
     ;
-
     cellEnter.append("rect")
         .attr("width", 0)
         .attr("height", 0)
         .attr("class", "grid-rect")
     ;
-
     cellEnter.append("circle")
-        .attr("cx", maxRadius)
+        .attr("cx", maxRadius) // Center the circle within the cell.
         .attr("cy", maxRadius)
         .attr("r", 0)
         .attr("class", "grid-circle")
@@ -153,13 +156,10 @@ function Grid(){
         .attr("width", w)
         .attr("height", h)
         .style("color", function (d){
-            var value = d[keyColumn] === "Limited"
-              ? "limited"
-              : d[keyColumn] === "No"
-                ? "prohibited"
-                : "unlimited"
+            return d[keyColumn] === "Limited"
+              ? colors.limitedBackground
+              : "white"
             ;
-            return colors[value];
           })
     ;
 
@@ -168,9 +168,18 @@ function Grid(){
         .attr("r", function (d){
             return d[keyColumn] === "Limited"
               ? radiusScale(d[selectedColumn])
-              : 0
+              : nonLimitedRadius
             ;
         })
+        .style("color", function (d){
+            var value = d[keyColumn] === "Limited"
+              ? "limited"
+              : d[keyColumn] === "No"
+                ? "prohibited"
+                : "unlimited"
+            ;
+            return colors[value];
+          })
     ;
   } // render_cells()
 

@@ -27,5 +27,7 @@ svg {
 
 .grid-circle {
     pointer-events: none; /* Let tooltips trigger on the rects beneath the circles. */
-    fill: #3182bd; /* The color of circles for limited values. */
+    fill: currentColor;
+    stroke: currentColor;
+    fill-opacity: 0.6;
 }
