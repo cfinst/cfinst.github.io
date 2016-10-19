@@ -4,11 +4,9 @@ svg {
 .grid-rect {
     transition:
       fill-opacity .5s linear,
-      fill .5s linear,
-      stroke-width .5s linear;
+      fill .5s linear;
     fill: currentColor;
-    stroke: #efefef;
-    stroke-width: 0.25;
+    stroke: none;
     fill-opacity: 1;
 }
 .grid-rect.empty {
