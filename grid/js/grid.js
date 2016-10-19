@@ -11,9 +11,9 @@ function Grid(){
       // Blues: http://colorbrewer2.org/#type=sequential&scheme=Blues&n=9
       // Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
     , colors = [
-            "#f99" // Prohibited - Traffic light red
+            "#fcc" // Prohibited - Light red
           , "#c6dbef","#9ecae1","#6baed6","#3182bd","#08519c" // Thresholds
-          , "#119205" // Unlimited - Traffic light green
+          , "#800000" // Unlimited - Dark red from CFI site
         ]
   ;
 
