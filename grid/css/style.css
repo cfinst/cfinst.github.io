@@ -24,3 +24,7 @@ svg {
 .sortby {
     font-weight: bold;
 }
+.state > path {
+    stroke: black;
+    fill: #ccc;
+}
