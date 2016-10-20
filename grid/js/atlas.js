@@ -24,6 +24,7 @@ function Atlas() {
         .append("path")
           .attr("d", function(d) { return path(d.feature); })
       ;
+      reset();
     } // Main Function Object
 
     function geogrify(usa) {
@@ -38,29 +39,27 @@ function Atlas() {
       ;
     } // geogrify()
 
+    function reset() {
+        svg.selectAll(".state path")
+            .style("fill", "#ccc")
+            .style("stroke", "white")
+        ;
+    } // reset()
+
     /*
      * API Functions
      */
-    my.update = function(data, field) {
-        svg.selectAll(data.keys().map(function(k) { return "." + k; }))
+    my.update = function(data) {
+        if(!data || !data.length) return;
+        data = d3.nest().key(function(d) { return d.state; }).map(data);
+        svg.selectAll(".state")
             .each(function(s) {
                 var blah = data.get(s.feature.properties.usps);
                 d3.select(this).select("path")
                     .style("fill", function() {
-                        return blah[field]
-                          ? colors(blah[field])
-                          : "#ccc"
-                        ;
+                        return (blah && blah.length) ? blah[0].color : "#ccc";
                       })
-                ;
-                d3.select(this)
-                    .on("mouseover", function() {
-                        tip
-                            .html(blah[field])
-                            .show()
-                        ;
-                      })
-                    .on("mouseout", tip.hide)
+                    .style("stroke", "white")
                 ;
               })
 
@@ -73,7 +72,11 @@ function Atlas() {
         return my;
       } // my.tooltip()
     ;
-
+    my.reset = function (){
+       reset();
+       return my;
+     } // reset()
+    ;
     // This is always the last thing returned
     return my;
 } // Atlas()
