@@ -25,6 +25,8 @@ svg {
     font-weight: bold;
 }
 .state > path {
-    stroke: black;
-    fill: #ccc;
+    transition:
+      fill-opacity .5s linear,
+      fill .5s linear,
+      stroke .5s linear;
 }
