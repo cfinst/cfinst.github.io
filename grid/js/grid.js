@@ -43,6 +43,7 @@ function Grid(){
   // Internal state variables.
   var selectedColumn, keyColumn
     , data
+    , sortYear
     , scorecard
     , empty = false
     , reset = true
@@ -54,6 +55,8 @@ function Grid(){
 
       // Adjust to the size of the HTML container
       size_up();
+
+      if(sortYear) resort();
 
       // Set up the domains
       domainify();
@@ -217,7 +220,8 @@ function Grid(){
       svg.selectAll(".y.axis .tick text")
           .on("click", function(d) {
               // Sort dataset when y-axis labels are clicked
-              resort(d);
+              sortYear = d;
+              resort();
               // Highlight the clicked tick
               svg.selectAll(".y.axis .tick text")
                   .classed("sortby", function(e) { return d === e; })
@@ -280,9 +284,9 @@ function Grid(){
       ;
   } // score();
 
-  function resort(tick) {
+  function resort() {
       var sorted = data
-          .filter(function(d) { return d[yColumn] === tick; })
+          .filter(function(d) { return d[yColumn] === sortYear; })
           .sort(function(m, n) {
               var akey = m[keyColumn]
                 , bkey = n[keyColumn]
@@ -384,6 +388,7 @@ function Grid(){
       if(!arguments.length) return selectedColumn;
       selectedColumn = _;
       keyColumn = selectedColumn.split('Limit')[0];
+      reset = false;
       return my;
     } // my.selectedColumn()
   ;
@@ -402,6 +407,7 @@ function Grid(){
   ;
   my.reset = function (){ // setter only
       reset = true;
+      sortYear = null;
       return my;
     } // my.reset()
   ;
