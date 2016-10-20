@@ -21,13 +21,21 @@ var requested_columns = [
   , data_files = ["Laws_02_Contributions_1", "Laws_02_Contributions_2"]
   , query = { donor: false, recipient: false, branch: false }
 ;
-var grid = Grid();
+var grid = Grid()
+  , atlas = Atlas()
+  , tip = d3.tip().attr('class', 'd3-tip')
+;
 
 // Load the data and kick-off the visualization.
 d3.queue()
-    .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_1.csv")
-    .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_2.csv")
+  .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_1.csv")
+  .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_2.csv")
     .await(corpus)
+;
+// Load the map data.
+d3.queue()
+  .defer(d3.json, "../data/usa.json")
+    .await(carto)
 ;
 // Responsive
 d3.select(window)
@@ -81,9 +89,6 @@ function corpus(error, contribs, contribs2) {
                 .selectedColumn(querify())
               () // call grid()
             ;
-            d3.select("#query-string")
-                .text(grid.selectedColumn())
-            ;
           })
         .each(function(d, i) {
             var opts = d3.set(
@@ -110,8 +115,10 @@ function corpus(error, contribs, contribs2) {
             query[key] = this.value;
           })
     ;
+
     grid
-        .svg(d3.select("#main svg"))
+        .svg(d3.select("svg#main"))
+        .tooltip(tip)
         .data(data)
         .selectedColumn(querify())
       () // Call grid()
@@ -119,8 +126,6 @@ function corpus(error, contribs, contribs2) {
     d3.select("#query-string")
         .text(grid.selectedColumn())
     ;
-    // Responsive
-    // d3.select(window).on("resize", function() { grid.resize()(); });
 
     // Signal Handling
     d3.select(".controls .checkbox input")
@@ -142,5 +147,13 @@ function corpus(error, contribs, contribs2) {
     } // querify()
 } // corpus()
 
+
+function carto (error, usa){
+    if(error) throw error;
+    d3.select("svg#map")
+        .datum(usa)
+        .call(atlas.tooltip(tip))
+    ;
+} // carto()
 // Helper Utility Function
 function identity(d) { return d; }
