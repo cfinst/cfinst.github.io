@@ -1,22 +1,20 @@
-function atlas() {
+function Atlas() {
     var path = d3.geoPath().projection(null)
       , width = 960
       , height = 600
       , margin = { top: 10, left: 20, right: 20, bottom: 10 }
       , svg
-      , colors = d3.scaleOrdinal(d3.schemeCategory10)
-      , tip = d3.tip().attr('class', 'd3-tip')
+      , tooltip
     ;
 
-    function widget(el) {
+    function my(el) {
       svg = el
-        .append("svg")
           .attr("viewBox", "0 0 " + width + " " + height)
       ;
       svg
         .append("g")
           .attr("id", "usa")
-          .call(tip)
+          .call(tooltip)
         .selectAll(".state")
           .data(geogrify)
         .enter().append("g")
@@ -43,15 +41,16 @@ function atlas() {
     /*
      * API Functions
      */
-    widget.update = function(data, field) {
+    my.update = function(data, field) {
         svg.selectAll(data.keys().map(function(k) { return "." + k; }))
             .each(function(s) {
                 var blah = data.get(s.feature.properties.usps);
                 d3.select(this).select("path")
                     .style("fill", function() {
-                        if(blah[field])
-                          return colors(blah[field]);
-                        return "#ccc";
+                        return blah[field]
+                          ? colors(blah[field])
+                          : "#ccc"
+                        ;
                       })
                 ;
                 d3.select(this)
@@ -65,9 +64,16 @@ function atlas() {
                 ;
               })
 
-        return widget;
-    } // update()
+        return my;
+      } // update()
+    ;
+    my.tooltip = function (_){
+        if(!arguments.length) return tooltip;
+        tooltip = _;
+        return my;
+      } // my.tooltip()
+    ;
 
     // This is always the last thing returned
-    return widget;
-} // atlas()
+    return my;
+} // Atlas()
