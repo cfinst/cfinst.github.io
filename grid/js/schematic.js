@@ -24,6 +24,7 @@ var requested_columns = [
 var grid = Grid()
   , atlas = Atlas()
   , tip = d3.tip().attr('class', 'd3-tip')
+  , signal = d3.dispatch("update")
 ;
 
 // Load the data and kick-off the visualization.
@@ -118,8 +119,9 @@ function corpus(error, contribs, contribs2) {
 
     grid
         .svg(d3.select("svg#main"))
-        .tooltip(tip)
         .data(data)
+        .tooltip(tip)
+        .connect(signal)
         .selectedColumn(querify())
       () // Call grid()
     ;
@@ -132,7 +134,7 @@ function corpus(error, contribs, contribs2) {
         .on("change", function() { grid.empty(this.checked)(); })
     ;
     d3.select(".controls button")
-        .on("click", function() { grid.reset()(); })
+        .on("click", function() { grid.reset()(); atlas.reset(); })
     ;
 
     function querify() {
@@ -154,6 +156,7 @@ function carto (error, usa){
         .datum(usa)
         .call(atlas.tooltip(tip))
     ;
+    signal.on("update", atlas.update);
 } // carto()
 // Helper Utility Function
 function identity(d) { return d; }
