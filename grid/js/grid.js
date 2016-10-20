@@ -47,6 +47,7 @@ function Grid(){
     , scorecard
     , empty = false
     , reset = true
+    , dispatch
   ;
 
   // Main Function Object
@@ -56,6 +57,7 @@ function Grid(){
       // Adjust to the size of the HTML container
       size_up();
 
+      // Sort, if a year has been selected
       if(sortYear) resort();
 
       // Set up the domains
@@ -66,9 +68,6 @@ function Grid(){
       render_axes();
       render_legend();
       render_button();
-
-      // Initialize the tooltip
-      svg.call(tip);
 
       // Further changes will cause a reset
       reset = true;
@@ -93,12 +92,13 @@ function Grid(){
   } // size_up()
 
 
+  // Visualize the selectedColumn.
   function render_cells() {
-    // Visualize the selectedColumn.
     var rects = svg.select(".viz").selectAll("rect")
           .data(data, function (d){ return d.Identifier; })
       , w = xScale.step()
       , h = yScale.step()
+      , msg = []
     ;
     rects
       .enter()
@@ -141,9 +141,14 @@ function Grid(){
                 ? -Infinity
                 : Infinity
             ;
+            if(d.Year === sortYear)
+                msg.push({ state: d.State, color: colorScale(value) });
+
+
             return colorScale(value);
           })
     ;
+    dispatch.call("update", this, msg);
   } // render_cells()
 
   function render_legend() {
@@ -366,6 +371,7 @@ function Grid(){
   my.tooltip = function (_){
       if(!arguments.length) return tooltip;
       tooltip = _;
+      svg.call(tooltip);
       return my;
     } // my.tooltip();
   ;
@@ -410,6 +416,12 @@ function Grid(){
       sortYear = null;
       return my;
     } // my.reset()
+  ;
+  my.connect = function (_){
+      if(!arguments.length) return dispatch;
+      dispatch = _;
+      return my;
+    } // my.connect()
   ;
 
   // This is always the last thing returned
