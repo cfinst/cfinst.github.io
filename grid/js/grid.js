@@ -24,13 +24,13 @@ function Grid(){
     , yAxis2G
     , legendG
     , buttonG
+    , tooltip
   ;
 
   // D3 Objects.
   var xScale = d3.scaleBand().padding(0).align(0)
     , yScale = d3.scaleBand().padding(0).align(0)
     , colorScale = d3.scaleThreshold().range(colors)
-    , tip = d3.tip().attr("class", "d3-tip")
     , legend = d3.legendColor()
           .scale(colorScale)
           .shape("rect")
@@ -125,7 +125,7 @@ function Grid(){
                 .show()
             ;
           })
-        .on("mouseout", tip.hide)
+        .on("mouseout", tooltip.hide)
       .transition().duration(500)
         .attr("x", function (d){ return xScale(d[xColumn]); })
         .attr("y", function (d){ return yScale(d[yColumn]); })
@@ -358,6 +358,12 @@ function Grid(){
       ;
       return my;
     } // my.svg()
+  ;
+  my.tooltip = function (_){
+      if(!arguments.length) return tooltip;
+      tooltip = _;
+      return my;
+    } // my.tooltip();
   ;
   my.data = function (_){
       if(!arguments.length) return data;
