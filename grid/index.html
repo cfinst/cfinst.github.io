@@ -13,9 +13,10 @@
   <link rel="stylesheet" href="../css/bootstrap.min.css">
   <link rel="stylesheet" href="../css/font-awesome.min.css">
   <link rel="stylesheet" href="../css/tips.css">
-  <link rel="stylesheet" href="css/style.css">
 
   <link rel="stylesheet" href="../css/cfi-theme.css">
+
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -23,7 +24,6 @@
     <img src="../img/CFI-logo-white.svg" class="cfi-theme-logo">
     <header class="page-header text-center">
       <h1>Maximum Contribution Limits</h1>
-      <form class="form-inline text-center"></form>
     </header>
 
     <article>
@@ -33,18 +33,27 @@
       <!-- <p id="query-string" class="text-center"></p> -->
       <div class="container-fluid">
         <div class="row">
-          <div id="main" class="col-md-9">
-            <svg></svg>
-          </div><!--/#main-->
-          <div id="meta" class="col-md-3">
-            <div class="controls">
-              <div class="checkbox">
-             </div><!--.checkbox-->
-             <button><i class="fa fa-sort-alpha-asc"></i> Sort States Alphabetically</button>
-            </div><!--.controls-->
-            <div class="legend">
-              <svg></svg>
-            </div><!--.legend-->
+          <div class="col-md-12">
+            <svg id="main"></svg>
+          </div><!--.col-md-12--->
+        </div><!--.row-->
+        <div class="row">
+          <div class="col-md-7">
+            <svg id="map"></svg>
+          </div><!--.col-md-7-->
+            <div id="meta" class="col-md-4 legend panel panel-default">
+              <div class="panel-heading">
+                <form class="form-inline text-center"></form>
+              </div><!--.panel.panel-default-->
+              <div class="panel-body">
+                <svg></svg>
+              </div><!--.panel-body-->
+              <div class="controls panel-footer">
+                <div class="checkbox"></div><!--.checkbox-->
+                <button>
+                  <i class="fa fa-sort-alpha-asc"></i> Sort States Alphabetically
+                </button>
+              </div><!--.controls-->
           </div><!--/#meta-->
         </div><!--.row-->
       </div><!--.container-fluid-->
@@ -54,7 +63,9 @@
   <script src="../js/d3.min.js"></script>
   <script src="../js/d3-tip.js"></script>
   <script src="../js/d3-legend.min.js"></script>
+  <script src="../js/topojson.min.js"></script>
   <script src="js/grid.js"></script>
+  <script src="js/atlas.js"></script>
   <script src="js/schematic.js"></script>
 </body>
 </html>

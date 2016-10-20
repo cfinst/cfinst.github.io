@@ -24,13 +24,13 @@ function Grid(){
     , yAxis2G
     , legendG
     , buttonG
+    , tooltip
   ;
 
   // D3 Objects.
   var xScale = d3.scaleBand().padding(0).align(0)
     , yScale = d3.scaleBand().padding(0).align(0)
     , colorScale = d3.scaleThreshold().range(colors)
-    , tip = d3.tip().attr("class", "d3-tip")
     , legend = d3.legendColor()
           .scale(colorScale)
           .shape("rect")
@@ -43,9 +43,11 @@ function Grid(){
   // Internal state variables.
   var selectedColumn, keyColumn
     , data
+    , sortYear
     , scorecard
     , empty = false
     , reset = true
+    , dispatch
   ;
 
   // Main Function Object
@@ -55,6 +57,9 @@ function Grid(){
       // Adjust to the size of the HTML container
       size_up();
 
+      // Sort, if a year has been selected
+      if(sortYear) resort();
+
       // Set up the domains
       domainify();
 
@@ -63,9 +68,6 @@ function Grid(){
       render_axes();
       render_legend();
       render_button();
-
-      // Initialize the tooltip
-      svg.call(tip);
 
       // Further changes will cause a reset
       reset = true;
@@ -90,12 +92,13 @@ function Grid(){
   } // size_up()
 
 
+  // Visualize the selectedColumn.
   function render_cells() {
-    // Visualize the selectedColumn.
     var rects = svg.select(".viz").selectAll("rect")
           .data(data, function (d){ return d.Identifier; })
       , w = xScale.step()
       , h = yScale.step()
+      , msg = []
     ;
     rects
       .enter()
@@ -125,7 +128,7 @@ function Grid(){
                 .show()
             ;
           })
-        .on("mouseout", tip.hide)
+        .on("mouseout", tooltip.hide)
       .transition().duration(500)
         .attr("x", function (d){ return xScale(d[xColumn]); })
         .attr("y", function (d){ return yScale(d[yColumn]); })
@@ -138,9 +141,14 @@ function Grid(){
                 ? -Infinity
                 : Infinity
             ;
+            if(d.Year === sortYear)
+                msg.push({ state: d.State, color: colorScale(value) });
+
+
             return colorScale(value);
           })
     ;
+    dispatch.call("update", this, msg);
   } // render_cells()
 
   function render_legend() {
@@ -217,7 +225,8 @@ function Grid(){
       svg.selectAll(".y.axis .tick text")
           .on("click", function(d) {
               // Sort dataset when y-axis labels are clicked
-              resort(d);
+              sortYear = d;
+              resort();
               // Highlight the clicked tick
               svg.selectAll(".y.axis .tick text")
                   .classed("sortby", function(e) { return d === e; })
@@ -280,9 +289,9 @@ function Grid(){
       ;
   } // score();
 
-  function resort(tick) {
+  function resort() {
       var sorted = data
-          .filter(function(d) { return d[yColumn] === tick; })
+          .filter(function(d) { return d[yColumn] === sortYear; })
           .sort(function(m, n) {
               var akey = m[keyColumn]
                 , bkey = n[keyColumn]
@@ -359,6 +368,13 @@ function Grid(){
       return my;
     } // my.svg()
   ;
+  my.tooltip = function (_){
+      if(!arguments.length) return tooltip;
+      tooltip = _;
+      svg.call(tooltip);
+      return my;
+    } // my.tooltip();
+  ;
   my.data = function (_){
       if(!arguments.length) return data;
       data = _
@@ -378,6 +394,7 @@ function Grid(){
       if(!arguments.length) return selectedColumn;
       selectedColumn = _;
       keyColumn = selectedColumn.split('Limit')[0];
+      reset = false;
       return my;
     } // my.selectedColumn()
   ;
@@ -396,8 +413,15 @@ function Grid(){
   ;
   my.reset = function (){ // setter only
       reset = true;
+      sortYear = null;
       return my;
     } // my.reset()
+  ;
+  my.connect = function (_){
+      if(!arguments.length) return dispatch;
+      dispatch = _;
+      return my;
+    } // my.connect()
   ;
 
   // This is always the last thing returned
