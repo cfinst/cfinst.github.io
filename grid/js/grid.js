@@ -11,7 +11,7 @@ function Grid(){
       // Color Palette: http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=11
     , colors = [
           "#b2182b" // Prohibited - Dark red from CFI site
-          , "#053061", "#2166ac", "#4393c3", "#92c5de", "#d1e5f0gi" // Thresholds
+          , "#053061", "#2166ac", "#4393c3", "#92c5de", "#d1e5f0" // Thresholds
           , "#d6604d" // Unlimited - Light red
         ]
   ;
