@@ -68,6 +68,9 @@ function Grid(){
       render_legend();
       render_button();
 
+      // Set up data download buttons.
+      connect_download_buttons();
+
       // Further changes will cause a reset
       reset = true;
   } // Main Function Object
@@ -335,6 +338,19 @@ function Grid(){
       ;
       render_cells();
   } // resort()
+
+  function connect_download_buttons() {
+    d3.select("#data-download-button")
+      .on("click", function (){
+        var csvStr = toCSV(data);
+        var dataURL = "data:text," + csvStr;
+        var dl = document.createElement("a");
+        dl.setAttribute("href", dataURL);
+        dl.setAttribute("download", "CFI-contribution-limits.csv");
+        dl.click();
+      })
+  } // connect_download_buttons()
+
 
   // API - Getter/Setter Methods
   my.svg = function(_) {
