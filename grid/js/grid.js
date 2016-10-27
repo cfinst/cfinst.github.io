@@ -12,7 +12,7 @@ function Grid(){
     , colors = [
           "#b2182b" // Prohibited - Dark red from CFI site
           , "#053061", "#2166ac", "#4393c3", "#92c5de", "#d1e5f0" // Thresholds
-          , "#d6604d" // Unlimited - Light red
+          , "#f4a582" // Unlimited - Light red
         ]
   ;
 
@@ -117,7 +117,7 @@ function Grid(){
                 ? moneyFormat(d[selectedColumn])
                 : "Prohibited"
             ;
-            tip
+            tooltip
                 .html("<span style='text-align: center;'>"
                     + "<h4>" + d[xColumn] + " " + d[yColumn] + "</h4>"
                     + "<p>" + selectedColumn + ":</p>"
@@ -141,7 +141,13 @@ function Grid(){
                 : Infinity
             ;
             if(d.Year === sortYear)
-                msg.push({ state: d.State, color: colorScale(value) });
+                msg.push({
+                    state: d[xColumn]
+                  , year: d[yColumn]
+                  , color: colorScale(value)
+                  , column: selectedColumn
+                  , limit: d[selectedColumn]
+                });
 
 
             return colorScale(value);
@@ -228,7 +234,12 @@ function Grid(){
               resort();
               // Highlight the clicked tick
               svg.selectAll(".y.axis .tick text")
-                  .classed("sortby", function(e) { return d === e; })
+                  .each(function(e) {
+                      var self = d3.select(this);
+                      self.classed("sortby", d === e);
+                      d3.select(self.node().parentNode).select("line")
+                          .attr()
+                  })
               ;
             })
       ;
