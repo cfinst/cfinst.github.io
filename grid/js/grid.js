@@ -339,17 +339,23 @@ function Grid(){
       render_cells();
   } // resort()
 
+  // Sets up the click handlers on the data download buttons.
   function connect_download_buttons() {
     d3.select("#data-download-button")
       .on("click", function (){
-        var csvStr = toCSV(data);
-        var dataURL = "data:text," + csvStr;
-        var dl = document.createElement("a");
-        dl.setAttribute("href", dataURL);
-        dl.setAttribute("download", "CFI-contribution-limits.csv");
-        dl.click();
+          downloadCSV(data, "CFI-contribution-limits.csv");
       })
   } // connect_download_buttons()
+
+  // Causes the given data to be downloaded as a CSV file with the given name.
+  function downloadCSV(data, filename) {
+      var csvStr = toCSV(data);
+      var dataURL = "data:text," + csvStr;
+      var dl = document.createElement("a");
+      dl.setAttribute("href", dataURL);
+      dl.setAttribute("download", filename);
+      dl.click();
+  } // downloadCSV()
 
 
   // API - Getter/Setter Methods
