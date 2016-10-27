@@ -3,7 +3,7 @@ function Atlas() {
       , width = 960
       , height = 600
       , margin = { top: 10, left: 20, right: 20, bottom: 10 }
-      , tooltip = d3.tip().attr("class", "d3-tip")
+      , tooltip
       , svg
     ;
 
@@ -66,7 +66,9 @@ function Atlas() {
                 .on("mouseover", function() {
                     tooltip.
                         html('<span style="text-align: center;">'
-                            + "<h4>" + datum.value.state + " " + datum.value.year + "</h4>"
+                            + "<h4>"
+                              + datum.value.state + " " + datum.value.year
+                            + "</h4>"
                             + "<p>" + datum.value.column + ":</p>"
                             + "<p>" + datum.value.limit + "</p>"
                             + "</span>"
@@ -84,7 +86,13 @@ function Atlas() {
     my.reset = function (){
        reset();
        return my;
-     } // reset()
+     } // my.reset()
+    ;
+    my.tooltip = function (_){
+        if(!arguments.length) return tooltip;
+        tooltip = _;
+        return my;
+      } // my.tooltip()
     ;
     // This is always the last thing returned
     return my;

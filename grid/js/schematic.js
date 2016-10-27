@@ -164,7 +164,7 @@ function carto (error, usa){
     if(error) throw error;
     d3.select("svg#map")
         .datum(usa)
-        .call(atlas)
+        .call(atlas.tooltip(tip))
     ;
     signal.on("update", atlas.update);
 } // carto()
