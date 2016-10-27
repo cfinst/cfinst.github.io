@@ -12,7 +12,7 @@ function Grid(){
     , colors = [
           "#b2182b" // Prohibited - Dark red from CFI site
           , "#053061", "#2166ac", "#4393c3", "#92c5de", "#d1e5f0" // Thresholds
-          , "#d6604d" // Unlimited - Light red
+          , "#f4a582" // Unlimited - Light red
         ]
   ;
 
