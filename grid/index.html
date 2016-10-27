@@ -33,36 +33,36 @@
       <!-- <p id="query-string" class="text-center"></p> -->
       <div class="container-fluid">
         <div class="row">
-          <div class="col-md-12">
-            <svg id="main"></svg>
-          </div><!--.col-md-12--->
-        </div><!--.row-->
-        <div class="row">
           <div class="col-md-7">
             <svg id="map"></svg>
           </div><!--.col-md-7-->
-            <div id="meta" class="col-md-4 legend panel panel-default">
-              <div class="panel-heading">
-                <form class="form-inline text-center"></form>
-              </div><!--.panel.panel-default-->
-              <div class="panel-body">
-                <svg></svg>
-              </div><!--.panel-body-->
-              <div class="controls panel-footer">
-                <div class="checkbox"></div><!--.checkbox-->
-                <button>
-                  <i class="fa fa-sort-alpha-asc"></i> Sort States Alphabetically
+          <div id="meta" class="col-md-4 legend panel panel-default">
+            <div class="panel-heading">
+              <form class="form-inline text-center"></form>
+            </div><!--.panel.panel-default-->
+            <div class="panel-body">
+              <svg></svg>
+            </div><!--.panel-body-->
+            <div class="controls panel-footer">
+              <div class="checkbox"></div><!--.checkbox-->
+              <button>
+                <i class="fa fa-sort-alpha-asc"></i> Sort States Alphabetically
+              </button>
+              <div>
+                <button id="data-download-button-current-view">
+                  Download Currently Shown Data
                 </button>
-                <div>
-                  <button id="data-download-button-current-view">
-                    Download Currently Shown Data
-                  </button>
-                  <button id="data-download-button">
-                    Download Full Confibution Limits Data
-                  </button>
-                </div>
-              </div><!--.controls-->
+                <button id="data-download-button">
+                  Download Full Confibution Limits Data
+                </button>
+              </div>
+            </div><!--.controls-->
           </div><!--/#meta-->
+        </div><!--.row-->
+        <div class="row">
+          <div class="col-md-12">
+            <svg id="main"></svg>
+          </div><!--.col-md-12--->
         </div><!--.row-->
       </div><!--.container-fluid-->
     </article>
