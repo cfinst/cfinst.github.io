@@ -116,7 +116,6 @@ function corpus(error, contribs, contribs2) {
             query[key] = this.value;
           })
     ;
-
     grid
         .svg(d3.select("svg#main"))
         .data(data)
@@ -165,9 +164,11 @@ function carto (error, usa){
     if(error) throw error;
     d3.select("svg#map")
         .datum(usa)
-        .call(atlas.tooltip(tip))
+        .call(atlas)
     ;
     signal.on("update", atlas.update);
 } // carto()
+
+
 // Helper Utility Function
 function identity(d) { return d; }
