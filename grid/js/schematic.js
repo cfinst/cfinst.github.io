@@ -116,7 +116,6 @@ function corpus(error, contribs, contribs2) {
             query[key] = this.value;
           })
     ;
-
     grid
         .svg(d3.select("svg#main"))
         .data(data)
@@ -158,5 +157,7 @@ function carto (error, usa){
     ;
     signal.on("update", atlas.update);
 } // carto()
+
+
 // Helper Utility Function
 function identity(d) { return d; }
