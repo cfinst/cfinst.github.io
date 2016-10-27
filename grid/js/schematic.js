@@ -147,17 +147,6 @@ function corpus(error, contribs, contribs2) {
         ;
         return col + (branch ? "_" + query.branch : "") + "_Max";
     } // querify()
-
-    d3.select("#data-download-button")
-      .on("click", function (){
-        var csvStr = toCSV(data);
-        var dataURL = "data:text," + csvStr;
-
-        var dl = document.createElement("a");
-        dl.setAttribute("href", dataURL);
-        dl.setAttribute("download", "CFI-contribution-limits.csv");
-        dl.click();
-      })
 } // corpus()
 
 
