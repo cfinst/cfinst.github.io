@@ -31,12 +31,8 @@ var grid = Grid()
 d3.queue()
   .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_1.csv")
   .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_2.csv")
-    .await(corpus)
-;
-// Load the map data.
-d3.queue()
   .defer(d3.json, "../data/usa.json")
-    .await(carto)
+    .await(visualize)
 ;
 // Responsive
 d3.select(window)
@@ -51,6 +47,11 @@ d3.select(window)
 /*
 ** Helper Functions
 */
+function visualize(error, contribs, contribs2, usa){
+    corpus(error, contribs, contribs2);
+    carto(error, usa);
+}
+
 function corpus(error, contribs, contribs2) {
     if(error) throw error;
     var data = d3.nest()
