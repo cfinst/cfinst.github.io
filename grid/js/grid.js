@@ -231,20 +231,8 @@ function Grid(){
           .attr("transform", "translate(0," + (yScale.step() / 2) + ")")
       ;
       svg.selectAll(".y.axis .tick text")
-          .on("click", function(d) {
-              // Sort dataset when y-axis labels are clicked
-              sortYear = d;
-              resort();
-              // Highlight the clicked tick
-              svg.selectAll(".y.axis .tick text")
-                  .each(function(e) {
-                      var self = d3.select(this);
-                      self.classed("sortby", d === e);
-                      d3.select(self.node().parentNode).select("line")
-                          .attr()
-                  })
-              ;
-            })
+          // Sort dataset when y-axis labels are clicked
+          .on("click", my.selectedYear)
       ;
       if(reset)
           // Set the ticks to normal font-weight
@@ -475,6 +463,23 @@ function Grid(){
       dispatch = _;
       return my;
     } // my.connect()
+  ;
+  my.selectedYear = function(_) {
+      if(!arguments.length) return sortYear;
+
+      sortYear = _;
+      resort();
+
+      // Highlight the tick for the selected year.
+      svg.selectAll(".y.axis .tick text")
+          .each(function(d) {
+              var self = d3.select(this);
+              self.classed("sortby", sortYear === d);
+              d3.select(self.node().parentNode).select("line")
+                  .attr()
+          })
+      ;
+    }
   ;
 
   // This is always the last thing returned
