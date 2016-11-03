@@ -50,6 +50,9 @@ d3.select(window)
 function visualize(error, contribs, contribs2, usa){
     corpus(error, contribs, contribs2);
     carto(error, usa);
+
+    // Initialize the selected year to the most recent.
+    grid.selectedYear(d3.max(grid.data(), function (d){ return d.Year; }));
 }
 
 function corpus(error, contribs, contribs2) {
