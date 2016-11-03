@@ -141,7 +141,7 @@ function corpus(error, contribs, contribs2) {
         .on("click", function() { grid.reset()(); atlas.reset(); })
     ;
 
-    signal.on("selectYear", grid.selectedYear);
+    signal.on("selectYear.grid", grid.selectedYear);
 
     function querify() {
         var col = query.donor + "To" + query.recipient + "Limit"
@@ -162,6 +162,7 @@ function carto (error, usa){
         .datum(usa)
         .call(atlas.tooltip(tip))
     ;
+    signal.on("selectYear.atlas", atlas.selectedYear);
     signal.on("update", atlas.update);
 } // carto()
 
