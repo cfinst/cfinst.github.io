@@ -8,11 +8,13 @@ function Grid(){
     , yColumn = "Year"
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
     , bins = [1000, 2500, 5000, 10000]
-      // Color Palette: http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=11
+      // Color Palettes:
+      // Blues: http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=11
+      // Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
     , colors = [
-          "#b2182b" // Prohibited - Dark red from CFI site
+          "#67000d" // Prohibited - Dark red from CFI site
           , "#053061", "#2166ac", "#4393c3", "#92c5de", "#d1e5f0" // Thresholds
-          , "#f4a582" // Unlimited - Light red
+          , "#cb181d" // Unlimited - Light red
         ]
   ;
 
