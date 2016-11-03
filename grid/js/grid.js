@@ -346,7 +346,7 @@ function Grid(){
 
     d3.select("#data-download-button")
       .on("click", function (){
-          dispatch.call("downloadAllLimits");
+          dispatch.call("downloadAllLimits", null, xColumn, yColumn);
       })
 
     d3.select("#data-download-button-current-view")

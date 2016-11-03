@@ -70,9 +70,10 @@ function corpus(error, contribs, contribs2) {
               })
             .map(d3.merge([contribs, contribs2]))
             .values()
-      , columns = d3.keys(data[0])
+      , columnsRaw = d3.keys(data[0])
             .filter(function(c) { return c.endsWith("_Max"); })
             .filter(function(c) { return ~requested_columns.indexOf(c); })
+      , columns = columnsRaw
             .map(function(c) {
                 var ret = c
                         .split("Limit_Max")[0]
@@ -140,8 +141,10 @@ function corpus(error, contribs, contribs2) {
         .on("click", function() { grid.reset()(); atlas.reset(); })
     ;
     signal.on("selectYear.grid", grid.selectedYear);
-    signal.on("downloadAllLimits", function (){
-        downloadCSV(data, "CFI-contribution-limits.csv");
+    signal.on("downloadAllLimits", function (xColumn, yColumn){
+        var filename = "CFI-contribution-limits-all.csv";
+        var projectedData = project(data, [xColumn, yColumn].concat(columnsRaw));
+        downloadCSV(projectedData, filename);
     });
     signal.on("downloadCurrentLimits", function (xColumn, yColumn, selectedColumn){
         var filename = "CFI-contribution-limits-" + selectedColumn + ".csv";
