@@ -232,7 +232,10 @@ function Grid(){
       ;
       svg.selectAll(".y.axis .tick text")
           // Sort dataset when y-axis labels are clicked
-          .on("click", my.selectedYear)
+          .on("click", function (d){
+              signal.call("selectYear", null, d);
+            }
+          );
       ;
       if(reset)
           // Set the ticks to normal font-weight

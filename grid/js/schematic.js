@@ -24,7 +24,7 @@ var requested_columns = [
 var grid = Grid()
   , atlas = Atlas()
   , tip = d3.tip().attr('class', 'd3-tip')
-  , signal = d3.dispatch("update")
+  , signal = d3.dispatch("update", "selectYear")
 ;
 
 // Load the data and kick-off the visualization.
@@ -52,7 +52,8 @@ function visualize(error, contribs, contribs2, usa){
     carto(error, usa);
 
     // Initialize the selected year to the most recent.
-    grid.selectedYear(d3.max(grid.data(), function (d){ return d.Year; }));
+    var maxYear = d3.max(grid.data(), function (d){ return d.Year; });
+    signal.call("selectYear", null, maxYear);
 }
 
 function corpus(error, contribs, contribs2) {
@@ -139,6 +140,8 @@ function corpus(error, contribs, contribs2) {
     d3.select(".controls button")
         .on("click", function() { grid.reset()(); atlas.reset(); })
     ;
+
+    signal.on("selectYear", grid.selectedYear);
 
     function querify() {
         var col = query.donor + "To" + query.recipient + "Limit"
