@@ -346,41 +346,15 @@ function Grid(){
 
     d3.select("#data-download-button")
       .on("click", function (){
-          downloadCSV(data, "CFI-contribution-limits.csv");
+          dispatch.call("downloadAllLimits");
       })
 
     d3.select("#data-download-button-current-view")
       .on("click", function (){
-          var filename = "CFI-contribution-limits-" + selectedColumn + ".csv";
-          var projectedData = project(data, [xColumn, yColumn, selectedColumn]);
-          downloadCSV(projectedData, filename);
+          dispatch.call("downloadCurrentLimits", null, xColumn, yColumn, selectedColumn);
       })
 
   } // connect_download_buttons()
-
-  // Causes the given data to be downloaded as a CSV file with the given name.
-  // Draws from http://stackoverflow.com/questions/12676649/javascript-programmatically-trigger-file-download-in-firefox
-  function downloadCSV(data, filename) {
-      var csvStr = toCSV(data);
-      var dataURL = "data:text," + encodeURIComponent(csvStr);
-      var link = document.createElement("a");
-      document.body.appendChild(link);
-      link.setAttribute("href", dataURL);
-      link.setAttribute("download", filename);
-      link.click();
-  } // downloadCSV()
-
-  // Performs a projection on the data, isolating the specified columns.
-  // Term from relational algebra. See also
-  // https://en.wikipedia.org/wiki/Projection_(relational_algebra)
-  function project(data, columns) {
-      return data.map(function (fullRow) {
-          return columns.reduce(function (projectedRow, column) {
-              projectedRow[column] = fullRow[column];
-              return projectedRow;
-          }, {});
-      });
-  } // project()
 
 
   // API - Getter/Setter Methods

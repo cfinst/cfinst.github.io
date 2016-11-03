@@ -24,7 +24,7 @@ var requested_columns = [
 var grid = Grid()
   , atlas = Atlas()
   , tip = d3.tip().attr('class', 'd3-tip')
-  , signal = d3.dispatch("update", "selectYear")
+  , signal = d3.dispatch("update", "selectYear", "downloadCurrentLimits", "downloadAllLimits")
 ;
 
 // Load the data and kick-off the visualization.
@@ -57,7 +57,6 @@ function visualize(error, contribs, contribs2, usa){
 }
 
 function corpus(error, contribs, contribs2) {
-    if(error) throw error;
     var data = d3.nest()
             .key(function(d) { return d.Identifier; })
             .rollup(function(leaves) {
@@ -140,8 +139,15 @@ function corpus(error, contribs, contribs2) {
     d3.select(".controls button")
         .on("click", function() { grid.reset()(); atlas.reset(); })
     ;
-
     signal.on("selectYear.grid", grid.selectedYear);
+    signal.on("downloadAllLimits", function (){
+        downloadCSV(data, "CFI-contribution-limits.csv");
+    });
+    signal.on("downloadCurrentLimits", function (xColumn, yColumn, selectedColumn){
+        var filename = "CFI-contribution-limits-" + selectedColumn + ".csv";
+        var projectedData = project(data, [xColumn, yColumn, selectedColumn]);
+        downloadCSV(projectedData, filename);
+    });
 
     function querify() {
         var col = query.donor + "To" + query.recipient + "Limit"
@@ -167,5 +173,30 @@ function carto (error, usa){
 } // carto()
 
 
-// Helper Utility Function
+// Helper Utility Functions
 function identity(d) { return d; }
+
+// Causes the given data to be downloaded as a CSV file with the given name.
+// Draws from http://stackoverflow.com/questions/12676649/javascript-programmatically-trigger-file-download-in-firefox
+function downloadCSV(data, filename) {
+    var csvStr = toCSV(data);
+    var dataURL = "data:text," + encodeURIComponent(csvStr);
+    var link = document.createElement("a");
+    document.body.appendChild(link);
+    link.setAttribute("href", dataURL);
+    link.setAttribute("download", filename);
+    link.click();
+} // downloadCSV()
+
+// Performs a projection on the data, isolating the specified columns.
+// Term from relational algebra. See also
+// https://en.wikipedia.org/wiki/Projection_(relational_algebra)
+function project(data, columns) {
+    return data.map(function (fullRow) {
+        return columns.reduce(function (projectedRow, column) {
+            projectedRow[column] = fullRow[column];
+            return projectedRow;
+        }, {});
+    });
+} // project()
+
