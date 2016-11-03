@@ -359,13 +359,15 @@ function Grid(){
   } // connect_download_buttons()
 
   // Causes the given data to be downloaded as a CSV file with the given name.
+  // Draws from http://stackoverflow.com/questions/12676649/javascript-programmatically-trigger-file-download-in-firefox
   function downloadCSV(data, filename) {
       var csvStr = toCSV(data);
       var dataURL = "data:text," + encodeURIComponent(csvStr);
-      var dl = document.createElement("a");
-      dl.setAttribute("href", dataURL);
-      dl.setAttribute("download", filename);
-      dl.click();
+      var link = document.createElement("a");
+      document.body.appendChild(link);
+      link.setAttribute("href", dataURL);
+      link.setAttribute("download", filename);
+      link.click();
   } // downloadCSV()
 
   // Performs a projection on the data, isolating the specified columns.
