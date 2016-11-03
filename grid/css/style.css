@@ -35,3 +35,7 @@ svg {
     font-size: 6rem;
     text-anchor: middle;
 }
+.cfi-tabs {
+    font-size: 3rem;
+    padding-top: 5px;
+}
