@@ -30,3 +30,8 @@ svg {
       fill .5s linear,
       stroke .5s linear;
 }
+.atlas-selected-year {
+    fill: #bfbfbf;
+    font-size: 6rem;
+    text-anchor: middle;
+}

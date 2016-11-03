@@ -5,6 +5,7 @@ function Atlas() {
       , margin = { top: 10, left: 20, right: 20, bottom: 10 }
       , tooltip
       , svg
+      , selectedYear
     ;
 
     function my(el) {
@@ -30,6 +31,11 @@ function Atlas() {
               ;
             })
           .on("mouseout", tooltip.hide)
+      ;
+      svg.append("text")
+          .attr("class", "atlas-selected-year")
+          .attr("x", width / 2)
+          .attr("y", 60)
       ;
       reset();
     } // Main Function Object
@@ -99,6 +105,12 @@ function Atlas() {
         return my;
       } // my.tooltip()
     ;
+
+    my.selectedYear = function (selectedYear) {
+        svg.select(".atlas-selected-year").text(selectedYear);
+      } // my.selectedYear
+    ;
+
     // This is always the last thing returned
     return my;
 } // Atlas()

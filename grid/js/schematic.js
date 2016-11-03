@@ -24,19 +24,15 @@ var requested_columns = [
 var grid = Grid()
   , atlas = Atlas()
   , tip = d3.tip().attr('class', 'd3-tip')
-  , signal = d3.dispatch("update")
+  , signal = d3.dispatch("update", "selectYear")
 ;
 
 // Load the data and kick-off the visualization.
 d3.queue()
   .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_1.csv")
   .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_2.csv")
-    .await(corpus)
-;
-// Load the map data.
-d3.queue()
   .defer(d3.json, "../data/usa.json")
-    .await(carto)
+    .await(visualize)
 ;
 // Responsive
 d3.select(window)
@@ -51,6 +47,15 @@ d3.select(window)
 /*
 ** Helper Functions
 */
+function visualize(error, contribs, contribs2, usa){
+    corpus(error, contribs, contribs2);
+    carto(error, usa);
+
+    // Initialize the selected year to the most recent.
+    var maxYear = d3.max(grid.data(), function (d){ return d.Year; });
+    signal.call("selectYear", null, maxYear);
+}
+
 function corpus(error, contribs, contribs2) {
     if(error) throw error;
     var data = d3.nest()
@@ -136,6 +141,8 @@ function corpus(error, contribs, contribs2) {
         .on("click", function() { grid.reset()(); atlas.reset(); })
     ;
 
+    signal.on("selectYear.grid", grid.selectedYear);
+
     function querify() {
         var col = query.donor + "To" + query.recipient + "Limit"
           , branch = !d3.map(data[0]).has([col + "_Max"])
@@ -155,6 +162,7 @@ function carto (error, usa){
         .datum(usa)
         .call(atlas.tooltip(tip))
     ;
+    signal.on("selectYear.atlas", atlas.selectedYear);
     signal.on("update", atlas.update);
 } // carto()
 
