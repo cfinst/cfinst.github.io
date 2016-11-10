@@ -39,6 +39,9 @@ svg {
     font-size: 3rem;
     padding-top: 5px;
 }
-.control-panel {
+#meta {
     margin-top: 1rem;
+}
+#meta .panel-heading {
+    padding-bottom: 0px;
 }
