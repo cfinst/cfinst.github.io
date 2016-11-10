@@ -381,8 +381,8 @@ function Grid(){
       yAxis2G = axes.append("g")
           .attr("class", "y axis")
       ;
-      legendG = d3.select("#meta svg").append("g")
-          .attr("transform", "translate(20, 20)")
+      legendG = d3.select("#color-legend").append("g")
+          .attr("transform", "translate(16, 10) scale(1.4)")
       ;
       buttonG = g.append("g")
           .attr("class", "reset-sort")

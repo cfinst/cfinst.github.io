@@ -84,10 +84,24 @@ function corpus(error, contribs, contribs2) {
                 return [ret[0], receiver[0], receiver[1]];
               })
     ;
-    d3.select("form").selectAll(".chooser")
+    var chooserGroup = d3.select("form").selectAll(".chooser")
         .data(d3.keys(query), identity)
-      .enter().append("select")
-        .attr("class", "chooser")
+      .enter().append("div")
+        .attr("class", "form-group")
+    ;
+
+    chooserGroup.append("label")
+        .attr("class", "col-sm-2 control-label")
+        .text(function (d) {
+            return d[0].toUpperCase() + d.substr(1);
+        })
+    ;
+    
+    chooserGroup
+      .append("div")
+        .attr("class", "col-sm-10")
+      .append("select")
+        .attr("class", "chooser form-control")
         .attr("id", function(d) { return "chooser-" + d; })
         .on("change", function() {
             query[this.id.split("chooser-")[1]] = this.value;
@@ -115,6 +129,7 @@ function corpus(error, contribs, contribs2) {
             ;
         })
     ;
+
     d3.selectAll("form select")
         .each(function() {
             var key = this.id.split("-")[1];
