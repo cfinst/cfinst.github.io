@@ -31,8 +31,8 @@ svg {
       stroke .5s linear;
 }
 .atlas-selected-year {
-    fill: #bfbfbf;
-    font-size: 6rem;
+    fill: black;
+    font-size: 3rem;
     text-anchor: middle;
 }
 .cfi-tabs {

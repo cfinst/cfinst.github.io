@@ -35,7 +35,7 @@ function Atlas() {
       svg.append("text")
           .attr("class", "atlas-selected-year")
           .attr("x", width / 2)
-          .attr("y", 60)
+          .attr("y", 45)
       ;
       reset();
     } // Main Function Object
