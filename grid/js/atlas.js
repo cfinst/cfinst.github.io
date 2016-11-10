@@ -1,7 +1,7 @@
 function Atlas() {
     var path = d3.geoPath().projection(null)
       , width = 960
-      , height = 600
+      , height = 530
       , margin = { top: 10, left: 20, right: 20, bottom: 10 }
       , tooltip
       , svg
