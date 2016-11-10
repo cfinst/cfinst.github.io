@@ -87,7 +87,7 @@ function corpus(error, contribs, contribs2) {
     d3.select("form").selectAll(".chooser")
         .data(d3.keys(query), identity)
       .enter().append("select")
-        .attr("class", "chooser")
+        .attr("class", "chooser form-control")
         .attr("id", function(d) { return "chooser-" + d; })
         .on("change", function() {
             query[this.id.split("chooser-")[1]] = this.value;
