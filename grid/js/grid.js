@@ -270,7 +270,7 @@ function Grid(){
       colorScale.domain(
         [0]
             .concat(bins)
-            .concat(d3.max(data, function(d) { return +d[selectedColumn] + 1; }))
+            .concat(100000000000) // The "or greater" limit of "10,000 or greater"
       );
       if(reset) {
           xScale.domain(
