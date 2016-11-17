@@ -213,7 +213,10 @@ function setupTabNavigation() {
 }
 
 function initContributionLimitsSection(data, columns) {
-    var chooserGroup = d3.select("form").selectAll(".chooser")
+    var chooserGroup = d3.select("#meta-controls-top")
+      .append("form")
+        .attr("class", "form-horizontal")
+      .selectAll(".chooser")
         .data(d3.keys(query), identity)
       .enter().append("div")
         .attr("class", "form-group")
