@@ -231,12 +231,21 @@ function project(data, columns) {
 } // project()
 
 function setupTabNavigation() {
+    var data = [
+      { title: "Contribution Limits", section: "contributions" },
+      { title: "Disclosure Law", section: "disclosure" },
+      { title: "Public Funding", section: "public-funding" },
+    ];
     d3.select(".nav-tabs")
-        .selectAll("li a")
+      .selectAll("li").data(data)
+      .enter()
+      .append("li")
+      .append("a")
+        .attr("href", "#") // Make it look clickable.
+        .text(function (d){ return d.title; })
         .on("click", function (d){
-            console.log("Tab clicked");
-            signal.call("navigate", null, "some-section");
+            d3.event.preventDefault(); // Prevent href navigating to "/#"
+            signal.call("navigate", null, d.section);
         })
     ;
-    console.log("here");
 }
