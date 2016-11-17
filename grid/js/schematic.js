@@ -29,7 +29,7 @@ var grid = Grid()
       "selectYear",
       "downloadCurrentLimits",
       "downloadAllLimits",
-      "switchTab"
+      "navigate"
     )
 ;
 
@@ -174,6 +174,10 @@ function corpus(error, contribs, contribs2) {
         var projectedData = project(data, [xColumn, yColumn, selectedColumn]);
         downloadCSV(projectedData, filename);
     });
+    signal.on("navigate", function (section) {
+        console.log("navigate");
+        console.log(section);
+    });
 
     function querify() {
         var col = query.donor + "To" + query.recipient + "Limit"
@@ -231,6 +235,7 @@ function setupTabNavigation() {
         .selectAll("li a")
         .on("click", function (d){
             console.log("Tab clicked");
+            signal.call("navigate", null, "some-section");
         })
     ;
     console.log("here");
