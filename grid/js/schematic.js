@@ -334,6 +334,7 @@ function initDisclosuresSection(data) {
           .append("div")
             .attr("class", "col-sm-10")
           .append("p")
+            .attr("class", "disclosure-field-description")
         ;
 
         chooserGroup
@@ -353,10 +354,14 @@ function initDisclosuresSection(data) {
 
         function updateSelectedField(d){
             descriptionContainer.text(d["Question on Data Entry Form"]);
-            grid
-                .selectedColumn(d["Field Name"])
-              () // call grid()
-            ;
+
+            // Let the description update instantly, otherwise it feels laggy.
+            setTimeout(function (){
+                grid
+                    .selectedColumn(d["Field Name"])
+                  () // call grid()
+                ;
+            }, 0);
         }
 
         // Initialize the content to the first field.
