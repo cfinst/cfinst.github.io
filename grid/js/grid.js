@@ -228,7 +228,7 @@ function Grid(){
       svg.selectAll(".y.axis .tick text")
           // Sort dataset when y-axis labels are clicked
           .on("click", function (d){
-              signal.call("selectYear", null, d);
+              dispatch.call("selectYear", null, d);
             }
           );
       ;
