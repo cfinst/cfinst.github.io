@@ -1,3 +1,4 @@
+(function () {
 var requested_columns = [
         "IndividualToCandLimit_H_Max"
           , "IndividualToCandLimit_S_Max"
@@ -295,3 +296,4 @@ function getQueryVariables() {
     ;
     return inits;
 } // getQueryVariables()
+}());
