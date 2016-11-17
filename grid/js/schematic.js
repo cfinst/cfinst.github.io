@@ -224,7 +224,7 @@ function initContributionLimitsSection(data, columns) {
     var chooserGroup = d3.select("#meta-controls-top")
       .append("form")
         .attr("class", "form-horizontal")
-      .selectAll(".chooser")
+      .selectAll("div")
         .data(d3.keys(query), identity)
       .enter().append("div")
         .attr("class", "form-group")
@@ -310,7 +310,37 @@ function getQueryVariables() {
 
 function initDisclosuresSection(data) {
     fetchDisclosureFields(function(disclosureFields) {
-        console.log(JSON.stringify(disclosureFields, null, 2));
+
+        var chooserGroup = d3.select("#meta-controls-top")
+          .append("form")
+            .attr("class", "form-horizontal")
+          .append("div")
+            .attr("class", "form-group")
+        ;
+
+        chooserGroup.append("label")
+            .attr("class", "col-sm-2 control-label")
+            .text("Question")
+        ;
+
+        chooserGroup
+          .append("div")
+            .attr("class", "col-sm-10")
+          .append("select")
+            .attr("class", "chooser form-control")
+            .on("change", function() {
+                console.log(this.value);
+                //grid
+                //    .selectedColumn(this.value)
+                //  () // call grid()
+                //;
+              })
+            .selectAll("option")
+              .data(disclosureFields)
+            .enter().append("option")
+              .attr("value", function(d) { return d["Field Name"]; })
+              .text(function(d) { return d["Short Label"]; })
+        ;
     });
 } // initDisclosuresSection()
 
