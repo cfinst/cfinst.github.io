@@ -1,0 +1,14 @@
+Field Name,Value Type,Question on Data Entry Form,Short Label
+CandFile_Electronic,Y/N,Are candidates required to report electronically?,E-Filing Required (Cand)?
+CandDonorExemption,Dollar Amount,What is the minimum aggregate of contributions from a particular donor that triggers mandatory disclosure of that donor's identity?,Threshold to Disclose Donor - Cand
+PartyDonorExemption,Dollar Amount,What is the minimum aggregate of contributions from a particular donor that triggers mandatory disclosure of that donor's identity?,Threshold to Disclose Donor - Party
+PACDonorExemption,Dollar Amount,What is the minimum aggregate of contributions from a particular donor to a PAC that triggers mandatory disclosure of that donor's identity?,Threshold to Disclose Donor - PAC
+BallotDonorExemption,Dollar Amount,What is the minimum aggregate of contributions from a particular donor to a ballot committee that triggers mandatory disclosure of that donor's identity?,Threshold to Disclose Donor - BallotComm
+Entity_DonorDisclose,Y/N,Does the state require entities other than political committees that spend money to influence elections to file reports disclosing the entity's donors and other revenue sources? ,Other Entities Required to Disclose?
+IE_Report_Exemption_Amount,Dollar Amount,Dollar Amount,Ind. Exp. Threshold for Disclosure?
+IE_Filers_Others_Donors,Y/N,"Must other entities who make independent expenditures report the source(s) of the spending entity's funds? (Example: Delaware seems to require as parts of its third party advertising reports.  Kansas seems to require this for semi-annually for every committee, club or association engaged in promoting … etc. The Kansas definition of ""political committeee"" Is tied to ""major purpose"" but donor disclosure seems to go beyond political committees.) As a counter-example, IL only requires donor disclosure of political committees but requires any entity spending $3,000 or more to register as a political committee.)",Ind. Exp. - Other Entities Donor Disclosure?
+IE_Target,Y/N,Must an Independent Expenditure  report specify an IE's target (candidate or ballot proposition)?,Ind. Exp. Reports - Disclose Target?
+ElxnrgCategory,Y/N,"Are some forms of non-coordinated spending defined by a term in the law that is different from indepdendent expenditure, such as electioneering, with different definitions and requirements?",Electioneering Defined in law?
+Elxnrg_Target,Y/N,Must an electioneering (etc.) report specify the target (candidate or ballot proposition)?,Electioneering Reports - Disclose Target?
+SponsorID,Y/N,Must an ad's sponsors be identified within the body of any ad?,Disclosure of Ad Sponsor Required?
+DiscloseToShareholders,Y/N,Does state law require political expenditures to be disclosed to shareholders?,Shareholder Disclosure Required?
