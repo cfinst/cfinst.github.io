@@ -142,6 +142,10 @@ function Grid(){
                 ;
             } else {
                 value = d[selectedColumn];
+                value = (
+                  value === undefined ? "Missing Field" :
+                  value.trim() === "" ? "Empty Data" : value
+                );
             }
 
             // Construct the message passed into the choropleth.

@@ -387,13 +387,14 @@ function initDisclosuresSection(data) {
             descriptionContainer.text(d["Question on Data Entry Form"]);
 
             var colorScale = d3.scaleOrdinal()
-                .domain([
-                  "Yes",
-                  "No"
-                ])
+                .domain([ "Yes", "No" ])
                 .range([
-                  "#cb181d", // Yes - Light red
-                  "#67000d" // No - Dark red from CFI site
+                  "#cb181d" // Yes - Light red
+                  ,"#67000d" // No - Dark red from CFI site
+                  ,"#1b9e77" // Additional colors for unexpected values
+                  ,"#d95f02"
+                  ,"#7570b3"
+                  ,"#e7298a"
                 ])
             ;
 
