@@ -154,34 +154,40 @@ function Grid(){
 
   function render_legend() {
     if(!colorScale) return;
-    // Work out the legend's labels
-    var binmax = d3.max(colorScale.bins)
-      , labels = d3.pairs( // Infinity padding
-              [-Infinity]
-                .concat(colorScale.domain())
-                .concat(Infinity)
-            )
-          .map(function(d, idx) {
-              var money = [d[0], d[1] - (idx > 0 ? 1 : 0)].map(moneyFormat);
 
-              // within the bounds of the infinity padding
-              if(d.every(isFinite)) {
-                  if(d[0] === 0)
-                      return "Less than " + moneyFormat(d[1]);
-                  if(d[0] === binmax)
-                      return money[0] + " or Greater";
+    // Work out the legend's labels for threshold scale.
+    if(colorScale.bins){
+        var binmax = d3.max(colorScale.bins)
+          , labels = d3.pairs( // Infinity padding
+                  [-Infinity]
+                    .concat(colorScale.domain())
+                    .concat(Infinity)
+                )
+              .map(function(d, idx) {
+                  var money = [d[0], d[1] - (idx > 0 ? 1 : 0)].map(moneyFormat);
 
-                  return money[0] + " - " + money[1];
-              }
-              // At the extremes (one of the infinity paddings)
-              if(d[0] < 0)
-                  return "Prohibited";
+                  // within the bounds of the infinity padding
+                  if(d.every(isFinite)) {
+                      if(d[0] === 0)
+                          return "Less than " + moneyFormat(d[1]);
+                      if(d[0] === binmax)
+                          return money[0] + " or Greater";
 
-              return "No Limit";
-            })
-    ;
+                      return money[0] + " - " + money[1];
+                  }
+                  // At the extremes (one of the infinity paddings)
+                  if(d[0] < 0)
+                      return "Prohibited";
+
+                  return "No Limit";
+                })
+        ;
+        legend.labels(labels);
+    } else {
+        legend.labels(colorScale.domain());
+    }
     // Render the legend
-    legendG.call(legend.labels(labels));
+    legendG.call(legend);
 
     // Handle the empty rect case.
     var colors = colorScale.range();

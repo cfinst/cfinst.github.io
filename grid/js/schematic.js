@@ -377,15 +377,25 @@ function initDisclosuresSection(data) {
         ;
 
         function updateSelectedField(d){
+
             descriptionContainer.text(d["Question on Data Entry Form"]);
 
-            // Let the description update instantly, otherwise it feels laggy.
-            setTimeout(function (){
-                grid
-                    .selectedColumn(d["Field Name"])
-                  () // call grid()
-                ;
-            }, 0);
+            var colorScale = d3.scaleOrdinal()
+                .domain([
+                  "Yes",
+                  "No"
+                ])
+                .range([
+                  "#cb181d", // Yes - Light red
+                  "#67000d" // No - Dark red from CFI site
+                ])
+            ;
+
+            grid
+                .selectedColumn(d["Field Name"])
+                .colorScale(colorScale)
+              () // call grid()
+            ;
         }
 
         // Initialize the content to the first field.
