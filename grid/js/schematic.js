@@ -62,6 +62,11 @@ function visualize(error, contribs, contribs2, usa){
     // Initialize the selected year to the most recent.
     var maxYear = d3.max(grid.data(), function (d){ return d.Year; });
     signal.call("selectYear", null, maxYear);
+
+    // Initialize the navigation state.
+    var defaultSection = "contributions";
+    var section = getQueryVariables().section || defaultSection;
+    signal.call("navigate", null, section);
 }
 
 function corpus(error, contribs, contribs2) {
@@ -231,11 +236,13 @@ function project(data, columns) {
 } // project()
 
 function setupTabNavigation() {
+
     var data = [
       { title: "Contribution Limits", section: "contributions" },
       { title: "Disclosure Law", section: "disclosure" },
       { title: "Public Funding", section: "public-funding" },
     ];
+
     d3.select(".nav-tabs")
       .selectAll("li").data(data)
       .enter()
@@ -249,3 +256,19 @@ function setupTabNavigation() {
         })
     ;
 }
+
+// Capture URL query param
+function getQueryVariables() {
+    var inits = {}
+      , query = window.location.search.substring(1).toLowerCase().split("&")
+      , arg // loop variable
+
+    ;
+    query.forEach(function(q) {
+        arg = q.split("=");
+        if(arg[0].length && arg[1].length)
+            inits[arg[0]] = decodeURIComponent(arg[1]);
+      })
+    ;
+    return inits;
+} // getQueryVariables()
