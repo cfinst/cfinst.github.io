@@ -309,11 +309,24 @@ function getQueryVariables() {
 } // getQueryVariables()
 
 function initDisclosuresSection(data) {
-    console.log("Init disclosure section");
-    d3.csv("../data/disclosure-fields.csv", function(disclosureFields) {
+    fetchDisclosureFields(function(disclosureFields) {
         console.log(JSON.stringify(disclosureFields, null, 2));
     });
-    
 } // initDisclosuresSection()
+
+// Cache fetched fields
+var fetchDisclosureFields = (function (){
+    var disclosureFields;
+    return function(callback) {
+        if(disclosureFields) {
+            callback(disclosureFields);
+        } else {
+            d3.csv("../data/disclosure-fields.csv", function(data) {
+                disclosureFields = data;
+                callback(disclosureFields);
+            });
+        }
+    };
+}());
 
 }());
