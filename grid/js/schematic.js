@@ -180,8 +180,11 @@ function corpus(error, contribs, contribs2) {
         downloadCSV(projectedData, filename);
     });
     signal.on("navigate", function (section) {
-        console.log("navigate");
-        console.log(section);
+
+        // Set the URL history to the current section.
+        history.pushState(null, null, '?section=' + section);
+
+        console.log("navigate to " + section);
     });
 
     function querify() {
@@ -243,7 +246,10 @@ function setupTabNavigation() {
       { title: "Public Funding", section: "public-funding" },
     ];
 
-    d3.select(".nav-tabs")
+    var navTabs = d3.select(".nav-tabs");
+
+    // Scaffold the tabs DOM structure.
+    navTabs
       .selectAll("li").data(data)
       .enter()
       .append("li")
@@ -255,6 +261,13 @@ function setupTabNavigation() {
             signal.call("navigate", null, d.section);
         })
     ;
+
+    // Update the "active" tab.
+    signal.on("navigate", function (section) {
+        navTabs.selectAll("li")
+            .classed("active", function (d) { return d.section === section; })
+        ;
+    });
 }
 
 // Capture URL query param
