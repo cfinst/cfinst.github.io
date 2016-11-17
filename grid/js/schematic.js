@@ -221,6 +221,28 @@ function setupTabNavigation() {
 }
 
 function initContributionLimitsSection(data, columns) {
+
+  var bins = [1000, 2500, 5000, 10000]
+      // Color Palettes:
+      // Blues: http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=11
+      // Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
+    , colors = [
+          "#67000d" // Prohibited - Dark red from CFI site
+          , "#053061", "#2166ac", "#4393c3", "#92c5de", "#d1e5f0" // Thresholds
+          , "#cb181d" // Unlimited - Light red
+        ]
+    , colorScale = d3.scaleThreshold()
+        .domain(
+          [0]
+              .concat(bins)
+              .concat(100000000000) // The "or greater" limit of "10,000 or greater"
+        )
+        .range(colors)
+    ;
+
+    // Signal the custom threshold legend rendering in grid.
+    colorScale.bins = bins;
+
     var chooserGroup = d3.select("#meta-controls-top")
       .append("form")
         .attr("class", "form-horizontal")
@@ -277,8 +299,10 @@ function initContributionLimitsSection(data, columns) {
     ;
 
     grid
+        .colorScale(colorScale)
         .selectedColumn(querify())
       () // Call grid()
+    ;
 
     function querify() {
         var col = query.donor + "To" + query.recipient + "Limit"
