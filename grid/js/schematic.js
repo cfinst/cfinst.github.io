@@ -92,8 +92,6 @@ function corpus(error, contribs, contribs2, disclosure1) {
               })
     ;
 
-    initContributionLimitsSection(data, columns);
-
     grid
         .svg(d3.select("svg#main"))
         .data(data)
@@ -123,13 +121,23 @@ function corpus(error, contribs, contribs2, disclosure1) {
         var projectedData = project(data, [xColumn, yColumn, selectedColumn]);
         downloadCSV(projectedData, filename);
     });
-    signal.on("navigate", function (section) {
 
-        // Set the URL history to the current section.
+    // Set the URL history to the current section.
+    signal.on("navigate.history", function (section) {
         history.pushState(null, null, '?section=' + section);
-
-        console.log("navigate to " + section);
     });
+
+    // Update the visualization according to the current section.
+    signal.on("navigate.vis", function (section) {
+        switch(section) {
+            case "contributions":
+                initContributionLimitsSection(data, columns);
+                break;
+            default:
+                console.log("Unknown section name \"" + section + "\"");
+        }
+    });
+
 } // corpus()
 
 
@@ -196,7 +204,7 @@ function setupTabNavigation() {
     ;
 
     // Update the "active" tab.
-    signal.on("navigate", function (section) {
+    signal.on("navigate.active", function (section) {
         navTabs.selectAll("li")
             .classed("active", function (d) { return d.section === section; })
         ;
