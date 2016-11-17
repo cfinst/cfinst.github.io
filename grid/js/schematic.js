@@ -342,15 +342,7 @@ function initDisclosuresSection(data) {
           .append("select")
             .attr("class", "chooser form-control")
             .on("change", function() {
-
-                var d = disclosureFields[this.value];
-
-                descriptionContainer.text(d["Question on Data Entry Form"]);
-
-                grid
-                    .selectedColumn(d["Field Name"])
-                  () // call grid()
-                ;
+                updateSelectedField(disclosureFields[this.value]);
               })
             .selectAll("option")
               .data(disclosureFields)
@@ -358,6 +350,17 @@ function initDisclosuresSection(data) {
               .attr("value", function(d, i) { return i; })
               .text(function(d) { return d["Short Label"]; })
         ;
+
+        function updateSelectedField(d){
+            descriptionContainer.text(d["Question on Data Entry Form"]);
+            grid
+                .selectedColumn(d["Field Name"])
+              () // call grid()
+            ;
+        }
+
+        // Initialize the content to the first field.
+        updateSelectedField(disclosureFields[0]);
     });
 } // initDisclosuresSection()
 
