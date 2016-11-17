@@ -92,14 +92,13 @@ function corpus(error, contribs, contribs2, disclosure1) {
               })
     ;
 
-    initContributionLimitsSection(columns);
+    initContributionLimitsSection(data, columns);
 
     grid
         .svg(d3.select("svg#main"))
         .data(data)
         .tooltip(tip)
         .connect(signal)
-        .selectedColumn(querify())
       () // Call grid()
     ;
     d3.select("#query-string")
@@ -131,17 +130,6 @@ function corpus(error, contribs, contribs2, disclosure1) {
 
         console.log("navigate to " + section);
     });
-
-    function querify() {
-        var col = query.donor + "To" + query.recipient + "Limit"
-          , branch = !d3.map(data[0]).has([col + "_Max"])
-        ;
-        d3.select("#chooser-branch")
-            .attr("disabled", !branch || null)
-            .property("value", !branch ? "" : query.branch)
-        ;
-        return col + (branch ? "_" + query.branch : "") + "_Max";
-    } // querify()
 } // corpus()
 
 
@@ -215,7 +203,7 @@ function setupTabNavigation() {
     });
 }
 
-function initContributionLimitsSection(columns) {
+function initContributionLimitsSection(data, columns) {
     var chooserGroup = d3.select("form").selectAll(".chooser")
         .data(d3.keys(query), identity)
       .enter().append("div")
@@ -267,6 +255,21 @@ function initContributionLimitsSection(columns) {
             query[key] = this.value;
           })
     ;
+
+    grid
+        .selectedColumn(querify())
+      () // Call grid()
+
+    function querify() {
+        var col = query.donor + "To" + query.recipient + "Limit"
+          , branch = !d3.map(data[0]).has([col + "_Max"])
+        ;
+        d3.select("#chooser-branch")
+            .attr("disabled", !branch || null)
+            .property("value", !branch ? "" : query.branch)
+        ;
+        return col + (branch ? "_" + query.branch : "") + "_Max";
+    } // querify()
 }
 
 // Capture URL query param
