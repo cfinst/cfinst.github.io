@@ -130,13 +130,22 @@ function Grid(){
         .attr("width", w)
         .attr("height", h)
         .style("color", function (d){
-            var value = d[keyColumn] === "Limited"
-              ? d[selectedColumn]
-              : d[keyColumn] === "No"
-                ? -Infinity
-                : Infinity
-            ;
-            if(d.Year === sortYear)
+            var value;
+
+            // Handle the case of a threshold scale.
+            if(colorScale.bins){
+                value = d[keyColumn] === "Limited"
+                  ? d[selectedColumn]
+                  : d[keyColumn] === "No"
+                    ? -Infinity
+                    : Infinity
+                ;
+            } else {
+                value = d[selectedColumn];
+            }
+
+            // Construct the message passed into the choropleth.
+            if(d.Year === sortYear) {
                 msg.push({
                     state: d[xColumn]
                   , year: d[yColumn]
@@ -144,7 +153,7 @@ function Grid(){
                   , column: selectedColumn
                   , limit: d[selectedColumn]
                 });
-
+            }
 
             return colorScale(value);
           })

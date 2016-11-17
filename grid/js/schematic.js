@@ -334,7 +334,6 @@ function getQueryVariables() {
 
 function initDisclosuresSection(data) {
     fetchDisclosureFields(function(disclosureFields) {
-        console.log(disclosureFields);
 
         // Only include yes/no fields for now, until we can work
         // out how to dynamically use numeric fields as well.
