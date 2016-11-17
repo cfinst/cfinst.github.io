@@ -91,58 +91,9 @@ function corpus(error, contribs, contribs2, disclosure1) {
                 return [ret[0], receiver[0], receiver[1]];
               })
     ;
-    var chooserGroup = d3.select("form").selectAll(".chooser")
-        .data(d3.keys(query), identity)
-      .enter().append("div")
-        .attr("class", "form-group")
-    ;
 
-    chooserGroup.append("label")
-        .attr("class", "col-sm-2 control-label")
-        .text(function (d) {
-            return d[0].toUpperCase() + d.substr(1);
-        })
-    ;
-    
-    chooserGroup
-      .append("div")
-        .attr("class", "col-sm-10")
-      .append("select")
-        .attr("class", "chooser form-control")
-        .attr("id", function(d) { return "chooser-" + d; })
-        .on("change", function() {
-            query[this.id.split("chooser-")[1]] = this.value;
-            grid
-                .selectedColumn(querify())
-              () // call grid()
-            ;
-          })
-        .each(function(d, i) {
-            var opts = d3.set(
-                    columns
-                      .map(function(c) { return c[i]; })
-                      .filter(identity)
-                  )
-                .values()
-            ;
-            d3.select(this)
-              .append("optgroup")
-                .attr("label", "Select a " + d)
-              .selectAll("option")
-                .data(opts, identity)
-              .enter().append("option")
-                .attr("value", identity)
-                .text(identity)
-            ;
-        })
-    ;
+    initContributionLimitsSection(columns);
 
-    d3.selectAll("form select")
-        .each(function() {
-            var key = this.id.split("-")[1];
-            query[key] = this.value;
-          })
-    ;
     grid
         .svg(d3.select("svg#main"))
         .data(data)
@@ -262,6 +213,60 @@ function setupTabNavigation() {
             .classed("active", function (d) { return d.section === section; })
         ;
     });
+}
+
+function initContributionLimitsSection(columns) {
+    var chooserGroup = d3.select("form").selectAll(".chooser")
+        .data(d3.keys(query), identity)
+      .enter().append("div")
+        .attr("class", "form-group")
+    ;
+
+    chooserGroup.append("label")
+        .attr("class", "col-sm-2 control-label")
+        .text(function (d) {
+            return d[0].toUpperCase() + d.substr(1);
+        })
+    ;
+
+    chooserGroup
+      .append("div")
+        .attr("class", "col-sm-10")
+      .append("select")
+        .attr("class", "chooser form-control")
+        .attr("id", function(d) { return "chooser-" + d; })
+        .on("change", function() {
+            query[this.id.split("chooser-")[1]] = this.value;
+            grid
+                .selectedColumn(querify())
+              () // call grid()
+            ;
+          })
+        .each(function(d, i) {
+            var opts = d3.set(
+                    columns
+                      .map(function(c) { return c[i]; })
+                      .filter(identity)
+                  )
+                .values()
+            ;
+            d3.select(this)
+              .append("optgroup")
+                .attr("label", "Select a " + d)
+              .selectAll("option")
+                .data(opts, identity)
+              .enter().append("option")
+                .attr("value", identity)
+                .text(identity)
+            ;
+        })
+    ;
+    d3.selectAll("form select")
+        .each(function() {
+            var key = this.id.split("-")[1];
+            query[key] = this.value;
+          })
+    ;
 }
 
 // Capture URL query param
