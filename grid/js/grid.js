@@ -199,6 +199,9 @@ function Grid(){
     } else {
         legend.labels(colorScale.domain());
     }
+
+    legend.scale(colorScale);
+
     // Render the legend
     legendG.call(legend);
 
@@ -473,7 +476,6 @@ function Grid(){
   my.colorScale = function (_){
       if(!arguments.length) return colorScale;
       colorScale = _;
-      legend.scale(colorScale)
       return my;
     } // my.colorScale()
   ;

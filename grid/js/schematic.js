@@ -19,7 +19,6 @@ var requested_columns = [
           , "CorpToPACLimit_Max"
           , "LaborToPACLimit_Max"
       ]
-  , query = { donor: false, recipient: false, branch: false }
 ;
 var grid = Grid()
   , atlas = Atlas()
@@ -38,6 +37,8 @@ d3.queue()
   .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_1.csv")
   .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_2.csv")
   .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_1.csv")
+  .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_2.csv")
+  .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_3.csv")
   .defer(d3.json, "../data/usa.json")
     .await(visualize)
 ;
@@ -55,9 +56,9 @@ d3.select(window)
 /*
 ** Helper Functions
 */
-function visualize(error, contribs, contribs2, disclosure1, usa){
+function visualize(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, usa){
 
-    corpus(error, contribs, contribs2, disclosure1);
+    corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure3);
     carto(error, usa);
 
     setupTabNavigation();
@@ -72,11 +73,11 @@ function visualize(error, contribs, contribs2, disclosure1, usa){
     signal.call("navigate", null, section);
 }
 
-function corpus(error, contribs, contribs2, disclosure1) {
+function corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure3) {
     var data = d3.nest()
             .key(function(d) { return d.Identifier; })
             .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
-            .map(d3.merge([contribs, contribs2, disclosure1]))
+            .map(d3.merge([contribs, contribs2, disclosure1, disclosure2, disclosure3]))
             .values()
       , columnsRaw = d3.keys(data[0])
             .filter(function(c) { return c.endsWith("_Max"); })
@@ -222,22 +223,23 @@ function setupTabNavigation() {
 
 function initContributionLimitsSection(data, columns) {
 
-  var bins = [1000, 2500, 5000, 10000]
-      // Color Palettes:
-      // Blues: http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=11
-      // Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
-    , colors = [
-          "#67000d" // Prohibited - Dark red from CFI site
-          , "#053061", "#2166ac", "#4393c3", "#92c5de", "#d1e5f0" // Thresholds
-          , "#cb181d" // Unlimited - Light red
-        ]
-    , colorScale = d3.scaleThreshold()
-        .domain(
-          [0]
-              .concat(bins)
-              .concat(100000000000) // The "or greater" limit of "10,000 or greater"
-        )
-        .range(colors)
+    var bins = [1000, 2500, 5000, 10000]
+        // Color Palettes:
+        // Blues: http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=11
+        // Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
+      , colors = [
+            "#67000d" // Prohibited - Dark red from CFI site
+            , "#053061", "#2166ac", "#4393c3", "#92c5de", "#d1e5f0" // Thresholds
+            , "#cb181d" // Unlimited - Light red
+          ]
+      , colorScale = d3.scaleThreshold()
+          .domain(
+            [0]
+                .concat(bins)
+                .concat(100000000000) // The "or greater" limit of "10,000 or greater"
+          )
+          .range(colors)
+      , query = { donor: false, recipient: false, branch: false }
     ;
 
     // Signal the custom threshold legend rendering in grid.
@@ -268,6 +270,7 @@ function initContributionLimitsSection(data, columns) {
         .on("change", function() {
             query[this.id.split("chooser-")[1]] = this.value;
             grid
+                .colorScale(colorScale)
                 .selectedColumn(querify())
               () // call grid()
             ;
