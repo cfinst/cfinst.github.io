@@ -24,7 +24,13 @@ var requested_columns = [
 var grid = Grid()
   , atlas = Atlas()
   , tip = d3.tip().attr('class', 'd3-tip')
-  , signal = d3.dispatch("update", "selectYear", "downloadCurrentLimits", "downloadAllLimits")
+  , signal = d3.dispatch(
+      "update",
+      "selectYear",
+      "downloadCurrentLimits",
+      "downloadAllLimits",
+      "switchTab"
+    )
 ;
 
 // Load the data and kick-off the visualization.
@@ -50,6 +56,8 @@ d3.select(window)
 function visualize(error, contribs, contribs2, usa){
     corpus(error, contribs, contribs2);
     carto(error, usa);
+
+    setupTabNavigation();
 
     // Initialize the selected year to the most recent.
     var maxYear = d3.max(grid.data(), function (d){ return d.Year; });
@@ -218,3 +226,12 @@ function project(data, columns) {
     });
 } // project()
 
+function setupTabNavigation() {
+    d3.select(".nav-tabs")
+        .selectAll("li a")
+        .on("click", function (d){
+            console.log("Tab clicked");
+        })
+    ;
+    console.log("here");
+}
