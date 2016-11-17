@@ -18,7 +18,6 @@ var requested_columns = [
           , "CorpToPACLimit_Max"
           , "LaborToPACLimit_Max"
       ]
-  , data_files = ["Laws_02_Contributions_1", "Laws_02_Contributions_2"]
   , query = { donor: false, recipient: false, branch: false }
 ;
 var grid = Grid()
@@ -37,9 +36,11 @@ var grid = Grid()
 d3.queue()
   .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_1.csv")
   .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_2.csv")
+  .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_1.csv")
   .defer(d3.json, "../data/usa.json")
     .await(visualize)
 ;
+
 // Responsive
 d3.select(window)
     .on("resize", function() {
@@ -53,7 +54,8 @@ d3.select(window)
 /*
 ** Helper Functions
 */
-function visualize(error, contribs, contribs2, usa){
+function visualize(error, contribs, contribs2, disclosure1, usa){
+console.log(disclosure1);
     corpus(error, contribs, contribs2);
     carto(error, usa);
 
