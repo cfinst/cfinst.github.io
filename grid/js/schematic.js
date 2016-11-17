@@ -311,16 +311,29 @@ function getQueryVariables() {
 function initDisclosuresSection(data) {
     fetchDisclosureFields(function(disclosureFields) {
 
-        var chooserGroup = d3.select("#meta-controls-top")
+        var form = d3.select("#meta-controls-top")
           .append("form")
-            .attr("class", "form-horizontal")
-          .append("div")
+            .attr("class", "form-horizontal");
+
+        var chooserGroup = form.append("div")
             .attr("class", "form-group")
         ;
-
         chooserGroup.append("label")
             .attr("class", "col-sm-2 control-label")
             .text("Question")
+        ;
+
+        var descriptionGroup = form.append("div")
+            .attr("class", "form-group")
+        ;
+        descriptionGroup.append("label")
+            .attr("class", "col-sm-2 control-label")
+            .text("Description")
+        ;
+        var descriptionContainer = descriptionGroup
+          .append("div")
+            .attr("class", "col-sm-10")
+          .append("p")
         ;
 
         chooserGroup
@@ -329,16 +342,20 @@ function initDisclosuresSection(data) {
           .append("select")
             .attr("class", "chooser form-control")
             .on("change", function() {
-                console.log(this.value);
-                //grid
-                //    .selectedColumn(this.value)
-                //  () // call grid()
-                //;
+
+                var d = disclosureFields[this.value];
+
+                descriptionContainer.text(d["Question on Data Entry Form"]);
+
+                grid
+                    .selectedColumn(d["Field Name"])
+                  () // call grid()
+                ;
               })
             .selectAll("option")
               .data(disclosureFields)
             .enter().append("option")
-              .attr("value", function(d) { return d["Field Name"]; })
+              .attr("value", function(d, i) { return i; })
               .text(function(d) { return d["Short Label"]; })
         ;
     });
