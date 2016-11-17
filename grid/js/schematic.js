@@ -55,8 +55,8 @@ d3.select(window)
 ** Helper Functions
 */
 function visualize(error, contribs, contribs2, disclosure1, usa){
-console.log(disclosure1);
-    corpus(error, contribs, contribs2);
+
+    corpus(error, contribs, contribs2, disclosure1);
     carto(error, usa);
 
     setupTabNavigation();
@@ -71,19 +71,11 @@ console.log(disclosure1);
     signal.call("navigate", null, section);
 }
 
-function corpus(error, contribs, contribs2) {
+function corpus(error, contribs, contribs2, disclosure1) {
     var data = d3.nest()
             .key(function(d) { return d.Identifier; })
-            .rollup(function(leaves) {
-                // Combine the two datasets
-                var leaf = leaves[0]
-                  , newleaf = leaves[1]
-                ;
-                d3.keys(newleaf).forEach(function(k) { leaf[k] = newleaf[k]; })
-                leaf.Year = +leaf.Year;
-                return leaf;
-              })
-            .map(d3.merge([contribs, contribs2]))
+            .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
+            .map(d3.merge([contribs, contribs2, disclosure1]))
             .values()
       , columnsRaw = d3.keys(data[0])
             .filter(function(c) { return c.endsWith("_Max"); })
