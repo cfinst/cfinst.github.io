@@ -139,6 +139,9 @@ function corpus(error, contribs, contribs2, disclosure1) {
             case "contributions":
                 initContributionLimitsSection(data, columns);
                 break;
+            case "disclosure":
+                initDisclosuresSection(data);
+                break;
             default:
                 console.log("Unknown section name \"" + section + "\"");
         }
@@ -287,7 +290,7 @@ function initContributionLimitsSection(data, columns) {
         ;
         return col + (branch ? "_" + query.branch : "") + "_Max";
     } // querify()
-}
+} // initContributionLimitsSection()
 
 // Capture URL query param
 function getQueryVariables() {
@@ -304,4 +307,13 @@ function getQueryVariables() {
     ;
     return inits;
 } // getQueryVariables()
+
+function initDisclosuresSection(data) {
+    console.log("Init disclosure section");
+    d3.csv("../data/disclosure-fields.csv", function(disclosureFields) {
+        console.log(JSON.stringify(disclosureFields, null, 2));
+    });
+    
+} // initDisclosuresSection()
+
 }());
