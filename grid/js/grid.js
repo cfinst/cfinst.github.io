@@ -8,6 +8,9 @@ function Grid(){
     , yColumn = "Year"
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
     , colorScale
+    , legendOffsetX = 16
+    , legendOffsetY = 10
+    , legendScale = 1.4
   ;
 
   // DOM Elements.
@@ -15,6 +18,7 @@ function Grid(){
     , xAxisG
     , yAxisG
     , yAxis2G
+    , legendSVG
     , legendG
     , buttonG
     , tooltip
@@ -208,24 +212,30 @@ function Grid(){
 
     legend.scale(colorScale);
 
+    // Remove all the DOM elements in the legend,
+    // because d3-legend was not handling the update case correctly.
+    legendG.select("*").remove();
+
     // Render the legend
     legendG.call(legend);
-
-    // Handle the empty rect case.
-    var colors = colorScale.range();
-    legendG.selectAll("rect")
-        .attr("class", "grid-rect")
-        .classed("empty", function(color) {
-            return color === colors[colors.length - 1] && empty;
-          })
-        .style("color", function (color){ return color; })
-    ;
 
     // Remove the automatically added "label" class,
     // because it unintentionally triggered the "label" class from Bootstrap,
     // which made the font small and bold.
     legendG.selectAll("text")
-        .classed("label", false);
+        .classed("label", false)
+    ;
+
+    // Resize the legend SVG to fit perfectly around the legend.
+    legendSVG
+        .attr("width", 230)
+        .attr("height", (
+            legendOffsetY * 2 + (
+                ( legend.shapeHeight() + legend.shapePadding() )
+                * legend.labels().length
+            ) * legendScale
+        ))
+    ;
 
   } // render_legend()
 
@@ -383,8 +393,9 @@ function Grid(){
       yAxis2G = axes.append("g")
           .attr("class", "y axis")
       ;
-      legendG = d3.select("#color-legend").append("g")
-          .attr("transform", "translate(16, 10) scale(1.4)")
+      legendSVG = d3.select("#color-legend");
+      legendG = legendSVG.append("g")
+          .attr("transform", "translate(" + legendOffsetX + ", " + legendOffsetY + ") scale(" + legendScale + ")")
       ;
       buttonG = g.append("g")
           .attr("class", "reset-sort")
