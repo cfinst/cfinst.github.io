@@ -75,7 +75,11 @@ function visualize(error, contribs, contribs2, disclosure1, disclosure2, disclos
 
 function corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure3) {
     var data = d3.nest()
-            .key(function(d) { return d.Identifier; })
+            .key(function(d) {
+                // Construct the identifier from these two fields, 
+                // because the value of d.Identifier is not reliable (sometimes "l").
+                return d.State + d.Year;
+            })
             .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
             .map(d3.merge([contribs, contribs2, disclosure1, disclosure2, disclosure3]))
             .values()
@@ -270,7 +274,6 @@ function initContributionLimitsSection(data, columns) {
         .on("change", function() {
             query[this.id.split("chooser-")[1]] = this.value;
             grid
-                .colorScale(colorScale)
                 .selectedColumn(querify())
               () // call grid()
             ;

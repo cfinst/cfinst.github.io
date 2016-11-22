@@ -43,7 +43,7 @@ function Grid(){
 
   // Main Function Object
   function my() {
-      if(!data) return;
+      if(!data || !colorScale) return;
 
       // Adjust to the size of the HTML container
       size_up();
@@ -108,10 +108,16 @@ function Grid(){
             return d[keyColumn] === "Unlimited";
           })
         .on("mouseover", function(d) {
-            var value = d[keyColumn] === "Unlimited" ? "No Limit"
-              : d[keyColumn] === "Limited"
-                ? moneyFormat(d[selectedColumn])
-                : "Prohibited"
+            var value = (
+                keyColumn ? (
+                    d[keyColumn] === "Unlimited"
+                    ? "No Limit"
+                    : d[keyColumn] === "Limited"
+                    ? moneyFormat(d[selectedColumn])
+                    : "Prohibited"
+                )
+                : d[selectedColumn]
+            )
             ;
             tooltip
                 .html("<span style='text-align: center;'>"
@@ -144,7 +150,7 @@ function Grid(){
                 value = d[selectedColumn];
                 value = (
                   value === undefined ? "Missing Field" :
-                  value.trim() === "" ? "Empty Data" : value
+                  value.trim() === "" ? "Missing Data" : value
                 );
             }
 
@@ -314,8 +320,6 @@ function Grid(){
                 , bkey = n[keyColumn]
                 , aval = m[selectedColumn]
                 , bval = n[selectedColumn]
-                , acol = colorScale(m[selectedColumn])
-                , bcol = colorScale(n[selectedColumn])
               ;
               if(akey != bkey) {
                   if(akey === "No") {
@@ -328,19 +332,6 @@ function Grid(){
               }
 
               if(aval != bval) return aval - bval;
-
-              if(acol === bcol) {
-                  var acols = scorecard[m[xColumn]]
-                          .map(function(d) { return colorScale(d[selectedColumn]); })
-                          .filter(function(d) { return d === acol; })
-                          .length
-                    , bcols = scorecard[n[xColumn]]
-                          .map(function(d) { return colorScale(d[selectedColumn]); })
-                          .filter(function(d) { return d === bcol; })
-                          .length
-                  ;
-                  if(acols != bcols) return acols - bcols;
-              }
 
               // As a last resort tie breaker, use alphabetical ordering.
               return d3.ascending(m.State, n.State);
@@ -426,7 +417,11 @@ function Grid(){
   my.selectedColumn = function (_){
       if(!arguments.length) return selectedColumn;
       selectedColumn = _;
-      keyColumn = selectedColumn.split('Limit')[0];
+      keyColumn = (
+          ~selectedColumn.indexOf('Limit')
+          ? selectedColumn.split('Limit')[0]
+          : undefined
+      )
       reset = false;
       return my;
     } // my.selectedColumn()
