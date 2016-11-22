@@ -144,7 +144,7 @@ function Grid(){
                 value = d[selectedColumn];
                 value = (
                   value === undefined ? "Missing Field" :
-                  value.trim() === "" ? "Empty Data" : value
+                  value.trim() === "" ? "Missing Data" : value
                 );
             }
 
