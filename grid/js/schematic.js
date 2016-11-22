@@ -393,14 +393,20 @@ function initDisclosuresSection(data) {
             descriptionContainer.text(d["Question on Data Entry Form"]);
 
             var colorScale = d3.scaleOrdinal()
-                .domain([ "Yes", "No" ])
+                .domain([
+                  "No"
+                  , "Changed mid-cycle"
+                  , "Yes"
+                  , "Missing Data"
+                ])
                 .range([
-                  "#cb181d" // Yes - Light red
-                  ,"#67000d" // No - Dark red from CFI site
-                  ,"#1b9e77" // Additional colors for unexpected values
-                  ,"#d95f02"
-                  ,"#7570b3"
-                  ,"#e7298a"
+                  "#053061" // No - dark blue
+                  , "#2166ac" // Changed mid-cycle - medium blud
+                  , "#4393c3" // Yes - light blue
+                  , "gray" // Missing Data - gray
+                  , "#d95f02" // More colors for unanticipated values
+                  , "#7570b3"
+                  , "#e7298a"
                 ])
             ;
 
