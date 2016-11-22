@@ -208,18 +208,12 @@ function Grid(){
 
     legend.scale(colorScale);
 
+    // Remove all the DOM elements in the legend,
+    // because d3-legend was not handling the update case correctly.
+    legendG.select("*").remove();
+
     // Render the legend
     legendG.call(legend);
-
-    // Handle the empty rect case.
-    var colors = colorScale.range();
-    legendG.selectAll("rect")
-        .attr("class", "grid-rect")
-        .classed("empty", function(color) {
-            return color === colors[colors.length - 1] && empty;
-          })
-        .style("color", function (color){ return color; })
-    ;
 
     // Remove the automatically added "label" class,
     // because it unintentionally triggered the "label" class from Bootstrap,
