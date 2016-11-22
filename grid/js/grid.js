@@ -43,7 +43,7 @@ function Grid(){
 
   // Main Function Object
   function my() {
-      if(!data) return;
+      if(!data || !colorScale) return;
 
       // Adjust to the size of the HTML container
       size_up();
@@ -314,8 +314,6 @@ function Grid(){
                 , bkey = n[keyColumn]
                 , aval = m[selectedColumn]
                 , bval = n[selectedColumn]
-                , acol = colorScale(m[selectedColumn])
-                , bcol = colorScale(n[selectedColumn])
               ;
               if(akey != bkey) {
                   if(akey === "No") {
@@ -328,19 +326,6 @@ function Grid(){
               }
 
               if(aval != bval) return aval - bval;
-
-              if(acol === bcol) {
-                  var acols = scorecard[m[xColumn]]
-                          .map(function(d) { return colorScale(d[selectedColumn]); })
-                          .filter(function(d) { return d === acol; })
-                          .length
-                    , bcols = scorecard[n[xColumn]]
-                          .map(function(d) { return colorScale(d[selectedColumn]); })
-                          .filter(function(d) { return d === bcol; })
-                          .length
-                  ;
-                  if(acols != bcols) return acols - bcols;
-              }
 
               // As a last resort tie breaker, use alphabetical ordering.
               return d3.ascending(m.State, n.State);
