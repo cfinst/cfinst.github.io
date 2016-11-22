@@ -108,10 +108,16 @@ function Grid(){
             return d[keyColumn] === "Unlimited";
           })
         .on("mouseover", function(d) {
-            var value = d[keyColumn] === "Unlimited" ? "No Limit"
-              : d[keyColumn] === "Limited"
-                ? moneyFormat(d[selectedColumn])
-                : "Prohibited"
+            var value = (
+                keyColumn ? (
+                    d[keyColumn] === "Unlimited"
+                    ? "No Limit"
+                    : d[keyColumn] === "Limited"
+                    ? moneyFormat(d[selectedColumn])
+                    : "Prohibited"
+                )
+                : d[selectedColumn]
+            )
             ;
             tooltip
                 .html("<span style='text-align: center;'>"
@@ -411,7 +417,11 @@ function Grid(){
   my.selectedColumn = function (_){
       if(!arguments.length) return selectedColumn;
       selectedColumn = _;
-      keyColumn = selectedColumn.split('Limit')[0];
+      keyColumn = (
+          ~selectedColumn.indexOf('Limit')
+          ? selectedColumn.split('Limit')[0]
+          : undefined
+      )
       reset = false;
       return my;
     } // my.selectedColumn()
