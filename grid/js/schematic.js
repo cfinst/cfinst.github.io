@@ -270,7 +270,6 @@ function initContributionLimitsSection(data, columns) {
         .on("change", function() {
             query[this.id.split("chooser-")[1]] = this.value;
             grid
-                .colorScale(colorScale)
                 .selectedColumn(querify())
               () // call grid()
             ;
