@@ -39,6 +39,7 @@ d3.queue()
   .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_1.csv")
   .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_2.csv")
   .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_3.csv")
+  .defer(d3.csv, "../data/CSVs/Laws_04_PublicFinancing.csv")
   .defer(d3.json, "../data/usa.json")
     .await(visualize)
 ;
@@ -56,9 +57,9 @@ d3.select(window)
 /*
 ** Helper Functions
 */
-function visualize(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, usa){
+function visualize(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, usa){
 
-    corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure3);
+    corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing);
     carto(error, usa);
 
     setupTabNavigation();
@@ -73,7 +74,7 @@ function visualize(error, contribs, contribs2, disclosure1, disclosure2, disclos
     signal.call("navigate", null, section);
 }
 
-function corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure3) {
+function corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing) {
     var data = d3.nest()
             .key(function(d) {
                 // Construct the identifier from these two fields, 
@@ -81,7 +82,7 @@ function corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure
                 return d.State + d.Year;
             })
             .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
-            .map(d3.merge([contribs, contribs2, disclosure1, disclosure2, disclosure3]))
+            .map(d3.merge([contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing]))
             .values()
       , columnsRaw = d3.keys(data[0])
             .filter(function(c) { return c.endsWith("_Max"); })
@@ -427,7 +428,7 @@ function initDisclosuresSection(data) {
 
 function initPublicFundingSection(data) {
     fetchPublicFundingFields(function(publicFundingFields) {
-        console.log(publicFundingFields);
+        console.log(publicFundingFields.map(function (d){ return d["Field Name"];}));
 
         // Only include yes/no fields for now, until we can work
         // out how to dynamically use numeric fields as well.
@@ -482,16 +483,16 @@ function initPublicFundingSection(data) {
 
             var colorScale = d3.scaleOrdinal()
                 .domain([
-                  "No"
-                  , "Changed mid-cycle"
-                  , "Yes"
-                  , "Missing Data"
+                  "Missing Data"
+                  , "Partial Grant"
+                  , "Matching Funds"
+                  , "Full Public Financing"
                 ])
                 .range([
-                  "#053061" // No - dark blue
-                  , "#2166ac" // Changed mid-cycle - medium blud
-                  , "#4393c3" // Yes - light blue
-                  , "gray" // Missing Data - gray
+                  "gray" // Missing Data - gray
+                  , "#053061" // Partial Grant - dark blue
+                  , "#2166ac" // Matching Funds - medium blud
+                  , "#4393c3" // Full Public Financing - light blue
                   , "#d95f02" // More colors for unanticipated values
                   , "#7570b3"
                   , "#e7298a"
