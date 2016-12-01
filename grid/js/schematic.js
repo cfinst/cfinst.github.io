@@ -249,6 +249,13 @@ function initContributionLimitsSection(data, columns) {
           )
           .range(colors)
       , query = { donor: false, recipient: false, branch: false }
+      , longNames = {
+          H: "House / Assembly"
+          , S: "Senate"
+          , G: "Governer"
+          , Cand: "Candidate"
+          , Corp: "Corporation"
+      }
     ;
 
     // Signal the custom threshold legend rendering in grid.
@@ -298,7 +305,7 @@ function initContributionLimitsSection(data, columns) {
                 .data(opts, identity)
               .enter().append("option")
                 .attr("value", identity)
-                .text(identity)
+                .text(function (d){ return longNames[d] || d; })
             ;
         })
     ;
