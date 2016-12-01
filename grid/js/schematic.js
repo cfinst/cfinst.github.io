@@ -440,9 +440,9 @@ function initPublicFundingSection(data) {
 
         // Only include yes/no fields for now, until we can work
         // out how to dynamically use numeric fields as well.
-        publicFundingFields = publicFundingFields.filter(function (d){
-            return d["Value Type"] === "Logical";
-        });
+        //publicFundingFields = publicFundingFields.filter(function (d){
+        //    return d["Value Type"] === "Logical";
+        //});
 
         var form = d3.select("#meta-controls-top")
           .append("form")
