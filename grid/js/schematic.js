@@ -407,7 +407,8 @@ function initDisclosuresSection(data) {
             var colorScale;
             if(d["Value Type"] === "Dollar Amount"){
 
-                var bins = [1000, 2500, 5000, 10000]
+                //var bins = [1000, 2500, 5000, 10000]
+                var bins = [100, 500, 1000, 10000]
                     // Color Palettes:
                     // Blues: http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=11
                     // Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
