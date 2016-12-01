@@ -40,6 +40,7 @@ d3.queue()
   .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_2.csv")
   .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_3.csv")
   .defer(d3.csv, "../data/CSVs/Laws_04_PublicFinancing.csv")
+  .defer(d3.csv, "../data/CSVs/Laws_05_Other.csv")
   .defer(d3.json, "../data/usa.json")
     .await(visualize)
 ;
@@ -57,9 +58,9 @@ d3.select(window)
 /*
 ** Helper Functions
 */
-function visualize(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, usa){
+function visualize(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other, usa){
 
-    corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing);
+    corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other);
     carto(error, usa);
 
     setupTabNavigation();
@@ -74,7 +75,7 @@ function visualize(error, contribs, contribs2, disclosure1, disclosure2, disclos
     signal.call("navigate", null, section);
 }
 
-function corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing) {
+function corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other) {
     var data = d3.nest()
             .key(function(d) {
                 // Construct the identifier from these two fields, 
@@ -82,7 +83,7 @@ function corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure
                 return d.State + d.Year;
             })
             .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
-            .map(d3.merge([contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing]))
+            .map(d3.merge([contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other]))
             .values()
       , columnsRaw = d3.keys(data[0])
             .filter(function(c) { return c.endsWith("_Max"); })
