@@ -147,6 +147,9 @@ function corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure
             case "disclosure":
                 initDisclosuresSection(data);
                 break;
+            case "public-funding":
+                initPublicFundingSection(data);
+                break;
             default:
                 console.log("Unknown section name \"" + section + "\"");
         }
@@ -370,7 +373,7 @@ function initDisclosuresSection(data) {
           .append("div")
             .attr("class", "col-sm-10")
           .append("p")
-            .attr("class", "disclosure-field-description")
+            .attr("class", "field-description")
         ;
 
         chooserGroup
@@ -422,6 +425,91 @@ function initDisclosuresSection(data) {
     });
 } // initDisclosuresSection()
 
+function initPublicFundingSection(data) {
+    fetchPublicFundingFields(function(publicFundingFields) {
+        console.log(publicFundingFields);
+
+        // Only include yes/no fields for now, until we can work
+        // out how to dynamically use numeric fields as well.
+        publicFundingFields = publicFundingFields.filter(function (d){
+            return d["Value Type"] === "Logical";
+        });
+
+        var form = d3.select("#meta-controls-top")
+          .append("form")
+            .attr("class", "form-horizontal");
+
+        var chooserGroup = form.append("div")
+            .attr("class", "form-group")
+        ;
+        chooserGroup.append("label")
+            .attr("class", "col-sm-2 control-label")
+            .text("Question")
+        ;
+
+        var descriptionGroup = form.append("div")
+            .attr("class", "form-group")
+        ;
+        descriptionGroup.append("label")
+            .attr("class", "col-sm-2 control-label")
+            .text("Description")
+        ;
+        var descriptionContainer = descriptionGroup
+          .append("div")
+            .attr("class", "col-sm-10")
+          .append("p")
+            .attr("class", "field-description")
+        ;
+
+        chooserGroup
+          .append("div")
+            .attr("class", "col-sm-10")
+          .append("select")
+            .attr("class", "chooser form-control")
+            .on("change", function() {
+                updateSelectedField(publicFundingFields[this.value]);
+              })
+            .selectAll("option")
+              .data(publicFundingFields)
+            .enter().append("option")
+              .attr("value", function(d, i) { return i; })
+              .text(function(d) { return d["Short Label"]; })
+        ;
+
+        function updateSelectedField(d){
+
+            descriptionContainer.text(d["Question on Data Entry Form"]);
+
+            var colorScale = d3.scaleOrdinal()
+                .domain([
+                  "No"
+                  , "Changed mid-cycle"
+                  , "Yes"
+                  , "Missing Data"
+                ])
+                .range([
+                  "#053061" // No - dark blue
+                  , "#2166ac" // Changed mid-cycle - medium blud
+                  , "#4393c3" // Yes - light blue
+                  , "gray" // Missing Data - gray
+                  , "#d95f02" // More colors for unanticipated values
+                  , "#7570b3"
+                  , "#e7298a"
+                ])
+            ;
+
+            grid
+                .selectedColumn(d["Field Name"])
+                .colorScale(colorScale)
+              () // call grid()
+            ;
+        }
+
+        // Initialize the content to the first field.
+        updateSelectedField(publicFundingFields[0]);
+    });
+} // initPublicFundingSection()
+
 // Cache fetched fields
 var fetchFields = function (csvPath){
     var data;
@@ -437,7 +525,7 @@ var fetchFields = function (csvPath){
     };
 };
 
-// Cache fetched fields
 var fetchDisclosureFields = fetchFields("../data/disclosure-fields.csv");
+var fetchPublicFundingFields = fetchFields("../data/public-funding-fields.csv");
 
 }());
