@@ -423,18 +423,21 @@ function initDisclosuresSection(data) {
 } // initDisclosuresSection()
 
 // Cache fetched fields
-var fetchDisclosureFields = (function (){
-    var disclosureFields;
+var fetchFields = function (csvPath){
+    var data;
     return function(callback) {
-        if(disclosureFields) {
-            callback(disclosureFields);
+        if(data) {
+            callback(data);
         } else {
-            d3.csv("../data/disclosure-fields.csv", function(data) {
-                disclosureFields = data;
-                callback(disclosureFields);
+            d3.csv(csvPath, function(_) {
+                data = _;
+                callback(data);
             });
         }
     };
-}());
+};
+
+// Cache fetched fields
+var fetchDisclosureFields = fetchFields("../data/disclosure-fields.csv");
 
 }());
