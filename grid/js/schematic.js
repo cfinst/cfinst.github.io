@@ -403,7 +403,6 @@ function initDisclosuresSection(data) {
         function updateSelectedField(d){
 
             descriptionContainer.text(d["Question on Data Entry Form"]);
-            console.log(d);
 
             var colorScale;
             if(d["Value Type"] === "Dollar Amount"){
