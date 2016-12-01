@@ -39,6 +39,8 @@ d3.queue()
   .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_1.csv")
   .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_2.csv")
   .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_3.csv")
+  .defer(d3.csv, "../data/CSVs/Laws_04_PublicFinancing.csv")
+  .defer(d3.csv, "../data/CSVs/Laws_05_Other.csv")
   .defer(d3.json, "../data/usa.json")
     .await(visualize)
 ;
@@ -56,9 +58,9 @@ d3.select(window)
 /*
 ** Helper Functions
 */
-function visualize(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, usa){
+function visualize(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other, usa){
 
-    corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure3);
+    corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other);
     carto(error, usa);
 
     setupTabNavigation();
@@ -73,7 +75,7 @@ function visualize(error, contribs, contribs2, disclosure1, disclosure2, disclos
     signal.call("navigate", null, section);
 }
 
-function corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure3) {
+function corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other) {
     var data = d3.nest()
             .key(function(d) {
                 // Construct the identifier from these two fields, 
@@ -81,7 +83,7 @@ function corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure
                 return d.State + d.Year;
             })
             .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
-            .map(d3.merge([contribs, contribs2, disclosure1, disclosure2, disclosure3]))
+            .map(d3.merge([contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other]))
             .values()
       , columnsRaw = d3.keys(data[0])
             .filter(function(c) { return c.endsWith("_Max"); })
@@ -146,6 +148,9 @@ function corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure
                 break;
             case "disclosure":
                 initDisclosuresSection(data);
+                break;
+            case "public-funding":
+                initPublicFundingSection(data);
                 break;
             default:
                 console.log("Unknown section name \"" + section + "\"");
@@ -244,6 +249,13 @@ function initContributionLimitsSection(data, columns) {
           )
           .range(colors)
       , query = { donor: false, recipient: false, branch: false }
+      , longNames = {
+          H: "House / Assembly"
+          , S: "Senate"
+          , G: "Governer"
+          , Cand: "Candidate"
+          , Corp: "Corporation"
+      }
     ;
 
     // Signal the custom threshold legend rendering in grid.
@@ -293,7 +305,7 @@ function initContributionLimitsSection(data, columns) {
                 .data(opts, identity)
               .enter().append("option")
                 .attr("value", identity)
-                .text(identity)
+                .text(function (d){ return longNames[d] || d; })
             ;
         })
     ;
@@ -343,9 +355,9 @@ function initDisclosuresSection(data) {
 
         // Only include yes/no fields for now, until we can work
         // out how to dynamically use numeric fields as well.
-        disclosureFields = disclosureFields.filter(function (d){
-            return d["Value Type"] === "Y/N";
-        });
+        //disclosureFields = disclosureFields.filter(function (d){
+        //    return d["Value Type"] === "Y/N";
+        //});
 
         var form = d3.select("#meta-controls-top")
           .append("form")
@@ -370,7 +382,7 @@ function initDisclosuresSection(data) {
           .append("div")
             .attr("class", "col-sm-10")
           .append("p")
-            .attr("class", "disclosure-field-description")
+            .attr("class", "field-description")
         ;
 
         chooserGroup
@@ -392,18 +404,121 @@ function initDisclosuresSection(data) {
 
             descriptionContainer.text(d["Question on Data Entry Form"]);
 
+            var colorScale;
+            if(d["Value Type"] === "Dollar Amount"){
+
+                var bins = [1000, 2500, 5000, 10000]
+                    // Color Palettes:
+                    // Blues: http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=11
+                    // Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
+                  , colors = [
+                        "#67000d" // Prohibited - Dark red from CFI site
+                        , "#053061", "#2166ac", "#4393c3", "#92c5de", "#d1e5f0" // Thresholds
+                        , "#cb181d" // Unlimited - Light red
+                      ]
+                colorScale = d3.scaleThreshold()
+                  .domain(
+                    [0]
+                        .concat(bins)
+                        .concat(100000000000) // The "or greater" limit of "10,000 or greater"
+                  )
+                  .range(colors)
+                ;
+
+                // Signal the custom threshold legend rendering in grid.
+                colorScale.bins = bins;
+            } else {
+                colorScale = d3.scaleOrdinal()
+                    .domain([
+                      "No"
+                      , "Changed mid-cycle"
+                      , "Yes"
+                      , "Missing Data"
+                    ])
+                    .range([
+                      "#053061" // No - dark blue
+                      , "#2166ac" // Changed mid-cycle - medium blud
+                      , "#4393c3" // Yes - light blue
+                      , "gray" // Missing Data - gray
+                      , "#d95f02" // More colors for unanticipated values
+                      , "#7570b3"
+                      , "#e7298a"
+                    ])
+                ;
+            }
+
+            grid
+                .selectedColumn(d["Field Name"])
+                .colorScale(colorScale)
+              () // call grid()
+            ;
+        }
+
+        // Initialize the content to the first field.
+        updateSelectedField(disclosureFields[0]);
+    });
+} // initDisclosuresSection()
+
+function initPublicFundingSection(data) {
+    fetchPublicFundingFields(function(publicFundingFields) {
+
+        var form = d3.select("#meta-controls-top")
+          .append("form")
+            .attr("class", "form-horizontal");
+
+        var chooserGroup = form.append("div")
+            .attr("class", "form-group")
+        ;
+        chooserGroup.append("label")
+            .attr("class", "col-sm-2 control-label")
+            .text("Question")
+        ;
+
+        var descriptionGroup = form.append("div")
+            .attr("class", "form-group")
+        ;
+        descriptionGroup.append("label")
+            .attr("class", "col-sm-2 control-label")
+            .text("Description")
+        ;
+        var descriptionContainer = descriptionGroup
+          .append("div")
+            .attr("class", "col-sm-10")
+          .append("p")
+            .attr("class", "field-description")
+        ;
+
+        chooserGroup
+          .append("div")
+            .attr("class", "col-sm-10")
+          .append("select")
+            .attr("class", "chooser form-control")
+            .on("change", function() {
+                updateSelectedField(publicFundingFields[this.value]);
+              })
+            .selectAll("option")
+              .data(publicFundingFields)
+            .enter().append("option")
+              .attr("value", function(d, i) { return i; })
+              .text(function(d) { return d["Short Label"]; })
+        ;
+
+        function updateSelectedField(d){
+
+            descriptionContainer.text(d["Question on Data Entry Form"]);
+
             var colorScale = d3.scaleOrdinal()
                 .domain([
-                  "No"
-                  , "Changed mid-cycle"
-                  , "Yes"
-                  , "Missing Data"
+                  "Missing Data"
+                  , "Partial Grant"
+                  , "Matching Funds"
+                  , "Full Public Financing"
                 ])
                 .range([
-                  "#053061" // No - dark blue
-                  , "#2166ac" // Changed mid-cycle - medium blud
-                  , "#4393c3" // Yes - light blue
-                  , "gray" // Missing Data - gray
+                  "gray" // Missing Data - gray
+                  , "#053061" // Partial Grant - dark blue
+                  , "#2166ac" // Matching Funds - medium blud
+                  , "#4393c3" // Full Public Financing - light blue
                   , "#d95f02" // More colors for unanticipated values
                   , "#7570b3"
                   , "#e7298a"
@@ -418,23 +533,26 @@ function initDisclosuresSection(data) {
         }
 
         // Initialize the content to the first field.
-        updateSelectedField(disclosureFields[0]);
+        updateSelectedField(publicFundingFields[0]);
     });
-} // initDisclosuresSection()
+} // initPublicFundingSection()
 
 // Cache fetched fields
-var fetchDisclosureFields = (function (){
-    var disclosureFields;
+var fetchFields = function (csvPath){
+    var data;
     return function(callback) {
-        if(disclosureFields) {
-            callback(disclosureFields);
+        if(data) {
+            callback(data);
         } else {
-            d3.csv("../data/disclosure-fields.csv", function(data) {
-                disclosureFields = data;
-                callback(disclosureFields);
+            d3.csv(csvPath, function(_) {
+                data = _;
+                callback(data);
             });
         }
     };
-}());
+};
+
+var fetchDisclosureFields = fetchFields("../data/disclosure-fields.csv");
+var fetchPublicFundingFields = fetchFields("../data/public-funding-fields.csv");
 
 }());

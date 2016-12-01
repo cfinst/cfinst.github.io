@@ -27,3 +27,15 @@ Exporting Laws_03_Disclosure_3 to CSV...
 Exporting Laws_04_PublicFinancing to CSV...
 ...
 ```
+
+### Updating Field Descriptions
+
+Export the field description spreadsheets as CSV files, then copy them into `data/disclosure-fields.csv` and `data/public-funding-fields.csv`.
+
+Here's one example set of commands that matches file names when exported from Google Sheets.
+
+```
+cp ~/Downloads/Field\ Names-Descriptions\ for\ Visuals_v2.xlsx\ -\ * .
+mv Field\ Names-Descriptions\ for\ Visuals_v2.xlsx\ -\ Disclosure.csv data/disclosure-fields.csv
+mv Field\ Names-Descriptions\ for\ Visuals_v2.xlsx\ -\ Public\ Funding.csv data/public-funding-fields.csv
+```

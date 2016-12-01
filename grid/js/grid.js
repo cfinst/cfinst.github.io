@@ -143,9 +143,9 @@ function Grid(){
             var value;
 
             // Handle the case of a threshold scale.
-            if(colorScale.bins){
+            if(colorScale.bins && keyColumn){
                 value = d[keyColumn] === "Limited"
-                  ? d[selectedColumn]
+                  ? +d[selectedColumn]
                   : d[keyColumn] === "No"
                     ? -Infinity
                     : Infinity
