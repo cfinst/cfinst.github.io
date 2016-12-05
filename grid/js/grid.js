@@ -200,7 +200,7 @@ function Grid(){
                   }
                   // At the extremes (one of the infinity paddings)
                   if(d[0] < 0)
-                      return "Prohibited";
+                      return colorScale.lowerBoundLabel || "Prohibited";
 
                   return "No Limit";
                 })

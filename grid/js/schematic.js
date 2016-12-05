@@ -380,6 +380,7 @@ function initDisclosuresSection(data) {
             // Signal the custom threshold legend rendering in grid.
             colorScale.bins = bins;
             colorScale.emptyValue = -Infinity;
+            colorScale.lowerBoundLabel = "$0";
         } else {
             colorScale = d3.scaleOrdinal()
                 .domain([
