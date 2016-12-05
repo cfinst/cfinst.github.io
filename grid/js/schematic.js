@@ -351,6 +351,56 @@ function getQueryVariables() {
 } // getQueryVariables()
 
 function initDisclosuresSection(data) {
+
+    function getColorScale(d){
+        var colorScale;
+        if(d["Value Type"] === "Dollar Amount"){
+
+            // Use smaller bins for donor exemption fields.
+            var useSmallBins = ~d["Field Name"].indexOf("DonorExemption")
+
+            var bins = useSmallBins ? [50, 100, 200, 500] : [1000, 2500, 5000, 10000]
+                // Color Palettes:
+                // Blues: http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=11
+                // Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
+              , colors = [
+                    "#67000d" // Prohibited - Dark red from CFI site
+                    , "#053061", "#2166ac", "#4393c3", "#92c5de", "#d1e5f0" // Thresholds
+                    , "#cb181d" // Unlimited - Light red
+                  ]
+            colorScale = d3.scaleThreshold()
+              .domain(
+                [0]
+                    .concat(bins)
+                    .concat(100000000000) // The "or greater" limit
+              )
+              .range(colors)
+            ;
+
+            // Signal the custom threshold legend rendering in grid.
+            colorScale.bins = bins;
+        } else {
+            colorScale = d3.scaleOrdinal()
+                .domain([
+                  "No"
+                  , "Changed mid-cycle"
+                  , "Yes"
+                  , "Missing Data"
+                ])
+                .range([
+                  "#053061" // No - dark blue
+                  , "#2166ac" // Changed mid-cycle - medium blud
+                  , "#4393c3" // Yes - light blue
+                  , "gray" // Missing Data - gray
+                  , "#d95f02" // More colors for unanticipated values
+                  , "#7570b3"
+                  , "#e7298a"
+                ])
+            ;
+        }
+        return colorScale;
+    }
+
     fetchDisclosureFields(function(disclosureFields) {
 
         // Only include yes/no fields for now, until we can work
@@ -404,49 +454,7 @@ function initDisclosuresSection(data) {
 
             descriptionContainer.text(d["Question on Data Entry Form"]);
 
-            var colorScale;
-            if(d["Value Type"] === "Dollar Amount"){
-
-                //var bins = [1000, 2500, 5000, 10000]
-                var bins = [100, 500, 1000, 10000]
-                    // Color Palettes:
-                    // Blues: http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=11
-                    // Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
-                  , colors = [
-                        "#67000d" // Prohibited - Dark red from CFI site
-                        , "#053061", "#2166ac", "#4393c3", "#92c5de", "#d1e5f0" // Thresholds
-                        , "#cb181d" // Unlimited - Light red
-                      ]
-                colorScale = d3.scaleThreshold()
-                  .domain(
-                    [0]
-                        .concat(bins)
-                        .concat(100000000000) // The "or greater" limit of "10,000 or greater"
-                  )
-                  .range(colors)
-                ;
-
-                // Signal the custom threshold legend rendering in grid.
-                colorScale.bins = bins;
-            } else {
-                colorScale = d3.scaleOrdinal()
-                    .domain([
-                      "No"
-                      , "Changed mid-cycle"
-                      , "Yes"
-                      , "Missing Data"
-                    ])
-                    .range([
-                      "#053061" // No - dark blue
-                      , "#2166ac" // Changed mid-cycle - medium blud
-                      , "#4393c3" // Yes - light blue
-                      , "gray" // Missing Data - gray
-                      , "#d95f02" // More colors for unanticipated values
-                      , "#7570b3"
-                      , "#e7298a"
-                    ])
-                ;
-            }
+            var colorScale = getColorScale(d);
 
             grid
                 .selectedColumn(d["Field Name"])
