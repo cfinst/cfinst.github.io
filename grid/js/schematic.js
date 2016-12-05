@@ -379,6 +379,7 @@ function initDisclosuresSection(data) {
 
             // Signal the custom threshold legend rendering in grid.
             colorScale.bins = bins;
+            colorScale.emptyValue = -Infinity;
         } else {
             colorScale = d3.scaleOrdinal()
                 .domain([
@@ -402,12 +403,6 @@ function initDisclosuresSection(data) {
     }
 
     fetchDisclosureFields(function(disclosureFields) {
-
-        // Only include yes/no fields for now, until we can work
-        // out how to dynamically use numeric fields as well.
-        //disclosureFields = disclosureFields.filter(function (d){
-        //    return d["Value Type"] === "Y/N";
-        //});
 
         var form = d3.select("#meta-controls-top")
           .append("form")
