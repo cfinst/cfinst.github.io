@@ -13,6 +13,25 @@ function Grid(){
     , legendScale = 1.4
   ;
 
+  function tooltipContent(d) {
+      var value = (
+          keyColumn ? (
+              d[keyColumn] === "Unlimited"
+              ? "No Limit"
+              : d[keyColumn] === "Limited"
+              ? moneyFormat(d[selectedColumn])
+              : "Prohibited"
+          )
+          : d[selectedColumn]
+      );
+      return "<span style='text-align: center;'>"
+        + "<h4>" + d[xColumn] + " " + d[yColumn] + "</h4>"
+        + "<p>" + selectedColumn + ":</p>"
+        + "<p>" + value + "</p>"
+        + "</span>"
+      ;
+  }
+
   // DOM Elements.
   var svg
     , xAxisG
@@ -112,24 +131,8 @@ function Grid(){
             return d[keyColumn] === "Unlimited";
           })
         .on("mouseover", function(d) {
-            var value = (
-                keyColumn ? (
-                    d[keyColumn] === "Unlimited"
-                    ? "No Limit"
-                    : d[keyColumn] === "Limited"
-                    ? moneyFormat(d[selectedColumn])
-                    : "Prohibited"
-                )
-                : d[selectedColumn]
-            )
-            ;
             tooltip
-                .html("<span style='text-align: center;'>"
-                    + "<h4>" + d[xColumn] + " " + d[yColumn] + "</h4>"
-                    + "<p>" + selectedColumn + ":</p>"
-                    + "<p>" + value + "</p>"
-                    + "</span>"
-                  )
+                .html(tooltipContent(d))
                 .show()
             ;
           })
