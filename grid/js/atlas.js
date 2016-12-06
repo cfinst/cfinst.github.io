@@ -8,6 +8,17 @@ function Atlas() {
       , selectedYear
     ;
 
+    function tooltipContent(d) {
+        return '<span style="text-align: center;">'
+            + "<h4>"
+              + d.state + " " + d.year
+            + "</h4>"
+            + "<p>" + d.column + ":</p>"
+            + "<p>" + d.limit + "</p>"
+            + "</span>"
+        ;
+    }
+
     function my(el) {
       svg = el
           .attr("viewBox", "0 0 " + width + " " + height)
@@ -68,15 +79,8 @@ function Atlas() {
                 .style("fill", datum.value.color)
                 .style("stroke", "white")
                 .on("mouseover", function() {
-                    tooltip.
-                        html('<span style="text-align: center;">'
-                            + "<h4>"
-                              + datum.value.state + " " + datum.value.year
-                            + "</h4>"
-                            + "<p>" + datum.value.column + ":</p>"
-                            + "<p>" + datum.value.limit + "</p>"
-                            + "</span>"
-                          )
+                    tooltip
+                        .html(tooltipContent(datum.value))
                         .show()
                     ;
                   })
