@@ -127,9 +127,6 @@ function Grid(){
         .attr("height", 0)
       .merge(rects)
         .attr("class", "grid-rect")
-        .classed("unlimited", function (d){
-            return d[keyColumn] === "Unlimited";
-          })
         .on("mouseover", function(d) {
             tooltip
                 .html(tooltipContent(d))
