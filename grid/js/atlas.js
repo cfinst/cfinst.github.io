@@ -24,13 +24,6 @@ function Atlas() {
             })
         .append("path")
           .attr("d", function(d) { return path(d.feature); })
-          .on("mouseover", function(d) {
-              tooltip
-                  .html(d.feature.properties.usps)
-                  .show()
-              ;
-            })
-          .on("mouseout", tooltip.hide)
       ;
       svg.append("text")
           .attr("class", "atlas-selected-year")
