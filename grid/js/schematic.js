@@ -391,7 +391,7 @@ function initDisclosuresSection(data) {
                 ])
                 .range([
                   "#053061" // No - dark blue
-                  , "#2166ac" // Changed mid-cycle - medium blud
+                  , "#2166ac" // Changed mid-cycle - medium blue
                   , "#4393c3" // Yes - light blue
                   , "gray" // Missing Data - gray
                   , "#d95f02" // More colors for unanticipated values
@@ -526,9 +526,26 @@ function initPublicFundingSection(data) {
                     ])
                     .range([
                       "#053061" // No - dark blue
-                      , "#2166ac" // Changed mid-cycle - medium blud
+                      , "#2166ac" // Changed mid-cycle - medium blue
                       , "#4393c3" // Yes - light blue
                       , "gray" // Missing Data - gray
+                      , "#d95f02" // More colors for unanticipated values
+                      , "#7570b3"
+                      , "#e7298a"
+                    ])
+                ;
+            } else if(selectedColumn === "RefundOrTaxCreditOrTaxDeduction"){
+                colorScale = d3.scaleOrdinal()
+                    .domain([
+                      "Missing Data"
+                      , "None"
+                    ])
+                    .range([
+                      "gray" // Missing Data - gray
+                      , "gray" // None - gray
+                      , "#053061" // dark blue
+                      , "#2166ac" // medium blue
+                      , "#4393c3" // light blue
                       , "#d95f02" // More colors for unanticipated values
                       , "#7570b3"
                       , "#e7298a"
@@ -545,7 +562,7 @@ function initPublicFundingSection(data) {
                     .range([
                       "gray" // Missing Data - gray
                       , "#053061" // Partial Grant - dark blue
-                      , "#2166ac" // Matching Funds - medium blud
+                      , "#2166ac" // Matching Funds - medium blue
                       , "#4393c3" // Full Public Financing - light blue
                       , "#d95f02" // More colors for unanticipated values
                       , "#7570b3"
