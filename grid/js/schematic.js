@@ -509,29 +509,53 @@ function initPublicFundingSection(data) {
         ;
 
         function updateSelectedField(d){
+            var selectedColumn = d["Field Name"];
 
             descriptionContainer.text(d["Question on Data Entry Form"]);
 
-            var colorScale = d3.scaleOrdinal()
-                .domain([
-                  "Missing Data"
-                  , "Partial Grant"
-                  , "Matching Funds"
-                  , "Full Public Financing"
-                ])
-                .range([
-                  "gray" // Missing Data - gray
-                  , "#053061" // Partial Grant - dark blue
-                  , "#2166ac" // Matching Funds - medium blud
-                  , "#4393c3" // Full Public Financing - light blue
-                  , "#d95f02" // More colors for unanticipated values
-                  , "#7570b3"
-                  , "#e7298a"
-                ])
-            ;
+            var colorScale;
+
+            // Custom color scale for "Public Funds for State Parties?" (PublicFunding_P)
+            if(selectedColumn === "PublicFunding_P"){
+                colorScale = d3.scaleOrdinal()
+                    .domain([
+                      "No"
+                      , "Changed mid-cycle"
+                      , "Yes"
+                      , "Missing Data"
+                    ])
+                    .range([
+                      "#053061" // No - dark blue
+                      , "#2166ac" // Changed mid-cycle - medium blud
+                      , "#4393c3" // Yes - light blue
+                      , "gray" // Missing Data - gray
+                      , "#d95f02" // More colors for unanticipated values
+                      , "#7570b3"
+                      , "#e7298a"
+                    ])
+                ;
+            } else {
+                colorScale = d3.scaleOrdinal()
+                    .domain([
+                      "Missing Data"
+                      , "Partial Grant"
+                      , "Matching Funds"
+                      , "Full Public Financing"
+                    ])
+                    .range([
+                      "gray" // Missing Data - gray
+                      , "#053061" // Partial Grant - dark blue
+                      , "#2166ac" // Matching Funds - medium blud
+                      , "#4393c3" // Full Public Financing - light blue
+                      , "#d95f02" // More colors for unanticipated values
+                      , "#7570b3"
+                      , "#e7298a"
+                    ])
+                ;
+            }
 
             grid
-                .selectedColumn(d["Field Name"])
+                .selectedColumn(selectedColumn)
                 .colorScale(colorScale)
               () // call grid()
             ;
