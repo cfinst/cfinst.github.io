@@ -423,7 +423,9 @@ function Grid(){
               value = d[selectedColumn];
               value = (
                 value === undefined ? "Missing Field" :
-                value.trim() === "" ? (colorScale.emptyValue || "Missing Data") : value
+                value.trim() === "" ? (colorScale.emptyValue || "Missing Data") :
+                isNaN(+value) ? value :
+                +value
               );
           }
           return value;
@@ -433,6 +435,7 @@ function Grid(){
           return (
               value === -Infinity ? "Prohibited" :
               value === Infinity ? "Unlimited" :
+              typeof value === "string" ? value :
               moneyFormat(value)
           );
       };
