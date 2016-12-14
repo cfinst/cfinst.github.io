@@ -39,6 +39,7 @@ function Grid(){
   // Internal state variables.
   var selectedColumn, keyColumn
     , valueAccessor // The accessor function(d) for the value to visualize.
+    , format // The formatter function, works from the output of valueAccessor(d).
     , data
     , sortYear
     , scorecard
@@ -112,7 +113,7 @@ function Grid(){
         .attr("class", "grid-rect")
         .on("mouseover", function(d) {
             tooltip
-                .html(tooltipContent(d, selectedColumn, valueAccessor))
+                .html(tooltipContent(d, selectedColumn, format))
                 .show()
             ;
           })
@@ -424,7 +425,20 @@ function Grid(){
           : undefined
       );
 
-      valueAccessor = function (d){
+      //valueAccessor = function (d){
+      //    return (
+      //        keyColumn ? (
+      //            d[keyColumn] === "Unlimited"
+      //            ? "No Limit"
+      //            : d[keyColumn] === "Limited"
+      //            ? moneyFormat(d[selectedColumn])
+      //            : "Prohibited"
+      //        )
+      //        : d[selectedColumn]
+      //    );
+      //};
+
+      format = function (d){
           return (
               keyColumn ? (
                   d[keyColumn] === "Unlimited"
@@ -436,7 +450,6 @@ function Grid(){
               : d[selectedColumn]
           );
       };
-
 
       reset = false;
       return my;
