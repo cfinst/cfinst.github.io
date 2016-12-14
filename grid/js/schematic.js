@@ -20,8 +20,21 @@ var requested_columns = [
           , "LaborToPACLimit_Max"
       ]
 ;
+
+function atlasTooltipContent(d) {
+    return '<span style="text-align: center;">'
+        + "<h4>"
+          + d.state + " " + d.year
+        + "</h4>"
+        + "<p>" + d.column + ":</p>"
+        + "<p>" + d.limit + "</p>"
+        + "</span>"
+    ;
+}
+
 var grid = Grid()
   , atlas = Atlas()
+      .tooltipContent(atlasTooltipContent)
   , tip = d3.tip().attr('class', 'd3-tip')
   , signal = d3.dispatch(
       "update",

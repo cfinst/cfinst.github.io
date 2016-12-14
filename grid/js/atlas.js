@@ -4,20 +4,10 @@ function Atlas() {
       , height = 530
       , margin = { top: 10, left: 20, right: 20, bottom: 10 }
       , tooltip
+      , tooltipContent
       , svg
       , selectedYear
     ;
-
-    function tooltipContent(d) {
-        return '<span style="text-align: center;">'
-            + "<h4>"
-              + d.state + " " + d.year
-            + "</h4>"
-            + "<p>" + d.column + ":</p>"
-            + "<p>" + d.limit + "</p>"
-            + "</span>"
-        ;
-    }
 
     function my(el) {
       svg = el
@@ -101,6 +91,12 @@ function Atlas() {
         tooltip = _;
         return my;
       } // my.tooltip()
+    ;
+    my.tooltipContent = function (_){
+        if(!arguments.length) return tooltipContent;
+        tooltipContent = _;
+        return my;
+      } // my.tooltipContent()
     ;
 
     my.selectedYear = function (selectedYear) {
