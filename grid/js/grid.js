@@ -11,26 +11,8 @@ function Grid(){
     , legendOffsetX = 16
     , legendOffsetY = 10
     , legendScale = 1.4
+    , tooltipContent
   ;
-
-  function tooltipContent(d) {
-      var value = (
-          keyColumn ? (
-              d[keyColumn] === "Unlimited"
-              ? "No Limit"
-              : d[keyColumn] === "Limited"
-              ? moneyFormat(d[selectedColumn])
-              : "Prohibited"
-          )
-          : d[selectedColumn]
-      );
-      return "<span style='text-align: center;'>"
-        + "<h4>" + d[xColumn] + " " + d[yColumn] + "</h4>"
-        + "<p>" + selectedColumn + ":</p>"
-        + "<p>" + value + "</p>"
-        + "</span>"
-      ;
-  }
 
   // DOM Elements.
   var svg
@@ -129,7 +111,7 @@ function Grid(){
         .attr("class", "grid-rect")
         .on("mouseover", function(d) {
             tooltip
-                .html(tooltipContent(d))
+                .html(tooltipContent(d, selectedColumn, keyColumn, moneyFormat))
                 .show()
             ;
           })
@@ -409,6 +391,12 @@ function Grid(){
       svg.call(tooltip);
       return my;
     } // my.tooltip();
+  ;
+  my.tooltipContent = function (_){
+      if(!arguments.length) return tooltipContent;
+      tooltipContent = _;
+      return my;
+    } // my.tooltipContent()
   ;
   my.data = function (_){
       if(!arguments.length) return data;

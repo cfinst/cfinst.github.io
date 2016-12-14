@@ -32,7 +32,28 @@ function atlasTooltipContent(d) {
     ;
 }
 
+function gridTooltipContent(d, selectedColumn, keyColumn, moneyFormat) {
+    var value = (
+        keyColumn ? (
+            d[keyColumn] === "Unlimited"
+            ? "No Limit"
+            : d[keyColumn] === "Limited"
+            ? moneyFormat(d[selectedColumn])
+            : "Prohibited"
+        )
+        : d[selectedColumn]
+    );
+    return "<span style='text-align: center;'>"
+      + "<h4>" + d.State + " " + d.Year + "</h4>"
+      + "<p>" + selectedColumn + ":</p>"
+      + "<p>" + value + "</p>"
+      + "</span>"
+    ;
+}
+
+
 var grid = Grid()
+      .tooltipContent(gridTooltipContent)
   , atlas = Atlas()
       .tooltipContent(atlasTooltipContent)
   , tip = d3.tip().attr('class', 'd3-tip')
