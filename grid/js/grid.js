@@ -38,6 +38,7 @@ function Grid(){
   ;
   // Internal state variables.
   var selectedColumn, keyColumn
+    , value // The accessor function(d) for the value to visualize.
     , data
     , sortYear
     , scorecard
@@ -111,7 +112,7 @@ function Grid(){
         .attr("class", "grid-rect")
         .on("mouseover", function(d) {
             tooltip
-                .html(tooltipContent(d, selectedColumn, keyColumn, moneyFormat))
+                .html(tooltipContent(d, selectedColumn, value))
                 .show()
             ;
           })
@@ -415,12 +416,28 @@ function Grid(){
   ;
   my.selectedColumn = function (_){
       if(!arguments.length) return selectedColumn;
+
       selectedColumn = _;
       keyColumn = (
           ~selectedColumn.indexOf('Limit')
           ? selectedColumn.split('Limit')[0]
           : undefined
-      )
+      );
+
+      value = function (d){
+          return (
+              keyColumn ? (
+                  d[keyColumn] === "Unlimited"
+                  ? "No Limit"
+                  : d[keyColumn] === "Limited"
+                  ? moneyFormat(d[selectedColumn])
+                  : "Prohibited"
+              )
+              : d[selectedColumn]
+          );
+      };
+
+
       reset = false;
       return my;
     } // my.selectedColumn()

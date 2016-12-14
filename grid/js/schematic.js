@@ -32,21 +32,11 @@ function atlasTooltipContent(d) {
     ;
 }
 
-function gridTooltipContent(d, selectedColumn, keyColumn, moneyFormat) {
-    var value = (
-        keyColumn ? (
-            d[keyColumn] === "Unlimited"
-            ? "No Limit"
-            : d[keyColumn] === "Limited"
-            ? moneyFormat(d[selectedColumn])
-            : "Prohibited"
-        )
-        : d[selectedColumn]
-    );
+function gridTooltipContent(d, selectedColumn, value) {
     return "<span style='text-align: center;'>"
       + "<h4>" + d.State + " " + d.Year + "</h4>"
       + "<p>" + selectedColumn + ":</p>"
-      + "<p>" + value + "</p>"
+      + "<p>" + value(d) + "</p>"
       + "</span>"
     ;
 }
