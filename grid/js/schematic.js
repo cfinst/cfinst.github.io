@@ -32,11 +32,11 @@ function atlasTooltipContent(d) {
     ;
 }
 
-function gridTooltipContent(d, selectedColumn, value) {
+function gridTooltipContent(d, selectedColumn, valueAccessor, format) {
     return "<span style='text-align: center;'>"
       + "<h4>" + d.State + " " + d.Year + "</h4>"
       + "<p>" + selectedColumn + ":</p>"
-      + "<p>" + value(d) + "</p>"
+      + "<p>" + format(valueAccessor(d)) + "</p>"
       + "</span>"
     ;
 }

@@ -113,7 +113,7 @@ function Grid(){
         .attr("class", "grid-rect")
         .on("mouseover", function(d) {
             tooltip
-                .html(tooltipContent(d, selectedColumn, format))
+                .html(tooltipContent(d, selectedColumn, valueAccessor, format))
                 .show()
             ;
           })
@@ -429,16 +429,11 @@ function Grid(){
           return value;
       }
 
-      format = function (d){
+      format = function (value){
           return (
-              keyColumn ? (
-                  d[keyColumn] === "Unlimited"
-                  ? "No Limit"
-                  : d[keyColumn] === "Limited"
-                  ? moneyFormat(d[selectedColumn])
-                  : "Prohibited"
-              )
-              : d[selectedColumn]
+              value === -Infinity ? "Prohibited" :
+              value === Infinity ? "Unlimited" :
+              moneyFormat(value)
           );
       };
 
