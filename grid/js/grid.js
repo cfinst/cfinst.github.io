@@ -294,25 +294,7 @@ function Grid(){
       var sorted = data
           .filter(function(d) { return d[yColumn] === sortYear; })
           .sort(function(m, n) {
-              var akey = m[keyColumn]
-                , bkey = n[keyColumn]
-                , aval = m[selectedColumn]
-                , bval = n[selectedColumn]
-              ;
-              if(akey != bkey) {
-                  if(akey === "No") {
-                      if(bkey != "No") return -1;
-                  }
-                  else {
-                      if(bkey === "No") return 1;
-                      return akey === "Limited" ? -1 : 1;
-                  }
-              }
-
-              if(aval != bval) return aval - bval;
-
-              // As a last resort tie breaker, use alphabetical ordering.
-              return d3.ascending(m.State, n.State);
+              return d3.ascending(valueAccessor(m), valueAccessor(n));
             })
           .map(function(d) { return d[xColumn]; })
       ;
