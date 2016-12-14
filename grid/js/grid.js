@@ -124,23 +124,7 @@ function Grid(){
         .attr("width", w)
         .attr("height", h)
         .style("color", function (d){
-            var value;
-
-            // Handle the case of a threshold scale.
-            if(keyColumn){
-                value = d[keyColumn] === "Limited"
-                  ? +d[selectedColumn]
-                  : d[keyColumn] === "No"
-                    ? -Infinity
-                    : Infinity
-                ;
-            } else {
-                value = d[selectedColumn];
-                value = (
-                  value === undefined ? "Missing Field" :
-                  value.trim() === "" ? (colorScale.emptyValue || "Missing Data") : value
-                );
-            }
+            var value = valueAccessor(d);
 
             // Construct the message passed into the choropleth.
             if(d.Year === sortYear) {
@@ -425,18 +409,25 @@ function Grid(){
           : undefined
       );
 
-      //valueAccessor = function (d){
-      //    return (
-      //        keyColumn ? (
-      //            d[keyColumn] === "Unlimited"
-      //            ? "No Limit"
-      //            : d[keyColumn] === "Limited"
-      //            ? moneyFormat(d[selectedColumn])
-      //            : "Prohibited"
-      //        )
-      //        : d[selectedColumn]
-      //    );
-      //};
+      valueAccessor = function (d){
+          var value;
+          // Handle the case of a threshold scale.
+          if(keyColumn){
+              value = d[keyColumn] === "Limited"
+                ? +d[selectedColumn]
+                : d[keyColumn] === "No"
+                  ? -Infinity
+                  : Infinity
+              ;
+          } else {
+              value = d[selectedColumn];
+              value = (
+                value === undefined ? "Missing Field" :
+                value.trim() === "" ? (colorScale.emptyValue || "Missing Data") : value
+              );
+          }
+          return value;
+      }
 
       format = function (d){
           return (
