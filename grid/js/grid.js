@@ -37,7 +37,7 @@ function Grid(){
     , axisY2 = d3.axisRight()
   ;
   // Internal state variables.
-  var selectedColumn, keyColumn
+  var selectedColumn
     , valueAccessor // The accessor function(d) for the value to visualize.
     , format // The formatter function, works from the output of valueAccessor(d).
     , data
@@ -385,7 +385,7 @@ function Grid(){
       if(!arguments.length) return selectedColumn;
 
       selectedColumn = _;
-      keyColumn = (
+      var keyColumn = (
           ~selectedColumn.indexOf('Limit')
           ? selectedColumn.split('Limit')[0]
           : undefined
