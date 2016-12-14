@@ -38,7 +38,7 @@ function Grid(){
   ;
   // Internal state variables.
   var selectedColumn, keyColumn
-    , value // The accessor function(d) for the value to visualize.
+    , valueAccessor // The accessor function(d) for the value to visualize.
     , data
     , sortYear
     , scorecard
@@ -112,7 +112,7 @@ function Grid(){
         .attr("class", "grid-rect")
         .on("mouseover", function(d) {
             tooltip
-                .html(tooltipContent(d, selectedColumn, value))
+                .html(tooltipContent(d, selectedColumn, valueAccessor))
                 .show()
             ;
           })
@@ -126,7 +126,7 @@ function Grid(){
             var value;
 
             // Handle the case of a threshold scale.
-            if(colorScale.bins && keyColumn){
+            if(keyColumn){
                 value = d[keyColumn] === "Limited"
                   ? +d[selectedColumn]
                   : d[keyColumn] === "No"
@@ -424,7 +424,7 @@ function Grid(){
           : undefined
       );
 
-      value = function (d){
+      valueAccessor = function (d){
           return (
               keyColumn ? (
                   d[keyColumn] === "Unlimited"
