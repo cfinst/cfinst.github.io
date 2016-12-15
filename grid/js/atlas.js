@@ -70,7 +70,7 @@ function Atlas() {
                 .style("stroke", "white")
                 .on("mouseover", function() {
                     tooltip
-                        .html(tooltipContent(datum.value))
+                        .html(tooltipContent(datum.value.d))
                         .show()
                     ;
                   })

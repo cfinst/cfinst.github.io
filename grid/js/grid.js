@@ -113,7 +113,7 @@ function Grid(){
         .attr("class", "grid-rect")
         .on("mouseover", function(d) {
             tooltip
-                .html(tooltipContent(d, selectedColumn, valueAccessor, format))
+                .html(tooltipContent(d))
                 .show()
             ;
           })
@@ -129,7 +129,8 @@ function Grid(){
             // Construct the message passed into the choropleth.
             if(d.Year === sortYear) {
                 msg.push({
-                    state: d[xColumn]
+                    d: d
+                  , state: d[xColumn]
                   , year: d[yColumn]
                   , color: colorScale(value)
                   , column: selectedColumn
@@ -425,6 +426,18 @@ function Grid(){
       reset = false;
       return my;
     } // my.selectedColumn()
+  ;
+  my.valueAccessor = function (_){
+      if(!arguments.length) return valueAccessor;
+      valueAccessor = _;
+      return my;
+    } // my.valueAccessor()
+  ;
+  my.format = function (_){
+      if(!arguments.length) return format;
+      format = _;
+      return my;
+    } // my.format()
   ;
   my.resize = function (){
       size_up();

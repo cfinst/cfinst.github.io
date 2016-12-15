@@ -21,31 +21,19 @@ var requested_columns = [
       ]
 ;
 
-function atlasTooltipContent(d) {
-    return '<span style="text-align: center;">'
-        + "<h4>"
-          + d.state + " " + d.year
-        + "</h4>"
-        + "<p>" + d.column + ":</p>"
-        + "<p>" + d.limit + "</p>"
-        + "</span>"
-    ;
-}
 
-function gridTooltipContent(d, selectedColumn, valueAccessor, format) {
+function tooltipContent(d) {
     return "<span style='text-align: center;'>"
       + "<h4>" + d.State + " " + d.Year + "</h4>"
-      + "<p>" + selectedColumn + ":</p>"
-      + "<p>" + format(valueAccessor(d)) + "</p>"
+      + "<p>" + grid.selectedColumn() + ":</p>"
+      + "<p>" + grid.format()(grid.valueAccessor()(d)) + "</p>"
       + "</span>"
     ;
 }
 
 
-var grid = Grid()
-      .tooltipContent(gridTooltipContent)
-  , atlas = Atlas()
-      .tooltipContent(atlasTooltipContent)
+var grid = Grid().tooltipContent(tooltipContent)
+  , atlas = Atlas().tooltipContent(tooltipContent)
   , tip = d3.tip().attr('class', 'd3-tip')
   , signal = d3.dispatch(
       "update",
