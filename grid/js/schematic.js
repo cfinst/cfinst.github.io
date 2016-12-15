@@ -24,9 +24,9 @@ var requested_columns = [
 
 function tooltipContent(d) {
     return "<span style='text-align: center;'>"
-      + "<h4>" + d.State + " " + d.Year + "</h4>"
-      + "<p>" + grid.selectedColumn() + ":</p>"
-      + "<p>" + grid.format()(grid.valueAccessor()(d)) + "</p>"
+      + "<h2>" + d.State + " " + d.Year + "</h2>"
+      + "<h3>" + grid.selectedColumnLabel() + "</h3>"
+      + "<h2>" + grid.format()(grid.valueAccessor()(d)) + "</h2>"
       + "</span>"
     ;
 }
@@ -268,6 +268,7 @@ function initContributionLimitsSection(data, columns) {
           , Cand: "Candidate"
           , Corp: "Corporation"
       }
+      , longName = function(d){ return longNames[d] || d; }
     ;
 
     // Signal the custom threshold legend rendering in grid.
@@ -299,6 +300,7 @@ function initContributionLimitsSection(data, columns) {
             query[this.id.split("chooser-")[1]] = this.value;
             grid
                 .selectedColumn(querify())
+                .selectedColumnLabel(labelify())
               () // call grid()
             ;
           })
@@ -317,7 +319,7 @@ function initContributionLimitsSection(data, columns) {
                 .data(opts, identity)
               .enter().append("option")
                 .attr("value", identity)
-                .text(function (d){ return longNames[d] || d; })
+                .text(longName)
             ;
         })
     ;
@@ -331,6 +333,7 @@ function initContributionLimitsSection(data, columns) {
     grid
         .colorScale(colorScale)
         .selectedColumn(querify())
+        .selectedColumnLabel(labelify())
       () // Call grid()
     ;
 
@@ -344,6 +347,18 @@ function initContributionLimitsSection(data, columns) {
         ;
         return col + (branch ? "_" + query.branch : "") + "_Max";
     } // querify()
+
+    function labelify() {
+        var col = query.donor + "To" + query.recipient + "Limit"
+          , branch = !d3.map(data[0]).has([col + "_Max"])
+        var label = [
+          longName(query.donor)
+          , " to "
+          , longName(query.recipient)
+          , branch ? (" (" + longName(query.branch) + ")") : ""
+        ].join("");
+        return label;
+    } // labelify()
 } // initContributionLimitsSection()
 
 // Capture URL query param
@@ -466,6 +481,7 @@ function initDisclosuresSection(data) {
 
             grid
                 .selectedColumn(d["Field Name"])
+                .selectedColumnLabel(d["Short Label"])
                 .colorScale(colorScale)
               () // call grid()
             ;
@@ -585,6 +601,7 @@ function initPublicFundingSection(data) {
 
             grid
                 .selectedColumn(selectedColumn)
+                .selectedColumnLabel(d["Short Label"])
                 .colorScale(colorScale)
               () // call grid()
             ;

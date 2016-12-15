@@ -38,6 +38,7 @@ function Grid(){
   ;
   // Internal state variables.
   var selectedColumn
+    , selectedColumnLabel
     , valueAccessor // The accessor function(d) for the value to visualize.
     , format // The formatter function, works from the output of valueAccessor(d).
     , data
@@ -438,6 +439,12 @@ function Grid(){
       format = _;
       return my;
     } // my.format()
+  ;
+  my.selectedColumnLabel = function (_){
+      if(!arguments.length) return selectedColumnLabel;
+      selectedColumnLabel = _;
+      return my;
+    } // my.selectedColumnLabel()
   ;
   my.resize = function (){
       size_up();
