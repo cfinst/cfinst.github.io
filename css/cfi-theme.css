@@ -1,4 +1,4 @@
-/* 
+/*
    This CSS intents to emulate the CFI theme.
    Draws from the CFI Web site CSS theme found at
    http://www.cfinst.org/App_Themes/frange_HomeAlt/css/screen.css
@@ -23,7 +23,6 @@ body {
 }
 
 .cfi-theme-logo {
-    position: absolute;
     background-color: #16275a;
     padding: 10px;
     width: 80px;

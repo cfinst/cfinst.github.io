@@ -36,7 +36,7 @@ svg {
     text-anchor: middle;
 }
 .cfi-tabs {
-    font-size: 3rem;
+    font-size: 2rem;
     padding-top: 5px;
 }
 #meta {
@@ -46,6 +46,6 @@ svg {
     padding-bottom: 0px;
 }
 .field-description {
-    font-size: 1.4em;
+    font-size: 1.2em;
     line-height: 1.4em;
 }

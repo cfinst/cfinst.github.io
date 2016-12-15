@@ -24,9 +24,9 @@ var requested_columns = [
 
 function tooltipContent(d) {
     return "<span style='text-align: center;'>"
-      + "<h2>" + d.State + " " + d.Year + "</h2>"
-      + "<h3>" + grid.selectedColumnLabel() + "</h3>"
-      + "<h2>" + grid.format()(grid.valueAccessor()(d)) + "</h2>"
+      + "<h4>" + d.State + " " + d.Year + "</h4>"
+      + "<h5>" + grid.selectedColumnLabel() + "</h5>"
+      + "<h4>" + grid.format()(grid.valueAccessor()(d)) + "</h4>"
       + "</span>"
     ;
 }
@@ -71,9 +71,10 @@ d3.select(window)
 ** Helper Functions
 */
 function visualize(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other, usa){
+    if(error) throw error;
 
-    corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other);
-    carto(error, usa);
+    corpus(contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other);
+    carto(usa);
 
     setupTabNavigation();
 
@@ -87,10 +88,10 @@ function visualize(error, contribs, contribs2, disclosure1, disclosure2, disclos
     signal.call("navigate", null, section);
 }
 
-function corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other) {
+function corpus(contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other) {
     var data = d3.nest()
             .key(function(d) {
-                // Construct the identifier from these two fields, 
+                // Construct the identifier from these two fields,
                 // because the value of d.Identifier is not reliable (sometimes "l").
                 return d.State + d.Year;
             })
@@ -149,7 +150,7 @@ function corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure
 
     // Update the visualization according to the current section.
     signal.on("navigate.vis", function (section) {
-  
+
         // Clear out the data-driven form controls.
         d3.select("#meta-controls-top").selectAll("*").remove();
 
@@ -172,8 +173,7 @@ function corpus(error, contribs, contribs2, disclosure1, disclosure2, disclosure
 } // corpus()
 
 
-function carto (error, usa){
-    if(error) throw error;
+function carto (usa){
     d3.select("svg#map")
         .datum(usa)
         .call(atlas.tooltip(tip))
@@ -264,7 +264,8 @@ function initContributionLimitsSection(data, columns) {
       , longNames = {
           H: "House / Assembly"
           , S: "Senate"
-          , G: "Governer"
+          , G: "Governor"
+          , PAC: "Political Action Committee (PAC)"
           , Cand: "Candidate"
           , Corp: "Corporation"
       }
