@@ -11,26 +11,8 @@ function Grid(){
     , legendOffsetX = 16
     , legendOffsetY = 10
     , legendScale = 1.4
+    , tooltipContent
   ;
-
-  function tooltipContent(d) {
-      var value = (
-          keyColumn ? (
-              d[keyColumn] === "Unlimited"
-              ? "No Limit"
-              : d[keyColumn] === "Limited"
-              ? moneyFormat(d[selectedColumn])
-              : "Prohibited"
-          )
-          : d[selectedColumn]
-      );
-      return "<span style='text-align: center;'>"
-        + "<h4>" + d[xColumn] + " " + d[yColumn] + "</h4>"
-        + "<p>" + selectedColumn + ":</p>"
-        + "<p>" + value + "</p>"
-        + "</span>"
-      ;
-  }
 
   // DOM Elements.
   var svg
@@ -55,7 +37,10 @@ function Grid(){
     , axisY2 = d3.axisRight()
   ;
   // Internal state variables.
-  var selectedColumn, keyColumn
+  var selectedColumn
+    , selectedColumnLabel
+    , valueAccessor // The accessor function(d) for the value to visualize.
+    , format // The formatter function, works from the output of valueAccessor(d).
     , data
     , sortYear
     , scorecard
@@ -140,28 +125,13 @@ function Grid(){
         .attr("width", w)
         .attr("height", h)
         .style("color", function (d){
-            var value;
-
-            // Handle the case of a threshold scale.
-            if(colorScale.bins && keyColumn){
-                value = d[keyColumn] === "Limited"
-                  ? +d[selectedColumn]
-                  : d[keyColumn] === "No"
-                    ? -Infinity
-                    : Infinity
-                ;
-            } else {
-                value = d[selectedColumn];
-                value = (
-                  value === undefined ? "Missing Field" :
-                  value.trim() === "" ? (colorScale.emptyValue || "Missing Data") : value
-                );
-            }
+            var value = valueAccessor(d);
 
             // Construct the message passed into the choropleth.
             if(d.Year === sortYear) {
                 msg.push({
-                    state: d[xColumn]
+                    d: d
+                  , state: d[xColumn]
                   , year: d[yColumn]
                   , color: colorScale(value)
                   , column: selectedColumn
@@ -326,25 +296,7 @@ function Grid(){
       var sorted = data
           .filter(function(d) { return d[yColumn] === sortYear; })
           .sort(function(m, n) {
-              var akey = m[keyColumn]
-                , bkey = n[keyColumn]
-                , aval = m[selectedColumn]
-                , bval = n[selectedColumn]
-              ;
-              if(akey != bkey) {
-                  if(akey === "No") {
-                      if(bkey != "No") return -1;
-                  }
-                  else {
-                      if(bkey === "No") return 1;
-                      return akey === "Limited" ? -1 : 1;
-                  }
-              }
-
-              if(aval != bval) return aval - bval;
-
-              // As a last resort tie breaker, use alphabetical ordering.
-              return d3.ascending(m.State, n.State);
+              return d3.ascending(valueAccessor(m), valueAccessor(n));
             })
           .map(function(d) { return d[xColumn]; })
       ;
@@ -410,6 +362,12 @@ function Grid(){
       return my;
     } // my.tooltip();
   ;
+  my.tooltipContent = function (_){
+      if(!arguments.length) return tooltipContent;
+      tooltipContent = _;
+      return my;
+    } // my.tooltipContent()
+  ;
   my.data = function (_){
       if(!arguments.length) return data;
       data = _
@@ -427,15 +385,66 @@ function Grid(){
   ;
   my.selectedColumn = function (_){
       if(!arguments.length) return selectedColumn;
+
       selectedColumn = _;
-      keyColumn = (
+      var keyColumn = (
           ~selectedColumn.indexOf('Limit')
           ? selectedColumn.split('Limit')[0]
           : undefined
-      )
+      );
+
+      valueAccessor = function (d){
+          var value;
+          // Handle the case of a threshold scale.
+          if(keyColumn){
+              value = d[keyColumn] === "Limited"
+                ? +d[selectedColumn]
+                : d[keyColumn] === "No"
+                  ? -Infinity
+                  : Infinity
+              ;
+          } else {
+              value = d[selectedColumn];
+              value = (
+                value === undefined ? "Missing Field" :
+                value.trim() === "" ? (colorScale.emptyValue || "Missing Data") :
+                isNaN(+value) ? value :
+                +value
+              );
+          }
+          return value;
+      }
+
+      format = function (value){
+          return (
+              value === -Infinity ? "Prohibited" :
+              value === Infinity ? "Unlimited" :
+              typeof value === "string" ? value :
+              moneyFormat(value)
+          );
+      };
+
       reset = false;
       return my;
     } // my.selectedColumn()
+  ;
+  my.valueAccessor = function (_){
+      if(!arguments.length) return valueAccessor;
+      valueAccessor = _;
+      return my;
+    } // my.valueAccessor()
+  ;
+  my.format = function (_){
+      if(!arguments.length) return format;
+      format = _;
+      return my;
+    } // my.format()
+  ;
+  my.selectedColumnLabel = function (_){
+      if(!arguments.length) return selectedColumnLabel;
+      selectedColumnLabel = _;
+      return my;
+    } // my.selectedColumnLabel()
   ;
   my.resize = function (){
       size_up();
