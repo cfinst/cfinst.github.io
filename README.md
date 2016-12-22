@@ -35,7 +35,6 @@ Export the field description spreadsheets as CSV files, then copy them into `dat
 Here's one example set of commands that matches file names when exported from Google Sheets.
 
 ```
-cp ~/Downloads/Field\ Names-Descriptions\ for\ Visuals_v2.xlsx\ -\ * .
-mv Field\ Names-Descriptions\ for\ Visuals_v2.xlsx\ -\ Disclosure.csv data/disclosure-fields.csv
-mv Field\ Names-Descriptions\ for\ Visuals_v2.xlsx\ -\ Public\ Funding.csv data/public-funding-fields.csv
+cd cfi/data
+mv ~/Downloads/Field\ Names-Descriptions\ for\ Visuals_v3.xlsx\ -\ Disclosure.csv ./disclosure-fields.csv 
 ```
