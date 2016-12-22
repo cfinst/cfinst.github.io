@@ -35,7 +35,15 @@
         <div class="col-lg-6">
           <div id="meta" class="panel panel-default">
             <div id="meta-controls-top" class="panel-heading"></div>
-            <div class="panel-body"><svg id="color-legend"></svg></div>
+            <div class="panel-body">
+              <svg id="color-legend"></svg>
+              <button class="btn btn-default btn-block">
+                <i class="fa fa-sort-alpha-asc"></i> Sort States Alphabetically
+              </button>
+              <button id="data-download-button-current-view" class="btn btn-default btn-block">
+                <i class="fa fa-download"></i> Download Currently Shown Data
+              </button>
+            </div>
           </div><!--/#meta-->
         </div><!--/.col-lg-4 -->
         <div class="col-md-12">
@@ -47,37 +55,6 @@
       </div><!--.panel-body-->
     </div><!--.panel.panel-default-->
   </section><!--/#visualization-->
-  <section id="moreinfo" class="row">
-    <div class="col-md-4 col-sm-12">
-      <div class="panel panel-default">
-        <div class="panel-body controls">
-          <button class="btn btn-default btn-block">
-            <i class="fa fa-sort-alpha-asc"></i> Sort States Alphabetically
-          </button>
-          <button id="data-download-button-current-view" class="btn btn-default btn-block">
-            <i class="fa fa-download"></i> Download Currently Shown Data
-          </button>
-          <button id="data-download-button" class="btn btn-default btn-block">
-            <i class="fa fa-2x fa-download"></i> Download Full Contribution Limits Data
-          </button>
-        </div><!--.panel-body-->
-      </div><!--.panel-->
-    </div><!--.col-md-4.col-sm-12-->
-    <div class="col-md-4 col-sm-12">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <p>For the full database and codebook, including a lot that you cannot see on this website: For more extensive research or reference, there is a button to let users download CFI’s full database of state laws. This includes hundreds of variables for each state and year that are not visualized on these web pages at all. They include many more details about contributions, disclosure and public financing, together with an additional text-heavy section for legal definitions. For lawyers, the full database also includes citations to the relevant provisions of law that were in effect during any given year. This full version is also provided in standardized formats for database management programs.</p>
-        </div><!--.panel-body-->
-      </div><!--.panel-->
-    </div><!--.col-md-4.col-sm-12-->
-    <div class="col-md-4 col-sm-12">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <p>Codebook: To find out what is in the full database, we recommend that you click on the “Codebook” button. The codebook will explain each of the more than five hundred pieces of information provided for each state, every two years.</p>
-        </div><!--.panel-body-->
-      </div><!--.panel-->
-    </div><!--.col-md-4.col-sm-12-->
-  </section><!--/#moreinfo-->
 </article>
 
 <script src="../js/d3.min.js"></script>
