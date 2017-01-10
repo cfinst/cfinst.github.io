@@ -34,15 +34,41 @@
         </div><!--.col-lg-8-->
         <div class="col-lg-6">
           <div id="meta" class="panel panel-default">
-            <div id="meta-controls-top" class="panel-heading"></div>
+
+            <div class="panel-heading">
+              <form class="form-horizontal">
+                <div class="form-group">
+                  <div class="col-sm-6">
+                    <button id="about-topic" type="button" class="btn btn-primary btn-block col-sm-2" data-toggle="modal" data-target="#about-topic-modal">
+                      About this topic
+                    </button>
+                  </div>
+                  <div class="col-sm-6">
+                    <button id="about-page" type="button" class="btn btn-primary btn-block col-sm-2" data-toggle="modal" data-target="#about-page-modal">
+                      Using this page
+                    </button>
+                  </div>
+                </div>
+              </form>
+
+              <div id="meta-controls-top">
+              </div>
+            </div>
+
             <div class="panel-body">
               <svg id="color-legend"></svg>
-              <button class="btn btn-default btn-block">
-                <i class="fa fa-sort-alpha-asc"></i> Sort States Alphabetically
-              </button>
-              <button id="data-download-button-current-view" class="btn btn-default btn-block">
-                <i class="fa fa-download"></i> Download Currently Shown Data
-              </button>
+              <div class="form-group">
+                <div class="col-sm-6">
+                  <button class="col-sm-6 btn btn-default btn-block">
+                    <i class="fa fa-sort-alpha-asc"></i> Sort States Alphabetically
+                  </button>
+                </div>
+                <div class="col-sm-6">
+                  <button id="data-download-button-current-view" class="btn btn-default btn-block">
+                    <i class="fa fa-download"></i> Download Currently Shown Data
+                  </button>
+                </div>
+              </div>
             </div>
           </div><!--/#meta-->
         </div><!--/.col-lg-4 -->
