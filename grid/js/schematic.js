@@ -262,6 +262,14 @@ function setupTabNavigation(about) {
         d3.select("#about-modal-title").text("Title");
         d3.select("#about-modal-body").text("Body");
 
+        d3.select("#about-page-button").on("click", function (){
+          console.log("About Page Button Clicked");
+        });
+
+        d3.select("#about-topic-button").on("click", function (){
+          console.log("About Topic Button Clicked");
+        });
+
         console.log(modalContent);
     });
 }
