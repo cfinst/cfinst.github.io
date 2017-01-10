@@ -171,11 +171,6 @@ function corpus(contribs, contribs2, disclosure1, disclosure2, disclosure3, publ
         }
     });
 
-    // This section sets up the modal dialog content.
-    signal.on("navigate.modal", function (section) {
-        console.log("Here " + section);
-    });
-
 } // corpus()
 
 
@@ -218,7 +213,6 @@ function project(data, columns) {
 
 // The `about` argument is the content for the about button modal dialogs.
 function setupTabNavigation(about) {
-    console.log(about);
 
     var data = [
       { title: "Contribution Limits", section: "contributions" },
@@ -247,6 +241,24 @@ function setupTabNavigation(about) {
         navTabs.selectAll("li")
             .classed("active", function (d) { return d.section === section; })
         ;
+    });
+
+    // Update the dynamic content of the modal dialog for "about" buttons.
+    signal.on("navigate.modal", function (section) {
+
+        // This dictionary maps section names to the
+        // "Page" values from about_buttons.csv.
+        var pageBySection = {
+          "contributions": "Contribution Limits",
+          "disclosure": "Disclosure",
+          "public-funding": "Public Financing"
+        };
+
+        // Extract the modal content based on the current section.
+        var page = pageBySection[section];
+        var modalContent = about.filter(function (d){ return d.Page === page; })[0];
+
+        console.log(modalContent);
     });
 }
 
