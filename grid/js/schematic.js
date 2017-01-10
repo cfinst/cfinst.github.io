@@ -53,6 +53,7 @@ d3.queue()
   .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_3.csv")
   .defer(d3.csv, "../data/CSVs/Laws_04_PublicFinancing.csv")
   .defer(d3.csv, "../data/CSVs/Laws_05_Other.csv")
+  .defer(d3.csv, "../data/about_buttons.csv")
   .defer(d3.json, "../data/usa.json")
     .await(visualize)
 ;
@@ -70,13 +71,13 @@ d3.select(window)
 /*
 ** Helper Functions
 */
-function visualize(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other, usa){
+function visualize(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other, about, usa){
     if(error) throw error;
 
     corpus(contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other);
     carto(usa);
 
-    setupTabNavigation();
+    setupTabNavigation(about);
 
     // Initialize the selected year to the most recent.
     var maxYear = d3.max(grid.data(), function (d){ return d.Year; });
@@ -170,6 +171,11 @@ function corpus(contribs, contribs2, disclosure1, disclosure2, disclosure3, publ
         }
     });
 
+    // This section sets up the modal dialog content.
+    signal.on("navigate.modal", function (section) {
+        console.log("Here " + section);
+    });
+
 } // corpus()
 
 
@@ -210,7 +216,9 @@ function project(data, columns) {
     });
 } // project()
 
-function setupTabNavigation() {
+// The `about` argument is the content for the about button modal dialogs.
+function setupTabNavigation(about) {
+    console.log(about);
 
     var data = [
       { title: "Contribution Limits", section: "contributions" },
