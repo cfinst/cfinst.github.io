@@ -258,6 +258,10 @@ function setupTabNavigation(about) {
         var page = pageBySection[section];
         var modalContent = about.filter(function (d){ return d.Page === page; })[0];
 
+        // Set the modal dialog content.
+        d3.select("#about-modal-title").text("Title");
+        d3.select("#about-modal-body").text("Body");
+
         console.log(modalContent);
     });
 }
