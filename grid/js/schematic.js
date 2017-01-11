@@ -121,9 +121,6 @@ function corpus(contribs, contribs2, disclosure1, disclosure2, disclosure3, publ
         .connect(signal)
       () // Call grid()
     ;
-    d3.select("#query-string")
-        .text(grid.selectedColumn())
-    ;
 
     // Signal Handling
     d3.select(".controls .checkbox input")
