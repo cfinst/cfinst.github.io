@@ -261,7 +261,7 @@ function setupTabNavigation(about) {
         // Set the modal dialog content.
         function setModalContent(title, body){
           d3.select("#about-modal-title").text(title);
-          d3.select("#about-modal-body").text(body);
+          d3.select("#about-modal-body").html(marked(body));
         }
 
         d3.select("#about-page-button").on("click", function (){
