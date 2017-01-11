@@ -26,7 +26,6 @@
 
   <section id="visualization">
     <ul class="nav nav-tabs cfi-tabs"></ul>
-    <!-- <p id="query-string" class="text-center"></p> -->
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="col-lg-6">
@@ -34,15 +33,39 @@
         </div><!--.col-lg-8-->
         <div class="col-lg-6">
           <div id="meta" class="panel panel-default">
-            <div id="meta-controls-top" class="panel-heading"></div>
+
+            <div class="panel-heading">
+              <form class="form-horizontal">
+                <div class="form-group">
+                  <div class="col-sm-6">
+                    <button id="about-topic-button" type="button" class="btn btn-primary btn-block col-sm-2" data-toggle="modal" data-target="#about-modal">
+                      About this topic
+                    </button>
+                  </div>
+                  <div class="col-sm-6">
+                    <button id="about-page-button" type="button" class="btn btn-primary btn-block col-sm-2" data-toggle="modal" data-target="#about-modal">
+                      Using this page
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <form id="controls-form" class="form-horizontal"></form>
+            </div>
+
             <div class="panel-body">
               <svg id="color-legend"></svg>
-              <button class="btn btn-default btn-block">
-                <i class="fa fa-sort-alpha-asc"></i> Sort States Alphabetically
-              </button>
-              <button id="data-download-button-current-view" class="btn btn-default btn-block">
-                <i class="fa fa-download"></i> Download Currently Shown Data
-              </button>
+              <div class="form-group">
+                <div class="col-sm-6">
+                  <button class="col-sm-6 btn btn-default btn-block">
+                    <i class="fa fa-sort-alpha-asc"></i> Sort States Alphabetically
+                  </button>
+                </div>
+                <div class="col-sm-6">
+                  <button id="data-download-button-current-view" class="btn btn-default btn-block">
+                    <i class="fa fa-download"></i> Download Currently Shown Data
+                  </button>
+                </div>
+              </div>
             </div>
           </div><!--/#meta-->
         </div><!--/.col-lg-4 -->
@@ -54,6 +77,25 @@
         </div><!--.col-md-12-->
       </div><!--.panel-body-->
     </div><!--.panel.panel-default-->
+
+    <!-- Modal -->
+    <div class="modal fade" id="about-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h3 class="modal-title" id="about-modal-title">about-modal-title</h3>
+          </div>
+          <div class="modal-body" id="about-modal-body">
+            about-modal-body
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div><!--/#about-modal-->
+
   </section><!--/#visualization-->
 </article>
 
@@ -62,8 +104,14 @@
 <script src="../js/d3-legend.min.js"></script>
 <script src="../js/topojson.min.js"></script>
 <script src="../js/to-csv.js"></script>
+<script src="../js/marked.min.js"></script>
 <script src="js/grid.js"></script>
 <script src="js/atlas.js"></script>
 <script src="js/schematic.js"></script>
+
+<!-- The following two are required only for the modal dialog behavior. -->
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+
 </body>
 </html>

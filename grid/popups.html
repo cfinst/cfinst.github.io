@@ -21,6 +21,8 @@
 </head>
 <body>
   <article class="container-fluid">
+
+    <div id="about-buttons-container"></div>
     
     <div style="margin-bottom: 10px"></div>
     
@@ -33,7 +35,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
             <h3 class="modal-title" id="contributionModalAboutTopicLabel">About Contribution Limits</h3>
           </div>
           <div class="modal-body">
@@ -87,8 +89,86 @@
   <script src="../js/bootstrap.min.js"></script>
   <script>
     d3.csv("../data/about_buttons.csv", function (data){
-      console.log(data);
+      d3.select("#about-buttons-container")
+        .datum(data)
+        .call(renderButtons);
     });
+
+    function renderButtons(selection){
+      selection.each(function (data){
+
+        var columns = {
+          page: data.columns[0],
+          aboutSubject: data.columns[1],
+          aboutPage: data.columns[2]
+        };
+
+        var container = d3.select(this);
+
+        var sections = container.selectAll("div").data(data);
+        var sectionsEnter = sections.enter().append("div");
+
+        var sectionId = function (d){ return d[columns.page].toLowerCase().replace(/ /g, "-"); };
+        var modalIdAboutSubject = function (d){ return sectionId(d) + "-about-subject" };
+        var modalIdAboutPage = function (d){ return sectionId(d) + "-about-page" };
+
+        sectionsEnter.append("h1")
+            .text(sectionId);
+
+        sectionsEnter
+          .append("button")
+            .attr("type", "button")
+            .attr("class", "btn btn-primary btn-lg")
+            .attr("data-toggle", "modal")
+            .attr("data-target", function (d){ return "#" + modalIdAboutSubject(d); })
+            .text("About this topic");
+
+        var modalContentEnter = sectionsEnter
+          .append("div")
+            .attr("class", "modal fade")
+            .attr("id", modalIdAboutSubject)
+            .attr("tabindex", "-1")
+            .attr("role", "dialog")
+          .append("div")
+            .attr("class", "modal-dialog")
+            .attr("role", "document")
+          .append("div")
+            .attr("class", "modal-content");
+
+        var modalHeaderEnter = modalContentEnter
+          .append("div")
+            .attr("class", "modal-header");
+
+        modalHeaderEnter
+          .append("button")
+            .attr("type", "button")
+            .attr("class", "close")
+            .attr("data-dismiss", "modal")
+          .append("span")
+            .html("&times;");
+
+        modalHeaderEnter
+          .append("h3")
+            .attr("class", "modal-title")
+            .attr("id", "contributionModalAboutPageLabel")
+            .text("Using This Page");
+
+        var modalBodyEnter = modalContentEnter
+          .append("div")
+            .attr("class", "modal-body")
+            .text(function (d){ return d[columns.aboutSubject]; });
+
+        var modalFooterEnter = modalContentEnter
+          .append("div")
+            .attr("class", "modal-footer")
+          .append("button")
+            .attr("type", "button")
+            .attr("class", "btn btn-default")
+            .attr("data-dismiss", "modal")
+            .text("Close");
+
+      });
+    }
   </script>
 
 </body>

@@ -53,6 +53,7 @@ d3.queue()
   .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_3.csv")
   .defer(d3.csv, "../data/CSVs/Laws_04_PublicFinancing.csv")
   .defer(d3.csv, "../data/CSVs/Laws_05_Other.csv")
+  .defer(d3.csv, "../data/about_buttons.csv")
   .defer(d3.json, "../data/usa.json")
     .await(visualize)
 ;
@@ -70,13 +71,13 @@ d3.select(window)
 /*
 ** Helper Functions
 */
-function visualize(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other, usa){
+function visualize(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other, about, usa){
     if(error) throw error;
 
     corpus(contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other);
     carto(usa);
 
-    setupTabNavigation();
+    setupTabNavigation(about);
 
     // Initialize the selected year to the most recent.
     var maxYear = d3.max(grid.data(), function (d){ return d.Year; });
@@ -120,9 +121,6 @@ function corpus(contribs, contribs2, disclosure1, disclosure2, disclosure3, publ
         .connect(signal)
       () // Call grid()
     ;
-    d3.select("#query-string")
-        .text(grid.selectedColumn())
-    ;
 
     // Signal Handling
     d3.select(".controls .checkbox input")
@@ -152,7 +150,7 @@ function corpus(contribs, contribs2, disclosure1, disclosure2, disclosure3, publ
     signal.on("navigate.vis", function (section) {
 
         // Clear out the data-driven form controls.
-        d3.select("#meta-controls-top").selectAll("*").remove();
+        d3.select("#controls-form").selectAll("*").remove();
 
         // Initialize the section navigated to.
         switch(section) {
@@ -210,13 +208,20 @@ function project(data, columns) {
     });
 } // project()
 
-function setupTabNavigation() {
+// The `about` argument is the content for the about button modal dialogs.
+function setupTabNavigation(about) {
 
     var data = [
       { title: "Contribution Limits", section: "contributions" },
-      { title: "Disclosure Law", section: "disclosure" },
-      { title: "Public Funding", section: "public-funding" },
+      { title: "Disclosure", section: "disclosure" },
+      { title: "Public Financing", section: "public-funding" },
     ];
+
+    // This dictionary maps section names to the
+    // "Page" values from about_buttons.csv.
+    var pageBySection = {};
+    data.forEach(function (d){ pageBySection[d.section] = d.title });
+
 
     var navTabs = d3.select(".nav-tabs");
 
@@ -239,6 +244,28 @@ function setupTabNavigation() {
         navTabs.selectAll("li")
             .classed("active", function (d) { return d.section === section; })
         ;
+    });
+
+    // Update the dynamic content of the modal dialog for "about" buttons.
+    signal.on("navigate.modal", function (section) {
+
+        // Extract the modal content based on the current section.
+        var page = pageBySection[section];
+        var modalContent = about.filter(function (d){ return d.Page === page; })[0];
+
+        // Set the modal dialog content.
+        function setModalContent(title, body){
+          d3.select("#about-modal-title").text(title);
+          d3.select("#about-modal-body").html(marked(body));
+        }
+
+        d3.select("#about-page-button").on("click", function (){
+          setModalContent("Using This Page", modalContent["How to use this page"]);
+        });
+
+        d3.select("#about-topic-button").on("click", function (){
+          setModalContent("About " + page, modalContent["About this subject"]);
+        });
     });
 }
 
@@ -275,9 +302,7 @@ function initContributionLimitsSection(data, columns) {
     // Signal the custom threshold legend rendering in grid.
     colorScale.bins = bins;
 
-    var chooserGroup = d3.select("#meta-controls-top")
-      .append("form")
-        .attr("class", "form-horizontal")
+    var chooserGroup = d3.select("#controls-form")
       .selectAll("div")
         .data(d3.keys(query), identity)
       .enter().append("div")
@@ -433,9 +458,7 @@ function initDisclosuresSection(data) {
 
     fetchDisclosureFields(function(disclosureFields) {
 
-        var form = d3.select("#meta-controls-top")
-          .append("form")
-            .attr("class", "form-horizontal");
+        var form = d3.select("#controls-form");
 
         var chooserGroup = form.append("div")
             .attr("class", "form-group")
@@ -496,9 +519,7 @@ function initDisclosuresSection(data) {
 function initPublicFundingSection(data) {
     fetchPublicFundingFields(function(publicFundingFields) {
 
-        var form = d3.select("#meta-controls-top")
-          .append("form")
-            .attr("class", "form-horizontal");
+        var form = d3.select("#controls-form");
 
         var chooserGroup = form.append("div")
             .attr("class", "form-group")
