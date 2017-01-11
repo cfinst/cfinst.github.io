@@ -259,18 +259,18 @@ function setupTabNavigation(about) {
         var modalContent = about.filter(function (d){ return d.Page === page; })[0];
 
         // Set the modal dialog content.
-        d3.select("#about-modal-title").text("Title");
-        d3.select("#about-modal-body").text("Body");
+        function setModalContent(title, body){
+          d3.select("#about-modal-title").text(title);
+          d3.select("#about-modal-body").text(body);
+        }
 
         d3.select("#about-page-button").on("click", function (){
-          console.log("About Page Button Clicked");
+          setModalContent("Using This Page", modalContent["How to use this page"]);
         });
 
         d3.select("#about-topic-button").on("click", function (){
-          console.log("About Topic Button Clicked");
+          setModalContent("About " + page, modalContent["About this subject"]);
         });
-
-        console.log(modalContent);
     });
 }
 
