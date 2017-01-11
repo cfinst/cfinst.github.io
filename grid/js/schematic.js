@@ -220,6 +220,12 @@ function setupTabNavigation(about) {
       { title: "Public Financing", section: "public-funding" },
     ];
 
+    // This dictionary maps section names to the
+    // "Page" values from about_buttons.csv.
+    var pageBySection = {};
+    data.forEach(function (d){ pageBySection[d.section] = d.title });
+
+
     var navTabs = d3.select(".nav-tabs");
 
     // Scaffold the tabs DOM structure.
@@ -245,14 +251,6 @@ function setupTabNavigation(about) {
 
     // Update the dynamic content of the modal dialog for "about" buttons.
     signal.on("navigate.modal", function (section) {
-
-        // This dictionary maps section names to the
-        // "Page" values from about_buttons.csv.
-        var pageBySection = {
-          "contributions": "Contribution Limits",
-          "disclosure": "Disclosure",
-          "public-funding": "Public Financing"
-        };
 
         // Extract the modal content based on the current section.
         var page = pageBySection[section];
