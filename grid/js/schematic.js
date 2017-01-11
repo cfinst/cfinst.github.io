@@ -216,8 +216,8 @@ function setupTabNavigation(about) {
 
     var data = [
       { title: "Contribution Limits", section: "contributions" },
-      { title: "Disclosure Law", section: "disclosure" },
-      { title: "Public Funding", section: "public-funding" },
+      { title: "Disclosure", section: "disclosure" },
+      { title: "Public Financing", section: "public-funding" },
     ];
 
     var navTabs = d3.select(".nav-tabs");
