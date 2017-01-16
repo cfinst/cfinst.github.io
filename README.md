@@ -38,8 +38,9 @@ Here's one example set of commands that matches file names when exported from Go
 
 ```
 cd cfi/data
-mv ~/Downloads/Field\ Names-Descriptions\ for\ Visuals_v3.xlsx\ -\ Disclosure.csv ./disclosure-fields.csv 
-mv ~/Downloads/Field\ Names-Descriptions\ for\ Visuals_v3.xlsx\ -\ Public\ Funding.csv ./public-funding-fields.csv 
+mv ~/Downloads/Field\ Names-Descriptions\ for\ Visuals_v5.xlsx\ -\ Disclosure.csv ./disclosure-fields.csv 
+mv ~/Downloads/Field\ Names-Descriptions\ for\ Visuals_v5.xlsx\ -\ Public\ Financing.csv ./public-financing-fields.csv 
+mv ~/Downloads/Field\ Names-Descriptions\ for\ Visuals_v5.xlsx\ -\ Other\ Restrictions.csv ./other-restrictions-fields.csv 
 ```
 
 Note: Make sure there are no empty rows in the Public Funding fields sheet. If there are empty lines in the CSV file, they should be deleted.
