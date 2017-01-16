@@ -53,6 +53,30 @@ The database content as well as metadata (field descriptions and about button co
 ./bin/package-downloads.sh
 ```
 
+You should see output similar to the following:
+
+```
+Creating full-database-csv.zip
+  adding: full-database-csv/ (stored 0%)
+  adding: full-database-csv/Laws_03_Disclosure_3.csv (deflated 94%)
+  adding: full-database-csv/Laws_05_Other.csv (deflated 94%)
+  adding: full-database-csv/Laws_03_Disclosure_1.csv (deflated 96%)
+  adding: full-database-csv/Laws_02_Contributions_1.csv (deflated 96%)
+  adding: full-database-csv/Laws_00_IdentifierTable.csv (deflated 76%)
+  adding: full-database-csv/Laws_03_Disclosure_2.csv (deflated 91%)
+  adding: full-database-csv/Laws_02_Contributions_3.csv (deflated 94%)
+  adding: full-database-csv/Laws_04_PublicFinancing.csv (deflated 93%)
+  adding: full-database-csv/Laws_01_Defintions.csv (deflated 95%)
+  adding: full-database-csv/Laws_02_Contributions_2.csv (deflated 96%)
+
+Creating metadata.zip
+  adding: metadata/ (stored 0%)
+  adding: metadata/about-buttons.csv (deflated 76%)
+  adding: metadata/other-restrictions-fields.csv (deflated 60%)
+  adding: metadata/disclosure-fields.csv (deflated 70%)
+  adding: metadata/public-financing-fields.csv (deflated 58%)
+```
+
 This will produce the following files inside the `downloads` folder:
 
  * full-database-csv.zip - Contains CSV files representing the full database.
