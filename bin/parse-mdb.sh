@@ -34,5 +34,8 @@ for table in ${tables}; do
 	rm -f "${csvdir}"/x_lookup*.csv
 done
 
-# Remove unused Microsoft error log file.
-rm ${csvdir}/MSysCompactError.csv
+# Remove data files that don't contain anything useful.
+rm ${csvdir}/x_Yes-No.csv
+rm ${csvdir}/z_Laws_02_Contributions_1.csv
+rm ${csvdir}/z_SetAppendState.csv
+
