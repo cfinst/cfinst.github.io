@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+        content="Proof of Concept data inventory grid for Campaign Finance Institute">
+  <meta name="author" content="Seemant Kulleen">
+  <meta name="author" content="Curran Kelleher">
+
+  <title>Popups First Draft</title>
+
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="../css/font-awesome.min.css">
+  <link rel="stylesheet" href="../css/tips.css">
+
+  <link rel="stylesheet" href="../css/cfi-theme.css">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <article class="container-fluid">
+
+    <div id="about-buttons-container"></div>
+    
+    <div style="margin-bottom: 10px"></div>
+    
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#contributionModalAboutTopic">
+      About this topic
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="contributionModalAboutTopic" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+            <h3 class="modal-title" id="contributionModalAboutTopicLabel">About Contribution Limits</h3>
+          </div>
+          <div class="modal-body">
+            <p>Many states limit how much a donor may contribute to a political campaign. About four-fifths of the states limit contributions from individuals to candidates. A smaller number do so for contributions from political parties or PACs to candidates.</p>
+
+          <p>States with limits typically set different ones for different categories of donors (such as individuals, political parties, or political committees) as they give to different types of recipients. However, the law would be meaningless if it limited how much a donor could give at any one time but then allowed an unlimited number of transactions. So when a state restricts contributions, it will specify the most that a donor may give over a designated period of time.  Some states will set a maximum amount per year. Others will designate the maximum a donor may give per election, with the primary and general election each having its own limit. And still others will designate the maximum per election cycle, with the cycle covering the primary and general election combined. Because we wanted to make truly comparable numbers available to researchers and other users, we have created a standardizing field to show the combined contribution limit for each type of donor and recipient over the course of two years. This is what is being shown in the visualizations. If you want to see the details of the laws in each state, including the way the states defined the time periods in their laws, you can click at any time to be brought to the full data sets.</p>
+          <p>As is true everywhere in this database, the visualizations present only a small portion of the full database. It is also important to note that they only present statute law. They do not present administrative or judicial interpretations of the law – which can often be crucial for understanding what a law “really means” to the candidates and others who live under it. The one situation in which we do go beyond the statute is if a final ruling of the highest state or federal court determines a provision to be unconstitutional. If that occurs, and the state has not formally repealed the provision in another statute, we then show the provision as being "inoperative".</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#contributionModalAboutPage">
+      About this page
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="contributionModalAboutPage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h3 class="modal-title" id="contributionModalAboutPageLabel">Using This Page</h3>
+          </div>
+          <div class="modal-body">
+            <p>Each of the graphic visualizations derived from the historical database of state campaign finance laws involves both a map and a grid. In this section on contribution and spending regulations and prohibitions, select your question at the upper right and the answers will appear on both map and grid.</p>
+            <h4>Grid</h4>
+            <p>Each of the fifty states has a column in the grid. The horizontal rows represent years taken every two years, with the most recent completed year at the top. In the default setting, the grid uses the most recent year to line up the states in order of the answers to the question you are asking. The key to this sorting is shown to the right of the map. Looking up and down any one state's column will show if and when the state changed its law. Hovering the cursor over any box will give some of the details for each state and year.</p>
+            <h4>Map</h4>
+            <p>The map will show the most recent year by default. Hovering the cursor over a state will show details for the year being shown.</p>
+            <h4>Sorting</h4>
+            <p>Clicking on any year at the left of the grid will rearrange the grid according to the values in the year chosen. It will also change the map to show the laws for that year. There is also an option to sort the states alphabetically.</p>
+            <h4>Downloading</h4>
+            <p>You may download the answers to your specific question in a standard format that you can view in a spreadsheet or other program. You may also download all of the visualized information, or larger portions of the complete (and much larger) historical database.</p>
+            <h4>Full Database</h4>
+            <p>To see much more about public financing and the rest of this database (including the complete descriptive codebook) click on "___"."</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <script src="../js/d3.min.js"></script>
+  <script src="../js/jquery.min.js"></script>
+  <script src="../js/bootstrap.min.js"></script>
+  <script>
+    d3.csv("../data/about_buttons.csv", function (data){
+      d3.select("#about-buttons-container")
+        .datum(data)
+        .call(renderButtons);
+    });
+
+    function renderButtons(selection){
+      selection.each(function (data){
+
+        var columns = {
+          page: data.columns[0],
+          aboutSubject: data.columns[1],
+          aboutPage: data.columns[2]
+        };
+
+        var container = d3.select(this);
+
+        var sections = container.selectAll("div").data(data);
+        var sectionsEnter = sections.enter().append("div");
+
+        var sectionId = function (d){ return d[columns.page].toLowerCase().replace(/ /g, "-"); };
+        var modalIdAboutSubject = function (d){ return sectionId(d) + "-about-subject" };
+        var modalIdAboutPage = function (d){ return sectionId(d) + "-about-page" };
+
+        sectionsEnter.append("h1")
+            .text(sectionId);
+
+        sectionsEnter
+          .append("button")
+            .attr("type", "button")
+            .attr("class", "btn btn-primary btn-lg")
+            .attr("data-toggle", "modal")
+            .attr("data-target", function (d){ return "#" + modalIdAboutSubject(d); })
+            .text("About this topic");
+
+        var modalContentEnter = sectionsEnter
+          .append("div")
+            .attr("class", "modal fade")
+            .attr("id", modalIdAboutSubject)
+            .attr("tabindex", "-1")
+            .attr("role", "dialog")
+          .append("div")
+            .attr("class", "modal-dialog")
+            .attr("role", "document")
+          .append("div")
+            .attr("class", "modal-content");
+
+        var modalHeaderEnter = modalContentEnter
+          .append("div")
+            .attr("class", "modal-header");
+
+        modalHeaderEnter
+          .append("button")
+            .attr("type", "button")
+            .attr("class", "close")
+            .attr("data-dismiss", "modal")
+          .append("span")
+            .html("&times;");
+
+        modalHeaderEnter
+          .append("h3")
+            .attr("class", "modal-title")
+            .attr("id", "contributionModalAboutPageLabel")
+            .text("Using This Page");
+
+        var modalBodyEnter = modalContentEnter
+          .append("div")
+            .attr("class", "modal-body")
+            .text(function (d){ return d[columns.aboutSubject]; });
+
+        var modalFooterEnter = modalContentEnter
+          .append("div")
+            .attr("class", "modal-footer")
+          .append("button")
+            .attr("type", "button")
+            .attr("class", "btn btn-default")
+            .attr("data-dismiss", "modal")
+            .text("Close");
+
+      });
+    }
+  </script>
+
+</body>
+</html>
