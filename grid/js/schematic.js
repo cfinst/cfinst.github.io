@@ -650,6 +650,6 @@ var fetchFields = function (csvPath){
 };
 
 var fetchDisclosureFields = fetchFields("../data/disclosure-fields.csv");
-var fetchPublicFundingFields = fetchFields("../data/public-funding-fields.csv");
+var fetchPublicFundingFields = fetchFields("../data/public-financing-fields.csv");
 
 }());
