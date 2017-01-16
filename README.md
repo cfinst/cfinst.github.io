@@ -4,6 +4,8 @@ This repository contains the source code of the [Campaign Finance Institute](htt
 
 ## Data Update Instructions
 
+### Updating from Access Database
+
 The following instructions are for updating the data used by this software from a new database dump from the original Microsoft Access database. After following these steps, the software will use the updated data.
 
 1. Download database dump file, e.g. `CFI State Laws Update_Merge.zip`. This will likely end up in your `~/Downloads` folder (on Linux / Mac).
@@ -15,7 +17,7 @@ The following instructions are for updating the data used by this software from 
 If successful, you should see the following output:
 
 ```
-$  ./bin/parse-mdb.sh data/CFI\ State\ Laws\ Update_Merge.mdb
+./bin/parse-mdb.sh data/CFI\ State\ Laws\ Update_Merge.mdb
 Exporting Laws_00_IdentifierTable to CSV...
 Exporting Laws_01_Defintions to CSV...
 Exporting Laws_02_Contributions_1 to CSV...
@@ -41,3 +43,16 @@ mv ~/Downloads/Field\ Names-Descriptions\ for\ Visuals_v3.xlsx\ -\ Public\ Fundi
 ```
 
 Note: Make sure there are no empty rows in the Public Funding fields sheet. If there are empty lines in the CSV file, they should be deleted.
+
+### Packaging Download Files
+
+The database content as well as metadata (field descriptions and about button contents) is packaged into .zip files for download. To create these .zip files, run the following script.
+
+```
+./bin/package-downloads.sh
+```
+
+This will produce the following files inside the `downloads` folder:
+
+ * full-database-csv.zip - Contains CSV files representing the full database.
+ * metadata.zip - Contains helper files used by the visualization.
