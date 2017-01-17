@@ -53,7 +53,7 @@ d3.queue()
   .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_3.csv")
   .defer(d3.csv, "../data/CSVs/Laws_04_PublicFinancing.csv")
   .defer(d3.csv, "../data/CSVs/Laws_05_Other.csv")
-  .defer(d3.csv, "../data/about_buttons.csv")
+  .defer(d3.csv, "../data/about-buttons.csv")
   .defer(d3.json, "../data/usa.json")
     .await(visualize)
 ;
@@ -650,6 +650,6 @@ var fetchFields = function (csvPath){
 };
 
 var fetchDisclosureFields = fetchFields("../data/disclosure-fields.csv");
-var fetchPublicFundingFields = fetchFields("../data/public-funding-fields.csv");
+var fetchPublicFundingFields = fetchFields("../data/public-financing-fields.csv");
 
 }());

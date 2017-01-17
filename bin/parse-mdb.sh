@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# This script is responsible for generating CSV files from the CFI Campaign Finance Database,
+# which is originally represented as a Microsoft Access database. For usage instructions,
+# see README.md at the root of this repository.
+#
+# Authors:
+#  Seemant Kulleen
+#  Curran Kelleher
+
 # Please install mdb-tools on your system. It is available using homebrew
 # in macOS, and should be in most Linux package manager respositories
 # (Ubuntu, Arch, Gentoo at the very least).  That will pull in some gnome2# files.  Such is life.
@@ -25,3 +33,9 @@ for table in ${tables}; do
 	rm -f "${csvdir}"/*_tmp_*.csv
 	rm -f "${csvdir}"/x_lookup*.csv
 done
+
+# Remove data files that don't contain anything useful.
+rm ${csvdir}/x_Yes-No.csv
+rm ${csvdir}/z_Laws_02_Contributions_1.csv
+rm ${csvdir}/z_SetAppendState.csv
+

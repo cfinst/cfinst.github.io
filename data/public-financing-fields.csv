@@ -1,0 +1,5 @@
+Field Name,Value Type,Question on Data Entry Form,Short Label,Additional Notes
+PublicFunding_H_type,Logical,"What type of public financing, if any, available to Legislative candidates:  full public financing, partial grant, matching funds, voucher, mixed or other.",Type of Public Financing - Legislative,
+PublicFunding_G_type,Logical,"What type of public financing, if any, available to Gubernatorial candidates:  full public financing, partial grant, matching funds, voucher, mixed or other.",Type of Public Financing - Governor,
+PublicFunding_P,Logical,Does this state provide public financing for state parties?,Public Financing for State Parties?,
+RefundOrTaxCreditOrTaxDeduction,Logical,Does the state provide a refund or tax credit or tax deduction for political contributions?,Refund or Tax Credit for Contributions?,

@@ -4,6 +4,8 @@ This repository contains the source code of the [Campaign Finance Institute](htt
 
 ## Data Update Instructions
 
+### Updating from Access Database
+
 The following instructions are for updating the data used by this software from a new database dump from the original Microsoft Access database. After following these steps, the software will use the updated data.
 
 1. Download database dump file, e.g. `CFI State Laws Update_Merge.zip`. This will likely end up in your `~/Downloads` folder (on Linux / Mac).
@@ -15,7 +17,7 @@ The following instructions are for updating the data used by this software from 
 If successful, you should see the following output:
 
 ```
-$  ./bin/parse-mdb.sh data/CFI\ State\ Laws\ Update_Merge.mdb
+./bin/parse-mdb.sh data/CFI\ State\ Laws\ Update_Merge.mdb
 Exporting Laws_00_IdentifierTable to CSV...
 Exporting Laws_01_Defintions to CSV...
 Exporting Laws_02_Contributions_1 to CSV...
@@ -36,8 +38,46 @@ Here's one example set of commands that matches file names when exported from Go
 
 ```
 cd cfi/data
-mv ~/Downloads/Field\ Names-Descriptions\ for\ Visuals_v3.xlsx\ -\ Disclosure.csv ./disclosure-fields.csv 
-mv ~/Downloads/Field\ Names-Descriptions\ for\ Visuals_v3.xlsx\ -\ Public\ Funding.csv ./public-funding-fields.csv 
+mv ~/Downloads/Field\ Names-Descriptions\ for\ Visuals_v5.xlsx\ -\ Disclosure.csv ./disclosure-fields.csv 
+mv ~/Downloads/Field\ Names-Descriptions\ for\ Visuals_v5.xlsx\ -\ Public\ Financing.csv ./public-financing-fields.csv 
+mv ~/Downloads/Field\ Names-Descriptions\ for\ Visuals_v5.xlsx\ -\ Other\ Restrictions.csv ./other-restrictions-fields.csv 
 ```
 
 Note: Make sure there are no empty rows in the Public Funding fields sheet. If there are empty lines in the CSV file, they should be deleted.
+
+### Packaging Download Files
+
+The database content as well as metadata (field descriptions and about button contents) is packaged into .zip files for download. To create these .zip files, run the following script.
+
+```
+./bin/package-downloads.sh
+```
+
+You should see output similar to the following:
+
+```
+Creating full-database-csv.zip
+  adding: full-database-csv/ (stored 0%)
+  adding: full-database-csv/Laws_03_Disclosure_3.csv (deflated 94%)
+  adding: full-database-csv/Laws_05_Other.csv (deflated 94%)
+  adding: full-database-csv/Laws_03_Disclosure_1.csv (deflated 96%)
+  adding: full-database-csv/Laws_02_Contributions_1.csv (deflated 96%)
+  adding: full-database-csv/Laws_00_IdentifierTable.csv (deflated 76%)
+  adding: full-database-csv/Laws_03_Disclosure_2.csv (deflated 91%)
+  adding: full-database-csv/Laws_02_Contributions_3.csv (deflated 94%)
+  adding: full-database-csv/Laws_04_PublicFinancing.csv (deflated 93%)
+  adding: full-database-csv/Laws_01_Defintions.csv (deflated 95%)
+  adding: full-database-csv/Laws_02_Contributions_2.csv (deflated 96%)
+
+Creating metadata.zip
+  adding: metadata/ (stored 0%)
+  adding: metadata/about-buttons.csv (deflated 76%)
+  adding: metadata/other-restrictions-fields.csv (deflated 60%)
+  adding: metadata/disclosure-fields.csv (deflated 70%)
+  adding: metadata/public-financing-fields.csv (deflated 58%)
+```
+
+This will produce the following files inside the `downloads` folder:
+
+ * full-database-csv.zip - Contains CSV files representing the full database.
+ * metadata.zip - Contains helper files used by the visualization.
