@@ -53,25 +53,38 @@
             </div>
 
             <div class="panel-body">
-              <svg id="color-legend"></svg>
-              <div class="form-group">
-                <div class="col-sm-6">
-                  <button class="col-sm-6 btn btn-default btn-block">
-                    <i class="fa fa-sort-alpha-asc"></i> Sort States Alphabetically
-                  </button>
-                </div>
-                <div class="col-sm-6">
-                  <button id="data-download-button-current-view" class="btn btn-default btn-block">
-                    <i class="fa fa-download"></i> Download Currently Shown Data
-                  </button>
-                </div>
+              <div class="col-sm-6">
+                <svg id="color-legend"></svg>
+              </div>
+              <div class="col-sm-6">
+                <form class="form-horizontal">
+                  <div class="form-group">
+                    <button id="data-download-button-current-view" class="btn btn-default btn-block">
+                      <i class="fa fa-download"></i> Download Currently Shown Data
+                    </button>
+                  </div>
+                  <div class="form-group">
+                    <a href="/downloads.html" class="btn btn-default btn-block">
+                      More Download Options
+                    </a>
+                  </div>
+                </form>
               </div>
             </div>
           </div><!--/#meta-->
         </div><!--/.col-lg-4 -->
         <div class="col-md-12">
           <figure class="grid">
-            <figcaption class="text-center">Click on a year to re-sort the grid.</figcaption>
+            <div class="row">
+              <div class="col-sm-9">
+                <p class="year-sort-instruction">Click on a year to re-sort the grid.</p>
+              </div>
+              <div class="col-sm-3">
+                <button class="col-sm-6 btn btn-default btn-block alphabetize-states-button">
+                  <i class="fa fa-sort-alpha-asc"></i> Sort States Alphabetically
+                </button>
+              </div>
+            </div>
             <svg id="main"></svg>
           </figure>
         </div><!--.col-md-12-->
@@ -104,6 +117,7 @@
 <script src="../js/d3-legend.min.js"></script>
 <script src="../js/topojson.min.js"></script>
 <script src="../js/marked.min.js"></script>
+<script src="../js/to-csv.js"></script>
 <script src="js/grid.js"></script>
 <script src="js/atlas.js"></script>
 <script src="js/schematic.js"></script>

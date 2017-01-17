@@ -126,8 +126,8 @@ function corpus(contribs, contribs2, disclosure1, disclosure2, disclosure3, publ
     d3.select(".controls .checkbox input")
         .on("change", function() { grid.empty(this.checked)(); })
     ;
-    d3.select(".controls button")
-        .on("click", function() { grid.reset()(); atlas.reset(); })
+    d3.select(".alphabetize-states-button")
+        .on("click", function() { grid.reset()(); })
     ;
     signal.on("selectYear.grid", grid.selectedYear);
     signal.on("downloadAllLimits", function (xColumn, yColumn){
