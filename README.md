@@ -2,6 +2,23 @@
 
 This repository contains the source code of the [Campaign Finance Institute](http://www.cfinst.org/) data exploration and download tool.
 
+## Running this Site
+
+This site is organized using [Jekyll](https://jekyllrb.com/). Jekyll runs automatically on [GitHub Pages](https://pages.github.com/), which is the main deployment strategy at the moment.
+
+To run this site on your own machine, you'll need a working [Ruby](https://www.ruby-lang.org/en/documentation/installation/) environment, then use the following commands:
+
+```
+# Install Jekyll on your machine (only required once).
+gem install jekyll
+
+# Use Jekyll to serve this site.
+cd cfi
+jekyll serve
+```
+
+Now the site should be available at [http://localhost:4000/](http://localhost:4000/).
+
 ## Data Update Instructions
 
 ### Updating from Access Database
