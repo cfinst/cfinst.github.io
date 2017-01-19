@@ -6,3 +6,7 @@ logo: img/CFI-logo-white.svg
 # (I'm assuming)
 
 markdown: kramdown
+
+authors:
+  - Curran Kelleher
+  - Seemant Kulleen
