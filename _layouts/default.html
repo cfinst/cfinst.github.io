@@ -4,20 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="{{ site.description }}">
-  <meta name="author" content="Seemant Kulleen">
-  <meta name="author" content="Curran Kelleher">
+  {% for author in site.authors %}
+  <meta name="author" content="{{ author }}">
+  {% endfor %}
 
   <title>{{ page.title }}</title>
 
   {% include stylesheets.html %}
 </head>
 <body>
-<header class="container-fluid">
-</header>
-<article class="container-fluid">
+<header class="container-fluid"></header>
 
+<article class="container-fluid">
   <section id="visualization">
-    <ul class="nav nav-tabs cfi-tabs"></ul>
+    <nav><ul class="nav nav-tabs cfi-tabs"></ul></nav>
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="col-lg-6">
