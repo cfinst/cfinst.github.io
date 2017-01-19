@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{{ site.description }}">
+  {% for author in site.authors %}
+  <meta name="author" content="{{ author }}">
+  {% endfor %}
+
+  <title>{{ page.title }}</title>
+
+  {% include stylesheets.html %}
+</head>
+<body>
+<header class="container-fluid"></header>
+
+<article class="container-fluid">
+  <section id="visualization">
+    <nav><ul class="nav nav-tabs cfi-tabs"></ul></nav>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="col-lg-6">
+          <svg id="map"></svg>
+        </div><!--.col-lg-8-->
+        <div class="col-lg-6">
+          <div id="meta" class="panel panel-default">
+
+            <div class="panel-heading">
+              {% include buttons/about.html %}
+              <form id="controls-form" class="form-horizontal"></form>
+            </div>
+
+            <div class="panel-body">
+              <div class="col-sm-6">
+                <svg id="color-legend"></svg>
+              </div>
+              <div class="col-sm-6">
+                {% include buttons/download.html %}
+              </div>
+            </div>
+          </div><!--/#meta-->
+        </div><!--/.col-lg-4 -->
+        <div class="col-md-12">
+          <figure class="grid">
+            <div class="row">
+              <div class="col-sm-9">
+                <p class="year-sort-instruction">Click on a year to re-sort the grid.</p>
+              </div>
+              <div class="col-sm-3">
+                <button class="col-sm-6 btn btn-default btn-block alphabetize-states-button">
+                  <i class="fa fa-sort-alpha-asc"></i> Sort States Alphabetically
+                </button>
+              </div>
+            </div>
+            <svg id="main"></svg>
+          </figure>
+        </div><!--.col-md-12-->
+      </div><!--.panel-body-->
+    </div><!--.panel.panel-default-->
+
+    {% include modals/about.html %}
+  </section><!--/#visualization-->
+</article>
+
+{% include javascripts.html %}
+
+</body>
+</html>
