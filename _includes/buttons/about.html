@@ -1,14 +1,11 @@
 <form class="form-horizontal">
   <div class="form-group">
+    {% for button in site.data.buttons %}
     <div class="col-sm-6">
-      <button id="about-topic-button" type="button" class="btn btn-primary btn-block col-sm-2" data-toggle="modal" data-target="#about-modal">
-        About this topic
+      <button id="{{ button.name }}-button" type="button" class="btn btn-primary btn-block col-sm-2" data-toggle="modal" data-target="#about-modal">
+        {{ button.text }}
       </button>
     </div>
-    <div class="col-sm-6">
-      <button id="about-page-button" type="button" class="btn btn-primary btn-block col-sm-2" data-toggle="modal" data-target="#about-modal">
-        Using this page
-      </button>
-    </div>
-  </div>
+    {% endfor %}
+  </div><!--.form-group-->
 </form>

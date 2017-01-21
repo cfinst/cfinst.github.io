@@ -1,0 +1,6 @@
+---
+  - name: topic-button
+    text: About this topic
+  - name: page-button
+    text: Using this page
+---
