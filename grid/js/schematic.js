@@ -458,7 +458,7 @@ function initDisclosuresSection(data) {
 
     fetchDisclosureFields(function(disclosureFields) {
 
-        function setupControlsForm(){
+        function setupControlsForm(fields){
             var form = d3.select("#controls-form");
 
             var chooserGroup = form.append("div")
@@ -492,13 +492,14 @@ function initDisclosuresSection(data) {
                     updateSelectedField(disclosureFields[this.value]);
                   })
                 .selectAll("option")
-                  .data(disclosureFields)
+                  .data(fields)
                 .enter().append("option")
                   .attr("value", function(d, i) { return i; })
                   .text(function(d) { return d["Short Label"]; })
             ;
         }
-        setupControlsForm();
+
+        setupControlsForm(disclosureFields);
 
         function updateSelectedField(d){
 
