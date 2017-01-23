@@ -48,6 +48,7 @@ var grid = Grid().tooltipContent(tooltipContent)
 d3.queue()
   .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_1.csv")
   .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_2.csv")
+  .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_3.csv")
   .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_1.csv")
   .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_2.csv")
   .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_3.csv")
@@ -71,10 +72,10 @@ d3.select(window)
 /*
 ** Helper Functions
 */
-function visualize(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other, about, usa){
+function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other, about, usa){
     if(error) throw error;
 
-    corpus(contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other);
+    corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other);
     carto(usa);
 
     setupTabNavigation(about);
@@ -89,7 +90,7 @@ function visualize(error, contribs, contribs2, disclosure1, disclosure2, disclos
     signal.call("navigate", null, section);
 }
 
-function corpus(contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other) {
+function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other) {
     var data = d3.nest()
             .key(function(d) {
                 // Construct the identifier from these two fields,
@@ -97,7 +98,7 @@ function corpus(contribs, contribs2, disclosure1, disclosure2, disclosure3, publ
                 return d.State + d.Year;
             })
             .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
-            .map(d3.merge([contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other]))
+            .map(d3.merge([contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other]))
             .values()
       , columnsRaw = d3.keys(data[0])
             .filter(function(c) { return c.endsWith("_Max"); })
