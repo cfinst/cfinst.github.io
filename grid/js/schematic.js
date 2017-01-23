@@ -329,7 +329,7 @@ function initContributionLimitsSection(data, columns) {
         .on("change", function() {
             query[this.id.split("chooser-")[1]] = this.value;
             grid
-                .selectedColumn(querify())
+                .selectedColumn(querify(), true)
                 .selectedColumnLabel(labelify())
               () // call grid()
             ;
@@ -448,7 +448,8 @@ function initSection(fields, getColorScale){
           .append("select")
             .attr("class", "chooser form-control")
             .on("change", function() {
-                updateSelectedField(fields[this.value]);
+                var i = this.value;
+                updateSelectedField(fields[i]);
               })
             .selectAll("option")
               .data(fields)
@@ -605,6 +606,12 @@ function initOtherRestrictionsSection(data) {
 
     function getColorScale(d){
         var colorScale = d3.scaleOrdinal()
+                .domain([
+                  "No"
+                  , "Changed mid-cycle"
+                  , "Yes"
+                  , "Missing Data"
+                ])
                 .range([
                   "#053061" // No - dark blue
                   , "#2166ac" // Changed mid-cycle - medium blue

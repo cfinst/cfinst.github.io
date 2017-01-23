@@ -383,11 +383,12 @@ function Grid(){
       return my;
     } // my.data()
   ;
-  my.selectedColumn = function (_){
+
+  my.selectedColumn = function (_, useKeyColumn){
       if(!arguments.length) return selectedColumn;
 
       selectedColumn = _;
-      var keyColumn = (
+      var keyColumn = useKeyColumn && (
           ~selectedColumn.indexOf('Limit')
           ? selectedColumn.split('Limit')[0]
           : undefined
