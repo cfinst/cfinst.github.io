@@ -454,12 +454,13 @@ function initSection(fields, getColorScale){
         ;
     }
 
-    // Passes the selected field into the visualizations.
     function updateSelectedField(d){
 
+        // Update the description displayed for the selected field.
         d3.select(".field-description")
             .text(d["Question on Data Entry Form"]);
 
+        // Pass the selected field into the visualizations.
         grid
             .selectedColumn(d["Field Name"])
             .selectedColumnLabel(d["Short Label"])
@@ -522,126 +523,77 @@ function initDisclosuresSection(data) {
         return colorScale;
     }
 
-    fetchDisclosureFields(function(disclosureFields) {
-        initSection(disclosureFields, getColorScale);
+    fetchDisclosureFields(function(fields) {
+        initSection(fields, getColorScale);
     });
 } // initDisclosuresSection()
 
 function initPublicFundingSection(data) {
-    fetchPublicFundingFields(function(publicFundingFields) {
 
-        var form = d3.select("#controls-form");
+    function getColorScale(d){
+        var selectedColumn = d["Field Name"];
+        var colorScale;
 
-        var chooserGroup = form.append("div")
-            .attr("class", "form-group")
-        ;
-        chooserGroup.append("label")
-            .attr("class", "col-sm-2 control-label")
-            .text("Question")
-        ;
-
-        var descriptionGroup = form.append("div")
-            .attr("class", "form-group")
-        ;
-        descriptionGroup.append("label")
-            .attr("class", "col-sm-2 control-label")
-            .text("Description")
-        ;
-        var descriptionContainer = descriptionGroup
-          .append("div")
-            .attr("class", "col-sm-10")
-          .append("p")
-            .attr("class", "field-description")
-        ;
-
-        chooserGroup
-          .append("div")
-            .attr("class", "col-sm-10")
-          .append("select")
-            .attr("class", "chooser form-control")
-            .on("change", function() {
-                updateSelectedField(publicFundingFields[this.value]);
-              })
-            .selectAll("option")
-              .data(publicFundingFields)
-            .enter().append("option")
-              .attr("value", function(d, i) { return i; })
-              .text(function(d) { return d["Short Label"]; })
-        ;
-
-        function updateSelectedField(d){
-            var selectedColumn = d["Field Name"];
-
-            descriptionContainer.text(d["Question on Data Entry Form"]);
-
-            var colorScale;
-
-            // Custom color scale for "Public Funds for State Parties?" (PublicFunding_P)
-            if(selectedColumn === "PublicFunding_P"){
-                colorScale = d3.scaleOrdinal()
-                    .domain([
-                      "No"
-                      , "Changed mid-cycle"
-                      , "Yes"
-                      , "Missing Data"
-                    ])
-                    .range([
-                      "#053061" // No - dark blue
-                      , "#2166ac" // Changed mid-cycle - medium blue
-                      , "#4393c3" // Yes - light blue
-                      , "gray" // Missing Data - gray
-                      , "#d95f02" // More colors for unanticipated values
-                      , "#7570b3"
-                      , "#e7298a"
-                    ])
-                ;
-            } else if(selectedColumn === "RefundOrTaxCreditOrTaxDeduction"){
-                colorScale = d3.scaleOrdinal()
-                    .domain([
-                      "Missing Data"
-                      , "None"
-                    ])
-                    .range([
-                      "gray" // Missing Data - gray
-                      , "gray" // None - gray
-                      , "#053061" // dark blue
-                      , "#2166ac" // medium blue
-                      , "#4393c3" // light blue
-                      , "#d95f02" // More colors for unanticipated values
-                      , "#7570b3"
-                      , "#e7298a"
-                    ])
-                ;
-            } else {
-                colorScale = d3.scaleOrdinal()
-                    .domain([
-                      "Missing Data"
-                      , "Partial Grant"
-                      , "Matching Funds"
-                      , "Full Public Financing"
-                    ])
-                    .range([
-                      "gray" // Missing Data - gray
-                      , "#053061" // Partial Grant - dark blue
-                      , "#2166ac" // Matching Funds - medium blue
-                      , "#4393c3" // Full Public Financing - light blue
-                      , "#d95f02" // More colors for unanticipated values
-                      , "#7570b3"
-                      , "#e7298a"
-                    ])
-                ;
-            }
-
-            grid
-                .selectedColumn(selectedColumn)
-                .selectedColumnLabel(d["Short Label"])
-                .colorScale(colorScale)
-              () // call grid()
+        // Custom color scale for "Public Funds for State Parties?" (PublicFunding_P)
+        if(selectedColumn === "PublicFunding_P"){
+            colorScale = d3.scaleOrdinal()
+                .domain([
+                  "No"
+                  , "Changed mid-cycle"
+                  , "Yes"
+                  , "Missing Data"
+                ])
+                .range([
+                  "#053061" // No - dark blue
+                  , "#2166ac" // Changed mid-cycle - medium blue
+                  , "#4393c3" // Yes - light blue
+                  , "gray" // Missing Data - gray
+                  , "#d95f02" // More colors for unanticipated values
+                  , "#7570b3"
+                  , "#e7298a"
+                ])
+            ;
+        } else if(selectedColumn === "RefundOrTaxCreditOrTaxDeduction"){
+            colorScale = d3.scaleOrdinal()
+                .domain([
+                  "Missing Data"
+                  , "None"
+                ])
+                .range([
+                  "gray" // Missing Data - gray
+                  , "gray" // None - gray
+                  , "#053061" // dark blue
+                  , "#2166ac" // medium blue
+                  , "#4393c3" // light blue
+                  , "#d95f02" // More colors for unanticipated values
+                  , "#7570b3"
+                  , "#e7298a"
+                ])
+            ;
+        } else {
+            colorScale = d3.scaleOrdinal()
+                .domain([
+                  "Missing Data"
+                  , "Partial Grant"
+                  , "Matching Funds"
+                  , "Full Public Financing"
+                ])
+                .range([
+                  "gray" // Missing Data - gray
+                  , "#053061" // Partial Grant - dark blue
+                  , "#2166ac" // Matching Funds - medium blue
+                  , "#4393c3" // Full Public Financing - light blue
+                  , "#d95f02" // More colors for unanticipated values
+                  , "#7570b3"
+                  , "#e7298a"
+                ])
             ;
         }
+        return colorScale;
+    }
 
-        // Initialize the content to the first field.
-        updateSelectedField(publicFundingFields[0]);
+    fetchPublicFundingFields(function(fields) {
+        initSection(fields, getColorScale);
     });
 } // initPublicFundingSection()
 
