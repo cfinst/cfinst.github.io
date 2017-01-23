@@ -1,3 +1,8 @@
+# This file lets you configure the names of the "about" buttons.
+#
+# Please only change the "text" values here.
+# Do not change the "name" values, as these are
+# required to match with JavaScript code elsewhere.
 ---
   - name: about-topic
     text: About this topic
