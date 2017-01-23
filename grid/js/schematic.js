@@ -163,6 +163,9 @@ function corpus(contribs, contribs2, disclosure1, disclosure2, disclosure3, publ
             case "public-funding":
                 initPublicFundingSection(data);
                 break;
+            case "other-restrictions":
+                initOtherRestrictionsSection(data);
+                break;
             default:
                 console.log("Unknown section name \"" + section + "\"");
         }
@@ -215,6 +218,7 @@ function setupTabNavigation(about) {
       { title: "Contribution Limits", section: "contributions" },
       { title: "Disclosure", section: "disclosure" },
       { title: "Public Financing", section: "public-funding" },
+      { title: "Other Restrictions", section: "other-restrictions" }
     ];
 
     // This dictionary maps section names to the
@@ -597,16 +601,38 @@ function initPublicFundingSection(data) {
     });
 } // initPublicFundingSection()
 
-// Cache fetched fields
+function initOtherRestrictionsSection(data) {
+
+    function getColorScale(d){
+        var colorScale = d3.scaleOrdinal()
+                .range([
+                  "#053061" // No - dark blue
+                  , "#2166ac" // Changed mid-cycle - medium blue
+                  , "#4393c3" // Yes - light blue
+                  , "gray" // Missing Data - gray
+                  , "#d95f02" // More colors for unanticipated values
+                  , "#7570b3"
+                  , "#e7298a"
+                ])
+            ;
+        return colorScale;
+    }
+
+    fetchOtherRestrictionsFields(function(fields) {
+        initSection(fields, getColorScale);
+    });
+} // initOtherRestrictionsSection()
+
+// Fetch and cache the CSV file at the given path.
 var fetchFields = function (csvPath){
-    var data;
+    var cachedData;
     return function(callback) {
-        if(data) {
-            callback(data);
+        if(cachedData) {
+            callback(cachedData);
         } else {
-            d3.csv(csvPath, function(_) {
-                data = _;
-                callback(data);
+            d3.csv(csvPath, function(data) {
+                cachedData = data;
+                callback(cachedData);
             });
         }
     };
@@ -614,5 +640,6 @@ var fetchFields = function (csvPath){
 
 var fetchDisclosureFields = fetchFields("../data/disclosure-fields.csv");
 var fetchPublicFundingFields = fetchFields("../data/public-financing-fields.csv");
+var fetchOtherRestrictionsFields = fetchFields("../data/other-restrictions-fields.csv");
 
 }());

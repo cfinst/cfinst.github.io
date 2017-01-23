@@ -1,5 +1,5 @@
 Field Name,Value Type,Question on Data Entry Form,Short Label,Additonal Notes
-AGGCANDLIMIT ,Logical,Is there an aggregate limit on contributions from a donor to all candidates in the state in a given time period?,Aggregate Limit from Donor to all Cand.?,
+AggCandLimit,Logical,Is there an aggregate limit on contributions from a donor to all candidates in the state in a given time period?,Aggregate Limit from Donor to all Cand.?,
 DOINGBUSINESSLIMITS,Logical,Are contribution limits lower for people or organizations doing business with the state?,Separate Contribution Limits for those dong business with State?,
 LOBBYIST_LIMITS,Logical,Does the law contain special contribution limits or prohibitions for lobbyists?,Special restrictions for lobbyists?,
 CONTLEGISSESSION,Logical,Are there restrictions on accepting contributions or holding fundraising event during the legislative session? ,Special restrictions during legislative session?,
