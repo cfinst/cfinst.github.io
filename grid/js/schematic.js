@@ -403,6 +403,72 @@ function getQueryVariables() {
     return inits;
 } // getQueryVariables()
 
+// Set up the form with controls for choosing fields.
+// This is used in all tabs other than Contribution Limits.
+function initSection(fields, getColorScale){
+
+    // Initialize the controls form DOM skeleton.
+    setupControlsForm();
+
+    // Initialize the content by selecting the first field in the list.
+    updateSelectedField(fields[0]);
+
+    function setupControlsForm(){
+        var form = d3.select("#controls-form");
+
+        var chooserGroup = form.append("div")
+            .attr("class", "form-group")
+        ;
+        chooserGroup.append("label")
+            .attr("class", "col-sm-2 control-label")
+            .text("Question")
+        ;
+
+        var descriptionGroup = form.append("div")
+            .attr("class", "form-group")
+        ;
+        descriptionGroup.append("label")
+            .attr("class", "col-sm-2 control-label")
+            .text("Description")
+        ;
+        var descriptionContainer = descriptionGroup
+          .append("div")
+            .attr("class", "col-sm-10")
+          .append("p")
+            .attr("class", "field-description")
+        ;
+
+        chooserGroup
+          .append("div")
+            .attr("class", "col-sm-10")
+          .append("select")
+            .attr("class", "chooser form-control")
+            .on("change", function() {
+                updateSelectedField(fields[this.value]);
+              })
+            .selectAll("option")
+              .data(fields)
+            .enter().append("option")
+              .attr("value", function(d, i) { return i; })
+              .text(function(d) { return d["Short Label"]; })
+        ;
+    }
+
+    // Passes the selected field into the visualizations.
+    function updateSelectedField(d){
+
+        d3.select(".field-description")
+            .text(d["Question on Data Entry Form"]);
+
+        grid
+            .selectedColumn(d["Field Name"])
+            .selectedColumnLabel(d["Short Label"])
+            .colorScale(getColorScale(d))
+          () // call grid()
+        ;
+    }
+} // initSection()
+
 function initDisclosuresSection(data) {
 
     function getColorScale(d){
@@ -457,67 +523,7 @@ function initDisclosuresSection(data) {
     }
 
     fetchDisclosureFields(function(disclosureFields) {
-
-        function setupControlsForm(fields){
-            var form = d3.select("#controls-form");
-
-            var chooserGroup = form.append("div")
-                .attr("class", "form-group")
-            ;
-            chooserGroup.append("label")
-                .attr("class", "col-sm-2 control-label")
-                .text("Question")
-            ;
-
-            var descriptionGroup = form.append("div")
-                .attr("class", "form-group")
-            ;
-            descriptionGroup.append("label")
-                .attr("class", "col-sm-2 control-label")
-                .text("Description")
-            ;
-            var descriptionContainer = descriptionGroup
-              .append("div")
-                .attr("class", "col-sm-10")
-              .append("p")
-                .attr("class", "field-description")
-            ;
-
-            chooserGroup
-              .append("div")
-                .attr("class", "col-sm-10")
-              .append("select")
-                .attr("class", "chooser form-control")
-                .on("change", function() {
-                    updateSelectedField(disclosureFields[this.value]);
-                  })
-                .selectAll("option")
-                  .data(fields)
-                .enter().append("option")
-                  .attr("value", function(d, i) { return i; })
-                  .text(function(d) { return d["Short Label"]; })
-            ;
-        }
-
-        setupControlsForm(disclosureFields);
-
-        function updateSelectedField(d){
-
-            d3.select(".field-description")
-                .text(d["Question on Data Entry Form"]);
-
-            var colorScale = getColorScale(d);
-
-            grid
-                .selectedColumn(d["Field Name"])
-                .selectedColumnLabel(d["Short Label"])
-                .colorScale(colorScale)
-              () // call grid()
-            ;
-        }
-
-        // Initialize the content to the first field.
-        updateSelectedField(disclosureFields[0]);
+        initSection(disclosureFields, getColorScale);
     });
 } // initDisclosuresSection()
 
