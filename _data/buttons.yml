@@ -1,6 +1,6 @@
 ---
-  - name: topic-button
+  - name: about-topic
     text: About this topic
-  - name: page-button
+  - name: about-page
     text: Using this page
 ---
