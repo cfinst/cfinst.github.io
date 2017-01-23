@@ -458,48 +458,52 @@ function initDisclosuresSection(data) {
 
     fetchDisclosureFields(function(disclosureFields) {
 
-        var form = d3.select("#controls-form");
+        function setupControlsForm(){
+            var form = d3.select("#controls-form");
 
-        var chooserGroup = form.append("div")
-            .attr("class", "form-group")
-        ;
-        chooserGroup.append("label")
-            .attr("class", "col-sm-2 control-label")
-            .text("Question")
-        ;
+            var chooserGroup = form.append("div")
+                .attr("class", "form-group")
+            ;
+            chooserGroup.append("label")
+                .attr("class", "col-sm-2 control-label")
+                .text("Question")
+            ;
 
-        var descriptionGroup = form.append("div")
-            .attr("class", "form-group")
-        ;
-        descriptionGroup.append("label")
-            .attr("class", "col-sm-2 control-label")
-            .text("Description")
-        ;
-        var descriptionContainer = descriptionGroup
-          .append("div")
-            .attr("class", "col-sm-10")
-          .append("p")
-            .attr("class", "field-description")
-        ;
+            var descriptionGroup = form.append("div")
+                .attr("class", "form-group")
+            ;
+            descriptionGroup.append("label")
+                .attr("class", "col-sm-2 control-label")
+                .text("Description")
+            ;
+            var descriptionContainer = descriptionGroup
+              .append("div")
+                .attr("class", "col-sm-10")
+              .append("p")
+                .attr("class", "field-description")
+            ;
 
-        chooserGroup
-          .append("div")
-            .attr("class", "col-sm-10")
-          .append("select")
-            .attr("class", "chooser form-control")
-            .on("change", function() {
-                updateSelectedField(disclosureFields[this.value]);
-              })
-            .selectAll("option")
-              .data(disclosureFields)
-            .enter().append("option")
-              .attr("value", function(d, i) { return i; })
-              .text(function(d) { return d["Short Label"]; })
-        ;
+            chooserGroup
+              .append("div")
+                .attr("class", "col-sm-10")
+              .append("select")
+                .attr("class", "chooser form-control")
+                .on("change", function() {
+                    updateSelectedField(disclosureFields[this.value]);
+                  })
+                .selectAll("option")
+                  .data(disclosureFields)
+                .enter().append("option")
+                  .attr("value", function(d, i) { return i; })
+                  .text(function(d) { return d["Short Label"]; })
+            ;
+        }
+        setupControlsForm();
 
         function updateSelectedField(d){
 
-            descriptionContainer.text(d["Question on Data Entry Form"]);
+            d3.select(".field-description")
+                .text(d["Question on Data Entry Form"]);
 
             var colorScale = getColorScale(d);
 
