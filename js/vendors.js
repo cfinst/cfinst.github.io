@@ -8,4 +8,3 @@
 {% include_relative vendor/d3-tip.js %}
 {% include_relative vendor/jquery.min.js %}
 {% include_relative vendor/bootstrap.min.js %}
-{% include_relative vendor/marked.min.js %}
