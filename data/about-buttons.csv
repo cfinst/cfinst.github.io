@@ -1,5 +1,5 @@
 Page,About this subject,How to use this page
-Contribution Limits,"Many states limit how much a donor may contribute to a political campaign. About four-fifths of the states limit contributions from individuals to candidates. A smaller number do so for contributions from political parties or PACs to candidates. 
+contributions,"Many states limit how much a donor may contribute to a political campaign. About four-fifths of the states limit contributions from individuals to candidates. A smaller number do so for contributions from political parties or PACs to candidates. 
 
 States with limits typically set different ones for different categories of donors (such as individuals, political parties, or political committees) as they give to different types of recipients. However, the law would be meaningless if it limited how much a donor could give at any one time but then allowed an unlimited number of transactions. So when a state restricts contributions, it will specify the most that a donor may give over a designated period of time.  Some states will set a maximum amount per year. Others will designate the maximum a donor may give per election, with the primary and general election each having its own limit. And still others will designate the maximum per election cycle, with the cycle covering the primary and general election combined. Because we wanted to make truly comparable numbers available to researchers and other users, we have created a standardizing field to show the combined contribution limit for each type of donor and recipient over the course of two years. This is what is being shown in the visualizations. If you want to see the details of the laws in each state, including the way the states defined the time periods in their laws, you can click at any time to be brought to the full data sets. 
 
@@ -26,7 +26,7 @@ You may download the answers to your specific question in a standard format that
 
 To see much more about disclosure and the rest of this database (including the complete descriptive codebook) click on ""___"".
 "
-Contribution and Spending Regulations and Probitions,"In addition to various limits, many laws contain other kinds of regulations and prohibitions that relate to contributions and spending. For example, about half of the states prohibited corporations and labor unions from using their treasury money for independent expenditures until the Supreme Court's declared these prohibitions to be unconstitutional in Citizens United v. Federal Election Commission (2010). And many states continue to prohibit corporations and labor unions from contributing their treasury money directly to candidates. 
+other-restrictions,"In addition to various limits, many laws contain other kinds of regulations and prohibitions that relate to contributions and spending. For example, about half of the states prohibited corporations and labor unions from using their treasury money for independent expenditures until the Supreme Court's declared these prohibitions to be unconstitutional in Citizens United v. Federal Election Commission (2010). And many states continue to prohibit corporations and labor unions from contributing their treasury money directly to candidates. 
 
 [What else should go in the visualization? Whether there are special rules for lobbyists? Contractors. During session?]
 
@@ -51,7 +51,7 @@ You may download the answers to your specific question in a standard format that
 #### Full Database
 
 To see much more about public financing and the rest of this database (including the complete descriptive codebook) click on ""___""."
-Disclosure,"Every state requires candidates, parties and other political committees to disclose the names and other information about their donors. But after that one basic point of agreement, there is great variation. For example, most states (but not all) tell the recipients that they need not disclose the names and addresses of small donors. However, the threshold levels for disclosing this donor information vary from state to state. Some of visualizations on this disclosure tab display these thresholds. The tab also displays information about independent expenditure disclosure, and the laws that require donor disclosure within advertisements. 
+disclosure,"Every state requires candidates, parties and other political committees to disclose the names and other information about their donors. But after that one basic point of agreement, there is great variation. For example, most states (but not all) tell the recipients that they need not disclose the names and addresses of small donors. However, the threshold levels for disclosing this donor information vary from state to state. Some of visualizations on this disclosure tab display these thresholds. The tab also displays information about independent expenditure disclosure, and the laws that require donor disclosure within advertisements. 
 
 All of these features of the law fit neatly into decades-old categories. However, many of the major policy questions of recent years have revolved around organizations that do not fit into traditional boxes. Since the 2010 Supreme Court decision in Citizens United v. Federal Election Commission, corporations (including nonprofit advocacy organizations) have been allowed to make unlimited independent expenditures. These organizations often are not “political committees” under the law and therefore do not normally disclose their donors. As they try to maintain the value of transparency, some jurisdictions have extended their laws to require donor information from organizations other than political committees. Some have also sought to track money back to the original source even if it passes through layers of intermediate organizations. For that reason, the visualized information includes a question about states that require disclosure by “other entities.” 
 
@@ -78,7 +78,7 @@ You may download the answers to your specific question in a standard format that
 
 To see much more about disclosure and the rest of this database (including the complete descriptive codebook) click on ""___"".
 "
-Public Financing,"About half of the states provide some form of public financing incentive for candidates or political parties. The programs for candidates may come in the form of
+public-funding,"About half of the states provide some form of public financing incentive for candidates or political parties. The programs for candidates may come in the form of
 
   1. full public financing flat grants to cover all of a candidate's spending,
   2. partial grants to be combined with private fundraising,
