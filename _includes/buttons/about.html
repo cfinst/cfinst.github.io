@@ -1,6 +1,6 @@
 <form class="form-horizontal">
   <div class="form-group">
-    {% for button in site.data.buttons %}
+    {% for button in site.data.buttons.about %}
     <div class="col-sm-6">
       <button id="{{ button.name }}-button" type="button" class="btn btn-primary btn-block col-sm-2" data-toggle="modal" data-target="#about-modal">
         {{ button.text }}
