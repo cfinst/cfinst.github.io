@@ -48,6 +48,7 @@ var grid = Grid().tooltipContent(tooltipContent)
 d3.queue()
   .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_1.csv")
   .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_2.csv")
+  .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_3.csv")
   .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_1.csv")
   .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_2.csv")
   .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_3.csv")
@@ -71,10 +72,10 @@ d3.select(window)
 /*
 ** Helper Functions
 */
-function visualize(error, contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other, about, usa){
+function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other, about, usa){
     if(error) throw error;
 
-    corpus(contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other);
+    corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other);
     carto(usa);
 
     setupTabNavigation(about);
@@ -89,7 +90,7 @@ function visualize(error, contribs, contribs2, disclosure1, disclosure2, disclos
     signal.call("navigate", null, section);
 }
 
-function corpus(contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other) {
+function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other) {
     var data = d3.nest()
             .key(function(d) {
                 // Construct the identifier from these two fields,
@@ -97,7 +98,7 @@ function corpus(contribs, contribs2, disclosure1, disclosure2, disclosure3, publ
                 return d.State + d.Year;
             })
             .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
-            .map(d3.merge([contribs, contribs2, disclosure1, disclosure2, disclosure3, publicFinancing, other]))
+            .map(d3.merge([contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other]))
             .values()
       , columnsRaw = d3.keys(data[0])
             .filter(function(c) { return c.endsWith("_Max"); })
@@ -163,6 +164,9 @@ function corpus(contribs, contribs2, disclosure1, disclosure2, disclosure3, publ
             case "public-funding":
                 initPublicFundingSection(data);
                 break;
+            case "other-restrictions":
+                initOtherRestrictionsSection(data);
+                break;
             default:
                 console.log("Unknown section name \"" + section + "\"");
         }
@@ -215,6 +219,7 @@ function setupTabNavigation(about) {
       { title: "Contribution Limits", section: "contributions" },
       { title: "Disclosure", section: "disclosure" },
       { title: "Public Financing", section: "public-funding" },
+      { title: "Other Restrictions", section: "other-restrictions" }
     ];
 
     // This dictionary maps section names to the
@@ -325,7 +330,7 @@ function initContributionLimitsSection(data, columns) {
         .on("change", function() {
             query[this.id.split("chooser-")[1]] = this.value;
             grid
-                .selectedColumn(querify())
+                .selectedColumn(querify(), true)
                 .selectedColumnLabel(labelify())
               () // call grid()
             ;
@@ -403,6 +408,74 @@ function getQueryVariables() {
     return inits;
 } // getQueryVariables()
 
+// Set up the form with controls for choosing fields.
+// This is used in all tabs other than Contribution Limits.
+function initSection(fields, getColorScale){
+
+    // Initialize the controls form DOM skeleton.
+    setupControlsForm();
+
+    // Initialize the content by selecting the first field in the list.
+    updateSelectedField(fields[0]);
+
+    function setupControlsForm(){
+        var form = d3.select("#controls-form");
+
+        var chooserGroup = form.append("div")
+            .attr("class", "form-group")
+        ;
+        chooserGroup.append("label")
+            .attr("class", "col-sm-2 control-label")
+            .text("Question")
+        ;
+
+        var descriptionGroup = form.append("div")
+            .attr("class", "form-group")
+        ;
+        descriptionGroup.append("label")
+            .attr("class", "col-sm-2 control-label")
+            .text("Description")
+        ;
+        var descriptionContainer = descriptionGroup
+          .append("div")
+            .attr("class", "col-sm-10")
+          .append("p")
+            .attr("class", "field-description")
+        ;
+
+        chooserGroup
+          .append("div")
+            .attr("class", "col-sm-10")
+          .append("select")
+            .attr("class", "chooser form-control")
+            .on("change", function() {
+                var i = this.value;
+                updateSelectedField(fields[i]);
+              })
+            .selectAll("option")
+              .data(fields)
+            .enter().append("option")
+              .attr("value", function(d, i) { return i; })
+              .text(function(d) { return d["Short Label"]; })
+        ;
+    }
+
+    function updateSelectedField(d){
+
+        // Update the description displayed for the selected field.
+        d3.select(".field-description")
+            .text(d["Question on Data Entry Form"]);
+
+        // Pass the selected field into the visualizations.
+        grid
+            .selectedColumn(d["Field Name"])
+            .selectedColumnLabel(d["Short Label"])
+            .colorScale(getColorScale(d))
+          () // call grid()
+        ;
+    }
+} // initSection()
+
 function initDisclosuresSection(data) {
 
     function getColorScale(d){
@@ -456,194 +529,118 @@ function initDisclosuresSection(data) {
         return colorScale;
     }
 
-    fetchDisclosureFields(function(disclosureFields) {
-
-        var form = d3.select("#controls-form");
-
-        var chooserGroup = form.append("div")
-            .attr("class", "form-group")
-        ;
-        chooserGroup.append("label")
-            .attr("class", "col-sm-2 control-label")
-            .text("Question")
-        ;
-
-        var descriptionGroup = form.append("div")
-            .attr("class", "form-group")
-        ;
-        descriptionGroup.append("label")
-            .attr("class", "col-sm-2 control-label")
-            .text("Description")
-        ;
-        var descriptionContainer = descriptionGroup
-          .append("div")
-            .attr("class", "col-sm-10")
-          .append("p")
-            .attr("class", "field-description")
-        ;
-
-        chooserGroup
-          .append("div")
-            .attr("class", "col-sm-10")
-          .append("select")
-            .attr("class", "chooser form-control")
-            .on("change", function() {
-                updateSelectedField(disclosureFields[this.value]);
-              })
-            .selectAll("option")
-              .data(disclosureFields)
-            .enter().append("option")
-              .attr("value", function(d, i) { return i; })
-              .text(function(d) { return d["Short Label"]; })
-        ;
-
-        function updateSelectedField(d){
-
-            descriptionContainer.text(d["Question on Data Entry Form"]);
-
-            var colorScale = getColorScale(d);
-
-            grid
-                .selectedColumn(d["Field Name"])
-                .selectedColumnLabel(d["Short Label"])
-                .colorScale(colorScale)
-              () // call grid()
-            ;
-        }
-
-        // Initialize the content to the first field.
-        updateSelectedField(disclosureFields[0]);
+    fetchDisclosureFields(function(fields) {
+        initSection(fields, getColorScale);
     });
 } // initDisclosuresSection()
 
 function initPublicFundingSection(data) {
-    fetchPublicFundingFields(function(publicFundingFields) {
 
-        var form = d3.select("#controls-form");
+    function getColorScale(d){
+        var selectedColumn = d["Field Name"];
+        var colorScale;
 
-        var chooserGroup = form.append("div")
-            .attr("class", "form-group")
-        ;
-        chooserGroup.append("label")
-            .attr("class", "col-sm-2 control-label")
-            .text("Question")
-        ;
-
-        var descriptionGroup = form.append("div")
-            .attr("class", "form-group")
-        ;
-        descriptionGroup.append("label")
-            .attr("class", "col-sm-2 control-label")
-            .text("Description")
-        ;
-        var descriptionContainer = descriptionGroup
-          .append("div")
-            .attr("class", "col-sm-10")
-          .append("p")
-            .attr("class", "field-description")
-        ;
-
-        chooserGroup
-          .append("div")
-            .attr("class", "col-sm-10")
-          .append("select")
-            .attr("class", "chooser form-control")
-            .on("change", function() {
-                updateSelectedField(publicFundingFields[this.value]);
-              })
-            .selectAll("option")
-              .data(publicFundingFields)
-            .enter().append("option")
-              .attr("value", function(d, i) { return i; })
-              .text(function(d) { return d["Short Label"]; })
-        ;
-
-        function updateSelectedField(d){
-            var selectedColumn = d["Field Name"];
-
-            descriptionContainer.text(d["Question on Data Entry Form"]);
-
-            var colorScale;
-
-            // Custom color scale for "Public Funds for State Parties?" (PublicFunding_P)
-            if(selectedColumn === "PublicFunding_P"){
-                colorScale = d3.scaleOrdinal()
-                    .domain([
-                      "No"
-                      , "Changed mid-cycle"
-                      , "Yes"
-                      , "Missing Data"
-                    ])
-                    .range([
-                      "#053061" // No - dark blue
-                      , "#2166ac" // Changed mid-cycle - medium blue
-                      , "#4393c3" // Yes - light blue
-                      , "gray" // Missing Data - gray
-                      , "#d95f02" // More colors for unanticipated values
-                      , "#7570b3"
-                      , "#e7298a"
-                    ])
-                ;
-            } else if(selectedColumn === "RefundOrTaxCreditOrTaxDeduction"){
-                colorScale = d3.scaleOrdinal()
-                    .domain([
-                      "Missing Data"
-                      , "None"
-                    ])
-                    .range([
-                      "gray" // Missing Data - gray
-                      , "gray" // None - gray
-                      , "#053061" // dark blue
-                      , "#2166ac" // medium blue
-                      , "#4393c3" // light blue
-                      , "#d95f02" // More colors for unanticipated values
-                      , "#7570b3"
-                      , "#e7298a"
-                    ])
-                ;
-            } else {
-                colorScale = d3.scaleOrdinal()
-                    .domain([
-                      "Missing Data"
-                      , "Partial Grant"
-                      , "Matching Funds"
-                      , "Full Public Financing"
-                    ])
-                    .range([
-                      "gray" // Missing Data - gray
-                      , "#053061" // Partial Grant - dark blue
-                      , "#2166ac" // Matching Funds - medium blue
-                      , "#4393c3" // Full Public Financing - light blue
-                      , "#d95f02" // More colors for unanticipated values
-                      , "#7570b3"
-                      , "#e7298a"
-                    ])
-                ;
-            }
-
-            grid
-                .selectedColumn(selectedColumn)
-                .selectedColumnLabel(d["Short Label"])
-                .colorScale(colorScale)
-              () // call grid()
+        // Custom color scale for "Public Funds for State Parties?" (PublicFunding_P)
+        if(selectedColumn === "PublicFunding_P"){
+            colorScale = d3.scaleOrdinal()
+                .domain([
+                  "No"
+                  , "Changed mid-cycle"
+                  , "Yes"
+                  , "Missing Data"
+                ])
+                .range([
+                  "#053061" // No - dark blue
+                  , "#2166ac" // Changed mid-cycle - medium blue
+                  , "#4393c3" // Yes - light blue
+                  , "gray" // Missing Data - gray
+                  , "#d95f02" // More colors for unanticipated values
+                  , "#7570b3"
+                  , "#e7298a"
+                ])
+            ;
+        } else if(selectedColumn === "RefundOrTaxCreditOrTaxDeduction"){
+            colorScale = d3.scaleOrdinal()
+                .domain([
+                  "Missing Data"
+                  , "None"
+                ])
+                .range([
+                  "gray" // Missing Data - gray
+                  , "gray" // None - gray
+                  , "#053061" // dark blue
+                  , "#2166ac" // medium blue
+                  , "#4393c3" // light blue
+                  , "#d95f02" // More colors for unanticipated values
+                  , "#7570b3"
+                  , "#e7298a"
+                ])
+            ;
+        } else {
+            colorScale = d3.scaleOrdinal()
+                .domain([
+                  "Missing Data"
+                  , "Partial Grant"
+                  , "Matching Funds"
+                  , "Full Public Financing"
+                ])
+                .range([
+                  "gray" // Missing Data - gray
+                  , "#053061" // Partial Grant - dark blue
+                  , "#2166ac" // Matching Funds - medium blue
+                  , "#4393c3" // Full Public Financing - light blue
+                  , "#d95f02" // More colors for unanticipated values
+                  , "#7570b3"
+                  , "#e7298a"
+                ])
             ;
         }
+        return colorScale;
+    }
 
-        // Initialize the content to the first field.
-        updateSelectedField(publicFundingFields[0]);
+    fetchPublicFundingFields(function(fields) {
+        initSection(fields, getColorScale);
     });
 } // initPublicFundingSection()
 
-// Cache fetched fields
+function initOtherRestrictionsSection(data) {
+
+    function getColorScale(d){
+        var colorScale = d3.scaleOrdinal()
+                .domain([
+                  "No"
+                  , "Changed mid-cycle"
+                  , "Yes"
+                  , "Missing Data"
+                ])
+                .range([
+                  "#053061" // No - dark blue
+                  , "#2166ac" // Changed mid-cycle - medium blue
+                  , "#4393c3" // Yes - light blue
+                  , "gray" // Missing Data - gray
+                  , "#d95f02" // More colors for unanticipated values
+                  , "#7570b3"
+                  , "#e7298a"
+                ])
+            ;
+        return colorScale;
+    }
+
+    fetchOtherRestrictionsFields(function(fields) {
+        initSection(fields, getColorScale);
+    });
+} // initOtherRestrictionsSection()
+
+// Fetch and cache the CSV file at the given path.
 var fetchFields = function (csvPath){
-    var data;
+    var cachedData;
     return function(callback) {
-        if(data) {
-            callback(data);
+        if(cachedData) {
+            callback(cachedData);
         } else {
-            d3.csv(csvPath, function(_) {
-                data = _;
-                callback(data);
+            d3.csv(csvPath, function(data) {
+                cachedData = data;
+                callback(cachedData);
             });
         }
     };
@@ -651,5 +648,6 @@ var fetchFields = function (csvPath){
 
 var fetchDisclosureFields = fetchFields("../data/disclosure-fields.csv");
 var fetchPublicFundingFields = fetchFields("../data/public-financing-fields.csv");
+var fetchOtherRestrictionsFields = fetchFields("../data/other-restrictions-fields.csv");
 
 }());
