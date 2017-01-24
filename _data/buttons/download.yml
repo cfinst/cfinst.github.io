@@ -1,0 +1,13 @@
+# This file lets you configure the names of the "download" buttons.
+#
+# Please only change the "text" values here.
+# Do not change the "name" values, as these are
+# required to match with JavaScript code elsewhere.
+---
+  - name: download-current-view
+    text: Download Currently Shown Data
+    icon: fa-download
+  - name: download-more
+    text: More Download Options
+    link: /downloads.html
+---
