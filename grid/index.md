@@ -1,4 +1,4 @@
 ---
-title: Campaign Finance Law Database
+title: CFI Law Database
 layout: default
 ---
