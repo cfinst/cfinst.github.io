@@ -7,6 +7,10 @@ logo: img/CFI-logo-white.svg
 
 markdown: kramdown
 
+collections:
+  modals:
+    output: true
+
 authors:
   - Curran Kelleher
   - Seemant Kulleen
