@@ -1,12 +1,10 @@
 <form class="form-horizontal">
+  {% for button in site.data.buttons.download %}
   <div class="form-group">
-    <button id="data-download-button-current-view" class="btn btn-default btn-block">
-      <i class="fa fa-download"></i> Download Currently Shown Data
-    </button>
-  </div>
-  <div class="form-group">
-    <a href="/downloads.html" class="btn btn-default btn-block">
-      More Download Options
-    </a>
-  </div>
+    <{% if button.link %}a href="{{ button.link }}" {% else %}button {% endif %}
+    id="data-button-{{ button.name }}" class="btn btn-default btn-block">
+      {% if button.icon %}<i class="fa fa-download"></i> {%endif %}{{ button.text }}
+    {% if button.link %}</a>{% else %}</button>{% endif %}
+  </div><!--.form-group-->
+  {% endfor %}
 </form>
