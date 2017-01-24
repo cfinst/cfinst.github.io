@@ -222,12 +222,6 @@ function setupTabNavigation(about) {
       { title: "Other Restrictions", section: "other-restrictions" }
     ];
 
-    // This dictionary maps section names to the
-    // "Page" values from about_buttons.csv.
-    var pageBySection = {};
-    data.forEach(function (d){ pageBySection[d.section] = d.title });
-
-
     var navTabs = d3.select(".nav-tabs");
 
     // Scaffold the tabs DOM structure.
@@ -255,8 +249,14 @@ function setupTabNavigation(about) {
     signal.on("navigate.modal", function (section) {
 
         // Extract the modal content based on the current section.
-        var page = pageBySection[section];
-        var modalContent = about.filter(function (d){ return d.Page === page; })[0];
+        var modalContent = about.filter(function (d){
+          return d.Page === section;
+        })[0];
+
+        // Look up the page title from the section.
+        var page = data.filter(function (d){
+          return d.section === section;
+        })[0].title;
 
         // Set the modal dialog content.
         function setModalContent(title, body){
