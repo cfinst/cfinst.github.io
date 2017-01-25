@@ -1,7 +1,7 @@
 ---
 layout: modal
-modal: howto-disclosure
-title: How to use this page
+modal: about-disclosure
+title: About Disclosure
 ---
 
 Every state requires candidates, parties and other political committees to disclose the names and other information about their donors. But after that one basic point of agreement, there is great variation. For example, most states (but not all) tell the recipients that they need not disclose the names and addresses of small donors. However, the threshold levels for disclosing this donor information vary from state to state. Some of visualizations on this disclosure tab display these thresholds. The tab also displays information about independent expenditure disclosure, and the laws that require donor disclosure within advertisements.

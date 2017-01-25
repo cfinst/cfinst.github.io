@@ -1,7 +1,7 @@
 ---
 layout: modal
-modal: howto-contribution-limits
-title: How to use this page
+modal: about-contribution-limits
+title: About Contribution Limits
 ---
 
 Many states limit how much a donor may contribute to a political campaign. About

@@ -1,7 +1,7 @@
 ---
 layout: modal
-modal: about-public-financing
-title: About Public Financing
+modal: howto-public-financing
+title: How to use this page
 ---
 
 Each of the graphic visualizations derived from the historical database of state campaign finance laws involves both a map and a grid. In this section on public financing, select your question at the upper right and the answers will appear on both map and grid.  

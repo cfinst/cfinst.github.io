@@ -1,7 +1,8 @@
 ---
 layout: modal
-modal: about-contribution-limits
-title: About Contribution Limits
+modal: howto-contribution-limits
+title: How to use this page
+
 ---
 
 Each of the graphic visualizations derived from the historical database of state

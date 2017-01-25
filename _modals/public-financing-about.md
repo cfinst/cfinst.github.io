@@ -1,7 +1,7 @@
 ---
 layout: modal
-modal: howto-public-financing
-title: How to use this page
+modal: about-public-financing
+title: About Public Financing
 ---
 
 About half of the states provide some form of public financing incentive for candidates or political parties. The programs for candidates may come in the form of
