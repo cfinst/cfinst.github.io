@@ -155,14 +155,14 @@ function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclo
 
         // Initialize the section navigated to.
         switch(section) {
-            case "contributions":
+            case "contribution-limits":
                 initContributionLimitsSection(data, columns);
                 break;
             case "disclosure":
                 initDisclosuresSection(data);
                 break;
-            case "public-funding":
-                initPublicFundingSection(data);
+            case "public-financing":
+                initPublicFinancingSection(data);
                 break;
             case "other-restrictions":
                 initOtherRestrictionsSection(data);
@@ -214,68 +214,15 @@ function project(data, columns) {
 
 // The `about` argument is the content for the about button modal dialogs.
 function setupTabNavigation(about) {
-
-    var data = [
-      { title: "Contribution Limits", section: "contributions" },
-      { title: "Disclosure", section: "disclosure" },
-      { title: "Public Financing", section: "public-funding" },
-      { title: "Other Restrictions", section: "other-restrictions" }
-    ];
-
-    // This dictionary maps section names to the
-    // "Page" values from about_buttons.csv.
-    var pageBySection = {};
-    data.forEach(function (d){ pageBySection[d.section] = d.title });
-
-
-    var navTabs = d3.select(".nav-tabs");
-
-    // Scaffold the tabs DOM structure.
-    navTabs
-      .selectAll("li").data(data)
-      .enter()
-      .append("li")
-      .append("a")
-        .attr("href", "#") // Make it look clickable.
-        .text(function (d){ return d.title; })
+    d3.select(".nav").selectAll("li a")
         .on("click", function (d){
-            d3.event.preventDefault(); // Prevent href navigating to "/#"
-            signal.call("navigate", null, d.section);
+            signal.call("navigate", null, this.href.split('#')[1]);
         })
     ;
+} // setupTabNavigation()
 
-    // Update the "active" tab.
-    signal.on("navigate.active", function (section) {
-        navTabs.selectAll("li")
-            .classed("active", function (d) { return d.section === section; })
-        ;
-    });
-
-    // Update the dynamic content of the modal dialog for "about" buttons.
-    signal.on("navigate.modal", function (section) {
-
-        // Extract the modal content based on the current section.
-        var page = pageBySection[section];
-        var modalContent = about.filter(function (d){ return d.Page === page; })[0];
-
-        // Set the modal dialog content.
-        function setModalContent(title, body){
-          d3.select("#about-modal-title").text(title);
-          d3.select("#about-modal-body").html(marked(body));
-        }
-
-        d3.select("#about-page-button").on("click", function (){
-          setModalContent("Using This Page", modalContent["How to use this page"]);
-        });
-
-        d3.select("#about-topic-button").on("click", function (){
-          setModalContent("About " + page, modalContent["About this subject"]);
-        });
-    });
-}
 
 function initContributionLimitsSection(data, columns) {
-
     var bins = [1000, 2500, 5000, 10000]
         // Color Palettes:
         // Blues: http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=11
@@ -534,7 +481,7 @@ function initDisclosuresSection(data) {
     });
 } // initDisclosuresSection()
 
-function initPublicFundingSection(data) {
+function initPublicFinancingSection(data) {
 
     function getColorScale(d){
         var selectedColumn = d["Field Name"];
@@ -598,10 +545,10 @@ function initPublicFundingSection(data) {
         return colorScale;
     }
 
-    fetchPublicFundingFields(function(fields) {
+    fetchPublicFinancingFields(function(fields) {
         initSection(fields, getColorScale);
     });
-} // initPublicFundingSection()
+} // initPublicFinancingSection()
 
 function initOtherRestrictionsSection(data) {
 
@@ -647,7 +594,7 @@ var fetchFields = function (csvPath){
 };
 
 var fetchDisclosureFields = fetchFields("../data/disclosure-fields.csv");
-var fetchPublicFundingFields = fetchFields("../data/public-financing-fields.csv");
+var fetchPublicFinancingFields = fetchFields("../data/public-financing-fields.csv");
 var fetchOtherRestrictionsFields = fetchFields("../data/other-restrictions-fields.csv");
 
 }());
