@@ -54,7 +54,6 @@ d3.queue()
   .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_3.csv")
   .defer(d3.csv, "../data/CSVs/Laws_04_PublicFinancing.csv")
   .defer(d3.csv, "../data/CSVs/Laws_05_Other.csv")
-  .defer(d3.csv, "../data/about-buttons.csv")
   .defer(d3.json, "../data/usa.json")
     .await(visualize)
 ;
@@ -72,13 +71,13 @@ d3.select(window)
 /*
 ** Helper Functions
 */
-function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other, about, usa){
+function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other, usa){
     if(error) throw error;
 
     corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other);
     carto(usa);
 
-    setupTabNavigation(about);
+    setupTabNavigation();
 
     // Initialize the selected year to the most recent.
     var maxYear = d3.max(grid.data(), function (d){ return d.Year; });
@@ -212,8 +211,7 @@ function project(data, columns) {
     });
 } // project()
 
-// The `about` argument is the content for the about button modal dialogs.
-function setupTabNavigation(about) {
+function setupTabNavigation() {
     d3.select(".nav").selectAll("li a")
         .on("click", function (d){
             signal.call("navigate", null, this.href.split('#')[1]);
