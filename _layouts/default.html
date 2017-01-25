@@ -9,16 +9,18 @@ After the head.html include above, we can assume that the <body> tag has
 <article class="container-fluid">
   <section id="visualization">
 
-    <ul class="nav nav-tabs cfi-tabs" role="tablist">
-      {% for tab in site.data.tabs %}
-      <li role="presentation" {% if forloop.first %}class="active"{% endif %}>
-        <a href="#{{ tab.section }}" aria-controls="{{ tab.section }}"
-            role="tab" data-toggle="tab">
-          {{ tab.title }}
-        </a>
-      </li>
-      {% endfor %}
-    </ul>
+    <nav>
+      <ul class="nav nav-tabs cfi-tabs" role="tablist">
+        {% for tab in site.data.tabs %}
+        <li role="presentation" {% if forloop.first %}class="active"{% endif %}>
+          <a href="#{{ tab.section }}" aria-controls="{{ tab.section }}"
+              role="tab" data-toggle="tab">
+            {{ tab.title }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
     <div class="tab-content col-lg-6 push-lg-6">
       {% for tab in site.data.tabs %}
       <div role="tabpanel" id="{{ tab.section }}"
