@@ -1,42 +1,34 @@
 ---
 layout: modal
-modal: about-contribution-limits
-title: About Contribution Limits
+modal: howto-contribution-limits
+title: How to use this page
 ---
 
-Each of the graphic visualizations derived from the historical database of state
-campaign finance laws involves both a map and a grid. This section on contrution
-limits and prohibitions contains to different kinds of choices.
-
-#### Grid
-
-Each of the fifty states has a column in the grid. The horizontal rows represent
-years taken every two years, with the most recent completed year at the top. In
-the default setting, the grid uses the most recent year to line up the states in
-order of the answers to the question you are asking. The key to this sorting is
-shown to the right of the map. Looking up and down any one state's column will
-show if and when the state changed its law. Hovering the cursor over any box
-will give some of the details for each state and year.
-
-#### Map
-
-The map will show the most recent year by default. Hovering the cursor over a
-state will show details for the year being shown.
-
-#### Sorting
-
-Clicking on any year at the left of the grid will rearrange the grid according
-to the values in the year chosen. It will also change the map to show the laws
-for that year. There is also an option to sort the states alphabetically.
-
-#### Downloading
-
-You may download the answers to your specific question in a standard format that
-you can view in a spreadsheet or other program. You may also download all of the
-visualized information, or larger portions of the complete (and much larger)
-historical database.
-
-#### Full Database
-
-To see much more about disclosure and the rest of this database (including the
-complete descriptive codebook) click on ___".
+Many states limit how much a donor may contribute to a political campaign. About
+four-fifths of the states limit contributions from individuals to candidates. A
+smaller number do so for contributions from political parties or PACs to
+candidates. States with limits typically set different ones for different
+categories of donors (such as individuals, political parties, or political
+committees) as they give to different types of recipients. However, the law
+would be meaningless if it limited how much a donor could give at any one time
+but then allowed an unlimited number of transactions. So when a state restricts
+contributions, it will specify the most that a donor may give over a designated
+period of time.  Some states will set a maximum amount per year. Others will
+designate the maximum a donor may give per election, with the primary and
+general election each having its own limit. And still others will designate the
+maximum per election cycle, with the cycle covering the primary and general
+election combined. Because we wanted to make truly comparable numbers available
+to researchers and other users, we have created a standardizing field to show
+the combined contribution limit for each type of donor and recipient over the
+course of two years. This is what is being shown in the visualizations. If you
+want to see the details of the laws in each state, including the way the states
+defined the time periods in their laws, you can click at any time to be brought
+to the full data sets. As is true everywhere in this database, the
+visualizations present only a small portion of the full database. It is also
+important to note that they only present statute law. They do not present
+administrative or judicial interpretations of the law – which can often be
+crucial for understanding what a law “really means” to the candidates and others
+who live under it. The one situation in which we do go beyond the statute is if
+a final ruling of the highest state or federal court determines a provision to
+be unconstitutional. If that occurs, and the state has not formally repealed the
+provision in another statute, we then show the provision as being "inoperative".

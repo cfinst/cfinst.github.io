@@ -1,11 +1,27 @@
 ---
 layout: modal
-modal: howto-disclosure
-title: How to use this page
+modal: about-disclosure
+title: About Disclosure
 ---
 
-Every state requires candidates, parties and other political committees to disclose the names and other information about their donors. But after that one basic point of agreement, there is great variation. For example, most states (but not all) tell the recipients that they need not disclose the names and addresses of small donors. However, the threshold levels for disclosing this donor information vary from state to state. Some of visualizations on this disclosure tab display these thresholds. The tab also displays information about independent expenditure disclosure, and the laws that require donor disclosure within advertisements.
+Each of the graphic visualizations derived from the historical database of state campaign finance laws involves both a map and a grid. In this section on disclosure, select your question at the upper right and the answers will appear on both map and grid.  
 
-All of these features of the law fit neatly into decades-old categories. However, many of the major policy questions of recent years have revolved around organizations that do not fit into traditional boxes. Since the 2010 Supreme Court decision in Citizens United v. Federal Election Commission, corporations (including nonprofit advocacy organizations) have been allowed to make unlimited independent expenditures. These organizations often are not “political committees” under the law and therefore do not normally disclose their donors. As they try to maintain the value of transparency, some jurisdictions have extended their laws to require donor information from organizations other than political committees. Some have also sought to track money back to the original source even if it passes through layers of intermediate organizations. For that reason, the visualized information includes a question about states that require disclosure by “other entities.”
+#### Grid
 
-The full database includes more about these new disclosure issues, as well as many more details about the more traditional disclosures required of candidates, parties, PACs, and ballot committees. It also includes entries for the disclosure of corporate spending to shareholders, and requirements for electronic filing.
+Each of the fifty states has a column in the grid. The horizontal rows represent years taken every two years, with the most recent completed year at the top. In the default setting, the grid uses the most recent year to line up the states in order of the answers to the question you are asking. The key to this sorting is shown to the right of the map. Looking up and down any one state's column will show if and when the state changed its law. Hovering the cursor over any box will give some of the details for each state and year.
+
+#### Map
+
+The map will show the most recent year by default. Hovering the cursor over a state will show details for the year being shown.
+
+#### Sorting
+
+Clicking on any year at the left of the grid will rearrange the grid according to the values in the year chosen. It will also change the map to show the laws for that year. There is also an option to sort the states alphabetically.
+
+#### Downloading
+
+You may download the answers to your specific question in a standard format that you can view in a spreadsheet or other program. You may also download all of the visualized information, or larger portions of the complete (and much larger) historical database.
+
+#### Full Database
+
+To see much more about disclosure and the rest of this database (including the complete descriptive codebook) click on ""___"".
