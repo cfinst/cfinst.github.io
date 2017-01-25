@@ -1,4 +1,143 @@
----
-layout: default
----
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Data visualization landing page for Campaign Finance Institute">
+  <meta name="author" content="Seemant Kulleen">
+  <meta name="author" content="Curran Kelleher">
 
+  <title>Campaign Finance Law Database</title>
+  <link rel="stylesheet" href="css/cfi-theme.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/tips.css">
+</head>
+<body>
+
+  <div class="container-fluid">
+    <div class="alert alert-warning" role="alert">This is a rough draft of the landing page content, which will eventually be inside the CFI CMS. Note that clicking the image goes to the visualizations, and the links for each tab goes into that tab.</div>
+
+    <div class="row">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <span class="pull-left">
+            <img src="img/CFI-logo-white.svg" class="cfi-theme-logo">
+          </span>
+          <div class="page-header text-center">
+            <h1>Campaign Finance Law Database</h1>
+          </div>
+          <div class="pull-center">
+          </div><!--.pull-center-->
+        </div><!--.panel-body.page-header-->
+      </div><!--.panel.panel-default-->
+    </div><!--.row-->
+    <section id="intro" class="row">
+      <div class="col-md-4 col-xs-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <blockquote style="border-left: 0;">
+              <p class="lead text-center">"The states are the laboratories of democracy"</p>
+              <footer class="text-right">
+                Louis D. Brandeis, former US Supreme Court Justice
+              </footer>
+            </blockquote>
+            <p>This has been true for a long time in the field of money in politics. Many current campaign finance rules trace their origins back to decades-old state laws. And in keeping with the Justice Brandeis’ spirit, the interesting policy innovations of recent years often have been in the states and localities.</p>
+            <p>And yet, those who have an interest in campaign finance policy rarely take advantage of the laboratories around them. With fifty different state systems, changing at different times and under different conditions, it can be much easier to isolate a law’s effects from whatever else may be going on by comparing multiple states over time.</p>
+          </div><!--.panel-body-->
+        </div><!--.panel.panel-default-->
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="text-center">
+              <a href="./grid" />
+                <img class="img-responsive" src="img/VisPreview.png">
+                <h3>Visualize the Data</h3>
+              </a>
+            </div>
+            <p>This database tool from The Campaign Finance Institute will make it more feasible for everyone to make these comparisons. The website is structured for everyone from those with the simplest queries to the most complex. For example, do you want to know:</p>
+            <ul>
+              <li>Which states disclose what kinds of information about independent spending?</li>
+              <li>Which ones changed their contribution limits after the Citizens United decision in 2010?</li>
+              <li>Which states offer tax credits for campaign contributions?</li>
+            </ul>
+            <p>To see the visualized answers these and many other queries, go to the tab for <a href="grid/?section=contributions">contributions</a>, <a href="grid/?section=disclosure">disclosure</a>, or <a href="grid/?section=public-funding">public funding</a>, look up the question, and check out the default setting for an easy answer. Each tab comes with instructions and easy explanations. Here is a basic preview of what you can see, along with a description of how to get to the much more extensive information that is not being visualized on these web pages.</p>
+          </div><!--.panel-body-->
+        </div><!--.panel.panel-default-->
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h4>What you will see</h4>
+            <p>The page and map do a lot more than show you the most recent election. A compact visualizing guide will let you see the answer to that same question in each of the fifty states for every two-year period since 1996. With color coding, you can readily see when the law changed in each state. Letting the cursor hover will show the details for each state and year.</p>
+            <h4>Saving and downloading</h4>
+            <p>If you want to save the answers to save them for reference, or manipulate them for research by merging the information with other data, there is a button on each page to let you download the results of each query. This is in a standard format readily opened in standard spreadsheets. Another button will do the same thing for the all of the answers in each of the three major tabs.</p>
+          </div><!--.panel-body-->
+        </div><!--.panel.panel-default-->
+      </div>
+    </section><!--/#intro-->
+  </div><!--.container-fluid-->
+
+  <div class="container-fluid">
+    <div class="alert alert-warning" role="alert">This is an example of what a landing page (inside the CMS) with an embedded iframe might look like.</div>
+
+    <div class="row">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <span class="pull-left">
+            <img src="img/CFI-logo-white.svg" class="cfi-theme-logo">
+          </span>
+          <div class="page-header text-center">
+            <h1>Campaign Finance Law Database</h1>
+          </div>
+          <div class="pull-center">
+          </div><!--.pull-center-->
+        </div><!--.panel-body.page-header-->
+      </div><!--.panel.panel-default-->
+    </div><!--.row-->
+
+    <iframe src="grid" frameborder="0" style="width: 100%; height: 900px;"></iframe>
+
+    <section id="intro" class="row">
+      <div class="col-md-4 col-xs-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <blockquote style="border-left: 0;">
+              <p class="lead text-center">"The states are the laboratories of democracy"</p>
+              <footer class="text-right">
+                Louis D. Brandeis, former US Supreme Court Justice
+              </footer>
+            </blockquote>
+            <p>This has been true for a long time in the field of money in politics. Many current campaign finance rules trace their origins back to decades-old state laws. And in keeping with the Justice Brandeis’ spirit, the interesting policy innovations of recent years often have been in the states and localities.</p>
+            <p>And yet, those who have an interest in campaign finance policy rarely take advantage of the laboratories around them. With fifty different state systems, changing at different times and under different conditions, it can be much easier to isolate a law’s effects from whatever else may be going on by comparing multiple states over time.</p>
+          </div><!--.panel-body-->
+        </div><!--.panel.panel-default-->
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <p>This database tool from The Campaign Finance Institute will make it more feasible for everyone to make these comparisons. The website is structured for everyone from those with the simplest queries to the most complex. For example, do you want to know:</p>
+            <ul>
+              <li>Which states disclose what kinds of information about independent spending?</li>
+              <li>Which ones changed their contribution limits after the Citizens United decision in 2010?</li>
+              <li>Which states offer tax credits for campaign contributions?</li>
+            </ul>
+            <p>To see the visualized answers these and many other queries, go to the tab for <a href="grid/?section=contributions">contributions</a>, <a href="grid/?section=disclosure">disclosure</a>, or <a href="grid/?section=public-funding">public funding</a>, look up the question, and check out the default setting for an easy answer. Each tab comes with instructions and easy explanations. Here is a basic preview of what you can see, along with a description of how to get to the much more extensive information that is not being visualized on these web pages.</p>
+          </div><!--.panel-body-->
+        </div><!--.panel.panel-default-->
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h4>What you will see</h4>
+            <p>The page and map do a lot more than show you the most recent election. A compact visualizing guide will let you see the answer to that same question in each of the fifty states for every two-year period since 1996. With color coding, you can readily see when the law changed in each state. Letting the cursor hover will show the details for each state and year.</p>
+            <h4>Saving and downloading</h4>
+            <p>If you want to save the answers to save them for reference, or manipulate them for research by merging the information with other data, there is a button on each page to let you download the results of each query. This is in a standard format readily opened in standard spreadsheets. Another button will do the same thing for the all of the answers in each of the three major tabs.</p>
+          </div><!--.panel-body-->
+        </div><!--.panel.panel-default-->
+      </div>
+    </section><!--/#intro-->
+  </div><!--.container-fluid-->
+
+</body>
+</html>
