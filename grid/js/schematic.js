@@ -1,27 +1,4 @@
 (function () {
-var requested_columns = [
-        "IndividualToCandLimit_H_Max"
-          , "IndividualToCandLimit_S_Max"
-          , "IndividualToCandLimit_G_Max"
-          , "PACToCandLimit_H_Max"
-          , "PACToCandLimit_S_Max"
-          , "PACToCandLimit_G_Max"
-          , "CorpToCandLimit_H_Max"
-          , "CorpToCandLimit_S_Max"
-          , "CorpToCandLimit_G_Max"
-          , "LaborToCandLimit_H_Max"
-          , "LaborToCandLimit_S_Max"
-          , "LaborToCandLimit_G_Max"
-          , "IndividualToPartyLimit_Max"
-          , "CorpToPartyLimit_Max"
-          , "LaborToPartyLimit_Max"
-          , "IndividualToPACLimit_Max"
-          , "CorpToPACLimit_Max"
-          , "LaborToPACLimit_Max"
-      ]
-;
-
-
 function tooltipContent(d) {
     return "<span style='text-align: center;'>"
       + "<h4>" + d.State + " " + d.Year + "</h4>"
@@ -84,9 +61,10 @@ function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosur
     signal.call("selectYear", null, maxYear);
 
     // Initialize the navigation state.
-    var defaultSection = "contributions";
+    var defaultSection = "contribution-limits";
     var section = getQueryVariables().section || defaultSection;
     signal.call("navigate", null, section);
+    d3.selectAll("")
 }
 
 function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other) {
@@ -99,19 +77,6 @@ function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclo
             .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
             .map(d3.merge([contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other]))
             .values()
-      , columnsRaw = d3.keys(data[0])
-            .filter(function(c) { return c.endsWith("_Max"); })
-            .filter(function(c) { return ~requested_columns.indexOf(c); })
-      , columns = columnsRaw
-            .map(function(c) {
-                var ret = c
-                        .split("Limit_Max")[0]
-                        .split("_Max")[0]
-                        .split("To")
-                  , receiver = ret[1].split("Limit_")
-                ;
-                return [ret[0], receiver[0], receiver[1]];
-              })
     ;
 
     grid
@@ -155,7 +120,7 @@ function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclo
         // Initialize the section navigated to.
         switch(section) {
             case "contribution-limits":
-                initContributionLimitsSection(data, columns);
+                initContributionLimitsSection(data);
                 break;
             case "disclosure":
                 initDisclosuresSection(data);
@@ -219,7 +184,42 @@ function setupTabNavigation() {
     ;
 } // setupTabNavigation()
 
-function initContributionLimitsSection(data, columns) {
+function initContributionLimitsSection(data) {
+    var requested_columns = [
+            "IndividualToCandLimit_H_Max"
+              , "IndividualToCandLimit_S_Max"
+              , "IndividualToCandLimit_G_Max"
+              , "PACToCandLimit_H_Max"
+              , "PACToCandLimit_S_Max"
+              , "PACToCandLimit_G_Max"
+              , "CorpToCandLimit_H_Max"
+              , "CorpToCandLimit_S_Max"
+              , "CorpToCandLimit_G_Max"
+              , "LaborToCandLimit_H_Max"
+              , "LaborToCandLimit_S_Max"
+              , "LaborToCandLimit_G_Max"
+              , "IndividualToPartyLimit_Max"
+              , "CorpToPartyLimit_Max"
+              , "LaborToPartyLimit_Max"
+              , "IndividualToPACLimit_Max"
+              , "CorpToPACLimit_Max"
+              , "LaborToPACLimit_Max"
+          ]
+      , columnsRaw = d3.keys(data[0])
+            .filter(function(c) { return c.endsWith("_Max"); })
+            .filter(function(c) { return ~requested_columns.indexOf(c); })
+      , columns = columnsRaw
+            .map(function(c) {
+                var ret = c
+                        .split("Limit_Max")[0]
+                        .split("_Max")[0]
+                        .split("To")
+                  , receiver = ret[1].split("Limit_")
+                ;
+                return [ret[0], receiver[0], receiver[1]];
+              })
+    ;
+
     var bins = [1000, 2500, 5000, 10000]
         // Color Palettes:
         // Blues: http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=11
