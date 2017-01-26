@@ -1,37 +1,4 @@
 (function () {
-var requested_columns = [
-        "IndividualToCandLimit_H_Max"
-          , "IndividualToCandLimit_S_Max"
-          , "IndividualToCandLimit_G_Max"
-          , "PACToCandLimit_H_Max"
-          , "PACToCandLimit_S_Max"
-          , "PACToCandLimit_G_Max"
-          , "CorpToCandLimit_H_Max"
-          , "CorpToCandLimit_S_Max"
-          , "CorpToCandLimit_G_Max"
-          , "LaborToCandLimit_H_Max"
-          , "LaborToCandLimit_S_Max"
-          , "LaborToCandLimit_G_Max"
-          , "IndividualToPartyLimit_Max"
-          , "CorpToPartyLimit_Max"
-          , "LaborToPartyLimit_Max"
-          , "IndividualToPACLimit_Max"
-          , "CorpToPACLimit_Max"
-          , "LaborToPACLimit_Max"
-      ]
-;
-
-
-function tooltipContent(d) {
-    return "<span style='text-align: center;'>"
-      + "<h4>" + d.State + " " + d.Year + "</h4>"
-      + "<h5>" + grid.selectedColumnLabel() + "</h5>"
-      + "<h4>" + grid.format()(grid.valueAccessor()(d)) + "</h4>"
-      + "</span>"
-    ;
-}
-
-
 var grid = Grid().tooltipContent(tooltipContent)
   , atlas = Atlas().tooltipContent(tooltipContent)
   , tip = d3.tip().attr('class', 'd3-tip')
@@ -54,7 +21,6 @@ d3.queue()
   .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_3.csv")
   .defer(d3.csv, "../data/CSVs/Laws_04_PublicFinancing.csv")
   .defer(d3.csv, "../data/CSVs/Laws_05_Other.csv")
-  .defer(d3.csv, "../data/about-buttons.csv")
   .defer(d3.json, "../data/usa.json")
     .await(visualize)
 ;
@@ -72,23 +38,41 @@ d3.select(window)
 /*
 ** Helper Functions
 */
-function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other, about, usa){
+function tooltipContent(d) {
+    return "<span style='text-align: center;'>"
+      + "<h4>" + d.State + " " + d.Year + "</h4>"
+      + "<h5>" + grid.selectedColumnLabel() + "</h5>"
+      + "<h4>" + grid.format()(grid.valueAccessor()(d)) + "</h4>"
+      + "</span>"
+    ;
+}
+
+/*
+** Main Functions
+*/
+function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other, usa){
     if(error) throw error;
 
     corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other);
     carto(usa);
 
-    setupTabNavigation(about);
+    setupTabNavigation();
 
     // Initialize the selected year to the most recent.
     var maxYear = d3.max(grid.data(), function (d){ return d.Year; });
     signal.call("selectYear", null, maxYear);
 
     // Initialize the navigation state.
-    var defaultSection = "contributions";
+    var defaultSection = "contribution-limits";
     var section = getQueryVariables().section || defaultSection;
     signal.call("navigate", null, section);
-}
+    d3.selectAll(".nav li")
+        .classed("active", function() {
+            // Set the initial active tab
+            return d3.select(this).select("a").attr("aria-controls") === section;
+          })
+    ;
+} // visualize()
 
 function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other) {
     var data = d3.nest()
@@ -100,19 +84,6 @@ function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclo
             .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
             .map(d3.merge([contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other]))
             .values()
-      , columnsRaw = d3.keys(data[0])
-            .filter(function(c) { return c.endsWith("_Max"); })
-            .filter(function(c) { return ~requested_columns.indexOf(c); })
-      , columns = columnsRaw
-            .map(function(c) {
-                var ret = c
-                        .split("Limit_Max")[0]
-                        .split("_Max")[0]
-                        .split("To")
-                  , receiver = ret[1].split("Limit_")
-                ;
-                return [ret[0], receiver[0], receiver[1]];
-              })
     ;
 
     grid
@@ -155,14 +126,14 @@ function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclo
 
         // Initialize the section navigated to.
         switch(section) {
-            case "contributions":
-                initContributionLimitsSection(data, columns);
+            case "contribution-limits":
+                initContributionLimitsSection(data);
                 break;
             case "disclosure":
                 initDisclosuresSection(data);
                 break;
-            case "public-funding":
-                initPublicFundingSection(data);
+            case "public-financing":
+                initPublicFinancingSection(data);
                 break;
             case "other-restrictions":
                 initOtherRestrictionsSection(data);
@@ -212,69 +183,49 @@ function project(data, columns) {
     });
 } // project()
 
-// The `about` argument is the content for the about button modal dialogs.
-function setupTabNavigation(about) {
-
-    var data = [
-      { title: "Contribution Limits", section: "contributions" },
-      { title: "Disclosure", section: "disclosure" },
-      { title: "Public Financing", section: "public-funding" },
-      { title: "Other Restrictions", section: "other-restrictions" }
-    ];
-
-    var navTabs = d3.select(".nav-tabs");
-
-    // Scaffold the tabs DOM structure.
-    navTabs
-      .selectAll("li").data(data)
-      .enter()
-      .append("li")
-      .append("a")
-        .attr("href", "#") // Make it look clickable.
-        .text(function (d){ return d.title; })
+function setupTabNavigation() {
+    d3.select(".nav").selectAll("li a")
         .on("click", function (d){
-            d3.event.preventDefault(); // Prevent href navigating to "/#"
-            signal.call("navigate", null, d.section);
+            signal.call("navigate", null, this.href.split('#')[1]);
         })
     ;
+} // setupTabNavigation()
 
-    // Update the "active" tab.
-    signal.on("navigate.active", function (section) {
-        navTabs.selectAll("li")
-            .classed("active", function (d) { return d.section === section; })
-        ;
-    });
-
-    // Update the dynamic content of the modal dialog for "about" buttons.
-    signal.on("navigate.modal", function (section) {
-
-        // Extract the modal content based on the current section.
-        var modalContent = about.filter(function (d){
-          return d.Page === section;
-        })[0];
-
-        // Look up the page title from the section.
-        var page = data.filter(function (d){
-          return d.section === section;
-        })[0].title;
-
-        // Set the modal dialog content.
-        function setModalContent(title, body){
-          d3.select("#about-modal-title").text(title);
-          d3.select("#about-modal-body").html(marked(body));
-        }
-
-        d3.select("#about-page-button").on("click", function (){
-          setModalContent("Using This Page", modalContent["How to use this page"]);
-        });
-
-        d3.select("#about-topic-button").on("click", function (){
-          setModalContent("About " + page, modalContent["About this subject"]);
-        });
-    });
-}
-
-function initContributionLimitsSection(data, columns) {
+function initContributionLimitsSection(data) {
+    var requested_columns = [
+            "IndividualToCandLimit_H_Max"
+              , "IndividualToCandLimit_S_Max"
+              , "IndividualToCandLimit_G_Max"
+              , "PACToCandLimit_H_Max"
+              , "PACToCandLimit_S_Max"
+              , "PACToCandLimit_G_Max"
+              , "CorpToCandLimit_H_Max"
+              , "CorpToCandLimit_S_Max"
+              , "CorpToCandLimit_G_Max"
+              , "LaborToCandLimit_H_Max"
+              , "LaborToCandLimit_S_Max"
+              , "LaborToCandLimit_G_Max"
+              , "IndividualToPartyLimit_Max"
+              , "CorpToPartyLimit_Max"
+              , "LaborToPartyLimit_Max"
+              , "IndividualToPACLimit_Max"
+              , "CorpToPACLimit_Max"
+              , "LaborToPACLimit_Max"
+          ]
+      , columnsRaw = d3.keys(data[0])
+            .filter(function(c) { return c.endsWith("_Max"); })
+            .filter(function(c) { return ~requested_columns.indexOf(c); })
+      , columns = columnsRaw
+            .map(function(c) {
+                var ret = c
+                        .split("Limit_Max")[0]
+                        .split("_Max")[0]
+                        .split("To")
+                  , receiver = ret[1].split("Limit_")
+                ;
+                return [ret[0], receiver[0], receiver[1]];
+              })
+    ;
 
     var bins = [1000, 2500, 5000, 10000]
         // Color Palettes:
@@ -534,7 +485,7 @@ function initDisclosuresSection(data) {
     });
 } // initDisclosuresSection()
 
-function initPublicFundingSection(data) {
+function initPublicFinancingSection(data) {
 
     function getColorScale(d){
         var selectedColumn = d["Field Name"];
@@ -598,10 +549,10 @@ function initPublicFundingSection(data) {
         return colorScale;
     }
 
-    fetchPublicFundingFields(function(fields) {
+    fetchPublicFinancingFields(function(fields) {
         initSection(fields, getColorScale);
     });
-} // initPublicFundingSection()
+} // initPublicFinancingSection()
 
 function initOtherRestrictionsSection(data) {
 
@@ -647,7 +598,7 @@ var fetchFields = function (csvPath){
 };
 
 var fetchDisclosureFields = fetchFields("../data/disclosure-fields.csv");
-var fetchPublicFundingFields = fetchFields("../data/public-financing-fields.csv");
+var fetchPublicFinancingFields = fetchFields("../data/public-financing-fields.csv");
 var fetchOtherRestrictionsFields = fetchFields("../data/other-restrictions-fields.csv");
 
 }());
