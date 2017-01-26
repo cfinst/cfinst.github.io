@@ -309,17 +309,16 @@ function Grid(){
 
   // Sets up the click handlers on the data download buttons.
   function connect_download_buttons() {
-
     d3.select("#data-download-button")
       .on("click", function (){
           dispatch.call("downloadAllLimits", null, xColumn, yColumn);
-      })
-
+        })
+    ;
     d3.select("#data-button-download-current-view")
       .on("click", function (){
           dispatch.call("downloadCurrentLimits", null, xColumn, yColumn, selectedColumn);
-      })
-
+        })
+    ;
   } // connect_download_buttons()
 
 
@@ -347,7 +346,10 @@ function Grid(){
       ;
       legendSVG = d3.select("#color-legend");
       legendG = legendSVG.append("g")
-          .attr("transform", "translate(" + legendOffsetX + ", " + legendOffsetY + ") scale(" + legendScale + ")")
+          .attr("transform"
+            , "translate(" + legendOffsetX + ", " + legendOffsetY
+              + ")scale(" + legendScale + ")"
+          )
       ;
       buttonG = g.append("g")
           .attr("class", "reset-sort")
