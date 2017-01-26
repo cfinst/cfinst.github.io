@@ -1,14 +1,4 @@
 (function () {
-function tooltipContent(d) {
-    return "<span style='text-align: center;'>"
-      + "<h4>" + d.State + " " + d.Year + "</h4>"
-      + "<h5>" + grid.selectedColumnLabel() + "</h5>"
-      + "<h4>" + grid.format()(grid.valueAccessor()(d)) + "</h4>"
-      + "</span>"
-    ;
-}
-
-
 var grid = Grid().tooltipContent(tooltipContent)
   , atlas = Atlas().tooltipContent(tooltipContent)
   , tip = d3.tip().attr('class', 'd3-tip')
@@ -47,6 +37,18 @@ d3.select(window)
 
 /*
 ** Helper Functions
+*/
+function tooltipContent(d) {
+    return "<span style='text-align: center;'>"
+      + "<h4>" + d.State + " " + d.Year + "</h4>"
+      + "<h5>" + grid.selectedColumnLabel() + "</h5>"
+      + "<h4>" + grid.format()(grid.valueAccessor()(d)) + "</h4>"
+      + "</span>"
+    ;
+}
+
+/*
+** Main Functions
 */
 function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other, usa){
     if(error) throw error;
