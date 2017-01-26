@@ -3,7 +3,7 @@
   <div class="form-group">
     <{% if button.link %}a href="{{ button.link }}" {% else %}button {% endif %}
     id="data-button-{{ button.name }}" class="btn btn-default btn-block">
-      {% if button.icon %}<i class="fa fa-download"></i> {%endif %}{{ button.text }}
+      {% if button.icon %}<i class="fa {{ button.icon }}"></i> {%endif %}{{ button.text }}
     {% if button.link %}</a>{% else %}</button>{% endif %}
   </div><!--.form-group-->
   {% endfor %}
