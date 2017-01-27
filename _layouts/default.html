@@ -48,17 +48,19 @@ After the head.html include above, we can assume that the <body> tag has
               </div><!--.form-group-->
             </form><!--.about-buttons-->
 
-            <form class="controls-form" class="form-horizontal">
-              {% if tab.controls.dropdowns %}
-              {% for control in tab.controls.dropdowns %}
-              <div class="form-group">
-                <label class="col-sm-2 control-label">{{ control.label }}</label>
-                <div class="col-sm-10">
+            <form class="controls-form form-horizontal">
+            {% if tab.controls %}
+              {% for group in tab.controls %}
+              <div class="form-group controls-{{ group.group }}">
+                {% for control in group.dropdowns %}
+                <div class="col-sm-6">
+                  <label class="control-label">{{ control.label }}</label>
                   <select class="chooser form-control" id="{{ control.id }}"></select>
                 </div>
+                {% endfor %}
               </div>
               {% endfor %}
-              {% else %}
+            {% else %}
               <div class="form-group">
                 <label class="col-sm-2 control-label">Question</label>
                 <div class="col-sm-10">
@@ -71,7 +73,7 @@ After the head.html include above, we can assume that the <body> tag has
                   <p class="field-description"></p>
                 </div>
               </div>
-              {% endif %}
+            {% endif %}
             </form>
 
             {% comment %}Generate the Modals{% endcomment %}
