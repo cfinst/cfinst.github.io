@@ -48,6 +48,33 @@ After the head.html include above, we can assume that the <body> tag has
               </div><!--.form-group-->
             </form><!--.about-buttons-->
 
+            <form class="controls-form" class="form-horizontal">
+              {% if tab.controls.dropdowns %}
+              {% for control in tab.controls.dropdowns %}
+              <div class="form-group">
+                <label class="col-sm-2 control-label">{{ control.label }}</label>
+                <div class="col-sm-10">
+                  <select class="chooser form-control" id="{{ control.id }}"></select>
+                </div>
+              </div>
+              {% endfor %}
+              {% else %}
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Question</label>
+                <div class="col-sm-10">
+                  <select class="chooser form-control"></select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Description</label>
+                <div class="col-sm-10">
+                  <p class="field-description"></p>
+                </div>
+              </div>
+              {% endif %}
+            </form>
+
+            {% comment %}Generate the Modals{% endcomment %}
             {% for button in site.data.buttons.about %}
             <div class="modal fade" id="{{ tab.section }}-{{ button.name }}-modal"
                 tabindex="-1" role="dialog">
@@ -57,11 +84,11 @@ After the head.html include above, we can assume that the <body> tag has
               </div><!--.modal-dialog-->
             </div><!--.modal-{{ button.name }}-->
             {% endfor %}
-          </div><!--.tabpanel-->
-          {% endfor %}
 
-          <form id="controls-form" class="form-horizontal"></form>
+          </div><!--.tab-pane-->
+          {% endfor %}
         </div><!--.tab-content.panel-heading-->
+
         <div class="panel-body">
           <div class="col-sm-6">
             <svg id="color-legend"></svg>
