@@ -242,7 +242,6 @@ function initContributionLimitsSection(data) {
             };
         })
     ;
-
     var bins = [1000, 2500, 5000, 10000]
         // Color Palettes:
         // Blues: http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=11
@@ -275,13 +274,10 @@ function initContributionLimitsSection(data) {
     colorScale.bins = bins;
 
     d3.selectAll("#contribution-limits select")
-        .each(function(d, i) {
-            var key = this.id.split("chooser-")[1];
-            query[key] = this.value;
-            var opts = d3.set(
-                    columns
-                      .map(function(c) { return c[key]; })
-                      .filter(identity)
+        .each(function(d) {
+            var key = this.id.split("chooser-")[1]
+              , opts = d3.set(
+                    columns.map(function(c) { return c[key]; }).filter(identity)
                   )
                 .values()
             ;
@@ -290,7 +286,9 @@ function initContributionLimitsSection(data) {
               .enter().append("option")
                 .attr("value", identity)
                 .text(longName)
+                .attr("selected", function(d, i) { return !i ? "selected" : null; })
             ;
+            query[key] = this.value;
         })
       .on("change", function() {
             query[this.id.split("chooser-")[1]] = this.value;
