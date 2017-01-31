@@ -7,18 +7,18 @@
   - title: Contribution Limits
     section: contribution-limits
     controls:
-        - group: donor
-          dropdowns:
-            - id: donor
-              label: Donor
-            - id: donor-branch
-              label: Branch
-        - group: recipient
-          dropdowns:
-            - id: recipient
-              label: Recipient
-            - id: recipient-branch
-              label: Branch
+      - group: donor
+        dropdowns:
+          - id: donor
+            label: Donor
+          - id: donor-branch
+            label: Branch
+      - group: recipient
+        dropdowns:
+          - id: recipient
+            label: Recipient
+          - id: recipient-branch
+            label: Branch
   - title: Disclosure
     section: disclosure
   - title: Public Financing
