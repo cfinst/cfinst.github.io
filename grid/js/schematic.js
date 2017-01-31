@@ -225,26 +225,7 @@ function initContributionLimitsSection(data) {
     {% endif %}
   {% endfor %}
 */
-    var requested_columns = [
-            "IndividualToCandLimit_H_Max"
-              , "IndividualToCandLimit_S_Max"
-              , "IndividualToCandLimit_G_Max"
-              , "PACToCandLimit_H_Max"
-              , "PACToCandLimit_S_Max"
-              , "PACToCandLimit_G_Max"
-              , "CorpToCandLimit_H_Max"
-              , "CorpToCandLimit_S_Max"
-              , "CorpToCandLimit_G_Max"
-              , "LaborToCandLimit_H_Max"
-              , "LaborToCandLimit_S_Max"
-              , "LaborToCandLimit_G_Max"
-              , "IndividualToPartyLimit_Max"
-              , "CorpToPartyLimit_Max"
-              , "LaborToPartyLimit_Max"
-              , "IndividualToPACLimit_Max"
-              , "CorpToPACLimit_Max"
-              , "LaborToPACLimit_Max"
-          ]
+    var requested_columns = "{{ field_list | strip }}".split(',')
       , columnsRaw = d3.keys(data[0])
             .filter(function(c) { return c.endsWith("_Max"); })
             .filter(function(c) { return ~requested_columns.indexOf(c); })
