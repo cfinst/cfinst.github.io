@@ -122,7 +122,7 @@ function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclo
     signal.on("navigate.vis", function (section) {
 
         // Clear out the data-driven form controls.
-        d3.select("#controls-form").selectAll("*").remove();
+        // d3.select("#controls-form").selectAll("*").remove();
 
         // Initialize the section navigated to.
         switch(section) {
