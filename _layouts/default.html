@@ -12,7 +12,7 @@ After the head.html include above, we can assume that the <body> tag has
     <nav>
       <ul class="nav nav-tabs cfi-tabs" role="tablist">
         {% for tab in site.data.tabs %}
-        <li role="presentation" {% if forloop.first %}class="active"{% endif %}>
+        <li role="presentation">
           <a href="#{{ tab.section }}" aria-controls="{{ tab.section }}"
               role="tab" data-toggle="tab">
             {{ tab.title }}
