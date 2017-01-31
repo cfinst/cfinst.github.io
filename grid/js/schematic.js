@@ -227,18 +227,20 @@ function initContributionLimitsSection(data) {
 */
     var requested_columns = "{{ field_list | strip }}".split(',')
       , columnsRaw = d3.keys(data[0])
-            .filter(function(c) { return c.endsWith("_Max"); })
             .filter(function(c) { return ~requested_columns.indexOf(c); })
-      , columns = columnsRaw
-            .map(function(c) {
-                var ret = c
-                        .split("Limit_Max")[0]
-                        .split("_Max")[0]
-                        .split("To")
-                  , receiver = ret[1].split("Limit_")
-                ;
-                return [ret[0], receiver[0], receiver[1]];
-              })
+      , columns = columnsRaw.map(function(c) {
+            var entities = c.split("To")
+              , giver = entities[0].split("_")
+              , receiver = entities[1].split("Limit_")
+              , details = receiver[1].split("_")
+            ;
+            return {
+                "donor": giver[0]
+              , "donor-branch": giver[1] || false
+              , "recipient": receiver[0]
+              , "recipient-branch": (details.length > 1 ? details[0] : false)
+            };
+        })
     ;
 
     var bins = [1000, 2500, 5000, 10000]
