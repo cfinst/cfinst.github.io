@@ -211,6 +211,20 @@ function setupTabNavigation() {
 } // setupTabNavigation()
 
 function initContributionLimitsSection(data) {
+/*
+  {% comment %}
+    Using site.data.fields, construct a string of fields for this section.
+    Then insert that string (after stripping newlines) into the value for
+    the 'requested_columns' variable - magically "hardcoding" the field order too.
+  {% endcomment %}
+  {% for flist in site.data.fields %}
+    {% if flist.section == 'contribution-limits' %}
+      {% capture field_list %}
+        {% for field in flist.fields %}{{ field }}{% unless forloop.last %},{% endunless %}{% endfor %}
+      {% endcapture %}
+    {% endif %}
+  {% endfor %}
+*/
     var requested_columns = [
             "IndividualToCandLimit_H_Max"
               , "IndividualToCandLimit_S_Max"
