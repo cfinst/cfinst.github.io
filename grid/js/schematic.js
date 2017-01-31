@@ -275,34 +275,7 @@ function initContributionLimitsSection(data) {
     // Signal the custom threshold legend rendering in grid.
     colorScale.bins = bins;
 
-    var chooserGroup = d3.select("#controls-form")
-      .selectAll("div")
-        .data(d3.keys(query), identity)
-      .enter().append("div")
-        .attr("class", "form-group")
-    ;
-
-    chooserGroup.append("label")
-        .attr("class", "col-sm-2 control-label")
-        .text(function (d) {
-            return d[0].toUpperCase() + d.substr(1);
-        })
-    ;
-
-    chooserGroup
-      .append("div")
-        .attr("class", "col-sm-10")
-      .append("select")
-        .attr("class", "chooser form-control")
-        .attr("id", function(d) { return "chooser-" + d; })
-        .on("change", function() {
-            query[this.id.split("chooser-")[1]] = this.value;
-            grid
-                .selectedColumn(querify(), true)
-                .selectedColumnLabel(labelify())
-              () // call grid()
-            ;
-          })
+    d3.selectAll("#contribution-limits select")
         .each(function(d, i) {
             var opts = d3.set(
                     columns
@@ -312,8 +285,7 @@ function initContributionLimitsSection(data) {
                 .values()
             ;
             d3.select(this)
-              .append("optgroup")
-                .attr("label", "Select a " + d)
+              .select("optgroup")
               .selectAll("option")
                 .data(opts, identity)
               .enter().append("option")
@@ -321,6 +293,14 @@ function initContributionLimitsSection(data) {
                 .text(longName)
             ;
         })
+      .on("change", function() {
+            query[this.id.split("chooser-")[1]] = this.value;
+            grid
+                .selectedColumn(querify(), true)
+                .selectedColumnLabel(labelify())
+              () // call grid()
+            ;
+          })
     ;
     d3.selectAll("form select")
         .each(function() {
