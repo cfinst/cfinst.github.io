@@ -49,8 +49,7 @@ After the head.html include above, we can assume that the <body> tag has
             </form><!--.about-buttons-->
 
             <form class="controls-form form-horizontal">
-            {% if tab.controls %}
-              {% for group in tab.controls %}
+            {% for group in tab.controls %}
               <div class="form-group controls-{{ group.group }}">
                 {% for control in group.dropdowns %}
                 <div class="col-sm-6">
@@ -59,7 +58,6 @@ After the head.html include above, we can assume that the <body> tag has
                 </div>
                 {% endfor %}
               </div>
-              {% endfor %}
             {% else %}
               <div class="form-group">
                 <label class="col-sm-2 control-label">Question</label>
@@ -73,7 +71,7 @@ After the head.html include above, we can assume that the <body> tag has
                   <p class="field-description"></p>
                 </div>
               </div>
-            {% endif %}
+            {% endfor %}
             </form>
 
             {% comment %}Generate the Modals{% endcomment %}
