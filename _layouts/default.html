@@ -51,12 +51,17 @@ After the head.html include above, we can assume that the <body> tag has
             <form class="controls-form form-horizontal">
             {% for group in tab.controls %}
               <div class="form-group controls-{{ group.group }}">
-                {% for control in group.dropdowns %}
+              {% for control in group.dropdowns %}
+                {% capture label %}
+                  {{ control.label }}{% if forloop.last %} ({{ group.group | capitalize }}){% endif %}
+                {% endcapture %}
                 <div class="col-sm-6">
-                  <label class="control-label">{{ control.label }}</label>
-                  <select class="chooser form-control" id="{{ control.id }}"></select>
+                  <label class="control-label">{{ label }}</label>
+                  <select class="chooser form-control" id="{{ control.id }}">
+                    <optgroup label="Select a {{ label }}"></optgroup>
+                  </select>
                 </div>
-                {% endfor %}
+              {% endfor %}
               </div>
             {% else %}
               <div class="form-group">
