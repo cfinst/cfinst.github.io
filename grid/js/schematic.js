@@ -277,16 +277,16 @@ function initContributionLimitsSection(data) {
 
     d3.selectAll("#contribution-limits select")
         .each(function(d, i) {
+            var key = this.id.split("chooser-")[1];
+            query[key] = this.value;
             var opts = d3.set(
                     columns
-                      .map(function(c) { return c[i]; })
+                      .map(function(c) { return c[key]; })
                       .filter(identity)
                   )
                 .values()
             ;
-            d3.select(this)
-              .select("optgroup")
-              .selectAll("option")
+            d3.select(this).select("optgroup").selectAll("option")
                 .data(opts, identity)
               .enter().append("option")
                 .attr("value", identity)
@@ -302,13 +302,6 @@ function initContributionLimitsSection(data) {
             ;
           })
     ;
-    d3.selectAll("form select")
-        .each(function() {
-            var key = this.id.split("-")[1];
-            query[key] = this.value;
-          })
-    ;
-
     grid
         .colorScale(colorScale)
         .selectedColumn(querify())
