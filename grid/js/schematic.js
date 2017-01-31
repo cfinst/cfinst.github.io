@@ -68,12 +68,8 @@ function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosur
     var defaultSection = "contribution-limits";
     var section = getQueryVariables().section || defaultSection;
     signal.call("navigate", null, section);
-    d3.selectAll(".nav li")
-        .classed("active", function() {
-            // Set the initial active tab
-            return d3.select(this).select("a").attr("aria-controls") === section;
-          })
-    ;
+
+    d3.select("a[href='#" + section + "']").node().click();
 } // visualize()
 
 function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other) {
