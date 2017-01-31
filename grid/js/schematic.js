@@ -1,3 +1,5 @@
+---
+---
 (function () {
 var grid = Grid().tooltipContent(tooltipContent)
   , atlas = Atlas().tooltipContent(tooltipContent)
