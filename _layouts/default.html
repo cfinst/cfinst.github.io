@@ -29,12 +29,12 @@ After the head.html include above, we can assume that the <body> tag has
     <div class="col-lg-6">
       <div id="meta" class="panel panel-default">
         <div class="tab-content panel-heading">
-          {% for tab in site.data.tabs %}
-          <div role="tabpanel" id="{{ tab.section }}"
-              class="tab-pane {% if forloop.first %}active{% endif %}">
+        {% for tab in site.data.tabs %}
+          {% comment %}The active pane will be set via javascript{% endcomment %}
+          <div role="tabpanel" id="{{ tab.section }}" class="tab-pane">
             <form class="about-buttons form-horizontal">
               <div class="form-group">
-                {% for button in site.data.buttons.about %}
+              {% for button in site.data.buttons.about %}
                 <div class="col-sm-6">
                   <a id="{{ tab.section }}-{{ button.name }}-button"
                       class="btn btn-primary btn-block col-sm-2"
@@ -44,7 +44,7 @@ After the head.html include above, we can assume that the <body> tag has
                     {{ button.text }}
                   </a>
                 </div>
-                {% endfor %}
+              {% endfor %}
               </div><!--.form-group-->
             </form><!--.about-buttons-->
 
@@ -85,8 +85,7 @@ After the head.html include above, we can assume that the <body> tag has
                 </div><!--.modal-content-->
               </div><!--.modal-dialog-->
             </div><!--.modal-{{ button.name }}-->
-            {% endfor %}
-
+          {% endfor %}
           </div><!--.tab-pane-->
           {% endfor %}
         </div><!--.tab-content.panel-heading-->
