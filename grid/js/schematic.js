@@ -159,6 +159,23 @@ function carto (usa){
 // Helper Utility Functions
 function identity(d) { return d; }
 
+// Capture URL query param
+function getQueryVariables() {
+    var inits = {}
+      , query = window.location.search.substring(1).toLowerCase().split("&")
+      , arg // loop variable
+
+    ;
+    query.forEach(function(q) {
+        arg = q.split("=");
+        if(arg[0].length && arg[1].length)
+            inits[arg[0]] = decodeURIComponent(arg[1]);
+      })
+    ;
+    return inits;
+} // getQueryVariables()
+
+
 // Causes the given data to be downloaded as a CSV file with the given name.
 // Draws from http://stackoverflow.com/questions/12676649/javascript-programmatically-trigger-file-download-in-firefox
 function downloadCSV(data, filename) {
@@ -342,22 +359,6 @@ function initContributionLimitsSection(data) {
         return label;
     } // labelify()
 } // initContributionLimitsSection()
-
-// Capture URL query param
-function getQueryVariables() {
-    var inits = {}
-      , query = window.location.search.substring(1).toLowerCase().split("&")
-      , arg // loop variable
-
-    ;
-    query.forEach(function(q) {
-        arg = q.split("=");
-        if(arg[0].length && arg[1].length)
-            inits[arg[0]] = decodeURIComponent(arg[1]);
-      })
-    ;
-    return inits;
-} // getQueryVariables()
 
 // Set up the form with controls for choosing fields.
 // This is used in all tabs other than Contribution Limits.
