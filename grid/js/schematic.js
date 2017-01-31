@@ -310,24 +310,24 @@ function initContributionLimitsSection(data) {
     ;
 
     function querify() {
-        var col = query.donor + "To" + query.recipient + "Limit"
+        var col = query["donor"] + "To" + query["recipient"] + "Limit"
           , branch = !d3.map(data[0]).has([col + "_Max"])
         ;
-        d3.select("#chooser-branch")
+        d3.select("#chooser-recipient-branch")
             .attr("disabled", !branch || null)
-            .property("value", !branch ? "" : query.branch)
+            .property("value", !branch ? "" : query["recipient-branch"])
         ;
-        return col + (branch ? "_" + query.branch : "") + "_Max";
+        return col + (branch ? "_" + query["recipient-branch"] : "") + "_Max";
     } // querify()
 
     function labelify() {
-        var col = query.donor + "To" + query.recipient + "Limit"
+        var col = query["donor"] + "To" + query["recipient"] + "Limit"
           , branch = !d3.map(data[0]).has([col + "_Max"])
         var label = [
-          longName(query.donor)
+          longName(query["donor"])
           , " to "
-          , longName(query.recipient)
-          , branch ? (" (" + longName(query.branch) + ")") : ""
+          , longName(query["recipient-branch"])
+          , branch ? (" (" + longName(query["recipient-branch"]) + ")") : ""
         ].join("");
         return label;
     } // labelify()
