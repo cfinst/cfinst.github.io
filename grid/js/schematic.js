@@ -161,7 +161,7 @@ function identity(d) { return d; }
 
 // Capture URL query param
 function getQueryVariables() {
-    var inits = {}
+    var vars = {}
       , query = window.location.search.substring(1).toLowerCase().split("&")
       , arg // loop variable
 
@@ -169,10 +169,10 @@ function getQueryVariables() {
     query.forEach(function(q) {
         arg = q.split("=");
         if(arg[0].length && arg[1].length)
-            inits[arg[0]] = decodeURIComponent(arg[1]);
+            vars[arg[0]] = decodeURIComponent(arg[1]);
       })
     ;
-    return inits;
+    return vars;
 } // getQueryVariables()
 
 
