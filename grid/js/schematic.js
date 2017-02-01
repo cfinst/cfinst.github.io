@@ -67,9 +67,11 @@ function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosur
     // Initialize the navigation state.
     var defaultSection = "contribution-limits";
     var section = getQueryVariables().section || defaultSection;
-    signal.call("navigate", null, section);
 
-    d3.select("a[href='#" + section + "']").node().click();
+    d3.select("a[href='#" + section + "']")
+      .node()
+      .click()
+    ;
 } // visualize()
 
 function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other) {
@@ -83,7 +85,7 @@ function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclo
             .map(d3.merge([contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other]))
             .values()
     ;
-
+    console.log(data);
     grid
         .svg(d3.select("svg#main"))
         .data(data)
@@ -175,7 +177,8 @@ function getQueryVariables() {
 
 
 // Causes the given data to be downloaded as a CSV file with the given name.
-// Draws from http://stackoverflow.com/questions/12676649/javascript-programmatically-trigger-file-download-in-firefox
+// Draws from
+// http://stackoverflow.com/questions/12676649/javascript-programmatically-trigger-file-download-in-firefox
 function downloadCSV(data, filename) {
     var csvStr = toCSV(data);
     var dataURL = "data:text," + encodeURIComponent(csvStr);
@@ -207,37 +210,6 @@ function setupTabNavigation() {
 } // setupTabNavigation()
 
 function initContributionLimitsSection(data) {
-/*
-  {% comment %}
-    Using site.data.fields, construct a string of fields for this section.
-    Then insert that string (after stripping newlines) into the value for
-    the 'requested_columns' variable - magically "hardcoding" the field order too.
-  {% endcomment %}
-  {% for flist in site.data.fields %}
-    {% if flist.section == 'contribution-limits' %}
-      {% capture field_list %}
-        {% for field in flist.fields %}{{ field }}{% unless forloop.last %},{% endunless %}{% endfor %}
-      {% endcapture %}
-    {% endif %}
-  {% endfor %}
-*/
-    var requested_columns = "{{ field_list | strip }}".split(',')
-      , columnsRaw = d3.keys(data[0])
-            .filter(function(c) { return ~requested_columns.indexOf(c); })
-      , columns = columnsRaw.map(function(c) {
-            var entities = c.split("To")
-              , giver = entities[0].split("_")
-              , receiver = entities[1].split("Limit_")
-              , details = receiver[1].split("_")
-            ;
-            return {
-                "donor": giver[0]
-              , "donor-branch": giver[1] || false
-              , "recipient": receiver[0]
-              , "recipient-branch": (details.length > 1 ? details[0] : false)
-            };
-        })
-    ;
     var bins = [1000, 2500, 5000, 10000]
         // Color Palettes:
         // Blues: http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=11
@@ -254,16 +226,7 @@ function initContributionLimitsSection(data) {
                 .concat(100000000000) // The "or greater" limit of "10,000 or greater"
           )
           .range(colors)
-      , query = { donor: false, recipient: false, branch: false }
-      , longNames = {
-          H: "House / Assembly"
-          , S: "Senate"
-          , G: "Governor"
-          , PAC: "Political Action Committee (PAC)"
-          , Cand: "Candidate"
-          , Corp: "Corporation"
-      }
-      , longName = function(d){ return longNames[d] || d; }
+      , query = {}
     ;
 
     // Signal the custom threshold legend rendering in grid.
@@ -271,19 +234,12 @@ function initContributionLimitsSection(data) {
 
     d3.selectAll("#contribution-limits select")
         .each(function(d) {
-            var key = this.id.split("chooser-")[1]
-              , opts = d3.set(
-                    columns.map(function(c) { return c[key]; }).filter(identity)
-                  )
-                .values()
-            ;
             d3.select(this).select("optgroup").selectAll("option")
-                .data(opts, identity)
-              .enter().append("option")
-                .attr("value", identity)
-                .text(longName)
-                .attr("selected", function(d, i) { return !i ? "selected" : null; })
+                .attr("selected", function(d, i) {
+                    return !i ? "selected" : null;
+                  })
             ;
+            var key = this.id.split("chooser-")[1];
             query[key] = this.value;
         })
       .on("change", function() {
@@ -303,8 +259,16 @@ function initContributionLimitsSection(data) {
     ;
 
     function querify() {
-        var col = query["donor"] + "To" + query["recipient"] + "Limit"
+        var party =  query["donor"] === "Party"
+          , col = (party ? query["party-type"] : query["donor"])
+              + "To"
+              + query["recipient"]
+              + "Limit"
           , branch = !d3.map(data[0]).has([col + "_Max"])
+        ;
+        d3.select("#chooser-party-type")
+            .attr("disabled", !party || null)
+            .property("value", !party ? "" : query["party-type"])
         ;
         d3.select("#chooser-recipient-branch")
             .attr("disabled", !branch || null)
@@ -317,10 +281,10 @@ function initContributionLimitsSection(data) {
         var col = query["donor"] + "To" + query["recipient"] + "Limit"
           , branch = !d3.map(data[0]).has([col + "_Max"])
         var label = [
-          longName(query["donor"])
+          query["donor"]
           , " to "
-          , longName(query["recipient-branch"])
-          , branch ? (" (" + longName(query["recipient-branch"]) + ")") : ""
+          , query["recipient-branch"]
+          , branch ? (" (" + query["recipient-branch"] + ")") : ""
         ].join("");
         return label;
     } // labelify()
