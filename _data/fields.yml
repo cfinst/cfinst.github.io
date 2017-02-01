@@ -18,3 +18,8 @@
     - LaborToCandLimit_G_Max
     - LaborToPartyLimit_Max
     - LaborToPACLimit_Max
+    - StatePToCandLimit_H_Max
+    - StatePToCandLimit_S_Max
+    - StatePToCandLimit_G_Max
+    - LocalToPartyLimit_Max
+    - StatePToPACLimit_Max
