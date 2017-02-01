@@ -1,11 +1,7 @@
 {% include head.html %}
-{% comment %}
-After the head.html include above, we can assume that the <body> tag has
-  aleady been opened.
-{% endcomment %}
 
+<body>
 <header class="container-fluid"></header>
-
 <article class="container-fluid">
   <section id="visualization">
 
@@ -52,13 +48,15 @@ After the head.html include above, we can assume that the <body> tag has
             {% for group in tab.controls %}
               <div class="form-group controls-{{ group.group }}">
               {% for control in group.dropdowns %}
-                {% capture label %}
-                  {{ control.label }}{% if forloop.last %} ({{ group.group | capitalize }}){% endif %}
-                {% endcapture %}
                 <div class="col-sm-6">
-                  <label class="control-label">{{ label }}</label>
+                  <label class="control-label">{{ control.label }}</label>
                   <select class="chooser form-control" id="chooser-{{ control.id }}">
-                    <optgroup label="Select a {{ label }}"></optgroup>
+                    <optgroup label="Select a {{ control.label }}">
+                    {% for option in control.options %}
+                      {% capture value %}{% if option.abbr %}{{ option.abbr }}{% else %}{{ option.text }}{% endif %}{% endcapture %}
+                      <option value="{{ value }}">{{ option.text }}</option>
+                    {% endfor %}
+                    </optgroup>
                   </select>
                 </div>
               {% endfor %}
