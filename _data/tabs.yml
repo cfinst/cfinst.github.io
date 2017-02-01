@@ -11,14 +11,40 @@
         dropdowns:
           - id: donor
             label: Donor
-          - id: donor-branch
-            label: Branch
+            options:
+              - text: Individual
+              - text: Political Action Committee (PAC)
+                abbr: PAC
+              - text: Party
+              - text: Corporation
+                abbr: Corp
+              - text: Labor
+          - id: party-type
+            label: Donor Party Type
+            options:
+              - text: State
+                abbr: StateP
+              - text: Local
+                abbr: LocalP
       - group: recipient
         dropdowns:
           - id: recipient
             label: Recipient
+            options:
+              - text: Candidate
+                abbr: Cand
+              - text: Party
+              - text: Political Action Committee (PAC)
+                abbr: PAC
           - id: recipient-branch
-            label: Branch
+            label: Branch (Recipient)
+            options:
+              - text: House/Assembly
+                abbr: H
+              - text: Senate
+                abbr: S
+              - text: Governor
+                abbr: G
   - title: Disclosure
     section: disclosure
   - title: Public Financing
