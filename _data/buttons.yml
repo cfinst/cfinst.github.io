@@ -1,0 +1,19 @@
+# This file lets you configure the names of the "About" and "Download" buttons.
+#
+# Please only change the "text", "icon" and "link" values.
+# Please don't change the "name" values, as these are
+# required to match with JavaScript code elsewhere.
+---
+  about:
+    - name: about
+      text: About this topic
+    - name: howto
+      text: Using this page
+  download:
+    - name: download-current-view
+      text: Download Currently Shown Data
+      icon: fa-download
+    - name: download-more
+      text: More Download Options
+      link: /downloads.html
+---

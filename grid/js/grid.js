@@ -420,10 +420,13 @@ function Grid(){
 
       format = function (value){
           return (
-              value === -Infinity ? "Prohibited" :
-              value === Infinity ? "Unlimited" :
-              typeof value === "string" ? value :
-              moneyFormat(value)
+              value === -Infinity
+                ? "Prohibited"
+                : value === Infinity
+                  ? "Unlimited"
+                  : typeof value === "string"
+                    ? value
+                    : moneyFormat(value)
           );
       };
 

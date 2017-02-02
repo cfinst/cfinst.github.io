@@ -12,7 +12,7 @@ After the head.html include above, we can assume that the <body> tag has
     <nav>
       <ul class="nav nav-tabs cfi-tabs" role="tablist">
         {% for tab in site.data.tabs %}
-        <li role="presentation" {% if forloop.first %}class="active"{% endif %}>
+        <li role="presentation">
           <a href="#{{ tab.section }}" aria-controls="{{ tab.section }}"
               role="tab" data-toggle="tab">
             {{ tab.title }}
@@ -20,6 +20,7 @@ After the head.html include above, we can assume that the <body> tag has
         </li>
         {% endfor %}
       </ul>
+
     </nav>
 
     <div class="col-lg-6">
@@ -29,25 +30,56 @@ After the head.html include above, we can assume that the <body> tag has
     <div class="col-lg-6">
       <div id="meta" class="panel panel-default">
         <div class="tab-content panel-heading">
-          {% for tab in site.data.tabs %}
-          <div role="tabpanel" id="{{ tab.section }}"
-              class="tab-pane {% if forloop.first %}active{% endif %}">
-            <form class="about-buttons form-horizontal">
-              <div class="form-group">
-                {% for button in site.data.buttons.about %}
-                <div class="col-sm-6">
-                  <a id="{{ tab.section }}-{{ button.name }}-button"
-                      class="btn btn-primary btn-block col-sm-2"
-                      data-toggle="modal"
-                      href="../modals/{{ tab.section }}-{{ button.name }}.html"
-                      data-target="#{{ tab.section }}-{{ button.name }}-modal">
-                    {{ button.text }}
-                  </a>
-                </div>
-                {% endfor %}
-              </div><!--.form-group-->
-            </form><!--.about-buttons-->
+        {% for tab in site.data.tabs %}
+          {% comment %}The active pane will be set via javascript{% endcomment %}
+          <div role="tabpanel" id="{{ tab.section }}" class="tab-pane">
+            <div role="group" class="about-buttons btn-group btn-group-justified">
+            {% for button in site.data.buttons.about %}
+              <div class="btn-group" role="presentation">
+              <a id="{{ tab.section }}-{{ button.name }}-button"
+                  class="btn btn-default btn-block col-sm-2"
+                  role="button"
+                  data-toggle="modal"
+                  href="../modals/{{ tab.section }}-{{ button.name }}.html"
+                  data-target="#{{ tab.section }}-{{ button.name }}-modal">
+                {{ button.text }}
+              </a>
+            </div><!--.btn-group--><!--hack for IE8 + borders-->
+          {% endfor %}
+            </div><!--.about-buttons-->
 
+            <form class="controls-form form-horizontal">
+            {% for group in tab.controls %}
+              <div class="form-group controls-{{ group.group }}">
+              {% for control in group.dropdowns %}
+                {% capture label %}
+                  {{ control.label }}{% if forloop.last %} ({{ group.group | capitalize }}){% endif %}
+                {% endcapture %}
+                <div class="col-sm-6">
+                  <label class="control-label">{{ label }}</label>
+                  <select class="chooser form-control" id="chooser-{{ control.id }}">
+                    <optgroup label="Select a {{ label }}"></optgroup>
+                  </select>
+                </div>
+              {% endfor %}
+              </div>
+            {% else %}
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Question</label>
+                <div class="col-sm-10">
+                  <select class="chooser form-control"></select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Description</label>
+                <div class="col-sm-10">
+                  <p class="field-description"></p>
+                </div>
+              </div>
+            {% endfor %}
+          </form><!--.controls-form-->
+
+            {% comment %}Generate the Modals{% endcomment %}
             {% for button in site.data.buttons.about %}
             <div class="modal fade" id="{{ tab.section }}-{{ button.name }}-modal"
                 tabindex="-1" role="dialog">
@@ -57,11 +89,12 @@ After the head.html include above, we can assume that the <body> tag has
               </div><!--.modal-dialog-->
             </div><!--.modal-{{ button.name }}-->
             {% endfor %}
-          </div><!--.tabpanel-->
-          {% endfor %}
 
-          <form id="controls-form" class="form-horizontal"></form>
+          </div><!--.tab-pane-->
+
+          {% endfor %}
         </div><!--.tab-content.panel-heading-->
+
         <div class="panel-body">
           <div class="col-sm-6">
             <svg id="color-legend"></svg>
