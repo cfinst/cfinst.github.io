@@ -243,13 +243,17 @@ function initContributionLimitsSection(data) {
             query[key] = this.value;
         })
       .on("change", function() {
-            query[this.id.split("chooser-")[1]] = this.value;
-            grid
-                .selectedColumn(querify(), true)
-                .selectedColumnLabel(labelify())
-              () // call grid()
-            ;
-          })
+          if(this.id === "chooser-donor")
+          // State Party cannot donate to local party, so disable those
+              disablePartyAsRecipient(this.value === "StateP");
+
+          query[this.id.split("chooser-")[1]] = this.value;
+          grid
+              .selectedColumn(querify(), true)
+              .selectedColumnLabel(labelify())
+            () // call grid()
+          ;
+        })
     ;
     grid
         .colorScale(colorScale)
