@@ -1,60 +1,60 @@
-  - name: CandDonorExemption
-    type: Dollar Amount
-    question: What is the minimum aggregate of contributions from a particular donor that triggers mandatory disclosure of that donor's identity?
-    label: Threshold to Disclose Donor - Cand
-    notes: If the law states dislcosure is required for amounts "more than $x" it is listed as "$x+1", so "more than $100" is "$101".
-  - name: PartyDonorExemption
-    type: Dollar Amount
-    question: What is the minimum aggregate of contributions from a particular donor that triggers mandatory disclosure of that donor's identity?
-    label: Threshold to Disclose Donor - Party
-    notes: If the law states dislcosure is required for amounts "more than $x" it is listed as "$x+1", so "more than $100" is "$101".
-  - name: PACDonorExemption
-    type: Dollar Amount
-    question: What is the minimum aggregate of contributions from a particular donor to a PAC that triggers mandatory disclosure of that donor's identity?
-    label: Threshold to Disclose Donor - PAC
-    notes: If the law states dislcosure is required for amounts "more than $x" it is listed as "$x+1", so "more than $100" is "$101".
-  - name: BallotDonorExemption
-    type: Dollar Amount
-    question: What is the minimum aggregate of contributions from a particular donor to a ballot committee that triggers mandatory disclosure of that donor's identity?
-    label: Threshold to Disclose Donor - BallotComm
-    notes: If the law states dislcosure is required for amounts "more than $x" it is listed as "$x+1", so "more than $100" is "$101".
-  - name: Entity_DonorDisclose
-    type: Y/N
-    question: Does the state require entities other than political committees that spend money to influence elections to file reports disclosing the entity's donors and other revenue sources?
-    label: Other Entities Required to Disclose?
-    notes:
-  - name: IE_Report_Exemption_Amount
-    type: Dollar Amount
-    question: If yes, what is the minumum amount of aggregated expenditures that trigger disclosure?
-    label: Ind. Exp. Threshold for Disclosure?
-    notes: If the law states dislcosure is required for amounts "more than $x" it is listed as "$x+1", so "more than $100" is "$101".
-  - name: IE_Filers_Others_Donors
-    type: Y/N
-    question: Must other entities who make independent expenditures report the source(s) of the spending entity's funds?
-    label: Ind. Exp. - Other Entities Donor Disclosure?
-    notes:
-  - name: IE_Target
-    type: Y/N
-    question: Must an Independent Expenditure  report specify an IE's target (candidate or ballot proposition)?
-    label: Ind. Exp. Reports - Disclose Target?
-    notes:
-  - name: ElxnrgCategory
-    type: Y/N
-    question: Are some forms of non-coordinated spending defined by a term in the law that is different from independent expenditure, such as electioneering, with different definitions and requirements?
-    label: Electioneering Defined in law?
-    notes:
-  - name: SponsorID
-    type: Y/N
-    question: Must an ad's sponsors be identified within the body of any ad?
-    label: Disclosure of Ad Sponsor Required?
-    notes:
-  - name: DiscloseToShareholders
-    type: Y/N
-    question: Does state law require political expenditures to be disclosed to shareholders?
-    label: Shareholder Disclosure Required?
-    notes:
-  - name: CandFile_Electronic
-    type: Y/N
-    question: Are candidates required to report electronically?
-    label: E-Filing (cand) Required in Law?
-    notes:
+- name: CandDonorExemption
+  type: Dollar Amount
+  question: What is the minimum aggregate of contributions from a particular donor that triggers mandatory disclosure of that donor's identity?
+  label: Threshold to Disclose Donor - Cand
+  notes: If the law states dislcosure is required for amounts "more than $x" it is listed as "$x+1", so "more than $100" is "$101".
+- name: PartyDonorExemption
+  type: Dollar Amount
+  question: What is the minimum aggregate of contributions from a particular donor that triggers mandatory disclosure of that donor's identity?
+  label: Threshold to Disclose Donor - Party
+  notes: If the law states dislcosure is required for amounts "more than $x" it is listed as "$x+1", so "more than $100" is "$101".
+- name: PACDonorExemption
+  type: Dollar Amount
+  question: What is the minimum aggregate of contributions from a particular donor to a PAC that triggers mandatory disclosure of that donor's identity?
+  label: Threshold to Disclose Donor - PAC
+  notes: If the law states dislcosure is required for amounts "more than $x" it is listed as "$x+1", so "more than $100" is "$101".
+- name: BallotDonorExemption
+  type: Dollar Amount
+  question: What is the minimum aggregate of contributions from a particular donor to a ballot committee that triggers mandatory disclosure of that donor's identity?
+  label: Threshold to Disclose Donor - BallotComm
+  notes: If the law states dislcosure is required for amounts "more than $x" it is listed as "$x+1", so "more than $100" is "$101".
+- name: Entity_DonorDisclose
+  type: Y/N
+  question: Does the state require entities other than political committees that spend money to influence elections to file reports disclosing the entity's donors and other revenue sources?
+  label: Other Entities Required to Disclose?
+  notes:
+- name: IE_Report_Exemption_Amount
+  type: Dollar Amount
+  question: If yes, what is the minumum amount of aggregated expenditures that trigger disclosure?
+  label: Ind. Exp. Threshold for Disclosure?
+  notes: If the law states dislcosure is required for amounts "more than $x" it is listed as "$x+1", so "more than $100" is "$101".
+- name: IE_Filers_Others_Donors
+  type: Y/N
+  question: Must other entities who make independent expenditures report the source(s) of the spending entity's funds?
+  label: Ind. Exp. - Other Entities Donor Disclosure?
+  notes:
+- name: IE_Target
+  type: Y/N
+  question: Must an Independent Expenditure  report specify an IE's target (candidate or ballot proposition)?
+  label: Ind. Exp. Reports - Disclose Target?
+  notes:
+- name: ElxnrgCategory
+  type: Y/N
+  question: Are some forms of non-coordinated spending defined by a term in the law that is different from independent expenditure, such as electioneering, with different definitions and requirements?
+  label: Electioneering Defined in law?
+  notes:
+- name: SponsorID
+  type: Y/N
+  question: Must an ad's sponsors be identified within the body of any ad?
+  label: Disclosure of Ad Sponsor Required?
+  notes:
+- name: DiscloseToShareholders
+  type: Y/N
+  question: Does state law require political expenditures to be disclosed to shareholders?
+  label: Shareholder Disclosure Required?
+  notes:
+- name: CandFile_Electronic
+  type: Y/N
+  question: Are candidates required to report electronically?
+  label: E-Filing (cand) Required in Law?
+  notes:
