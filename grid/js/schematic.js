@@ -221,10 +221,10 @@ function initContributionLimitsSection(data) {
           ]
       , colorScale = d3.scaleThreshold()
           .domain(
-            [0]
+              [0]
                 .concat(bins)
                 .concat(100000000000) // The "or greater" limit of "10,000 or greater"
-          )
+            )
           .range(colors)
       , query = {}
     ;
