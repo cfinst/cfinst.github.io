@@ -263,22 +263,14 @@ function initContributionLimitsSection(data) {
     ;
 
     function querify() {
-        var party =  query["donor"] === "Party"
-          , col = (party ? query["party-type"] : query["donor"])
-              + "To"
-              + query["recipient"]
-              + "Limit"
-          , branch = !d3.map(data[0]).has([col + "_Max"])
-        ;
-        d3.select("#chooser-party-type")
-            .attr("disabled", !party || null)
-            .property("value", !party ? "" : query["party-type"])
-        ;
-        d3.select("#chooser-recipient-branch")
-            .attr("disabled", !branch || null)
-            .property("value", !branch ? "" : query["recipient-branch"])
-        ;
-        return col + (branch ? "_" + query["recipient-branch"] : "") + "_Max";
+      var col = query["donor"] + "To" + query["recipient"] + "Limit"
+        , branch = !d3.map(data[0]).has([col + "_Max"])
+      ;
+      d3.select("#chooser-recipient-branch")
+          .attr("disabled", !branch || null)
+          .property("value", !branch ? "" : query["recipient-branch"])
+      ;
+      return col + (branch ? "_" + query["recipient-branch"] : "") + "_Max";
     } // querify()
 
     function labelify() {
