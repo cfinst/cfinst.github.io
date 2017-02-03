@@ -284,6 +284,14 @@ function initContributionLimitsSection(data) {
         ].join("");
         return label;
     } // labelify()
+
+    function disablePartyAsRecipient(bool) {
+        d3.select("#chooser-recipient").select("option[value='Party']")
+            .property("disabled", bool)
+            .style("visibility", bool ? "hidden" : "visible")
+        ;
+    } // disablePartyAsRecipient()
+
 } // initContributionLimitsSection()
 
 // Set up the form with controls for choosing fields.
