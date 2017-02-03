@@ -53,3 +53,7 @@ svg {
     font-size: 1.4em;
     line-height: 1.4em;
 }
+textarea.form-control {
+    resize: vertical;
+    background-color: white;
+}
