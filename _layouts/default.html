@@ -92,10 +92,10 @@
                     <label class="control-label">Description</label>
                   {% for question in fieldset[1] %}
                     <textarea id="{{ question.name | downcase}}"
-                      readonly
-                      rows="3"
-                      class="field-description form-control"
-                      style="background-color: white;"
+                        readonly
+                        rows="3"
+                        class="field-description form-control"
+                        style="background-color: white;"
                       >{{ question.notes }}</textarea>
                   {% endfor %}{% comment %}question in fieldset[1]{% endcomment %}
                 </div><!--.col-sm-12-->
