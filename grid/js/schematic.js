@@ -263,14 +263,14 @@ function initContributionLimitsSection(data) {
     ;
 
     function querify() {
-      var col = query["donor"] + "To" + query["recipient"] + "Limit"
-        , branch = !d3.map(data[0]).has([col + "_Max"])
-      ;
-      d3.select("#chooser-recipient-branch")
-          .attr("disabled", !branch || null)
-          .property("value", !branch ? "" : query["recipient-branch"])
-      ;
-      return col + (branch ? "_" + query["recipient-branch"] : "") + "_Max";
+        var col = query["donor"] + "To" + query["recipient"] + "Limit"
+          , branch = !d3.map(data[0]).has([col + "_Max"])
+        ;
+        d3.select("#chooser-recipient-branch")
+            .attr("disabled", !branch || null)
+            .property("value", !branch ? "" : query["recipient-branch"])
+        ;
+        return col + (branch ? "_" + query["recipient-branch"] : "") + "_Max";
     } // querify()
 
     function labelify() {
@@ -291,75 +291,37 @@ function initContributionLimitsSection(data) {
             .style("visibility", bool ? "hidden" : "visible")
         ;
     } // disablePartyAsRecipient()
-
 } // initContributionLimitsSection()
 
 // Set up the form with controls for choosing fields.
 // This is used in all tabs other than Contribution Limits.
-function initSection(fields, getColorScale){
-
+function initSection(section, fields, getColorScale){
     // Initialize the controls form DOM skeleton.
-    setupControlsForm();
-
+    var dropdown = d3.select("#" + section).select("select")
+        .on("change", function() {
+            var i = this.value;
+            updateSelectedField(i);
+          })
+    ;
     // Initialize the content by selecting the first field in the list.
-    updateSelectedField(fields[0]);
-
-    function setupControlsForm(){
-        var form = d3.select("#controls-form");
-
-        var chooserGroup = form.append("div")
-            .attr("class", "form-group")
-        ;
-        chooserGroup.append("label")
-            .attr("class", "col-sm-2 control-label")
-            .text("Question")
-        ;
-
-        var descriptionGroup = form.append("div")
-            .attr("class", "form-group")
-        ;
-        descriptionGroup.append("label")
-            .attr("class", "col-sm-2 control-label")
-            .text("Description")
-        ;
-        var descriptionContainer = descriptionGroup
-          .append("div")
-            .attr("class", "col-sm-10")
-          .append("p")
-            .attr("class", "field-description")
-        ;
-
-        chooserGroup
-          .append("div")
-            .attr("class", "col-sm-10")
-          .append("select")
-            .attr("class", "chooser form-control")
-            .on("change", function() {
-                var i = this.value;
-                updateSelectedField(fields[i]);
-              })
-            .selectAll("option")
-              .data(fields)
-            .enter().append("option")
-              .attr("value", function(d, i) { return i; })
-              .text(function(d) { return d["Short Label"]; })
-        ;
-    }
+    updateSelectedField(dropdown.node().value);
 
     function updateSelectedField(d){
-
         // Update the description displayed for the selected field.
-        d3.select(".field-description")
-            .text(d["Question on Data Entry Form"]);
-
+        d3.selectAll(".field-description")
+            .style("display", function() {
+                return d.toLowerCase() == this.id ? null : "none";
+              })
+        ;
         // Pass the selected field into the visualizations.
         grid
-            .selectedColumn(d["Field Name"])
+            .selectedColumn(d)
             .selectedColumnLabel(d["Short Label"])
             .colorScale(getColorScale(d))
           () // call grid()
         ;
-    }
+    } // updateSelectedField()
+
 } // initSection()
 
 function initDisclosuresSection(data) {
@@ -416,7 +378,7 @@ function initDisclosuresSection(data) {
     }
 
     fetchDisclosureFields(function(fields) {
-        initSection(fields, getColorScale);
+        initSection('disclosure', fields, getColorScale);
     });
 } // initDisclosuresSection()
 
@@ -485,7 +447,7 @@ function initPublicFinancingSection(data) {
     }
 
     fetchPublicFinancingFields(function(fields) {
-        initSection(fields, getColorScale);
+        initSection('public-financing', fields, getColorScale);
     });
 } // initPublicFinancingSection()
 
@@ -513,7 +475,7 @@ function initOtherRestrictionsSection(data) {
     }
 
     fetchOtherRestrictionsFields(function(fields) {
-        initSection(fields, getColorScale);
+        initSection('other-restrictions', fields, getColorScale);
     });
 } // initOtherRestrictionsSection()
 
