@@ -1,26 +1,23 @@
-fields:
-  - IndividualToCandLimit_H_Max
-  - IndividualToCandLimit_S_Max
-  - IndividualToCandLimit_G_Max
-  - IndividualToPartyLimit_Max
-  - IndividualToPACLimit_Max
-  - PACToCandLimit_H_Max
-  - PACToCandLimit_S_Max
-  - PACToCandLimit_G_Max
-  - CorpToCandLimit_H_Max
-  - CorpToCandLimit_S_Max
-  - CorpToCandLimit_G_Max
-  - CorpToPartyLimit_Max
-  - CorpToPACLimit_Max
-  - LaborToCandLimit_H_Max
-  - LaborToCandLimit_S_Max
-  - LaborToCandLimit_G_Max
-  - LaborToPartyLimit_Max
-  - LaborToPACLimit_Max
-  - StatePToCandLimit_H_Max
-  - StatePToCandLimit_S_Max
-  - StatePToCandLimit_G_Max
-  - StatePToPACLimit_Max
+legend:
+  - default:
+      - bin: -Infinity - -1
+        label: Prohibited
+        color: "#67000d"
+      - bin: 0 - 1000
+        label: $1000 or less
+        color: "#053061"
+      - bin: 1001 - 2500
+        color: "#2166ac"
+      - bin: 2501 - 5000
+        color: "#4393c3"
+      - bin: 5001 - 10000
+        color: "#92c5de"
+      - bin: 10001 - 1000000
+        label: $10,000 or greater
+        color: "#d1e5f0"
+      - bin: 1000001 - Infinity
+        label: Unlimited
+        color: "#cb181d"
 controls:
   - group: donor
     dropdowns:
@@ -54,3 +51,26 @@ controls:
             abbr: S
           - text: Governor
             abbr: G
+fields:
+  - IndividualToCandLimit_H_Max
+  - IndividualToCandLimit_S_Max
+  - IndividualToCandLimit_G_Max
+  - IndividualToPartyLimit_Max
+  - IndividualToPACLimit_Max
+  - PACToCandLimit_H_Max
+  - PACToCandLimit_S_Max
+  - PACToCandLimit_G_Max
+  - CorpToCandLimit_H_Max
+  - CorpToCandLimit_S_Max
+  - CorpToCandLimit_G_Max
+  - CorpToPartyLimit_Max
+  - CorpToPACLimit_Max
+  - LaborToCandLimit_H_Max
+  - LaborToCandLimit_S_Max
+  - LaborToCandLimit_G_Max
+  - LaborToPartyLimit_Max
+  - LaborToPACLimit_Max
+  - StatePToCandLimit_H_Max
+  - StatePToCandLimit_S_Max
+  - StatePToCandLimit_G_Max
+  - StatePToPACLimit_Max
