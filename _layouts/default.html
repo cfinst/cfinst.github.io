@@ -6,12 +6,19 @@
 </header>
 
 <div class="container-fluid">
-  <section id="visualization" class="col-md-6">
-    <svg id="map"></svg>
-  </section><!--.col-lg-8-->
+  <section id="meta" class="col-md-12">
+    <section id="visualization" class="col-md-6 col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <svg id="map"></svg>
+        </div><!--.panel-body-->
+        <div class="panel-footer">
+          Something about a year.
+        </div><!--.panel-footer-->
+      </div><!--.panel.panel-default-->
+    </section><!--.col-lg-8-->
 
-  <section id="meta" class="col-md-6">
-    <div class="tab-content">
+    <div class="tab-content col-md-6 col-sm-12">
     {% for section in site.data.sections %}
     {% assign controls = section[1].controls %}
       <article role="tabpanel" id="{{ section[0] }}" class="tab-pane">
