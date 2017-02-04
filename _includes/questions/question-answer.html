@@ -1,0 +1,23 @@
+<div class="col-sm-12">
+  <label class="control-label">Question</label>
+  <select class="chooser form-control">
+    <optgroup label="Select a Question">
+    {% for question in controls %}
+      <option value="{{ question.name }}">{{ question.label }}</option>
+    {% endfor %}
+  </optgroup>
+  </select>
+</div><!--.col-sm-12-->
+</div><!--.form-group-->
+<div class="form-group">
+<div class="col-sm-12">
+  <label class="control-label">Description</label>
+{% for question in controls %}
+  <textarea id="{{ question.name | downcase}}"
+      readonly
+      rows="3"
+      class="field-description form-control"
+      style="background-color: white; display: none;"
+    >{{ question.question }}</textarea>
+{% endfor %}
+</div><!--.col-sm-12-->
