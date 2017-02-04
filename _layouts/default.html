@@ -2,20 +2,7 @@
 
 <body>
 <header class="container-fluid">
-  <nav>
-    <ul class="nav nav-tabs cfi-tabs" role="tablist">
-      {% for tab in site.data.tabs %}
-        <li role="presentation">
-          <a href="#{{ tab.section }}"
-              aria-controls="{{ tab.section }}"
-              role="tab"
-              data-toggle="tab">
-            {{ tab.title }}
-          </a>
-        </li>
-      {% endfor %}{% comment %}tabs in site.data.tabs{% endcomment %}
-    </ul>
-  </nav>
+  <nav>{% include navtabs.html %}</nav>
 </header>
 
 <div class="container-fluid">
@@ -25,93 +12,44 @@
 
   <section id="meta" class="col-md-6">
     <div class="tab-content">
-    {% for section in site.data.sections %} {% comment %}The active pane will be set via javascript{% endcomment %}
+    {% for section in site.data.sections %}
+    {% assign controls = section[1].controls %}
       <article role="tabpanel" id="{{ section[0] }}" class="tab-pane">
-        <aside class="about-buttons-and-modals">
-          <div role="group" class="about-buttons btn-group btn-group-justified">
-            {% for button in site.data.buttons.about %}
-              <div class="btn-group" role="presentation">
-                <a id="{{ section[0] }}-{{ button.name }}-button"
-                  class="btn btn-default btn-block col-sm-2"
-                  role="button"
-                  data-toggle="modal"
-                  href="../modals/{{ section[0] }}-{{ button.name }}.html"
-                  data-target="#{{ section[0] }}-{{ button.name }}-modal">
-                {{ button.text }}
-                </a>
-              </div><!--.btn-group--><!--hack for IE8 + borders-->
-            {% endfor %}{% comment %}site.data.buttons.about{% endcomment %}
-          </div><!--.about-buttons-->
-
-        {% for button in site.data.buttons.about %}{% comment %}Generate the Modals{% endcomment %}
-          <div class="modal fade" id="{{ section[0] }}-{{ button.name }}-modal"
-              tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content"></div><!--.modal-content-->
-            </div><!--.modal-dialog-->
-          </div><!--.modal-{{ button.name }}-->
-        {% endfor %}
-        </aside><!--.modal-container-->
-
         <div class="panel panel-default">
           <div class="panel-heading">
             <form class="controls-form form-horizontal">
-              {% for group in section[1].controls %}{% capture num %}{{ group.dropdowns | size }}{% endcapture %}
-                <div class="form-group controls-{{ group.group }}">
-                {% for control in group.dropdowns %}
-                  <div class="col-sm-{{ 12 | divided_by: num }}">
-                      <label class="control-label">{{ control.label }}</label>
-                      <select class="chooser form-control" id="chooser-{{ control.id }}">
-                        <optgroup label="Select a {{ control.label }}">
-                        {% for option in control.options %}{% capture value %}{% if option.abbr %}{{ option.abbr }}{% else %}{{ option.text }}{% endif %}{% endcapture %}
-                          <option value="{{ value }}">{{ option.text }}</option>
-                        {% endfor %}
-                        </optgroup>
-                      </select>
-                  </div><!--.col-sm-6-->
-                {% endfor %}
-                </div><!--.form-group-->
-              {% else %}{% comment %}no section[1].controls{% endcomment %}
-                <div class="form-group">
-                  <div class="col-sm-12">
-                    <label class="control-label">Question</label>
-                    <select class="chooser form-control">
-                      <optgroup label="Select a Question">
-                      {% for question in section[1] %}
-                        <option value="{{ question.name }}">{{ question.label }}</option>
-                      {% endfor %}
-                    </optgroup>
-                    </select>
-                  </div><!--.col-sm-12-->
-                </div><!--.form-group-->
-                <div class="form-group">
-                  <div class="col-sm-12">
-                    <label class="control-label">Description</label>
-                  {% for question in section[1] %}
-                    <textarea id="{{ question.name | downcase}}"
-                        readonly
-                        rows="3"
-                        class="field-description form-control"
-                        style="background-color: white;"
-                      >{{ question.notes }}</textarea>
-                  {% endfor %}{% comment %}question in section[1]{% endcomment %}
-                  </div><!--.col-sm-12-->
-                </div><!--.form-group-->
-              {% endfor %}{% comment %}section[1].controls{% endcomment %}
+              {% include questions.html %}
             </form><!--.controls-form-->
           </div><!--.panel-heading-->
           <div class="panel-body">
-            <section id="legend" class="col-sm-6">
-              <svg id="color-legend"></svg>
-            </section><!--.col-sm-6#legend-->
             <div class="col-sm-6">
-              {% include buttons/download.html %}
+              <section id="legend">
+                {% include legend.html %}
+              </section><!--/#legend-->
+            </div><!--.col-sm-6-->
+            <div class="col-sm-6">
+              <aside class="buttons-and-modals">
+                {% include buttons/about.html %}
+                {% include buttons/download.html %}
+              </aside><!--.modal-container-->
             </div><!--.col-sm-6-->
           </div><!--.panel-bod-->
         </div><!--.panel-->
       </article><!--.tab-pane-->
     {% endfor %}
     </div><!--.tab-content-->
+    <aside>
+      <svg style="display: none;">
+        <title>Empty cell to be reused in legend items.</title>
+        <description>
+          This symbol is designed to be reused and scaled to any necessary size.
+          It inherits 'fill' from its parent.
+        </description>
+        <symbol id="cell" viewBox="0 0 1 1">
+          <rect x="0" y="0" width="1" height="1"></rect>
+        </symbol>
+      </svg>
+    </aside>
   </section><!--.col-md-6#meta-->
 
   <section id="grid-view" class="col-md-12">
