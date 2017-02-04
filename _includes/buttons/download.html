@@ -1,9 +1,7 @@
-<div class="btn-group" role="group">
-  {% for button in site.data.buttons.download %}
-    {% if button.link %}<a href="{{ button.link }}" {% else %}<button {% endif %}
-        id="data-button-{{ button.name }}"
-        class="btn btn-default btn-block">
-      {% if button.icon %}<i class="fa {{ button.icon }}"></i> {%endif %}{{ button.text }}
-    {% if button.link %}</a>{% else %}</button>{% endif %}
-  {% endfor %}
-</div><!--.btn-group-->
+{% for button in site.data.buttons.download %}
+  {% if button.link %}<a href="{{ button.link }}" {% else %}<button {% endif %}
+      id="data-button-{{ button.name }}"
+      class="btn btn-default btn-block">
+    {% if button.icon %}<i class="fa {{ button.icon }}"></i> {%endif %}{{ button.text }}
+  {% if button.link %}</a>{% else %}</button>{% endif %}
+{% endfor %}
