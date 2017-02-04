@@ -28,10 +28,15 @@
               </section><!--/#legend-->
             </div><!--.col-sm-6-->
             <div class="col-sm-6">
-              <aside class="buttons-and-modals">
-                {% include buttons/about.html %}
-                {% include buttons/download.html %}
-              </aside><!--.modal-container-->
+              <section class="buttons-and-modals">
+                <div "btn-group" role="group">
+                  {% include buttons/about.html %}
+                  {% include buttons/download.html %}
+                </div>
+              </section><!--.modal-container-->
+              <aside>
+                {% include modals.html %}
+              </aside>
             </div><!--.col-sm-6-->
           </div><!--.panel-bod-->
         </div><!--.panel-->
