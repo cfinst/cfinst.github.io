@@ -210,28 +210,32 @@ function setupTabNavigation() {
 } // setupTabNavigation()
 
 function initContributionLimitsSection(data) {
-    var bins = [1000, 2500, 5000, 10000]
-        // Color Palettes:
-        // Blues: http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=11
-        // Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
-      , colors = [
-            "#67000d" // Prohibited - Dark red from CFI site
-            , "#053061", "#2166ac", "#4393c3", "#92c5de", "#d1e5f0" // Thresholds
-            , "#cb181d" // Unlimited - Light red
-          ]
-      , colorScale = d3.scaleThreshold()
-          .domain(
-              [0]
-                .concat(bins)
-                .concat(100000000000) // The "or greater" limit of "10,000 or greater"
-            )
+  // {% for section in site.data.sections %}
+  //   {% if section[0] == 'contribution-limits' %}
+  //     {% for legends in section[1].legends %}
+  //       {% capture bins %}{% for legend in legends[1] %}{% unless forloop.last %}{{ legend.max }}{% endunless %},{% endfor %}{% endcapture %}
+  //       {% capture colors %}{% for legend in legends[1] %}"{{ legend.color }}"{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+  //     {% endfor %}
+  //     {% capture abbrs %}{% for group in section[1].controls %}{% for dropdown in group.dropdowns %}{% for option in dropdown.options %}{% if option.abbr %}{{ option.abbr }}: {{ option.text }},{% endif %}{% endfor %}{% endfor %}{% endfor %}{% endcapture %}
+  //   {% endif %}
+  // {% endfor %}
+    var bins = "{{ bins | strip }}"
+        .split(',')
+        .filter(identity)
+        .map(function(d) { return +d + 1; })
+      , colors = [{{ colors | strip }}]
+    ;
+    var colorScale = d3.scaleThreshold()
+          .domain(bins)
           .range(colors)
       , query = {}
+      , abbrs = new Map(
+          "{{ abbrs | strip }}"
+              .split(',')
+              .filter(identity)
+              .map(function(d) { return d.split(': '); })
+        )
     ;
-
-    // Signal the custom threshold legend rendering in grid.
-    colorScale.bins = bins;
-
     d3.selectAll("#contribution-limits select")
         .each(function(d) {
             d3.select(this).select("optgroup").selectAll("option")
@@ -241,19 +245,19 @@ function initContributionLimitsSection(data) {
             ;
             var key = this.id.split("chooser-")[1];
             query[key] = this.value;
-        })
-      .on("change", function() {
-          if(this.id === "chooser-donor")
-          // State Party cannot donate to local party, so disable those
-              disablePartyAsRecipient(this.value === "StateP");
+          })
+        .on("change", function() {
+            if(this.id === "chooser-donor")
+            // State Party cannot donate to local party, so disable those
+                disablePartyAsRecipient(this.value === "StateP");
 
-          query[this.id.split("chooser-")[1]] = this.value;
-          grid
-              .selectedColumn(querify(), true)
-              .selectedColumnLabel(labelify())
-            () // call grid()
-          ;
-        })
+            query[this.id.split("chooser-")[1]] = this.value;
+            grid
+                .selectedColumn(querify(), true)
+                .selectedColumnLabel(labelify())
+              () // call grid()
+            ;
+          })
     ;
     grid
         .colorScale(colorScale)
@@ -277,14 +281,17 @@ function initContributionLimitsSection(data) {
         var col = query["donor"] + "To" + query["recipient"] + "Limit"
           , branch = !d3.map(data[0]).has([col + "_Max"])
         var label = [
-          query["donor"]
+          abbreviate(query["donor"])
           , " to "
-          , query["recipient-branch"]
-          , branch ? (" (" + query["recipient-branch"] + ")") : ""
+          , abbreviate(query["recipient"])
+          , branch ? (" (" + abbreviate(query["recipient-branch"]) + ")") : ""
         ].join("");
         return label;
     } // labelify()
 
+    function abbreviate(str) {
+        return abbrs.get(str) || str;
+    } // abbreviate()
     function disablePartyAsRecipient(bool) {
         d3.select("#chooser-recipient").select("option[value='Party']")
             .property("disabled", bool)
