@@ -1,0 +1,61 @@
+smallmoney:
+  - min: -Infinity
+    max: 0
+    label: Prohibited
+    color: "#67000d"
+  - min: 1
+    max: 50
+    label: $50 or less
+    color: "#053061"
+  - min: 51
+    max: 100
+    color: "#2166ac"
+  - min: 101
+    max: 200
+    color: "#4393c3"
+  - min: 201
+    max: 500
+    color: "#92c5de"
+  - min: 501
+    max: 1000000
+    label: More than $500
+    color: "#d1e5f0"
+  - min: 1000001
+    max: Infinity
+    label: Unlimited
+    color: "#cb181d"
+bigmoney:
+  - min: -Infinity
+    max: 0
+    label: Prohibited
+    color: "#67000d"
+  - min: 1
+    max: 1000
+    label: $1000 or less
+    color: "#053061"
+  - min: 1001
+    max: 2500
+    color: "#2166ac"
+  - min: 2501
+    max: 5000
+    color: "#4393c3"
+  - min: 5001
+    max: 10000
+    color: "#92c5de"
+  - min: 10001
+    max: 1000000
+    label: More than $10000
+    color: "#d1e5f0"
+  - min: 1000001
+    max: Infinity
+    label: Unlimited
+    color: "#cb181d"
+yesno:
+  - label: "No"
+    color: "#053061"
+  - label: Changed mid-cycle
+    color: "#2166ac"
+  - label: "Yes"
+    color: "#4393c3"
+  - label: Missing Data
+    color: gray
