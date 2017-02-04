@@ -175,6 +175,8 @@ function getQueryVariables() {
     return vars;
 } // getQueryVariables()
 
+// Convert a formatted liquid template string into a usable array for Javascript
+//  Basically, it takes a list of strings and splits into an array
 function liquidToArray(str) {
     return str
       .split(',')
@@ -182,9 +184,15 @@ function liquidToArray(str) {
     ;
 } // liquidToArray()
 
+// Convert a formatted liquid template string into a usable hash for Javascript
+// Convert a list of key:value pairs (separated by a ':' and generates a Map)
 function liquidToMap(str) {
     return new Map(liquidToArray(str)
-        .map(function(d) { return d.split(': '); })
+        .map(function(d) {
+            return d.split(':')
+                .map(function(e) { return e.trim(); })
+            ;
+          })
       )
     ;
 } // liquidToMap()
