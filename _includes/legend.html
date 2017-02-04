@@ -1,0 +1,13 @@
+{% for legend in section[1].legends %}
+  {% capture legname %}legend[0]{% endcapture %}
+  <ul class="list-unstyled legend-{{ legend[0] }}">
+  {% for item in legend[1] %}
+    <li>
+      <svg role="presentation" fill="{{ item.color }}">
+        <use xlink:href="#cell">
+      </svg>
+      <span>{% if item.label %}{{ item.label }}{% else %}${{ item.min }} - ${{ item.max }}{% endif %}</span>
+    </li>
+  {% endfor %}
+  </ul>
+{% endfor %}
