@@ -8,13 +8,13 @@ function Grid(){
     , yColumn = "Year"
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
     , colors = {
-        prohibited: "#cf0100" // Prohibited - Traffic light red
+        prohibited: "#fcc"
         , limited: "#3182bd" // Limited circle color
         , limitedBackground: "#c6dbef" // Limited background rect color
-        , unlimited: "#08c900" // Unlimited - Traffic light green
+        , unlimited: "#800000"
       }
     , transitionDuration = 500
-    , nonLimitedSize = 0.5 // The fraction of the cell size for "traffic lights"
+    , nonLimitedSize = 0
   ;
 
   // DOM Elements.
@@ -156,10 +156,13 @@ function Grid(){
         .attr("width", w)
         .attr("height", h)
         .style("color", function (d){
-            return d[keyColumn] === "Limited"
-              ? colors.limitedBackground
-              : "white"
+            var value = d[keyColumn] === "Limited"
+              ? "limitedBackground"
+              : d[keyColumn] === "No"
+                ? "prohibited"
+                : "unlimited"
             ;
+            return colors[value];
           })
     ;
 
