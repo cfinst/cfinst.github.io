@@ -175,6 +175,19 @@ function getQueryVariables() {
     return vars;
 } // getQueryVariables()
 
+function liquidToArray(str) {
+    return str
+      .split(',')
+      .filter(identity)
+    ;
+} // liquidToArray()
+
+function liquidToMap(str) {
+    return new Map(liquidToArray(str)
+        .map(function(d) { return d.split(': '); })
+      )
+    ;
+} // liquidToMap()
 
 // Causes the given data to be downloaded as a CSV file with the given name.
 // Draws from
@@ -212,29 +225,22 @@ function setupTabNavigation() {
 function initContributionLimitsSection(data) {
   // {% for section in site.data.sections %}
   //   {% if section[0] == 'contribution-limits' %}
-  //     {% for legends in section[1].legends %}
-  //       {% capture bins %}{% for legend in legends[1] %}{% unless forloop.last %}{{ legend.max }}{% endunless %},{% endfor %}{% endcapture %}
-  //       {% capture colors %}{% for legend in legends[1] %}"{{ legend.color }}"{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+  //     {% for legend in section[1].legends %}
+  //       {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+  //       {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
   //     {% endfor %}
   //     {% capture abbrs %}{% for group in section[1].controls %}{% for dropdown in group.dropdowns %}{% for option in dropdown.options %}{% if option.abbr %}{{ option.abbr }}: {{ option.text }},{% endif %}{% endfor %}{% endfor %}{% endfor %}{% endcapture %}
   //   {% endif %}
   // {% endfor %}
-    var bins = "{{ bins | strip }}"
-        .split(',')
-        .filter(identity)
+    var bins = liquidToArray("{{ bins | strip }}")
         .map(function(d) { return +d + 1; })
-      , colors = [{{ colors | strip }}]
+      , colors = liquidToArray('{{ colors | strip }}')
     ;
     var colorScale = d3.scaleThreshold()
           .domain(bins)
           .range(colors)
       , query = {}
-      , abbrs = new Map(
-          "{{ abbrs | strip }}"
-              .split(',')
-              .filter(identity)
-              .map(function(d) { return d.split(': '); })
-        )
+      , abbrs = liquidToMap("{{ abbrs | strip }}")
     ;
     d3.selectAll("#contribution-limits select")
         .each(function(d) {
@@ -248,7 +254,7 @@ function initContributionLimitsSection(data) {
           })
         .on("change", function() {
             if(this.id === "chooser-donor")
-            // State Party cannot donate to local party, so disable those
+                // State Party cannot donate to local party, so disable those
                 disablePartyAsRecipient(this.value === "StateP");
 
             query[this.id.split("chooser-")[1]] = this.value;
@@ -332,57 +338,43 @@ function initSection(section, fields, getColorScale){
 } // initSection()
 
 function initDisclosuresSection(data) {
-
+  // {% for section in site.data.sections %}
+  //   {% if section[0] == 'disclosure' %}
+  //     {% for legend in section[1].legends %}
+  //       {% if legend[0] == 'smallmoney' %}
+  //         {% capture smallbins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+  //         {% capture smallcolors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
+  //       {% elsif legend[0] == 'bigmoney' %}
+  //         {% capture bigbins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+  //         {% capture bigcolors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
+  //       {% else %}
+  //         {% capture yesnobins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.label }}{% endunless %},{% endfor %}{% endcapture %}
+  //         {% capture yesnocolors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
+  //       {% endif %}
+  //     {% endfor %}
+  //   {% endif %}
+  // {% endfor %}
+    var colorScale = {
+              small: d3.scaleThreshold()
+                        .domain(liquidToArray('{{ smallbins }}'))
+                        .range(liquidToArray('{{ smallcolors }}'))
+            , big: d3.scaleThreshold()
+                        .domain(liquidToArray('{{ bigbins }}'))
+                        .range(liquidToArray('{{ bigcolors }}'))
+            , yesno: d3.scaleOrdinal()
+                        .domain(liquidToArray('{{ yesnobins }}'))
+                        .range(liquidToArray('{{ yesnocolors }}'))
+          }
+    ;
     function getColorScale(d){
-        var colorScale;
-        if(d["Value Type"] === "Dollar Amount"){
-
-            // Use smaller bins for donor exemption fields.
-            var useSmallBins = ~d["Field Name"].indexOf("DonorExemption")
-
-            var bins = useSmallBins ? [50, 100, 200, 500] : [1000, 2500, 5000, 10000]
-                // Color Palettes:
-                // Blues: http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=11
-                // Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
-              , colors = [
-                    "#67000d" // Prohibited - Dark red from CFI site
-                    , "#053061", "#2166ac", "#4393c3", "#92c5de", "#d1e5f0" // Thresholds
-                    , "#cb181d" // Unlimited - Light red
-                  ]
-            colorScale = d3.scaleThreshold()
-              .domain(
-                [0]
-                    .concat(bins)
-                    .concat(100000000000) // The "or greater" limit
+        return d["Value Type"] === "Dollar Amount"
+            ? (~d["Field Name"].indexOf("DonorExemption")
+                ? colorScale.small
+                : colorScale.big
               )
-              .range(colors)
-            ;
-
-            // Signal the custom threshold legend rendering in grid.
-            colorScale.bins = bins;
-            colorScale.emptyValue = -Infinity;
-            colorScale.lowerBoundLabel = "$0";
-        } else {
-            colorScale = d3.scaleOrdinal()
-                .domain([
-                  "No"
-                  , "Changed mid-cycle"
-                  , "Yes"
-                  , "Missing Data"
-                ])
-                .range([
-                  "#053061" // No - dark blue
-                  , "#2166ac" // Changed mid-cycle - medium blue
-                  , "#4393c3" // Yes - light blue
-                  , "gray" // Missing Data - gray
-                  , "#d95f02" // More colors for unanticipated values
-                  , "#7570b3"
-                  , "#e7298a"
-                ])
-            ;
-        }
-        return colorScale;
-    }
+            : colorScale.yesno
+        ;
+    } // getColorScale()
 
     fetchDisclosureFields(function(fields) {
         initSection('disclosure', fields, getColorScale);
