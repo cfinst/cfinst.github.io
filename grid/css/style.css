@@ -1,5 +1,5 @@
-#visualization svg {
-    display: block;
+#visualization .panel-body {
+    padding: 0;
 }
 .grid-rect {
     transition:
@@ -59,7 +59,7 @@ textarea.form-control {
 }
 #legend li {
     font-size: 1.4em;
-    margin: .35em;
+    margin: .1em;
 }
 #legend li svg {
     width: 20px;
