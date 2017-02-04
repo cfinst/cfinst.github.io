@@ -6,9 +6,32 @@
 
   - title: Contribution Limits
     section: contribution-limits
+    fields:
+      - IndividualToCandLimit_H_Max
+      - IndividualToCandLimit_S_Max
+      - IndividualToCandLimit_G_Max
+      - IndividualToPartyLimit_Max
+      - IndividualToPACLimit_Max
+      - PACToCandLimit_H_Max
+      - PACToCandLimit_S_Max
+      - PACToCandLimit_G_Max
+      - CorpToCandLimit_H_Max
+      - CorpToCandLimit_S_Max
+      - CorpToCandLimit_G_Max
+      - CorpToPartyLimit_Max
+      - CorpToPACLimit_Max
+      - LaborToCandLimit_H_Max
+      - LaborToCandLimit_S_Max
+      - LaborToCandLimit_G_Max
+      - LaborToPartyLimit_Max
+      - LaborToPACLimit_Max
+      - StatePToCandLimit_H_Max
+      - StatePToCandLimit_S_Max
+      - StatePToCandLimit_G_Max
+      - StatePToPACLimit_Max
+  - title: Other Restrictions
+    section: other-restrictions
   - title: Disclosure
     section: disclosure
   - title: Public Financing
     section: public-financing
-  - title: Other Restrictions
-    section: other-restrictions

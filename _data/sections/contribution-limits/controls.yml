@@ -1,0 +1,32 @@
+- group: donor
+  dropdowns:
+    - id: donor
+      label: Donor
+      options:
+        - text: Individual
+        - text: Political Action Committee (PAC)
+          abbr: PAC
+        - text: State Party
+          abbr: StateP
+        - text: Corporation
+          abbr: Corp
+        - text: Labor
+- group: recipient
+  dropdowns:
+    - id: recipient
+      label: Recipient
+      options:
+        - text: Candidate
+          abbr: Cand
+        - text: Party
+        - text: Political Action Committee (PAC)
+          abbr: PAC
+    - id: recipient-branch
+      label: Branch (Recipient)
+      options:
+        - text: House/Assembly
+          abbr: H
+        - text: Senate
+          abbr: S
+        - text: Governor
+          abbr: G
