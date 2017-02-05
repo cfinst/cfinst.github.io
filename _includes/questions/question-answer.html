@@ -3,7 +3,10 @@
   <select class="chooser form-control">
     <optgroup label="Select a Question">
     {% for question in controls %}
-      <option value="{{ question.name }}">{{ question.label }}</option>
+      <option value="{{ question.name }}"
+           data-legend='{{ question.legend }}'
+           data-question='{{ question.question }}'
+           data-note='{{ question.note }}'>{{ question.label }}</option>
     {% endfor %}
   </optgroup>
   </select>
@@ -12,12 +15,8 @@
 <div class="form-group">
 <div class="col-sm-12">
   <label class="control-label">Description</label>
-{% for question in controls %}
-  <textarea id="{{ question.name | downcase}}"
-      readonly
+  <textarea readonly class="field-description form-control"
       rows="3"
-      class="field-description form-control"
-      style="background-color: white; display: none;"
-    >{{ question.question }}</textarea>
-{% endfor %}
+      style="background-color: white;">
+  </textarea>
 </div><!--.col-sm-12-->
