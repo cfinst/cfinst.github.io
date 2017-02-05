@@ -378,6 +378,8 @@ function initDisclosuresSection() {
                         .range(liquidToArray('{{ yesnocolors }}'))
           }
     ;
+    colorScale.smallmoney.emptyValue = colorScale.bigmoney.emptyValue = -Infinity;
+
     var dropdown = container.select("select");
     dropdown
         .on("change", function() {
