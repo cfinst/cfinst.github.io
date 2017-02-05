@@ -1,7 +1,7 @@
 smallmoney:
   - min: -Infinity
     max: 0
-    label: Prohibited
+    label: $0
     color: "#67000d"
   - min: 1
     max: 50
@@ -22,7 +22,7 @@ smallmoney:
     color: "#d1e5f0"
   - min: 1000001
     max: Infinity
-    label: Unlimited
+    label: No Limit
     color: "#cb181d"
 bigmoney:
   - min: -Infinity
