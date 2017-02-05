@@ -197,6 +197,25 @@ function liquidToMap(str) {
     ;
 } // liquidToMap()
 
+
+function updateSelectedField(datum){
+    // Update the description displayed for the selected field.
+    d3.selectAll(".field-description")
+        .style("display", function() {
+            return datum.toLowerCase() == this.id ? null : "none";
+          })
+    ;
+    // Pass the selected field into the visualizations.
+    grid
+        .selectedColumn(datum)
+        .selectedColumnLabel(datum["Short Label"])
+        .colorScale(getColorScale(datum))
+      () // call grid()
+    ;
+} // updateSelectedField()
+
+
+
 // Causes the given data to be downloaded as a CSV file with the given name.
 // Draws from
 // http://stackoverflow.com/questions/12676649/javascript-programmatically-trigger-file-download-in-firefox
@@ -326,26 +345,9 @@ function initSection(section, fields, getColorScale){
     ;
     // Initialize the content by selecting the first field in the list.
     updateSelectedField(dropdown.node().value);
-
-    function updateSelectedField(d){
-        // Update the description displayed for the selected field.
-        d3.selectAll(".field-description")
-            .style("display", function() {
-                return d.toLowerCase() == this.id ? null : "none";
-              })
-        ;
-        // Pass the selected field into the visualizations.
-        grid
-            .selectedColumn(d)
-            .selectedColumnLabel(d["Short Label"])
-            .colorScale(getColorScale(d))
-          () // call grid()
-        ;
-    } // updateSelectedField()
-
 } // initSection()
 
-function initDisclosuresSection(data) {
+function initDisclosuresSection() {
   // {% for section in site.data.sections %}
   //   {% if section[0] == 'disclosure' %}
   //     {% for legend in section[1].legends %}
@@ -356,23 +358,49 @@ function initDisclosuresSection(data) {
   //         {% capture bigbins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
   //         {% capture bigcolors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
   //       {% else %}
-  //         {% capture yesnobins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.label }}{% endunless %},{% endfor %}{% endcapture %}
+  //         {% capture yesnobins %}{% for item in legend[1] %}{{ item.label }},{% endfor %}{% endcapture %}
   //         {% capture yesnocolors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
   //       {% endif %}
   //     {% endfor %}
+  //     {% capture fields %}{% for control in section[1].controls %}{{ control }}{% endfor %}{% endcapture %}
   //   {% endif %}
   // {% endfor %}
-    var colorScale = {
-              small: d3.scaleThreshold()
+    var container = d3.select("#disclosure")
+      , colorScale = {
+              smallmoney: d3.scaleThreshold()
                         .domain(liquidToArray('{{ smallbins }}'))
                         .range(liquidToArray('{{ smallcolors }}'))
-            , big: d3.scaleThreshold()
+            , bigmoney: d3.scaleThreshold()
                         .domain(liquidToArray('{{ bigbins }}'))
                         .range(liquidToArray('{{ bigcolors }}'))
             , yesno: d3.scaleOrdinal()
                         .domain(liquidToArray('{{ yesnobins }}'))
                         .range(liquidToArray('{{ yesnocolors }}'))
           }
+    ;
+    var dropdown = container.select("select");
+    dropdown
+        .on("change", function() {
+            var val = this.value
+              , self = d3.select(this)
+              , datum = self.select("option[value='" + val + "']").datum()
+            ;
+            container.selectAll(".legend ul")
+                .style("display", function() {
+                    return d3.select(this).classed("legend-" + datum.legend)
+                      ? null
+                      : "none"
+                    ;
+                  })
+            ;
+            container.select(".field-description")
+                .html(datum.note ? (datum.question + "*\n\n* " + datum.note) : datum.question)
+            ;
+            // updateSelectedField(val);
+
+          })
+      .selectAll("option")
+        .datum(function() { return this.dataset; })
     ;
     function getColorScale(d){
         return d["Value Type"] === "Dollar Amount"
@@ -384,9 +412,9 @@ function initDisclosuresSection(data) {
         ;
     } // getColorScale()
 
-    fetchDisclosureFields(function(fields) {
-        initSection('disclosure', fields, getColorScale);
-    });
+    // fetchDisclosureFields(function(fields) {
+    //     initSection('disclosure', fields, getColorScale);
+    // });
 } // initDisclosuresSection()
 
 function initPublicFinancingSection(data) {
