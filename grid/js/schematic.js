@@ -368,10 +368,10 @@ function initDisclosuresSection() {
     var container = d3.select("#disclosure")
       , colorScale = {
               smallmoney: d3.scaleThreshold()
-                        .domain(liquidToArray('{{ smallbins }}'))
+                        .domain(liquidToArray('{{ smallbins }}').map(function(d) { return +d + 1; }))
                         .range(liquidToArray('{{ smallcolors }}'))
             , bigmoney: d3.scaleThreshold()
-                        .domain(liquidToArray('{{ bigbins }}'))
+                        .domain(liquidToArray('{{ bigbins }}').map(function(d) { return +d + 1; }))
                         .range(liquidToArray('{{ bigcolors }}'))
             , yesno: d3.scaleOrdinal()
                         .domain(liquidToArray('{{ yesnobins }}'))
