@@ -385,6 +385,7 @@ function initDisclosuresSection() {
               , self = d3.select(this)
               , datum = self.select("option[value='" + val + "']").datum()
             ;
+            console.log(datum);
             container.selectAll(".legend ul")
                 .style("display", function() {
                     return d3.select(this).classed("legend-" + datum.legend)
@@ -396,8 +397,12 @@ function initDisclosuresSection() {
             container.select(".field-description")
                 .html(datum.note ? (datum.question + "*\n\n* " + datum.note) : datum.question)
             ;
-            // updateSelectedField(val);
-
+            grid
+                .colorScale(colorScale[datum.legend])
+                .selectedColumn(val)
+                .selectedColumnLabel(val)
+              () // Call grid()
+            ;
           })
       .selectAll("option")
         .datum(function() { return this.dataset; })
