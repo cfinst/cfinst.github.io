@@ -57,15 +57,15 @@ textarea.form-control {
     resize: vertical;
     background-color: white;
 }
-#legend li {
+.legend li {
     font-size: 1.4em;
     margin: .1em;
 }
-#legend li svg {
+.legend li svg {
     width: 20px;
     height: 20px;
     margin: .1em;
 }
-#legend li span {
+.legend li span {
     margin: auto;
 }
