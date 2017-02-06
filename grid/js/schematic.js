@@ -365,8 +365,7 @@ function initDisclosuresSection() {
   //     {% capture fields %}{% for control in section[1].controls %}{{ control }}{% endfor %}{% endcapture %}
   //   {% endif %}
   // {% endfor %}
-    var container = d3.select("#disclosure")
-      , colorScale = {
+    var colorScale = {
               smallmoney: d3.scaleThreshold()
                         .domain(liquidToArray('{{ smallbins }}').map(function(d) { return +d + 1; }))
                         .range(liquidToArray('{{ smallcolors }}'))
@@ -380,14 +379,15 @@ function initDisclosuresSection() {
     ;
     colorScale.smallmoney.emptyValue = colorScale.bigmoney.emptyValue = -Infinity;
 
-    var dropdown = container.select("select");
+    var container = d3.select("#disclosure")
+      , dropdown = container.select("select")
+    ;
     dropdown
         .on("change", function() {
             var val = this.value
               , self = d3.select(this)
               , datum = self.select("option[value='" + val + "']").datum()
             ;
-            console.log(datum);
             container.selectAll(".legend ul")
                 .style("display", function() {
                     return d3.select(this).classed("legend-" + datum.legend)
@@ -409,19 +409,6 @@ function initDisclosuresSection() {
       .selectAll("option")
         .datum(function() { return this.dataset; })
     ;
-    function getColorScale(d){
-        return d["Value Type"] === "Dollar Amount"
-            ? (~d["Field Name"].indexOf("DonorExemption")
-                ? colorScale.small
-                : colorScale.big
-              )
-            : colorScale.yesno
-        ;
-    } // getColorScale()
-
-    // fetchDisclosureFields(function(fields) {
-    //     initSection('disclosure', fields, getColorScale);
-    // });
 } // initDisclosuresSection()
 
 function initPublicFinancingSection(data) {
@@ -494,31 +481,49 @@ function initPublicFinancingSection(data) {
 } // initPublicFinancingSection()
 
 function initOtherRestrictionsSection(data) {
+  // {% for section in site.data.sections %}
+  //   {% if section[0] == 'other-restrictions' %}
+  //     {% for legend in section[1].legends %}
+  //         {% capture bins %}{% for item in legend[1] %}{{ item.label }},{% endfor %}{% endcapture %}
+  //         {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
+  //     {% endfor %}
+  //   {% endif %}
+  // {% endfor %}
 
-    function getColorScale(d){
-        var colorScale = d3.scaleOrdinal()
-                .domain([
-                  "No"
-                  , "Changed mid-cycle"
-                  , "Yes"
-                  , "Missing Data"
-                ])
-                .range([
-                  "#053061" // No - dark blue
-                  , "#2166ac" // Changed mid-cycle - medium blue
-                  , "#4393c3" // Yes - light blue
-                  , "gray" // Missing Data - gray
-                  , "#d95f02" // More colors for unanticipated values
-                  , "#7570b3"
-                  , "#e7298a"
-                ])
+    var colorScale = d3.scaleOrdinal()
+            .domain(liquidToArray('{{ bins }}'))
+            .range(liquidToArray('{{ colors }}'))
+    ;
+    var container = d3.select("#other-restrictions  ")
+      , dropdown = container.select("select")
+    ;
+    dropdown
+        .on("change", function() {
+            var val = this.value
+              , self = d3.select(this)
+              , datum = self.select("option[value='" + val + "']").datum()
             ;
-        return colorScale;
-    }
-
-    fetchOtherRestrictionsFields(function(fields) {
-        initSection('other-restrictions', fields, getColorScale);
-    });
+            container.selectAll(".legend ul")
+                .style("display", function() {
+                    return d3.select(this).classed("legend-" + datum.legend)
+                      ? null
+                      : "none"
+                    ;
+                  })
+            ;
+            container.select(".field-description")
+                .html(datum.note ? (datum.question + "*\n\n* " + datum.note) : datum.question)
+            ;
+            grid
+                .colorScale(colorScale)
+                .selectedColumn(val)
+                .selectedColumnLabel(val)
+              () // Call grid()
+            ;
+          })
+      .selectAll("option")
+        .datum(function() { return this.dataset; })
+    ;
 } // initOtherRestrictionsSection()
 
 // Fetch and cache the CSV file at the given path.
