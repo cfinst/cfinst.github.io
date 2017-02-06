@@ -362,7 +362,6 @@ function initDisclosuresSection() {
   //         {% capture yesnocolors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
   //       {% endif %}
   //     {% endfor %}
-  //     {% capture fields %}{% for control in section[1].controls %}{{ control }}{% endfor %}{% endcapture %}
   //   {% endif %}
   // {% endfor %}
     var colorScale = {
@@ -412,72 +411,64 @@ function initDisclosuresSection() {
 } // initDisclosuresSection()
 
 function initPublicFinancingSection(data) {
-
-    function getColorScale(d){
-        var selectedColumn = d["Field Name"];
-        var colorScale;
-
-        // Custom color scale for "Public Funds for State Parties?" (PublicFunding_P)
-        if(selectedColumn === "PublicFunding_P"){
-            colorScale = d3.scaleOrdinal()
-                .domain([
-                  "No"
-                  , "Changed mid-cycle"
-                  , "Yes"
-                  , "Missing Data"
-                ])
-                .range([
-                  "#053061" // No - dark blue
-                  , "#2166ac" // Changed mid-cycle - medium blue
-                  , "#4393c3" // Yes - light blue
-                  , "gray" // Missing Data - gray
-                  , "#d95f02" // More colors for unanticipated values
-                  , "#7570b3"
-                  , "#e7298a"
-                ])
+  // {% for section in site.data.sections %}
+  //   {% if section[0] == 'public-financing' %}
+  //     {% for legend in section[1].legends %}
+  //       {% if legend[0] == 'logical' %}
+  //         {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+  //         {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
+  //       {% elsif legend[0] == 'taxes' %}
+  //         {% capture taxbins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+  //         {% capture taxcolors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
+  //       {% else %}
+  //         {% capture finbins %}{% for item in legend[1] %}{{ item.label }},{% endfor %}{% endcapture %}
+  //         {% capture fincolors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
+  //       {% endif %}
+  //     {% endfor %}
+  //   {% endif %}
+  // {% endfor %}
+    var colorScale = {
+              logical: d3.scaleThreshold()
+                        .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
+                        .range(liquidToArray('{{ colors }}'))
+            , taxes: d3.scaleThreshold()
+                        .domain(liquidToArray('{{ taxbins }}').map(function(d) { return +d + 1; }))
+                        .range(liquidToArray('{{ taxcolors }}'))
+            , financing: d3.scaleOrdinal()
+                        .domain(liquidToArray('{{ finbins }}'))
+                        .range(liquidToArray('{{ fincolors }}'))
+          }
+    ;
+    var container = d3.select("#public-financing")
+      , dropdown = container.select("select")
+    ;
+    dropdown
+        .on("change", function() {
+            var val = this.value
+              , self = d3.select(this)
+              , datum = self.select("option[value='" + val + "']").datum()
             ;
-        } else if(selectedColumn === "RefundOrTaxCreditOrTaxDeduction"){
-            colorScale = d3.scaleOrdinal()
-                .domain([
-                  "Missing Data"
-                  , "None"
-                ])
-                .range([
-                  "gray" // Missing Data - gray
-                  , "gray" // None - gray
-                  , "#053061" // dark blue
-                  , "#2166ac" // medium blue
-                  , "#4393c3" // light blue
-                  , "#d95f02" // More colors for unanticipated values
-                  , "#7570b3"
-                  , "#e7298a"
-                ])
+            container.selectAll(".legend ul")
+                .style("display", function() {
+                    return d3.select(this).classed("legend-" + datum.legend)
+                      ? null
+                      : "none"
+                    ;
+                  })
             ;
-        } else {
-            colorScale = d3.scaleOrdinal()
-                .domain([
-                  "Missing Data"
-                  , "Partial Grant"
-                  , "Matching Funds"
-                  , "Full Public Financing"
-                ])
-                .range([
-                  "gray" // Missing Data - gray
-                  , "#053061" // Partial Grant - dark blue
-                  , "#2166ac" // Matching Funds - medium blue
-                  , "#4393c3" // Full Public Financing - light blue
-                  , "#d95f02" // More colors for unanticipated values
-                  , "#7570b3"
-                  , "#e7298a"
-                ])
+            container.select(".field-description")
+                .html(datum.note ? (datum.question + "*\n\n* " + datum.note) : datum.question)
             ;
-        }
-        return colorScale;
-    }
-
-    fetchPublicFinancingFields(function(fields) {
-        initSection('public-financing', fields, getColorScale);
-    });
+            grid
+                .colorScale(colorScale[datum.legend])
+                .selectedColumn(val)
+                .selectedColumnLabel(val)
+              () // Call grid()
+            ;
+          })
+      .selectAll("option")
+        .datum(function() { return this.dataset; })
+    ;
 } // initPublicFinancingSection()
 
 function initOtherRestrictionsSection(data) {
@@ -525,24 +516,5 @@ function initOtherRestrictionsSection(data) {
         .datum(function() { return this.dataset; })
     ;
 } // initOtherRestrictionsSection()
-
-// Fetch and cache the CSV file at the given path.
-var fetchFields = function (csvPath){
-    var cachedData;
-    return function(callback) {
-        if(cachedData) {
-            callback(cachedData);
-        } else {
-            d3.csv(csvPath, function(data) {
-                cachedData = data;
-                callback(cachedData);
-            });
-        }
-    };
-};
-
-var fetchDisclosureFields = fetchFields("../data/disclosure-fields.csv");
-var fetchPublicFinancingFields = fetchFields("../data/public-financing-fields.csv");
-var fetchOtherRestrictionsFields = fetchFields("../data/other-restrictions-fields.csv");
 
 }());
