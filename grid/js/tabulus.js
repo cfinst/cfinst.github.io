@@ -7,7 +7,7 @@ function Tabulus() {
       , grid
       , dropdown
       , section
-      , query = { question: null, label: null }
+      , query = { question: null }
     ;
     /*
     ** Main Function Object
@@ -15,42 +15,46 @@ function Tabulus() {
     function my(sel) {
         container = sel;
         dropdown = dropdown || sel.select("select")
-            .on("change", function() { update(this.value); })
+            .on("change", function(d) {
+                query.question = this.value;
+                query.answer = d3.select(this)
+                  .select("option[value='" + this.value + "']")
+                    .datum()
+                ;
+                update();
+              })
         ;
         dropdown.selectAll("option")
             .datum(function() { return this.dataset; })
-            .each(function(d) {
-                d3.select(this).select("optgroup").selectAll("option")
-                    .attr("selected", function(d, i) {
-                        return !i ? "selected" : null;
-                      })
-                ;
-                var key = this.id.split("chooser-")[1];
-                query[key] = this.value;
-              })
+          .each(function(d, i) {
+              if(!i) {
+                query.question = this.value;
+                query.answer = d;
+              }
+            })
         ;
+        update();
     } // my()
 
     /*
     * Private Helper Functions
     */
-    function update(val) {
-        datum = dropdown.select("option[value='" + val + "']").datum();
+    function update() {
         container.selectAll(".legend ul")
             .style("display", function() {
-                return d3.select(this).classed("legend-" + datum.legend)
+                return d3.select(this).classed("legend-" + query.answer.legend)
                   ? null
                   : "none"
                 ;
               })
         ;
         container.select(".field-description")
-            .html(datum.note ? (datum.question + "*\n\n* " + datum.note) : datum.question)
+            .html(query.answer.note ? (query.answer.question + "*\n\n* " + query.answer.note) : query.answer.question)
         ;
         grid
-            .colorScale(colorScale[datum.legend])
-            .selectedColumn(val)
-            .selectedColumnLabel(val)
+            .colorScale(colorScale[query.answer.legend])
+            .selectedColumn(query.question)
+            .selectedColumnLabel(query.answer.label)
           () // Call grid()
         ;
     } // update()
