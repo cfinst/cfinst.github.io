@@ -243,7 +243,7 @@ function initContributionLimitsSection(data) {
             {% for legend in scale[1] %}
               {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
               {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
-                {{ legend[0] }}: d3.scale{% if scale == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
+                {{ legend[0] }}: d3.scaleThreshold()
                     .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
                     .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
             {% endfor %}
