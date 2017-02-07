@@ -20,14 +20,14 @@ function Tabulus() {
         dropdown.selectAll("option")
             .datum(function() { return this.dataset; })
             .each(function(d) {
-              d3.select(this).select("optgroup").selectAll("option")
-                  .attr("selected", function(d, i) {
-                      return !i ? "selected" : null;
-                    })
-              ;
-              var key = this.id.split("chooser-")[1];
-              query[key] = this.value;
-            })
+                d3.select(this).select("optgroup").selectAll("option")
+                    .attr("selected", function(d, i) {
+                        return !i ? "selected" : null;
+                      })
+                ;
+                var key = this.id.split("chooser-")[1];
+                query[key] = this.value;
+              })
         ;
     } // my()
 
