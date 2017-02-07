@@ -2,7 +2,7 @@
   {% for group in controls %}{% capture num %}{{ group.dropdowns | size }}{% endcapture %}
   <div class="form-group controls-{{ group.group }}">
     {% for control in group.dropdowns %}
-      {% include questions/multiple-dropdowns.html %}
+      {% include questions/multiple-choices.html %}
     {% endfor %}
   </div><!--.form-group-->
   {% endfor %}
