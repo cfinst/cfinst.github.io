@@ -11,7 +11,12 @@ var grid = Grid().tooltipContent(tooltipContent)
       "downloadAllLimits",
       "navigate"
     )
+  , tabs = {}
 ;
+// {% capture tabs %}{% for tab in site.data.tabs %}{{ tab.section }},{% endfor %}{% endcapture %}
+liquidToArray('{{ tabs }}').forEach(function(tab) {
+    tabs[tab] = Tabulus();
+});
 
 // Load the data and kick-off the visualization.
 d3.queue()
@@ -250,24 +255,24 @@ function setupTabNavigation() {
 } // setupTabNavigation()
 
 function initContributionLimitsSection(data) {
-  // {% for section in site.data.sections %}
-  //   {% if section[0] == 'contribution-limits' %}
-  //     {% for legend in section[1].legends %}
-  //       {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
-  //       {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
-  //     {% endfor %}
-  //     {% capture abbrs %}{% for group in section[1].controls %}{% for dropdown in group.dropdowns %}{% for option in dropdown.options %}{% if option.abbr %}{{ option.abbr }}: {{ option.text }},{% endif %}{% endfor %}{% endfor %}{% endfor %}{% endcapture %}
-  //   {% endif %}
-  // {% endfor %}
-    var bins = liquidToArray("{{ bins | strip }}")
-        .map(function(d) { return +d + 1; })
-      , colors = liquidToArray('{{ colors | strip }}')
-    ;
-    var colorScale = d3.scaleThreshold()
-          .domain(bins)
-          .range(colors)
+    var colorScale = {
+          {% for section in site.data.sections %}{% if section[0] == 'contribution-limits' %}
+            {% for scale in section[1].legends %}
+              {% assign outer = forloop.index %}
+            {% for legend in scale[1] %}
+              {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+              {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
+                {{ legend[0] }}: d3.scale{% if scale == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
+                    .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
+                    .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
+            {% endfor %}
+            {% unless forloop.last %},{% endunless %}
+            {% endfor %}
+            {% capture abbrs %}{% for group in section[1].controls %}{% for dropdown in group.dropdowns %}{% for option in dropdown.options %}{% if option.abbr %}{{ option.abbr }}: {{ option.text }},{% endif %}{% endfor %}{% endfor %}{% endfor %}{% endcapture %}
+          {% endif %}{% endfor %}
+        }
+      , abbrs = liquidToMap('{{ abbrs | strip }}')
       , query = {}
-      , abbrs = liquidToMap("{{ abbrs | strip }}")
     ;
     d3.selectAll("#contribution-limits select")
         .each(function(d) {
@@ -293,7 +298,7 @@ function initContributionLimitsSection(data) {
           })
     ;
     grid
-        .colorScale(colorScale)
+        .colorScale(colorScale.default)
         .selectedColumn(querify())
         .selectedColumnLabel(labelify())
       () // Call grid()
@@ -343,178 +348,70 @@ function initSection(section, fields, getColorScale){
             updateSelectedField(i);
           })
     ;
-    // Initialize the content by selecting the first field in the list.
-    updateSelectedField(dropdown.node().value);
 } // initSection()
 
 function initDisclosuresSection() {
-  // {% for section in site.data.sections %}
-  //   {% if section[0] == 'disclosure' %}
-  //     {% for legend in section[1].legends %}
-  //       {% if legend[0] == 'smallmoney' %}
-  //         {% capture smallbins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
-  //         {% capture smallcolors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
-  //       {% elsif legend[0] == 'bigmoney' %}
-  //         {% capture bigbins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
-  //         {% capture bigcolors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
-  //       {% else %}
-  //         {% capture yesnobins %}{% for item in legend[1] %}{{ item.label }},{% endfor %}{% endcapture %}
-  //         {% capture yesnocolors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
-  //       {% endif %}
-  //     {% endfor %}
-  //   {% endif %}
-  // {% endfor %}
     var colorScale = {
-              smallmoney: d3.scaleThreshold()
-                        .domain(liquidToArray('{{ smallbins }}').map(function(d) { return +d + 1; }))
-                        .range(liquidToArray('{{ smallcolors }}'))
-            , bigmoney: d3.scaleThreshold()
-                        .domain(liquidToArray('{{ bigbins }}').map(function(d) { return +d + 1; }))
-                        .range(liquidToArray('{{ bigcolors }}'))
-            , yesno: d3.scaleOrdinal()
-                        .domain(liquidToArray('{{ yesnobins }}'))
-                        .range(liquidToArray('{{ yesnocolors }}'))
-          }
-    ;
-    colorScale.smallmoney.emptyValue = colorScale.bigmoney.emptyValue = -Infinity;
-
-    var container = d3.select("#disclosure")
-      , dropdown = container.select("select")
-    ;
-    dropdown
-        .on("change", function() {
-            var val = this.value
-              , self = d3.select(this)
-              , datum = self.select("option[value='" + val + "']").datum()
-            ;
-            container.selectAll(".legend ul")
-                .style("display", function() {
-                    return d3.select(this).classed("legend-" + datum.legend)
-                      ? null
-                      : "none"
-                    ;
-                  })
-            ;
-            container.select(".field-description")
-                .html(datum.note ? (datum.question + "*\n\n* " + datum.note) : datum.question)
-            ;
-            grid
-                .colorScale(colorScale[datum.legend])
-                .selectedColumn(val)
-                .selectedColumnLabel(val)
-              () // Call grid()
-            ;
-          })
-      .selectAll("option")
-        .datum(function() { return this.dataset; })
+      {% for section in site.data.sections %}{% if section[0] == 'disclosure' %}
+        {% for scale in section[1].legends %}
+          {% assign outer = forloop.index %}
+        {% for legend in scale[1] %}
+          {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+          {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
+            {{ legend[0] }}: d3.scale{% if scale == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
+                .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
+                .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
+        {% endfor %}
+        {% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      {% endif %}{% endfor %}
+    };
+    colorScale.small.emptyValue = colorScale.big.emptyValue = -Infinity;
+    d3.select("#disclosure")
+        .call(tabs.disclosure.colorScale(colorScale).grid(grid))
     ;
 } // initDisclosuresSection()
 
 function initPublicFinancingSection(data) {
-  // {% for section in site.data.sections %}
-  //   {% if section[0] == 'public-financing' %}
-  //     {% for legend in section[1].legends %}
-  //       {% if legend[0] == 'logical' %}
-  //         {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
-  //         {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
-  //       {% elsif legend[0] == 'taxes' %}
-  //         {% capture taxbins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
-  //         {% capture taxcolors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
-  //       {% else %}
-  //         {% capture finbins %}{% for item in legend[1] %}{{ item.label }},{% endfor %}{% endcapture %}
-  //         {% capture fincolors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
-  //       {% endif %}
-  //     {% endfor %}
-  //   {% endif %}
-  // {% endfor %}
     var colorScale = {
-              logical: d3.scaleThreshold()
-                        .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
-                        .range(liquidToArray('{{ colors }}'))
-            , taxes: d3.scaleThreshold()
-                        .domain(liquidToArray('{{ taxbins }}').map(function(d) { return +d + 1; }))
-                        .range(liquidToArray('{{ taxcolors }}'))
-            , financing: d3.scaleOrdinal()
-                        .domain(liquidToArray('{{ finbins }}'))
-                        .range(liquidToArray('{{ fincolors }}'))
-          }
-    ;
-    var container = d3.select("#public-financing")
-      , dropdown = container.select("select")
-    ;
-    dropdown
-        .on("change", function() {
-            var val = this.value
-              , self = d3.select(this)
-              , datum = self.select("option[value='" + val + "']").datum()
-            ;
-            container.selectAll(".legend ul")
-                .style("display", function() {
-                    return d3.select(this).classed("legend-" + datum.legend)
-                      ? null
-                      : "none"
-                    ;
-                  })
-            ;
-            container.select(".field-description")
-                .html(datum.note ? (datum.question + "*\n\n* " + datum.note) : datum.question)
-            ;
-            grid
-                .colorScale(colorScale[datum.legend])
-                .selectedColumn(val)
-                .selectedColumnLabel(val)
-              () // Call grid()
-            ;
-          })
-      .selectAll("option")
-        .datum(function() { return this.dataset; })
+      {% for section in site.data.sections %}{% if section[0] == 'public-financing' %}
+      {% for scale in section[1].legends %}
+        {% assign outer = forloop.index %}
+        {% for legend in scale[1] %}
+          {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+          {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
+            {{ legend[0] }}: d3.scale{% if scale == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
+                .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
+                .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
+        {% endfor %}
+        {% unless forloop.last %},{% endunless %}
+      {% endfor %}
+      {% endif %}{% endfor %}
+    };
+    d3.select("#public-financing")
+        .call(tabs["public-financing"].colorScale(colorScale).grid(grid))
     ;
 } // initPublicFinancingSection()
 
 function initOtherRestrictionsSection(data) {
-  // {% for section in site.data.sections %}
-  //   {% if section[0] == 'other-restrictions' %}
-  //     {% for legend in section[1].legends %}
-  //         {% capture bins %}{% for item in legend[1] %}{{ item.label }},{% endfor %}{% endcapture %}
-  //         {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
-  //     {% endfor %}
-  //   {% endif %}
-  // {% endfor %}
-
-    var colorScale = d3.scaleOrdinal()
-            .domain(liquidToArray('{{ bins }}'))
-            .range(liquidToArray('{{ colors }}'))
-    ;
-    var container = d3.select("#other-restrictions  ")
-      , dropdown = container.select("select")
-    ;
-    dropdown
-        .on("change", function() {
-            var val = this.value
-              , self = d3.select(this)
-              , datum = self.select("option[value='" + val + "']").datum()
-            ;
-            container.selectAll(".legend ul")
-                .style("display", function() {
-                    return d3.select(this).classed("legend-" + datum.legend)
-                      ? null
-                      : "none"
-                    ;
-                  })
-            ;
-            container.select(".field-description")
-                .html(datum.note ? (datum.question + "*\n\n* " + datum.note) : datum.question)
-            ;
-            grid
-                .colorScale(colorScale)
-                .selectedColumn(val)
-                .selectedColumnLabel(val)
-              () // Call grid()
-            ;
-          })
-      .selectAll("option")
-        .datum(function() { return this.dataset; })
-    ;
+  var colorScale = {
+    {% for section in site.data.sections %}{% if section[0] == 'other-restrictions' %}
+    {% for scale in section[1].legends %}
+      {% assign outer = forloop.index %}
+      {% for legend in scale[1] %}
+        {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+        {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
+          {{ legend[0] }}: d3.scale{% if scale == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
+              .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
+              .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
+      {% endfor %}
+      {% unless forloop.last %},{% endunless %}
+    {% endfor %}
+    {% endif %}{% endfor %}
+  };
+  d3.select("#other-restrictions")
+      .call(tabs["other-restrictions"].colorScale(colorScale).grid(grid))
+  ;
 } // initOtherRestrictionsSection()
 
 }());
