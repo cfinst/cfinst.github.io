@@ -1,5 +1,5 @@
-svg {
-    display: block;
+#visualization .panel-body {
+    padding: 0;
 }
 .grid-rect {
     transition:
@@ -48,8 +48,22 @@ svg {
 .field-description {
     font-size: 1.2em;
     line-height: 1.4em;
+    background-color: white;
+    background-image: none; /* Overrides Bootstrap wells background gradient. */
+    margin-bottom: 0px;
 }
 .year-sort-instruction {
     font-size: 1.4em;
     line-height: 1.4em;
+}
+.legend li {
+    font-size: 1.4em;
+    margin: 0.2em;
+}
+.legend li svg {
+    width: 20px;
+    height: 20px;
+}
+.legend li span {
+    vertical-align: text-top;
 }

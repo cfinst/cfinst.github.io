@@ -1,0 +1,32 @@
+- name: AggCandLimit
+  legend: default
+  question: Is there an aggregate limit on contributions from a donor to all candidates in the state in a given time period?
+  label: Aggregate Limit from Donor to all Cand.?
+- name: DoingBusinessLimits
+  legend: default
+  question: Are contribution limits lower for people or organizations doing business with the state?
+  label: Separate Contribution Limits for those dong business with State?
+- name: Lobbyist_Limits
+  legend: default
+  question: Does the law contain special contribution limits or prohibitions for lobbyists?
+  label: Special restrictions for lobbyists?
+- name: ContLegisSession
+  legend: default
+  question: Are there restrictions on accepting contributions or holding fundraising event during the legislative session?
+  label: Special restrictions during legislative session?
+- name: CorpExpendProhibit
+  legend: default
+  question: Are corporations prohibited from making political expenditures from their treasuries?
+  label: Corporate Expenditures Prohibited?
+- name: LaborExpendProhib
+  legend: default
+  question: Are labor unions prohibited from making political expenditures from their treasuries?
+  label: Labor Expenditures Prohibited?
+- name: Session_Limit
+  legend: default
+  question: Does the law prohibit or limit fundraising during the legislative session?
+  label: Restrictions During Legislative Session?
+- name: ForeignNationalCont
+  legend: default
+  question: Are contributions from foreign nationals prohibited?
+  label: Contributions Allowed from Foreign Nationals?

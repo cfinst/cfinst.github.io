@@ -1,3 +1,5 @@
+---
+---
 (function () {
 var grid = Grid().tooltipContent(tooltipContent)
   , atlas = Atlas().tooltipContent(tooltipContent)
@@ -9,7 +11,12 @@ var grid = Grid().tooltipContent(tooltipContent)
       "downloadAllLimits",
       "navigate"
     )
+  , tabs = {}
 ;
+// {% capture tabs %}{% for tab in site.data.tabs %}{{ tab.section }},{% endfor %}{% endcapture %}
+liquidToArray('{{ tabs }}').forEach(function(tab) {
+    tabs[tab] = Tabulus();
+});
 
 // Load the data and kick-off the visualization.
 d3.queue()
@@ -65,12 +72,10 @@ function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosur
     // Initialize the navigation state.
     var defaultSection = "contribution-limits";
     var section = getQueryVariables().section || defaultSection;
-    signal.call("navigate", null, section);
-    d3.selectAll(".nav li")
-        .classed("active", function() {
-            // Set the initial active tab
-            return d3.select(this).select("a").attr("aria-controls") === section;
-          })
+
+    d3.select("a[href='#" + section + "']")
+      .node()
+      .click()
     ;
 } // visualize()
 
@@ -85,7 +90,6 @@ function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclo
             .map(d3.merge([contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other]))
             .values()
     ;
-
     grid
         .svg(d3.select("svg#main"))
         .data(data)
@@ -122,7 +126,7 @@ function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclo
     signal.on("navigate.vis", function (section) {
 
         // Clear out the data-driven form controls.
-        d3.select("#controls-form").selectAll("*").remove();
+        // d3.select("#controls-form").selectAll("*").remove();
 
         // Initialize the section navigated to.
         switch(section) {
@@ -159,8 +163,48 @@ function carto (usa){
 // Helper Utility Functions
 function identity(d) { return d; }
 
+// Capture URL query param
+function getQueryVariables() {
+    var vars = {}
+      , query = window.location.search.substring(1).toLowerCase().split("&")
+      , arg // loop variable
+
+    ;
+    query.forEach(function(q) {
+        arg = q.split("=");
+        if(arg[0].length && arg[1].length)
+            vars[arg[0]] = decodeURIComponent(arg[1]);
+      })
+    ;
+    return vars;
+} // getQueryVariables()
+
+// Convert a formatted liquid template string into a usable array for Javascript
+//  Basically, it takes a list of strings and splits into an array
+function liquidToArray(str) {
+    return str
+      .split(',')
+      .filter(identity)
+    ;
+} // liquidToArray()
+
+// Convert a formatted liquid template string into a usable hash for Javascript
+// Convert a list of key:value pairs (separated by a ':' and generates a Map)
+function liquidToMap(str) {
+    return new Map(liquidToArray(str)
+        .map(function(d) {
+            return d.split(':')
+                .map(function(e) { return e.trim(); })
+            ;
+          })
+      )
+    ;
+} // liquidToMap()
+
+
 // Causes the given data to be downloaded as a CSV file with the given name.
-// Draws from http://stackoverflow.com/questions/12676649/javascript-programmatically-trigger-file-download-in-firefox
+// Draws from
+// http://stackoverflow.com/questions/12676649/javascript-programmatically-trigger-file-download-in-firefox
 function downloadCSV(data, filename) {
     var csvStr = toCSV(data);
     var dataURL = "data:text," + encodeURIComponent(csvStr);
@@ -192,93 +236,40 @@ function setupTabNavigation() {
 } // setupTabNavigation()
 
 function initContributionLimitsSection(data) {
-    var requested_columns = [
-            "IndividualToCandLimit_H_Max"
-              , "IndividualToCandLimit_S_Max"
-              , "IndividualToCandLimit_G_Max"
-              , "PACToCandLimit_H_Max"
-              , "PACToCandLimit_S_Max"
-              , "PACToCandLimit_G_Max"
-              , "CorpToCandLimit_H_Max"
-              , "CorpToCandLimit_S_Max"
-              , "CorpToCandLimit_G_Max"
-              , "LaborToCandLimit_H_Max"
-              , "LaborToCandLimit_S_Max"
-              , "LaborToCandLimit_G_Max"
-              , "IndividualToPartyLimit_Max"
-              , "CorpToPartyLimit_Max"
-              , "LaborToPartyLimit_Max"
-              , "IndividualToPACLimit_Max"
-              , "CorpToPACLimit_Max"
-              , "LaborToPACLimit_Max"
-          ]
-      , columnsRaw = d3.keys(data[0])
-            .filter(function(c) { return c.endsWith("_Max"); })
-            .filter(function(c) { return ~requested_columns.indexOf(c); })
-      , columns = columnsRaw
-            .map(function(c) {
-                var ret = c
-                        .split("Limit_Max")[0]
-                        .split("_Max")[0]
-                        .split("To")
-                  , receiver = ret[1].split("Limit_")
-                ;
-                return [ret[0], receiver[0], receiver[1]];
-              })
+    var colorScale = {
+          {% for section in site.data.sections %}{% if section[0] == 'contribution-limits' %}
+            {% for scale in section[1].legends %}
+              {% assign outer = forloop.index %}
+            {% for legend in scale[1] %}
+              {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+              {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
+                {{ legend[0] }}: d3.scaleThreshold()
+                    .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
+                    .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
+            {% endfor %}
+            {% unless forloop.last %},{% endunless %}
+            {% endfor %}
+            {% capture abbrs %}{% for group in section[1].controls %}{% for dropdown in group.dropdowns %}{% for option in dropdown.options %}{% if option.abbr %}{{ option.abbr }}: {{ option.text }},{% endif %}{% endfor %}{% endfor %}{% endfor %}{% endcapture %}
+          {% endif %}{% endfor %}
+        }
+      , abbrs = liquidToMap('{{ abbrs | strip }}')
+      , query = {}
     ;
-
-    var bins = [1000, 2500, 5000, 10000]
-        // Color Palettes:
-        // Blues: http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=11
-        // Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
-      , colors = [
-            "#67000d" // Prohibited - Dark red from CFI site
-            , "#053061", "#2166ac", "#4393c3", "#92c5de", "#d1e5f0" // Thresholds
-            , "#cb181d" // Unlimited - Light red
-          ]
-      , colorScale = d3.scaleThreshold()
-          .domain(
-            [0]
-                .concat(bins)
-                .concat(100000000000) // The "or greater" limit of "10,000 or greater"
-          )
-          .range(colors)
-      , query = { donor: false, recipient: false, branch: false }
-      , longNames = {
-          H: "House / Assembly"
-          , S: "Senate"
-          , G: "Governor"
-          , PAC: "Political Action Committee (PAC)"
-          , Cand: "Candidate"
-          , Corp: "Corporation"
-      }
-      , longName = function(d){ return longNames[d] || d; }
-    ;
-
-    // Signal the custom threshold legend rendering in grid.
-    colorScale.bins = bins;
-
-    var chooserGroup = d3.select("#controls-form")
-      .selectAll("div")
-        .data(d3.keys(query), identity)
-      .enter().append("div")
-        .attr("class", "form-group")
-    ;
-
-    chooserGroup.append("label")
-        .attr("class", "col-sm-2 control-label")
-        .text(function (d) {
-            return d[0].toUpperCase() + d.substr(1);
-        })
-    ;
-
-    chooserGroup
-      .append("div")
-        .attr("class", "col-sm-10")
-      .append("select")
-        .attr("class", "chooser form-control")
-        .attr("id", function(d) { return "chooser-" + d; })
+    d3.selectAll("#contribution-limits select")
+        .each(function(d) {
+            d3.select(this).select("optgroup").selectAll("option")
+                .attr("selected", function(d, i) {
+                    return !i ? "selected" : null;
+                  })
+            ;
+            var key = this.id.split("chooser-")[1];
+            query[key] = this.value;
+          })
         .on("change", function() {
+            if(this.id === "chooser-donor")
+                // State Party cannot donate to local party, so disable those
+                disablePartyAsRecipient(this.value === "StateP");
+
             query[this.id.split("chooser-")[1]] = this.value;
             grid
                 .selectedColumn(querify(), true)
@@ -286,319 +277,110 @@ function initContributionLimitsSection(data) {
               () // call grid()
             ;
           })
-        .each(function(d, i) {
-            var opts = d3.set(
-                    columns
-                      .map(function(c) { return c[i]; })
-                      .filter(identity)
-                  )
-                .values()
-            ;
-            d3.select(this)
-              .append("optgroup")
-                .attr("label", "Select a " + d)
-              .selectAll("option")
-                .data(opts, identity)
-              .enter().append("option")
-                .attr("value", identity)
-                .text(longName)
-            ;
-        })
     ;
-    d3.selectAll("form select")
-        .each(function() {
-            var key = this.id.split("-")[1];
-            query[key] = this.value;
-          })
-    ;
-
     grid
-        .colorScale(colorScale)
+        .colorScale(colorScale.default)
         .selectedColumn(querify())
         .selectedColumnLabel(labelify())
       () // Call grid()
     ;
 
     function querify() {
-        var col = query.donor + "To" + query.recipient + "Limit"
+        var col = query["donor"] + "To" + query["recipient"] + "Limit"
           , branch = !d3.map(data[0]).has([col + "_Max"])
         ;
-        d3.select("#chooser-branch")
+        d3.select("#chooser-recipient-branch")
             .attr("disabled", !branch || null)
-            .property("value", !branch ? "" : query.branch)
+            .property("value", !branch ? "" : query["recipient-branch"])
         ;
-        return col + (branch ? "_" + query.branch : "") + "_Max";
+        return col + (branch ? "_" + query["recipient-branch"] : "") + "_Max";
     } // querify()
 
     function labelify() {
-        var col = query.donor + "To" + query.recipient + "Limit"
+        var col = query["donor"] + "To" + query["recipient"] + "Limit"
           , branch = !d3.map(data[0]).has([col + "_Max"])
         var label = [
-          longName(query.donor)
+          abbreviate(query["donor"])
           , " to "
-          , longName(query.recipient)
-          , branch ? (" (" + longName(query.branch) + ")") : ""
+          , abbreviate(query["recipient"])
+          , branch ? (" (" + abbreviate(query["recipient-branch"]) + ")") : ""
         ].join("");
         return label;
     } // labelify()
+
+    function abbreviate(str) {
+        return abbrs.get(str) || str;
+    } // abbreviate()
+    function disablePartyAsRecipient(bool) {
+        d3.select("#chooser-recipient").select("option[value='Party']")
+            .property("disabled", bool)
+            .style("visibility", bool ? "hidden" : "visible")
+        ;
+    } // disablePartyAsRecipient()
 } // initContributionLimitsSection()
 
-// Capture URL query param
-function getQueryVariables() {
-    var inits = {}
-      , query = window.location.search.substring(1).toLowerCase().split("&")
-      , arg // loop variable
-
+function initDisclosuresSection() {
+    var colorScale = {
+      {% for section in site.data.sections %}{% if section[0] == 'disclosure' %}
+        {% for scale in section[1].legends %}
+          {% assign outer = forloop.index %}
+        {% for legend in scale[1] %}
+          {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+          {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
+            {{ legend[0] }}: d3.scale{% if scale == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
+                .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
+                .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
+        {% endfor %}
+        {% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      {% endif %}{% endfor %}
+    };
+    colorScale.small.emptyValue = colorScale.big.emptyValue = -Infinity;
+    d3.select("#disclosure")
+        .call(tabs.disclosure.colorScale(colorScale).grid(grid))
     ;
-    query.forEach(function(q) {
-        arg = q.split("=");
-        if(arg[0].length && arg[1].length)
-            inits[arg[0]] = decodeURIComponent(arg[1]);
-      })
-    ;
-    return inits;
-} // getQueryVariables()
-
-// Set up the form with controls for choosing fields.
-// This is used in all tabs other than Contribution Limits.
-function initSection(fields, getColorScale){
-
-    // Initialize the controls form DOM skeleton.
-    setupControlsForm();
-
-    // Initialize the content by selecting the first field in the list.
-    updateSelectedField(fields[0]);
-
-    function setupControlsForm(){
-        var form = d3.select("#controls-form");
-
-        var chooserGroup = form.append("div")
-            .attr("class", "form-group")
-        ;
-        chooserGroup.append("label")
-            .attr("class", "col-sm-2 control-label")
-            .text("Question")
-        ;
-
-        var descriptionGroup = form.append("div")
-            .attr("class", "form-group")
-        ;
-        descriptionGroup.append("label")
-            .attr("class", "col-sm-2 control-label")
-            .text("Description")
-        ;
-        var descriptionContainer = descriptionGroup
-          .append("div")
-            .attr("class", "col-sm-10")
-          .append("p")
-            .attr("class", "field-description")
-        ;
-
-        chooserGroup
-          .append("div")
-            .attr("class", "col-sm-10")
-          .append("select")
-            .attr("class", "chooser form-control")
-            .on("change", function() {
-                var i = this.value;
-                updateSelectedField(fields[i]);
-              })
-            .selectAll("option")
-              .data(fields)
-            .enter().append("option")
-              .attr("value", function(d, i) { return i; })
-              .text(function(d) { return d["Short Label"]; })
-        ;
-    }
-
-    function updateSelectedField(d){
-
-        // Update the description displayed for the selected field.
-        d3.select(".field-description")
-            .text(d["Question on Data Entry Form"]);
-
-        // Pass the selected field into the visualizations.
-        grid
-            .selectedColumn(d["Field Name"])
-            .selectedColumnLabel(d["Short Label"])
-            .colorScale(getColorScale(d))
-          () // call grid()
-        ;
-    }
-} // initSection()
-
-function initDisclosuresSection(data) {
-
-    function getColorScale(d){
-        var colorScale;
-        if(d["Value Type"] === "Dollar Amount"){
-
-            // Use smaller bins for donor exemption fields.
-            var useSmallBins = ~d["Field Name"].indexOf("DonorExemption")
-
-            var bins = useSmallBins ? [50, 100, 200, 500] : [1000, 2500, 5000, 10000]
-                // Color Palettes:
-                // Blues: http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=11
-                // Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
-              , colors = [
-                    "#67000d" // Prohibited - Dark red from CFI site
-                    , "#053061", "#2166ac", "#4393c3", "#92c5de", "#d1e5f0" // Thresholds
-                    , "#cb181d" // Unlimited - Light red
-                  ]
-            colorScale = d3.scaleThreshold()
-              .domain(
-                [0]
-                    .concat(bins)
-                    .concat(100000000000) // The "or greater" limit
-              )
-              .range(colors)
-            ;
-
-            // Signal the custom threshold legend rendering in grid.
-            colorScale.bins = bins;
-            colorScale.emptyValue = -Infinity;
-            colorScale.lowerBoundLabel = "$0";
-        } else {
-            colorScale = d3.scaleOrdinal()
-                .domain([
-                  "No"
-                  , "Changed mid-cycle"
-                  , "Yes"
-                  , "Missing Data"
-                ])
-                .range([
-                  "#053061" // No - dark blue
-                  , "#2166ac" // Changed mid-cycle - medium blue
-                  , "#4393c3" // Yes - light blue
-                  , "gray" // Missing Data - gray
-                  , "#d95f02" // More colors for unanticipated values
-                  , "#7570b3"
-                  , "#e7298a"
-                ])
-            ;
-        }
-        return colorScale;
-    }
-
-    fetchDisclosureFields(function(fields) {
-        initSection(fields, getColorScale);
-    });
 } // initDisclosuresSection()
 
 function initPublicFinancingSection(data) {
-
-    function getColorScale(d){
-        var selectedColumn = d["Field Name"];
-        var colorScale;
-
-        // Custom color scale for "Public Funds for State Parties?" (PublicFunding_P)
-        if(selectedColumn === "PublicFunding_P"){
-            colorScale = d3.scaleOrdinal()
-                .domain([
-                  "No"
-                  , "Changed mid-cycle"
-                  , "Yes"
-                  , "Missing Data"
-                ])
-                .range([
-                  "#053061" // No - dark blue
-                  , "#2166ac" // Changed mid-cycle - medium blue
-                  , "#4393c3" // Yes - light blue
-                  , "gray" // Missing Data - gray
-                  , "#d95f02" // More colors for unanticipated values
-                  , "#7570b3"
-                  , "#e7298a"
-                ])
-            ;
-        } else if(selectedColumn === "RefundOrTaxCreditOrTaxDeduction"){
-            colorScale = d3.scaleOrdinal()
-                .domain([
-                  "Missing Data"
-                  , "None"
-                ])
-                .range([
-                  "gray" // Missing Data - gray
-                  , "gray" // None - gray
-                  , "#053061" // dark blue
-                  , "#2166ac" // medium blue
-                  , "#4393c3" // light blue
-                  , "#d95f02" // More colors for unanticipated values
-                  , "#7570b3"
-                  , "#e7298a"
-                ])
-            ;
-        } else {
-            colorScale = d3.scaleOrdinal()
-                .domain([
-                  "Missing Data"
-                  , "Partial Grant"
-                  , "Matching Funds"
-                  , "Full Public Financing"
-                ])
-                .range([
-                  "gray" // Missing Data - gray
-                  , "#053061" // Partial Grant - dark blue
-                  , "#2166ac" // Matching Funds - medium blue
-                  , "#4393c3" // Full Public Financing - light blue
-                  , "#d95f02" // More colors for unanticipated values
-                  , "#7570b3"
-                  , "#e7298a"
-                ])
-            ;
-        }
-        return colorScale;
-    }
-
-    fetchPublicFinancingFields(function(fields) {
-        initSection(fields, getColorScale);
-    });
+    var colorScale = {
+      {% for section in site.data.sections %}{% if section[0] == 'public-financing' %}
+      {% for scale in section[1].legends %}
+        {% assign outer = forloop.index %}
+        {% for legend in scale[1] %}
+          {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+          {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
+            {{ legend[0] }}: d3.scale{% if scale == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
+                .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
+                .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
+        {% endfor %}
+        {% unless forloop.last %},{% endunless %}
+      {% endfor %}
+      {% endif %}{% endfor %}
+    };
+    d3.select("#public-financing")
+        .call(tabs["public-financing"].colorScale(colorScale).grid(grid))
+    ;
 } // initPublicFinancingSection()
 
 function initOtherRestrictionsSection(data) {
-
-    function getColorScale(d){
-        var colorScale = d3.scaleOrdinal()
-                .domain([
-                  "No"
-                  , "Changed mid-cycle"
-                  , "Yes"
-                  , "Missing Data"
-                ])
-                .range([
-                  "#053061" // No - dark blue
-                  , "#2166ac" // Changed mid-cycle - medium blue
-                  , "#4393c3" // Yes - light blue
-                  , "gray" // Missing Data - gray
-                  , "#d95f02" // More colors for unanticipated values
-                  , "#7570b3"
-                  , "#e7298a"
-                ])
-            ;
-        return colorScale;
-    }
-
-    fetchOtherRestrictionsFields(function(fields) {
-        initSection(fields, getColorScale);
-    });
+  var colorScale = {
+    {% for section in site.data.sections %}{% if section[0] == 'other-restrictions' %}
+    {% for scale in section[1].legends %}
+      {% assign outer = forloop.index %}
+      {% for legend in scale[1] %}
+        {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+        {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
+          {{ legend[0] }}: d3.scale{% if scale == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
+              .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
+              .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
+      {% endfor %}
+      {% unless forloop.last %},{% endunless %}
+    {% endfor %}
+    {% endif %}{% endfor %}
+  };
+  d3.select("#other-restrictions")
+      .call(tabs["other-restrictions"].colorScale(colorScale).grid(grid))
+  ;
 } // initOtherRestrictionsSection()
-
-// Fetch and cache the CSV file at the given path.
-var fetchFields = function (csvPath){
-    var cachedData;
-    return function(callback) {
-        if(cachedData) {
-            callback(cachedData);
-        } else {
-            d3.csv(csvPath, function(data) {
-                cachedData = data;
-                callback(cachedData);
-            });
-        }
-    };
-};
-
-var fetchDisclosureFields = fetchFields("../data/disclosure-fields.csv");
-var fetchPublicFinancingFields = fetchFields("../data/public-financing-fields.csv");
-var fetchOtherRestrictionsFields = fetchFields("../data/other-restrictions-fields.csv");
 
 }());

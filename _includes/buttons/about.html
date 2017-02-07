@@ -1,11 +1,10 @@
-<form class="form-horizontal">
-  <div class="form-group">
-    {% for button in site.data.buttons.about %}
-    <div class="col-sm-6">
-      <button id="{{ button.name }}-button" type="button" class="btn btn-primary btn-block col-sm-2" data-toggle="modal" data-target="#about-modal">
-        {{ button.text }}
-      </button>
-    </div>
-    {% endfor %}
-  </div><!--.form-group-->
-</form>
+{% for button in site.data.buttons.about %}
+  <a id="{{ section[0] }}-{{ button.name }}-button"
+        class="btn btn-default btn-block"
+        role="button"
+        data-toggle="modal"
+        href="../modals/{{ section[0] }}-{{ button.name }}.html"
+        data-target="#{{ section[0] }}-{{ button.name }}-modal">
+    {{ button.text }}
+  </a>
+{% endfor %}

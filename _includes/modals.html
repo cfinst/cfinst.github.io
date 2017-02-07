@@ -1,0 +1,8 @@
+{% for button in site.data.buttons.about %}{% comment %}Generate the Modals{% endcomment %}
+<div class="modal fade" id="{{ section[0] }}-{{ button.name }}-modal"
+    tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"></div><!--.modal-content-->
+  </div><!--.modal-dialog-->
+</div><!--.modal-{{ button.name }}-->
+{% endfor %}

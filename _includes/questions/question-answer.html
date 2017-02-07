@@ -1,0 +1,20 @@
+<div class="col-sm-12">
+  <label class="control-label">Question</label>
+  <select class="chooser form-control">
+    <optgroup label="Select a Question">
+    {% for question in controls %}
+      <option value="{{ question.name }}"
+           data-legend="{{ question.legend }}"
+           data-question="{{ question.question }}"
+           data-note='{{ question.note }}'
+           data-label='{{ question.label }}'>{{ question.label }}</option>
+    {% endfor %}
+  </optgroup>
+  </select>
+</div><!--.col-sm-12-->
+</div><!--.form-group-->
+<div class="form-group">
+<div class="col-sm-12">
+  <label class="control-label">Description</label>
+  <div class="field-description well well-sm"></div>
+</div><!--.col-sm-12-->

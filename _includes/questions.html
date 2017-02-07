@@ -1,0 +1,13 @@
+{% if controls[0].group %}
+  {% for group in controls %}{% capture num %}{{ group.dropdowns | size }}{% endcapture %}
+  <div class="form-group controls-{{ group.group }}">
+    {% for control in group.dropdowns %}
+      {% include questions/multiple-choices.html %}
+    {% endfor %}
+  </div><!--.form-group-->
+  {% endfor %}
+{% else %}
+  <div class="form-group">
+    {% include questions/question-answer.html %}
+  </div><!--.form-group-->
+{% endif %}
