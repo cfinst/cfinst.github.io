@@ -1,29 +1,31 @@
-logical:
-  - label: "No"
-    color: "#053061"
-  - label: Changed mid-cycle
-    color: "#2166ac"
-  - label: "Yes"
-    color: "#4393c3"
-  - label: Missing Data
-    color: gray
-taxes:
-  - label: Missing Data
-    color: gray
-  - label: None
-    color: gray
-  - label: Tax Deduction
-    color: "#053061"
-  - label: Tax Credit
-    color: "#2166ac"
-  - label: Refund
-    color: "#4393c3"
-financing:
-  - label: Missing Data
-    color: gray
-  - label: Partial Grant
-    color: "#053061" # dark blue
-  - label: Matching funds
-    color: "#2166ac" # medium blue
-  - label: Full Public Financing
-    color: "#4393c3" # light blue
+threshold:
+  default:
+    - label: "No"
+      color: "#053061"
+    - label: Changed mid-cycle
+      color: "#2166ac"
+    - label: "Yes"
+      color: "#4393c3"
+    - label: Missing Data
+      color: gray
+  taxes:
+    - label: Missing Data
+      color: gray
+    - label: None
+      color: gray
+    - label: Tax Deduction
+      color: "#053061"
+    - label: Tax Credit
+      color: "#2166ac"
+    - label: Refund
+      color: "#4393c3"
+ordinal:
+  financing:
+    - label: Missing Data
+      color: gray
+    - label: Partial Grant
+      color: "#053061" # dark blue
+    - label: Matching funds
+      color: "#2166ac" # medium blue
+    - label: Full Public Financing
+      color: "#4393c3" # light blue

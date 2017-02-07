@@ -1,12 +1,13 @@
-logical:
-  - label: "No"
-    color: "#053061"
-  - label: Changed mid-cycle
-    color: "#2166ac"
-  - label: "Yes"
-    color: "#4393c3"
-  - label: Missing Data
-    color: gray
+ordinal:
+  default:
+    - label: "No"
+      color: "#053061"
+    - label: Changed mid-cycle
+      color: "#2166ac"
+    - label: "Yes"
+      color: "#4393c3"
+    - label: Missing Data
+      color: gray
   # - color: "#d95f02"
   # - color: "#7570b3"
   # - color: "#e7298a"
