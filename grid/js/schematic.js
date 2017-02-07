@@ -90,7 +90,6 @@ function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclo
             .map(d3.merge([contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other]))
             .values()
     ;
-    console.log(data);
     grid
         .svg(d3.select("svg#main"))
         .data(data)
