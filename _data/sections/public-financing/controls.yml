@@ -7,7 +7,7 @@
   question: "What type of public financing, if any, available to Gubernatorial candidates:  full public financing, partial grant, matching funds, voucher, mixed or other."
   label: Type of Public Financing - Governor
 - name: PublicFunding_P
-  legend: logical
+  legend: default
   question: Does this state provide public financing for state parties?
   label: Public Financing for State Parties?
 - name: RefundOrTaxCreditOrTaxDeduction
