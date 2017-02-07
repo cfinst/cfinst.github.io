@@ -203,24 +203,6 @@ function liquidToMap(str) {
 } // liquidToMap()
 
 
-function updateSelectedField(datum){
-    // Update the description displayed for the selected field.
-    d3.selectAll(".field-description")
-        .style("display", function() {
-            return datum.toLowerCase() == this.id ? null : "none";
-          })
-    ;
-    // Pass the selected field into the visualizations.
-    grid
-        .selectedColumn(datum)
-        .selectedColumnLabel(datum["Short Label"])
-        .colorScale(getColorScale(datum))
-      () // call grid()
-    ;
-} // updateSelectedField()
-
-
-
 // Causes the given data to be downloaded as a CSV file with the given name.
 // Draws from
 // http://stackoverflow.com/questions/12676649/javascript-programmatically-trigger-file-download-in-firefox
@@ -337,18 +319,6 @@ function initContributionLimitsSection(data) {
         ;
     } // disablePartyAsRecipient()
 } // initContributionLimitsSection()
-
-// Set up the form with controls for choosing fields.
-// This is used in all tabs other than Contribution Limits.
-function initSection(section, fields, getColorScale){
-    // Initialize the controls form DOM skeleton.
-    var dropdown = d3.select("#" + section).select("select")
-        .on("change", function() {
-            var i = this.value;
-            updateSelectedField(i);
-          })
-    ;
-} // initSection()
 
 function initDisclosuresSection() {
     var colorScale = {
