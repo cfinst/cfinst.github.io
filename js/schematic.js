@@ -20,15 +20,15 @@ liquidToArray('{{ tabs }}').forEach(function(tab) {
 
 // Load the data and kick-off the visualization.
 d3.queue()
-  .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_1.csv")
-  .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_2.csv")
-  .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_3.csv")
-  .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_1.csv")
-  .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_2.csv")
-  .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_3.csv")
-  .defer(d3.csv, "../data/CSVs/Laws_04_PublicFinancing.csv")
-  .defer(d3.csv, "../data/CSVs/Laws_05_Other.csv")
-  .defer(d3.json, "../data/usa.json")
+  .defer(d3.csv, "/data/CSVs/Laws_02_Contributions_1.csv")
+  .defer(d3.csv, "/data/CSVs/Laws_02_Contributions_2.csv")
+  .defer(d3.csv, "/data/CSVs/Laws_02_Contributions_3.csv")
+  .defer(d3.csv, "/data/CSVs/Laws_03_Disclosure_1.csv")
+  .defer(d3.csv, "/data/CSVs/Laws_03_Disclosure_2.csv")
+  .defer(d3.csv, "/data/CSVs/Laws_03_Disclosure_3.csv")
+  .defer(d3.csv, "/data/CSVs/Laws_04_PublicFinancing.csv")
+  .defer(d3.csv, "/data/CSVs/Laws_05_Other.csv")
+  .defer(d3.json, "/data/usa.json")
     .await(visualize)
 ;
 
