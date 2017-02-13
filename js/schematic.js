@@ -347,10 +347,10 @@ function initPublicFinancingSection(data) {
       {% for scale in section[1].legends %}
         {% assign outer = forloop.index %}
         {% for legend in scale[1] %}
-          {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+          {% capture labels %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.label }}{% endunless %},{% endfor %}{% endcapture %}
           {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
             {{ legend[0] }}: d3.scale{% if scale == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
-                .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
+                .domain(liquidToArray('{{ labels }}'))
                 .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
         {% endfor %}
         {% unless forloop.last %},{% endunless %}

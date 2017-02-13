@@ -9,16 +9,14 @@ threshold:
     - label: Missing Data
       color: gray
   taxes:
-    - label: Missing Data
-      color: gray
-    - label: None
-      color: gray
-    - label: Tax Deduction
-      color: "#053061"
-    - label: Tax Credit
-      color: "#2166ac"
     - label: Refund
       color: "#4393c3"
+    - label: Tax Credit
+      color: "#2166ac"
+    - label: Tax Deduction
+      color: "#053061"
+    - label: None
+      color: gray
 ordinal:
   financing:
     - label: Full Public Financing
@@ -27,5 +25,5 @@ ordinal:
       color: "#2166ac" # medium blue
     - label: Matching funds
       color: "#053061" # dark blue
-    - label: Missing Data
+    - label: None
       color: gray
