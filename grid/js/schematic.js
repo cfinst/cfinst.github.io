@@ -206,7 +206,7 @@ function liquidToMap(str) {
 // Draws from
 // http://stackoverflow.com/questions/12676649/javascript-programmatically-trigger-file-download-in-firefox
 function downloadCSV(data, filename) {
-    var csvStr = toCSV(data);
+    var csvStr = d3.csvFormat(data);
     var dataURL = "data:text," + encodeURIComponent(csvStr);
     var link = document.createElement("a");
     document.body.appendChild(link);
