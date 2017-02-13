@@ -4,9 +4,9 @@ This repository contains the source code of the [Campaign Finance Institute](htt
 
 ## Licensing
 
-The source code is released under the GPL3 license [LICENSE](LICENSE).
+The source code is released under the GPL3 license ([LICENSE](LICENSE)).
 
-The data driving the visualizations (found under [/data](data)) is released under [Creative Commons Attribution 4.0 International license](https://creativecommons.org/licenses/by/4.0/legalcode) ([LICENSE](LICENSE)). This means that you are free to use the data for any purpose, as long as you add attribution citing Campaign Finance Institute as the source of the data.
+The data driving the visualizations (found under [data/CSVs](data/CSVs)) is released under the [Creative Commons Attribution 4.0 International license](https://creativecommons.org/licenses/by/4.0/legalcode) ([data/CSVs/LICENSE](data/CSVs/LICENSE)). This means that you are free to use the data for any purpose, as long as you add attribution citing Campaign Finance Institute as the source of the data.
 
 ## Running this Site
 
