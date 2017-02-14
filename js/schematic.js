@@ -327,8 +327,8 @@ function initDisclosuresSection() {
         {% for legend in scale[1] %}
           {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
           {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
-            {{ legend[0] }}: d3.scale{% if scale == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
-                .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
+            {{ legend[0] }}: d3.scale{% if scale[0] == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
+                .domain(liquidToArray('{{ bins }}'){% if scale[0] == "threshold" %}.map(function(d) { return +d + 1; }){% endif %})
                 .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
         {% endfor %}
         {% unless forloop.last %},{% endunless %}
@@ -349,8 +349,8 @@ function initPublicFinancingSection(data) {
         {% for legend in scale[1] %}
           {% capture labels %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.label }}{% endunless %},{% endfor %}{% endcapture %}
           {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
-            {{ legend[0] }}: d3.scale{% if scale == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
-                .domain(liquidToArray('{{ labels }}'))
+            {{ legend[0] }}: d3.scale{% if scale[0] == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
+                .domain(liquidToArray('{{ labels }}'){% if scale[0] == "threshold" %}.map(function(d) { return +d + 1; }){% endif %})
                 .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
         {% endfor %}
         {% unless forloop.last %},{% endunless %}
@@ -370,8 +370,8 @@ function initOtherRestrictionsSection(data) {
       {% for legend in scale[1] %}
         {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
         {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
-          {{ legend[0] }}: d3.scale{% if scale == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
-              .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
+          {{ legend[0] }}: d3.scale{% if scale[0] == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
+              .domain(liquidToArray('{{ bins }}'){% if scale[0] == "threshold" %}.map(function(d) { return +d + 1; }){% endif %})
               .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
       {% endfor %}
       {% unless forloop.last %},{% endunless %}
