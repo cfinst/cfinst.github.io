@@ -2,6 +2,12 @@
 
 This repository contains the source code of the [Campaign Finance Institute](http://www.cfinst.org/) data exploration and download tool.
 
+## Licensing
+
+The source code is released under the GPL3 license ([LICENSE](LICENSE)).
+
+The data driving the visualizations (found under [data/CSVs](data/CSVs)) is released under the [Creative Commons Attribution 4.0 International license](https://creativecommons.org/licenses/by/4.0/legalcode) ([data/CSVs/LICENSE](data/CSVs/LICENSE)). This means that you are free to use the data for any purpose, as long as you add attribution citing Campaign Finance Institute as the source of the data.
+
 ## Running this Site
 
 This site is organized using [Jekyll](https://jekyllrb.com/). Jekyll runs automatically on [GitHub Pages](https://pages.github.com/), which is the main deployment strategy at the moment.

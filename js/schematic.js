@@ -20,15 +20,15 @@ liquidToArray('{{ tabs }}').forEach(function(tab) {
 
 // Load the data and kick-off the visualization.
 d3.queue()
-  .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_1.csv")
-  .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_2.csv")
-  .defer(d3.csv, "../data/CSVs/Laws_02_Contributions_3.csv")
-  .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_1.csv")
-  .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_2.csv")
-  .defer(d3.csv, "../data/CSVs/Laws_03_Disclosure_3.csv")
-  .defer(d3.csv, "../data/CSVs/Laws_04_PublicFinancing.csv")
-  .defer(d3.csv, "../data/CSVs/Laws_05_Other.csv")
-  .defer(d3.json, "../data/usa.json")
+  .defer(d3.csv, "data/CSVs/Laws_02_Contributions_1.csv")
+  .defer(d3.csv, "data/CSVs/Laws_02_Contributions_2.csv")
+  .defer(d3.csv, "data/CSVs/Laws_02_Contributions_3.csv")
+  .defer(d3.csv, "data/CSVs/Laws_03_Disclosure_1.csv")
+  .defer(d3.csv, "data/CSVs/Laws_03_Disclosure_2.csv")
+  .defer(d3.csv, "data/CSVs/Laws_03_Disclosure_3.csv")
+  .defer(d3.csv, "data/CSVs/Laws_04_PublicFinancing.csv")
+  .defer(d3.csv, "data/CSVs/Laws_05_Other.csv")
+  .defer(d3.json, "data/usa.json")
     .await(visualize)
 ;
 
@@ -206,7 +206,7 @@ function liquidToMap(str) {
 // Draws from
 // http://stackoverflow.com/questions/12676649/javascript-programmatically-trigger-file-download-in-firefox
 function downloadCSV(data, filename) {
-    var csvStr = toCSV(data);
+    var csvStr = d3.csvFormat(data);
     var dataURL = "data:text," + encodeURIComponent(csvStr);
     var link = document.createElement("a");
     document.body.appendChild(link);
@@ -347,10 +347,10 @@ function initPublicFinancingSection(data) {
       {% for scale in section[1].legends %}
         {% assign outer = forloop.index %}
         {% for legend in scale[1] %}
-          {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+          {% capture labels %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.label }}{% endunless %},{% endfor %}{% endcapture %}
           {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
             {{ legend[0] }}: d3.scale{% if scale == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
-                .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
+                .domain(liquidToArray('{{ labels }}'))
                 .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
         {% endfor %}
         {% unless forloop.last %},{% endunless %}

@@ -8,9 +8,6 @@ function Grid(){
     , yColumn = "Year"
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
     , colorScale
-    , legendOffsetX = 16
-    , legendOffsetY = 10
-    , legendScale = 1.4
     , tooltipContent
   ;
 
@@ -19,8 +16,6 @@ function Grid(){
     , xAxisG
     , yAxisG
     , yAxis2G
-    , legendSVG
-    , legendG
     , buttonG
     , tooltip
   ;
@@ -28,10 +23,6 @@ function Grid(){
   // D3 Objects.
   var xScale = d3.scaleBand().padding(0).align(0)
     , yScale = d3.scaleBand().padding(0).align(0)
-    , legend = d3.legendColor()
-          .shape("rect")
-          .labelOffset(5)
-          .labelFormat(moneyFormat)
     , axisX = d3.axisTop()
     , axisY = d3.axisLeft()
     , axisY2 = d3.axisRight()
@@ -65,7 +56,6 @@ function Grid(){
       // Render DOM elements
       render_cells();
       render_axes();
-      render_legend();
       render_button();
 
       // Set up data download buttons.
@@ -144,70 +134,6 @@ function Grid(){
     ;
     dispatch.call("update", this, msg);
   } // render_cells()
-
-  function render_legend() {
-    if(!colorScale) return;
-
-    // Work out the legend's labels for threshold scale.
-    if(colorScale.bins){
-        var binmax = d3.max(colorScale.bins)
-          , labels = d3.pairs( // Infinity padding
-                  [-Infinity]
-                    .concat(colorScale.domain())
-                    .concat(Infinity)
-                )
-              .map(function(d, idx) {
-                  var money = [d[0], d[1] - (idx > 0 ? 1 : 0)].map(moneyFormat);
-
-                  // within the bounds of the infinity padding
-                  if(d.every(isFinite)) {
-                      if(d[0] === 0)
-                          return "Less than " + moneyFormat(d[1]);
-                      if(d[0] === binmax)
-                          return money[0] + " or Greater";
-
-                      return money[0] + " - " + money[1];
-                  }
-                  // At the extremes (one of the infinity paddings)
-                  if(d[0] < 0)
-                      return colorScale.lowerBoundLabel || "Prohibited";
-
-                  return "No Limit";
-                })
-        ;
-        legend.labels(labels);
-    } else {
-        legend.labels(colorScale.domain());
-    }
-
-    legend.scale(colorScale);
-
-    // Remove all the DOM elements in the legend,
-    // because d3-legend was not handling the update case correctly.
-    legendG.select("*").remove();
-
-    // Render the legend
-    legendG.call(legend);
-
-    // Remove the automatically added "label" class,
-    // because it unintentionally triggered the "label" class from Bootstrap,
-    // which made the font small and bold.
-    legendG.selectAll("text")
-        .classed("label", false)
-    ;
-
-    // Resize the legend SVG to fit perfectly around the legend.
-    legendSVG
-        .attr("width", 230)
-        .attr("height", (
-            legendOffsetY * 2 + (
-                ( legend.shapeHeight() + legend.shapePadding() )
-                * legend.labels().length
-            ) * legendScale
-        ))
-    ;
-
-  } // render_legend()
 
   function render_axes() {
       var t = d3.transition().duration(500);
@@ -343,13 +269,6 @@ function Grid(){
       ;
       yAxis2G = axes.append("g")
           .attr("class", "y axis")
-      ;
-      legendSVG = d3.select("#color-legend");
-      legendG = legendSVG.append("g")
-          .attr("transform"
-            , "translate(" + legendOffsetX + ", " + legendOffsetY
-              + ")scale(" + legendScale + ")"
-          )
       ;
       buttonG = g.append("g")
           .attr("class", "reset-sort")
