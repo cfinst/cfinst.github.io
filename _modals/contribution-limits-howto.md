@@ -6,10 +6,9 @@ title: How to use this page
 ---
 
 Each of the graphic visualizations derived from the historical database of state
-campaign finance laws involves both a map and a grid. This section on contrution
-limits and prohibitions contains to different kinds of choices.
+campaign finance laws involves both a map and a grid. 
 
-#### Grid
+#### _Grid_
 
 Each of the fifty states has a column in the grid. The horizontal rows represent
 years taken every two years, with the most recent completed year at the top. In
@@ -19,25 +18,25 @@ shown to the right of the map. Looking up and down any one state's column will
 show if and when the state changed its law. Hovering the cursor over any box
 will give some of the details for each state and year.
 
-#### Map
+#### _Map_
 
 The map will show the most recent year by default. Hovering the cursor over a
 state will show details for the year being shown.
 
-#### Sorting
+#### _Sorting_
 
 Clicking on any year at the left of the grid will rearrange the grid according
 to the values in the year chosen. It will also change the map to show the laws
 for that year. There is also an option to sort the states alphabetically.
 
-#### Downloading
+#### _Downloading_
 
 You may download the answers to your specific question in a standard format that
 you can view in a spreadsheet or other program. You may also download all of the
 visualized information, or larger portions of the complete (and much larger)
 historical database.
 
-#### Full Database
+#### _Full Database_
 
-To see much more about disclosure and the rest of this database (including the
+To see much more about contribution limits and the rest of this database (including the
 complete descriptive codebook) click on ___".
