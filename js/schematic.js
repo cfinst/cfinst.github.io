@@ -255,6 +255,10 @@ function initContributionLimitsSection(data) {
       , abbrs = liquidToMap('{{ abbrs | strip }}')
       , query = {}
     ;
+
+    // A missing entry in Contribution Limits means "Unlimited".
+    colorScale.default.emptyValue = Infinity;
+
     d3.selectAll("#contribution-limits select")
         .each(function(d) {
             d3.select(this).select("optgroup").selectAll("option")
