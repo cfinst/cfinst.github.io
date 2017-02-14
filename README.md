@@ -2,6 +2,10 @@
 
 This repository contains the source code of the [Campaign Finance Institute](http://www.cfinst.org/) data exploration and download tool.
 
+[Try it out!](https://cfinst.github.io/)
+
+[![image](https://cloud.githubusercontent.com/assets/68416/22932623/8e465200-f2ee-11e6-8c06-e9040a6476ae.png)](https://cfinst.github.io/).
+
 ## Licensing
 
 The source code is released under the GPL3 license ([LICENSE](LICENSE)).
