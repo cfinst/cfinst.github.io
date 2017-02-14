@@ -1,13 +1,4 @@
-threshold:
-  default:
-    - label: "Yes"
-      color: "#4393c3"
-    - label: Changed mid-cycle
-      color: "#2166ac"
-    - label: "No"
-      color: "#053061"
-    - label: Missing Data
-      color: gray
+ordinal:
   taxes:
     - label: Refund
       color: "#4393c3"
@@ -17,7 +8,15 @@ threshold:
       color: "#053061"
     - label: None
       color: gray
-ordinal:
+  default:
+    - label: "Yes"
+      color: "#4393c3"
+    - label: Changed mid-cycle
+      color: "#2166ac"
+    - label: "No"
+      color: "#053061"
+    - label: Missing Data
+      color: gray
   financing:
     - label: Full Public Financing
       color: "#4393c3" # light blue

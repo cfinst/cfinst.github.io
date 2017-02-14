@@ -350,8 +350,8 @@ function initPublicFinancingSection(data) {
         {% for legend in scale[1] %}
           {% capture labels %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.label }}{% endunless %},{% endfor %}{% endcapture %}
           {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
-            {{ legend[0] }}: d3.scale{% if scale[0] == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
-                .domain(liquidToArray('{{ labels }}'){% if scale[0] == "threshold" %}.map(function(d) { return +d + 1; }){% endif %})
+            {{ legend[0] }}: d3.scaleOrdinal()
+                .domain(liquidToArray('{{ labels }}'))
                 .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
         {% endfor %}
         {% unless forloop.last %},{% endunless %}
