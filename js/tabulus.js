@@ -36,10 +36,7 @@ function Tabulus() {
         update();
     } // my()
 
-    /*
-    * Private Helper Functions
-    */
-    function update() {
+    function toggleLegend(legend){
         container.selectAll(".legend ul")
             .style("display", function() {
                 return d3.select(this).classed("legend-" + query.answer.legend)
@@ -48,6 +45,14 @@ function Tabulus() {
                 ;
               })
         ;
+    } // toggleLegend()
+
+    /*
+    * Private Helper Functions
+    */
+    function update() {
+        toggleLegend(query.answer.legend);
+
         container.select(".field-description")
             .html(query.answer.note ? (query.answer.question + "*\n\n* " + query.answer.note) : query.answer.question)
         ;
@@ -75,6 +80,7 @@ function Tabulus() {
         return my;
       } // my.grid()
     ;
+    my.toggleLegend = toggleLegend;
 
     /*
     ** This is ALWAYS the last thing returned
