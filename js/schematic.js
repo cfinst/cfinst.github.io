@@ -368,24 +368,24 @@ function initPublicFinancingSection(data) {
 } // initPublicFinancingSection()
 
 function initOtherRestrictionsSection(data) {
-  var colorScale = {
-    {% for section in site.data.sections %}{% if section[0] == 'other-restrictions' %}
-    {% for scale in section[1].legends %}
-      {% assign outer = forloop.index %}
-      {% for legend in scale[1] %}
-        {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
-        {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
-          {{ legend[0] }}: d3.scale{% if scale[0] == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
-              .domain(liquidToArray('{{ bins }}'){% if scale[0] == "threshold" %}.map(function(d) { return +d + 1; }){% endif %})
-              .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
+    var colorScale = {
+      {% for section in site.data.sections %}{% if section[0] == 'other-restrictions' %}
+      {% for scale in section[1].legends %}
+        {% assign outer = forloop.index %}
+        {% for legend in scale[1] %}
+          {% capture labels %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.label }}{% endunless %},{% endfor %}{% endcapture %}
+          {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
+            {{ legend[0] }}: d3.scaleOrdinal()
+                .domain(liquidToArray('{{ labels }}'))
+                .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
+        {% endfor %}
+        {% unless forloop.last %},{% endunless %}
       {% endfor %}
-      {% unless forloop.last %},{% endunless %}
-    {% endfor %}
-    {% endif %}{% endfor %}
-  };
-  d3.select("#other-restrictions")
-      .call(tabs["other-restrictions"].colorScale(colorScale).grid(grid))
-  ;
+      {% endif %}{% endfor %}
+    };
+    d3.select("#other-restrictions")
+        .call(tabs["other-restrictions"].colorScale(colorScale).grid(grid))
+    ;
 } // initOtherRestrictionsSection()
 
 }());
