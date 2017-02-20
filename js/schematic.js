@@ -330,7 +330,7 @@ function initDisclosuresSection() {
           {% assign outer = forloop.index %}
         {% for legend in scale[1] %}
           {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
-          {% capture labels %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.label }}{% endunless %},{% endfor %}{% endcapture %}
+          {% capture labels %}{% for item in legend[1] %}{{ item.label }},{% endfor %}{% endcapture %}
           {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
             {{ legend[0] }}: d3.scale{% if scale[0] == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
                 .domain(liquidToArray({% if scale[0] == "threshold" %}'{{ bins }}').map(function(d) { return +d + 1; }){% else %}'{{ labels }}'){% endif %})
