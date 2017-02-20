@@ -270,9 +270,10 @@ function initContributionLimitsSection(data) {
             query[key] = this.value;
           })
         .on("change", function() {
-            if(this.id === "chooser-donor")
+            if(this.id === "chooser-donor") {
                 // State Party cannot donate to local party, so disable those
                 disablePartyAsRecipient(this.value === "StateP");
+            }
 
             query[this.id.split("chooser-")[1]] = this.value;
             grid
@@ -302,7 +303,7 @@ function initContributionLimitsSection(data) {
 
     function labelify() {
         var col = query["donor"] + "To" + query["recipient"] + "Limit"
-          , branch = !d3.map(data[0]).has([col + "_Max"])
+          , branch = !d3.map(data[0]).has([col + "_Max"]);
         var label = [
           abbreviate(query["donor"])
           , " to "
@@ -315,6 +316,7 @@ function initContributionLimitsSection(data) {
     function abbreviate(str) {
         return abbrs.get(str) || str;
     } // abbreviate()
+
     function disablePartyAsRecipient(bool) {
         d3.select("#chooser-recipient").select("option[value='Party']")
             .property("disabled", bool)
