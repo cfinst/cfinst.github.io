@@ -47,13 +47,13 @@ threshold:
       max: 10000
       color: "#92c5de"
     - min: 10001
-      max: 1000000
+      max: 50000
       color: "#d1e5f0"
-    - min: 1000001
-      max: 5000000
-      label: $50,000 or more
+    - min: 50001
+      max: 1000000
+      label: $50,000 or greater
       color: "pink"
-    - min: 5000001
+    - min: 1000001
       max: Infinity
       label: Unlimited
       color: "#cb181d"
