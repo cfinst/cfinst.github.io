@@ -277,28 +277,28 @@ function initContributionLimitsSection(data) {
             }
 
             query[this.id.split("chooser-")[1]] = this.value;
-            grid
-                .selectedColumn(querify(), true)
-                .selectedColumnLabel(labelify())
-              () // call grid()
-            ;
-            tab.toggleLegend(legendify());
+
+            update();
           })
-    ;
-    grid
-        .colorScale(colorScale.default)
-        .selectedColumn(querify())
-        .selectedColumnLabel(labelify())
-      () // Call grid()
     ;
 
     // Set up the legend so it can be toggled depending on the donor.
     tab.container(d3.select("#contribution-limits"));
-    tab.toggleLegend(legendify());
 
-    function legendify() {
-        return query.donor === "StateP" ? "partyAsDonor" : "default";
-    } // legendify()
+    // Initial render.
+    update();
+
+    // Updates the grid and legend based on the current query.
+    function update(){
+      var legend = query.donor === "StateP" ? "partyAsDonor" : "default";
+      grid
+          .colorScale(colorScale[legend])
+          .selectedColumn(querify())
+          .selectedColumnLabel(labelify())
+        () // Call grid()
+      ;
+      tab.toggleLegend(legend);
+    } // renderGrid()
 
     function querify() {
         var col = query["donor"] + "To" + query["recipient"] + "Limit"
