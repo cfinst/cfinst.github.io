@@ -30,3 +30,5 @@ ordinal:
       color: lightgray
     - label: Missing Data
       color: gray
+    - label: Other
+      color: "#67000d"
