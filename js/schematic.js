@@ -254,6 +254,7 @@ function initContributionLimitsSection(data) {
         }
       , abbrs = liquidToMap('{{ abbrs | strip }}')
       , query = {}
+      , tab = tabs["contribution-limits"]
     ;
 
     // A missing entry in Contribution Limits means "Unlimited".
@@ -282,9 +283,11 @@ function initContributionLimitsSection(data) {
               () // call grid()
             ;
 
-            // TODO update the tab
-            // tabs["contribution-limits"].update(something?);
-            console.log(tabs);
+            // TODO set legend here based on
+            // whether or not donor is party
+            // var legend = <donor is party> ? "partyAsDonor" : "default";
+            var legend = "default";
+            tab.toggleLegend(legend);
           })
     ;
     grid
@@ -293,6 +296,10 @@ function initContributionLimitsSection(data) {
         .selectedColumnLabel(labelify())
       () // Call grid()
     ;
+
+    // Set up the legend so it can be toggled depending on the donor.
+    tab.container(d3.select("#contribution-limits"));
+    tab.toggleLegend("default");
 
     function querify() {
         var col = query["donor"] + "To" + query["recipient"] + "Limit"

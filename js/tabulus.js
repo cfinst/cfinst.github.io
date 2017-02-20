@@ -39,7 +39,7 @@ function Tabulus() {
     function toggleLegend(legend){
         container.selectAll(".legend ul")
             .style("display", function() {
-                return d3.select(this).classed("legend-" + query.answer.legend)
+                return d3.select(this).classed("legend-" + legend)
                   ? null
                   : "none"
                 ;
@@ -79,6 +79,12 @@ function Tabulus() {
         grid = _;
         return my;
       } // my.grid()
+    ;
+    my.container = function(_) {
+        if(!arguments.length) return container;
+        container = _;
+        return my;
+      } // my.container()
     ;
     my.toggleLegend = toggleLegend;
 
