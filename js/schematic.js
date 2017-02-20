@@ -373,7 +373,7 @@ function initOtherRestrictionsSection(data) {
       {% for scale in section[1].legends %}
         {% assign outer = forloop.index %}
         {% for legend in scale[1] %}
-          {% capture labels %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.label }}{% endunless %},{% endfor %}{% endcapture %}
+          {% capture labels %}{% for item in legend[1] %}{{ item.label }},{% endfor %}{% endcapture %}
           {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
             {{ legend[0] }}: d3.scaleOrdinal()
                 .domain(liquidToArray('{{ labels }}'))

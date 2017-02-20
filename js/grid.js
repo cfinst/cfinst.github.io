@@ -77,6 +77,8 @@ function Grid(){
         console.warn("There are values present in the data that are not part of the legend configurations:");
         console.warn(JSON.stringify(unexpectedValues));
         console.warn("Please be sure to account for these values in the legend configurations located in _data/sections");
+        console.warn("The following values are already accounted for:");
+        console.warn(JSON.stringify(before));
       }
   } // Main Function Object
 
