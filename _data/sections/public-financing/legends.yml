@@ -22,7 +22,7 @@ ordinal:
       color: "#92c5de" # lighter blue
     - label: Partial Grant
       color: "#4393c3" # light blue
-    - label: Matching funds
+    - label: Matching Funds
       color: "#2166ac" # medium blue
     - label: Mixed
       color: "#053061" # dark blue
