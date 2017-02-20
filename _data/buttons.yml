@@ -11,7 +11,7 @@
       text: Using this page
   download:
     - name: download-current-view
-      text: Download Currently Shown Data
+      text: Download Visible Data
       icon: fa-download
     - name: download-more
       text: More Download Options
