@@ -282,12 +282,7 @@ function initContributionLimitsSection(data) {
                 .selectedColumnLabel(labelify())
               () // call grid()
             ;
-
-            // TODO set legend here based on
-            // whether or not donor is party
-            // var legend = <donor is party> ? "partyAsDonor" : "default";
-            var legend = "default";
-            tab.toggleLegend(legend);
+            tab.toggleLegend(legendify());
           })
     ;
     grid
@@ -299,7 +294,11 @@ function initContributionLimitsSection(data) {
 
     // Set up the legend so it can be toggled depending on the donor.
     tab.container(d3.select("#contribution-limits"));
-    tab.toggleLegend("default");
+    tab.toggleLegend(legendify());
+
+    function legendify() {
+        return query.donor === "StateP" ? "partyAsDonor" : "default";
+    } // legendify()
 
     function querify() {
         var col = query["donor"] + "To" + query["recipient"] + "Limit"
