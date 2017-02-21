@@ -19,10 +19,16 @@ ordinal:
       color: gray
   financing:
     - label: Full Public Financing
-      color: "#4393c3" # light blue
+      color: "#92c5de" # lighter blue
     - label: Partial Grant
+      color: "#4393c3" # light blue
+    - label: Matching Funds
       color: "#2166ac" # medium blue
-    - label: Matching funds
+    - label: Mixed
       color: "#053061" # dark blue
     - label: None
+      color: lightgray
+    - label: Missing Data
       color: gray
+    - label: Other
+      color: "#67000d"

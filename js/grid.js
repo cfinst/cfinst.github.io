@@ -44,6 +44,10 @@ function Grid(){
   function my() {
       if(!data || !colorScale) return;
 
+      // Extract the color scale domain before rendering,
+      // for detecting unanticipated data values later.
+      var before = colorScale.domain().slice();
+
       // Adjust to the size of the HTML container
       size_up();
 
@@ -63,6 +67,19 @@ function Grid(){
 
       // Further changes will cause a reset
       reset = true;
+
+      // Detect and warn about unexpected values,
+      // because these cause the visualization to display misleading colors.
+      var after = colorScale.domain().slice();
+      if(before.length !== after.length){
+        var unexpectedValues = after.slice(before.length);
+        console.warn("WARNING");
+        console.warn("There are values present in the data that are not part of the legend configurations:");
+        console.warn(JSON.stringify(unexpectedValues));
+        console.warn("Please be sure to account for these values in the legend configurations located in _data/sections");
+        console.warn("The following values are already accounted for:");
+        console.warn(JSON.stringify(before));
+      }
   } // Main Function Object
 
 
