@@ -254,6 +254,7 @@ function initContributionLimitsSection(data) {
         }
       , abbrs = liquidToMap('{{ abbrs | strip }}')
       , query = {}
+      , tab = tabs["contribution-limits"]
     ;
 
     // A missing entry in Contribution Limits means "Unlimited".
@@ -270,24 +271,34 @@ function initContributionLimitsSection(data) {
             query[key] = this.value;
           })
         .on("change", function() {
-            if(this.id === "chooser-donor")
+            if(this.id === "chooser-donor") {
                 // State Party cannot donate to local party, so disable those
                 disablePartyAsRecipient(this.value === "StateP");
+            }
 
             query[this.id.split("chooser-")[1]] = this.value;
-            grid
-                .selectedColumn(querify(), true)
-                .selectedColumnLabel(labelify())
-              () // call grid()
-            ;
+
+            update();
           })
     ;
-    grid
-        .colorScale(colorScale.default)
-        .selectedColumn(querify())
-        .selectedColumnLabel(labelify())
-      () // Call grid()
-    ;
+
+    // Set up the legend so it can be toggled depending on the donor.
+    tab.container(d3.select("#contribution-limits"));
+
+    // Initial render.
+    update();
+
+    // Updates the grid and legend based on the current query.
+    function update(){
+      var legend = query.donor === "StateP" ? "partyAsDonor" : "default";
+      grid
+          .colorScale(colorScale[legend])
+          .selectedColumn(querify())
+          .selectedColumnLabel(labelify())
+        () // Call grid()
+      ;
+      tab.toggleLegend(legend);
+    } // renderGrid()
 
     function querify() {
         var col = query["donor"] + "To" + query["recipient"] + "Limit"
@@ -302,7 +313,7 @@ function initContributionLimitsSection(data) {
 
     function labelify() {
         var col = query["donor"] + "To" + query["recipient"] + "Limit"
-          , branch = !d3.map(data[0]).has([col + "_Max"])
+          , branch = !d3.map(data[0]).has([col + "_Max"]);
         var label = [
           abbreviate(query["donor"])
           , " to "
@@ -315,6 +326,7 @@ function initContributionLimitsSection(data) {
     function abbreviate(str) {
         return abbrs.get(str) || str;
     } // abbreviate()
+
     function disablePartyAsRecipient(bool) {
         d3.select("#chooser-recipient").select("option[value='Party']")
             .property("disabled", bool)
