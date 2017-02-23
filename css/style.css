@@ -69,6 +69,6 @@ textarea.form-control {
     vertical-align: text-top;
 }
 .highlighted {
-    stroke: orange;
+    stroke: red;
     stroke-width: 5px;
 }

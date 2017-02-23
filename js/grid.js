@@ -120,11 +120,12 @@ function Grid(){
     rects
       .enter()
         .append("rect")
-        .attr("x", function (d){ return xScale(d[xColumn]); })
-        .attr("y", function (d){ return yScale(d[yColumn]); })
+        .attr("x", function (d){ return xScale(d[xColumn]) + w/2; })
+        .attr("y", function (d){ return yScale(d[yColumn]) + h/2; })
         .attr("width", 0)
         .attr("height", 0)
         .classed("grid-rect", true)
+        .attr("stroke-opacity", 0)
         .on("mouseover", function(d) {
             tooltip
                 .html(tooltipContent(d))
@@ -139,6 +140,7 @@ function Grid(){
         .attr("y", function (d){ return yScale(d[yColumn]); })
         .attr("width", w)
         .attr("height", h)
+        .attr("stroke-opacity", 1)
         .style("color", function (d){
             var value = valueAccessor(d);
 
@@ -156,6 +158,16 @@ function Grid(){
 
             return colorScale(value);
           })
+    ;
+    rects
+      .exit()
+      .transition().duration(500)
+        .attr("x", function (d){ return xScale(d[xColumn]) + w/2; })
+        .attr("y", function (d){ return yScale(d[yColumn]) + h/2; })
+        .attr("width", 0)
+        .attr("height", 0)
+        .attr("stroke-opacity", 0)
+      .remove()
     ;
     dispatch.call("update", this, msg);
   } // render_cells()
@@ -284,10 +296,10 @@ function Grid(){
               .attr("transform", "translate(" + [margin.left, margin.top] + ")")
         , viz = g.append("g")
               .attr("class", "viz")
-        , overlay = g.append("g")
-              .attr("class", "highlight-overlay")
         , axes = g.append("g")
               .attr("class", "axes")
+        , overlay = g.append("g")
+              .attr("class", "highlight-overlay")
       ;
       xAxisG = axes.append("g")
           .attr("class", "x axis")
