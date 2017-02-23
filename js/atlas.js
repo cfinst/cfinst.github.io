@@ -20,6 +20,12 @@ function Atlas() {
 
       usa.call(initStateShapes);
 
+      overlay
+          .call(initStateShapes)
+        .selectAll(".state path")
+          .style("fill", "none")
+      ;
+
       svg.append("text")
           .attr("class", "atlas-selected-year")
           .attr("x", width / 2)
@@ -54,7 +60,7 @@ function Atlas() {
     } // geogrify()
 
     function reset() {
-        svg.selectAll(".state path")
+        svg.select("#usa").selectAll(".state path")
             .style("fill", "#ccc")
             .style("stroke", "white")
         ;
@@ -71,8 +77,10 @@ function Atlas() {
             .rollup(function(leaves) { return leaves[0]; })
             .entries(data)
         ;
+
+        var usa = svg.select("#usa");
         data.forEach(function(datum) {
-            svg.selectAll(".state" + "." + datum.key + " path")
+            usa.selectAll(".state" + "." + datum.key + " path")
                 .style("fill", datum.value.color)
                 .style("stroke", "white")
                 .on("mouseover", function() {
