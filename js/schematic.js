@@ -1,16 +1,19 @@
 ---
 ---
 (function () {
-var grid = Grid().tooltipContent(tooltipContent)
-  , atlas = Atlas().tooltipContent(tooltipContent)
-  , tip = d3.tip().attr('class', 'd3-tip')
-  , signal = d3.dispatch(
+var signal = d3.dispatch(
       "update",
       "selectYear",
       "downloadCurrentLimits",
       "downloadAllLimits",
       "navigate"
     )
+  , grid = Grid()
+        .tooltipContent(tooltipContent)
+        .connect(signal)
+  , atlas = Atlas()
+        .tooltipContent(tooltipContent)
+  , tip = d3.tip().attr('class', 'd3-tip')
   , tabs = {}
 ;
 // {% capture tabs %}{% for tab in site.data.tabs %}{{ tab.section }},{% endfor %}{% endcapture %}
@@ -94,7 +97,6 @@ function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclo
         .svg(d3.select("svg#main"))
         .data(data)
         .tooltip(tip)
-        .connect(signal)
       () // Call grid()
     ;
 
