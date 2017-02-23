@@ -20,11 +20,22 @@ function Atlas() {
 
       usa.call(initStateShapes);
 
-      overlay
-          .call(initStateShapes)
+      // Set up highlighting.
+      var overlayStates = overlay.call(initStateShapes)
         .selectAll(".state path")
+          .classed("highlighted", true)
           .style("fill", "none")
+          .attr("stroke-opacity", 0)
       ;
+      dispatch.on("highlight.atlas", function (highlightData){
+          overlayStates.transition().duration(500)
+              .attr("stroke-opacity", function (d){
+                  return highlightData.some(function (highlightDatum){
+                      return d.feature.properties.usps === highlightDatum.State;
+                  }) ? 1 : 0;
+              })
+          ;
+      });
 
       svg.append("text")
           .attr("class", "atlas-selected-year")
