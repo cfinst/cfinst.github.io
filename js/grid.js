@@ -131,6 +131,11 @@ function Grid(){
                 .html(tooltipContent(d))
                 .show()
             ;
+
+            // Highlight the cell with the current sort year,
+            // so the map highlighting corresponds with the grid highlighting.
+            var focusDatum = Object.assign({}, d, { Year: sortYear })
+            dispatch.call("highlight", null, focusDatum);
           })
         .on("mouseout", tooltip.hide)
       .merge(rects)
