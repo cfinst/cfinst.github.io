@@ -293,7 +293,7 @@ function initContributionLimitsSection(data) {
       var legend = query.donor === "StateP" ? "partyAsDonor" : "default";
       grid
           .colorScale(colorScale[legend])
-          .selectedColumn(querify())
+          .selectedColumn(querify(), true)
           .selectedColumnLabel(labelify())
         () // Call grid()
       ;
