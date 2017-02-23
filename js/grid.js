@@ -153,7 +153,7 @@ function Grid(){
             var value = valueAccessor(d);
 
             // Construct the message passed into the choropleth.
-            if(d.Year === sortYear) {
+            if(d.Year === sortYear && !highlight) {
                 msg.push({
                     d: d
                   , state: d[xColumn]

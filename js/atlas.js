@@ -15,18 +15,11 @@ function Atlas() {
           .attr("viewBox", "0 0 " + width + " " + height)
           .call(tooltip)
       ;
-      svg
-        .append("g")
-          .attr("id", "usa")
-        .selectAll(".state")
-          .data(geogrify)
-        .enter().append("g")
-          .attr("class", function(d) {
-              return d.feature.properties.usps + " state";
-            })
-        .append("path")
-          .attr("d", function(d) { return path(d.feature); })
-      ;
+      var usa = svg.append("g").attr("id", "usa");
+      var overlay = svg.append("g").attr("id", "highlight-overlay");
+
+      usa.call(initStateShapes);
+
       svg.append("text")
           .attr("class", "atlas-selected-year")
           .attr("x", width / 2)
@@ -34,6 +27,19 @@ function Atlas() {
       ;
       reset();
     } // Main Function Object
+
+    function initStateShapes(selection) {
+        selection
+          .selectAll(".state")
+          .data(geogrify)
+          .enter().append("g")
+            .attr("class", function(d) {
+                return d.feature.properties.usps + " state";
+              })
+          .append("path")
+            .attr("d", function(d) { return path(d.feature); })
+        ;
+    }
 
     function geogrify(usa) {
       return topojson.feature(usa, usa.objects.states).features
