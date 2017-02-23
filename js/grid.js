@@ -245,7 +245,7 @@ function Grid(){
       ;
       xAxisG
         .transition(d3.transition().duration(500))
-          .call(d3.axisTop().scale(xScale.domain(sorted)))
+          .call(axisX.scale(xScale.domain(sorted)))
       ;
       render_cells();
   } // resort()
@@ -275,7 +275,7 @@ function Grid(){
               .attr("transform", "translate(" + [margin.left, margin.top] + ")")
         , viz = g.append("g")
               .attr("class", "viz")
-        , highlight-overlay = g.append("g")
+        , overlay = g.append("g")
               .attr("class", "highlight-overlay")
         , axes = g.append("g")
               .attr("class", "axes")
