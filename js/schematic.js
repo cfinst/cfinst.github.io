@@ -2,11 +2,12 @@
 ---
 (function () {
 var signal = d3.dispatch(
-      "update",
-      "selectYear",
-      "downloadCurrentLimits",
-      "downloadAllLimits",
-      "navigate"
+      "update"
+      , "selectYear"
+      , "downloadCurrentLimits"
+      , "downloadAllLimits"
+      , "navigate"
+      , "highlight"
     )
   , grid = Grid()
         .tooltipContent(tooltipContent)
