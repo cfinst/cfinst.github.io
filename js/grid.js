@@ -58,7 +58,7 @@ function Grid(){
       domainify();
 
       // Render DOM elements
-      render_cells();
+      render_cells(data);
       render_axes();
       render_button();
 
@@ -67,7 +67,7 @@ function Grid(){
       
       // Set up highlighting.
       dispatch.on("highlight.grid", function (d){
-          console.log(d);
+          render_cells([d], true);
       });
 
       // Further changes will cause a reset
@@ -107,7 +107,7 @@ function Grid(){
 
 
   // Visualize the selectedColumn.
-  function render_cells() {
+  function render_cells(data, highlight) {
     if(!colorScale) return;
     var rects = svg.select(".viz").selectAll("rect")
           .data(data, function (d){ return d.Identifier; })
@@ -122,7 +122,7 @@ function Grid(){
         .attr("y", function (d){ return yScale(d[yColumn]); })
         .attr("width", 0)
         .attr("height", 0)
-        .attr("class", "grid-rect")
+        .classed("grid-rect", true)
         .on("mouseover", function(d) {
             tooltip
                 .html(tooltipContent(d))
@@ -131,6 +131,7 @@ function Grid(){
           })
         .on("mouseout", tooltip.hide)
       .merge(rects)
+        .classed("highlighted", highlight)
       .transition().duration(500)
         .attr("x", function (d){ return xScale(d[xColumn]); })
         .attr("y", function (d){ return yScale(d[yColumn]); })
@@ -252,7 +253,7 @@ function Grid(){
         .transition(d3.transition().duration(500))
           .call(axisX.scale(xScale.domain(sorted)))
       ;
-      render_cells();
+      render_cells(data);
   } // resort()
 
   // Sets up the click handlers on the data download buttons.
