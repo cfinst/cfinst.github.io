@@ -58,7 +58,8 @@ function Grid(){
       domainify();
 
       // Render DOM elements
-      render_cells(data);
+      svg.select(".viz")
+          .call(render_cells, data);
       render_axes();
       render_button();
 
@@ -67,7 +68,8 @@ function Grid(){
       
       // Set up highlighting.
       dispatch.on("highlight.grid", function (d){
-          render_cells([d], true);
+          svg.select(".highlight-overlay")
+              .call(render_cells, [d], true);
       });
 
       // Further changes will cause a reset
@@ -107,9 +109,9 @@ function Grid(){
 
 
   // Visualize the selectedColumn.
-  function render_cells(data, highlight) {
+  function render_cells(selection, data, highlight) {
     if(!colorScale) return;
-    var rects = svg.select(".viz").selectAll("rect")
+    var rects = selection.selectAll("rect")
           .data(data, function (d){ return d.Identifier; })
       , w = xScale.step()
       , h = yScale.step()
@@ -253,7 +255,8 @@ function Grid(){
         .transition(d3.transition().duration(500))
           .call(axisX.scale(xScale.domain(sorted)))
       ;
-      render_cells(data);
+      svg.select(".viz")
+          .call(render_cells, data);
   } // resort()
 
   // Sets up the click handlers on the data download buttons.
