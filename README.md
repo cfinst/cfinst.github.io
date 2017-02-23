@@ -21,6 +21,10 @@ This database posed unique and interesting challenges from a data visualization 
 
 Our early prototypes tried to capture the overall structure of the database using the X, Y plane; the most powerful visual channels. The first prototype was a grid of circles in which the X axis represented Time (one entry per two years), and the Y axis represented US State. At first we chose random fields to visualize within this scaffold using an ordinal color scale. The second prototype was a Choropleth Map of the US, for the case of viewing all States for a single Year. Since the same data records were visualized in each prototype, the color scale could be shared between them.
 
+Once we had the basic scaffold of grid and map in place, the challenge became how to visually encode the values in the wide variety of fields. For numeric fields, we tried using area of the circles to encode the values. This turned out to only show the outliers, and the variation within the smaller values (which turned out to be the most interesting part for domain experts) could not be perceived well. Therefore we migrated to using a threshold color scale to encode quantitative dollar amounts, using thresholds hand-tuned by CFI. For ordinal fields, a straigntforward ordinal color scale was used.
+
+We migrated from circles to squares within the grid because the flush edges of the adjacent squares afforded better perception of the color differences. Since we used a small set of lightness values to encode quantitative values using a threshold scale, the ability to perceive the change from one lightness value to the next was extremely important. For CFI researchers, see "changes over time" in campaign finance law was one of the most important requirements of the visualization. Therefore, since it is easier to perceive slight changes in lightness between adjacent squares as compared to adjacent circles, we opted to migrate from circles to squares within the grid.
+
 ## Licensing
 
 The source code is released under the GPL3 license ([LICENSE](LICENSE)).
