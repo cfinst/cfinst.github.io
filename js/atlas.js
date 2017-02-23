@@ -24,7 +24,6 @@ function Atlas() {
       var overlayStates = overlay.call(initStateShapes)
         .selectAll(".state path")
           .classed("highlighted", true)
-          .style("fill", "none")
           .attr("stroke-opacity", 0)
       ;
       dispatch.on("highlight.atlas", function (highlightData){

@@ -69,11 +69,12 @@ textarea.form-control {
     vertical-align: text-top;
 }
 .highlighted {
-    stroke: yellow;
+    stroke: #07ff00;
+    fill: none;
 }
 .grid-rect.highlighted {
-    stroke-width: 2px;
+    stroke-width: 3px;
 }
 .state .highlighted {
-    stroke-width: 4px;
+    stroke-width: 6px;
 }
