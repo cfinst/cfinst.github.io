@@ -67,9 +67,9 @@ function Grid(){
       connect_download_buttons();
       
       // Set up highlighting.
-      dispatch.on("highlight.grid", function (d){
+      dispatch.on("highlight.grid", function (highlightData){
           svg.select(".highlight-overlay")
-              .call(render_cells, [d], true);
+              .call(render_cells, highlightData, true);
       });
 
       // Further changes will cause a reset
@@ -134,10 +134,13 @@ function Grid(){
 
             // Highlight the cell with the current sort year,
             // so the map highlighting corresponds with the grid highlighting.
-            var focusDatum = Object.assign({}, d, { Year: sortYear })
-            dispatch.call("highlight", null, focusDatum);
+            var highlightData = [Object.assign({}, d, { Year: sortYear })];
+            dispatch.call("highlight", null, highlightData);
           })
-        .on("mouseout", tooltip.hide)
+          .on("mouseout", function() {
+              tooltip.hide();
+              dispatch.call("highlight", null, []);
+          })
       .merge(rects)
         .classed("highlighted", highlight)
       .transition().duration(500)
