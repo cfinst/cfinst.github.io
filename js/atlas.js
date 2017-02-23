@@ -73,6 +73,7 @@ function Atlas() {
                         .html(tooltipContent(datum.value.d))
                         .show()
                     ;
+                    dispatch.call("highlight", datum.value.d);
                   })
                 .on("mouseout", tooltip.hide)
             ;
