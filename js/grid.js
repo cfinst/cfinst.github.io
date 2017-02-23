@@ -117,7 +117,6 @@ function Grid(){
         .attr("y", function (d){ return yScale(d[yColumn]); })
         .attr("width", 0)
         .attr("height", 0)
-      .merge(rects)
         .attr("class", "grid-rect")
         .on("mouseover", function(d) {
             tooltip
@@ -126,6 +125,7 @@ function Grid(){
             ;
           })
         .on("mouseout", tooltip.hide)
+      .merge(rects)
       .transition().duration(500)
         .attr("x", function (d){ return xScale(d[xColumn]); })
         .attr("y", function (d){ return yScale(d[yColumn]); })
