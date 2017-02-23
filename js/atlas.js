@@ -7,6 +7,7 @@ function Atlas() {
       , tooltipContent
       , svg
       , selectedYear
+      , dispatch
     ;
 
     function my(el) {
@@ -103,6 +104,13 @@ function Atlas() {
     my.selectedYear = function (selectedYear) {
         svg.select(".atlas-selected-year").text(selectedYear);
       } // my.selectedYear
+    ;
+
+    my.connect = function (_){
+        if(!arguments.length) return dispatch;
+        dispatch = _;
+        return my;
+      } // my.connect()
     ;
 
     // This is always the last thing returned

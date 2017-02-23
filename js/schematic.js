@@ -13,6 +13,7 @@ var signal = d3.dispatch(
         .connect(signal)
   , atlas = Atlas()
         .tooltipContent(tooltipContent)
+        .connect(signal)
   , tip = d3.tip().attr('class', 'd3-tip')
   , tabs = {}
 ;
