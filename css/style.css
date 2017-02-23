@@ -70,5 +70,10 @@ textarea.form-control {
 }
 .highlighted {
     stroke: yellow;
+}
+.grid-rect.highlighted {
+    stroke-width: 2px;
+}
+.state .highlighted {
     stroke-width: 4px;
 }
