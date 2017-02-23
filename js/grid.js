@@ -275,6 +275,8 @@ function Grid(){
               .attr("transform", "translate(" + [margin.left, margin.top] + ")")
         , viz = g.append("g")
               .attr("class", "viz")
+        , highlight-overlay = g.append("g")
+              .attr("class", "highlight-overlay")
         , axes = g.append("g")
               .attr("class", "axes")
       ;
