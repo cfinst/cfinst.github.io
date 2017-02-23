@@ -6,6 +6,21 @@ This repository contains the source code of the [Campaign Finance Institute](htt
 
 [![image](https://cloud.githubusercontent.com/assets/68416/22932623/8e465200-f2ee-11e6-8c06-e9040a6476ae.png)](https://cfinst.github.io/).
 
+## About
+
+This project was commisioned by the [Campaign Finance Institute](http://www.cfinst.org/) as a means to present and disseminate its database on campaign finance law in the United States. The database has been painstakingly compiled over many years, and covers many aspects of campaign finance law and policy.
+
+The general dimensions of this database are:
+
+ * US States
+ * Time, every other year since 1996
+
+Each unique combination of State and Year carries with it a substantial variety of fields pertaining to campaign finance law. Some of these fields are numeric dollar amounts. Others are "Yes" "No" questions. Others have a variety of possibile values, no more then ten. Furthermore, these fields can be divided into four broad categories of campaign finance law:
+
+This database posed unique and interesting challenges from a data visualization perspective. The main audience for this work is the general public, the casual user who has a vague interest in the subject of campaign finance law. The secondary audience for this work is professionals in the domain, who would use it more as a reference and research tool.
+
+Our early prototypes tried to capture the overall structure of the database using the X, Y plane; the most powerful visual channels. The first prototype was a grid of circles in which the X axis represented Time (one entry per two years), and the Y axis represented US State. At first we chose random fields to visualize within this scaffold using an ordinal color scale. The second prototype was a Choropleth Map of the US, for the case of viewing all States for a single Year. Since the same data records were visualized in each prototype, the color scale could be shared between them.
+
 ## Licensing
 
 The source code is released under the GPL3 license ([LICENSE](LICENSE)).
