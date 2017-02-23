@@ -68,3 +68,13 @@ textarea.form-control {
 .legend li span {
     vertical-align: text-top;
 }
+.highlighted {
+    stroke: #07ff00;
+    fill: none;
+}
+.grid-rect.highlighted {
+    stroke-width: 3px;
+}
+.state .highlighted {
+    stroke-width: 6px;
+}

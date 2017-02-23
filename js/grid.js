@@ -58,12 +58,19 @@ function Grid(){
       domainify();
 
       // Render DOM elements
-      render_cells();
+      svg.select(".viz")
+          .call(render_cells, data);
       render_axes();
       render_button();
 
       // Set up data download buttons.
       connect_download_buttons();
+      
+      // Set up highlighting.
+      dispatch.on("highlight.grid", function (highlightData){
+          svg.select(".highlight-overlay")
+              .call(render_cells, highlightData, true);
+      });
 
       // Further changes will cause a reset
       reset = true;
@@ -72,13 +79,13 @@ function Grid(){
       // because these cause the visualization to display misleading colors.
       var after = colorScale.domain().slice();
       if(before.length !== after.length){
-        var unexpectedValues = after.slice(before.length);
-        console.warn("WARNING");
-        console.warn("There are values present in the data that are not part of the legend configurations:");
-        console.warn(JSON.stringify(unexpectedValues));
-        console.warn("Please be sure to account for these values in the legend configurations located in _data/sections");
-        console.warn("The following values are already accounted for:");
-        console.warn(JSON.stringify(before));
+          var unexpectedValues = after.slice(before.length);
+          console.warn("WARNING");
+          console.warn("There are values present in the data that are not part of the legend configurations:");
+          console.warn(JSON.stringify(unexpectedValues));
+          console.warn("Please be sure to account for these values in the legend configurations located in _data/sections");
+          console.warn("The following values are already accounted for:");
+          console.warn(JSON.stringify(before));
       }
   } // Main Function Object
 
@@ -102,9 +109,9 @@ function Grid(){
 
 
   // Visualize the selectedColumn.
-  function render_cells() {
+  function render_cells(selection, data, highlighted) {
     if(!colorScale) return;
-    var rects = svg.select(".viz").selectAll("rect")
+    var rects = selection.selectAll("rect")
           .data(data, function (d){ return d.Identifier; })
       , w = xScale.step()
       , h = yScale.step()
@@ -113,29 +120,42 @@ function Grid(){
     rects
       .enter()
         .append("rect")
-        .attr("x", function (d){ return xScale(d[xColumn]); })
-        .attr("y", function (d){ return yScale(d[yColumn]); })
+        .attr("x", function (d){ return xScale(d[xColumn]) + w/2; })
+        .attr("y", function (d){ return yScale(d[yColumn]) + h/2; })
         .attr("width", 0)
         .attr("height", 0)
-      .merge(rects)
-        .attr("class", "grid-rect")
+        .classed("grid-rect", true)
+        .attr("stroke-opacity", 0)
         .on("mouseover", function(d) {
             tooltip
                 .html(tooltipContent(d))
                 .show()
             ;
+
+            highlight(d);
           })
-        .on("mouseout", tooltip.hide)
+          .on("mouseout", function() {
+              tooltip.hide();
+              dispatch.call("highlight", null, []);
+          })
+          .on("click", function (d){
+              dispatch.call("selectYear", null, d.Year);
+              highlight(d);
+            }
+          )
+      .merge(rects)
+        .classed("highlighted", highlighted)
       .transition().duration(500)
         .attr("x", function (d){ return xScale(d[xColumn]); })
         .attr("y", function (d){ return yScale(d[yColumn]); })
         .attr("width", w)
         .attr("height", h)
+        .attr("stroke-opacity", 1)
         .style("color", function (d){
             var value = valueAccessor(d);
 
             // Construct the message passed into the choropleth.
-            if(d.Year === sortYear) {
+            if(d.Year === sortYear && !highlighted) {
                 msg.push({
                     d: d
                   , state: d[xColumn]
@@ -149,8 +169,25 @@ function Grid(){
             return colorScale(value);
           })
     ;
+    rects
+      .exit()
+      .transition().duration(500)
+        .attr("x", function (d){ return xScale(d[xColumn]) + w/2; })
+        .attr("y", function (d){ return yScale(d[yColumn]) + h/2; })
+        .attr("width", 0)
+        .attr("height", 0)
+        .attr("stroke-opacity", 0)
+      .remove()
+    ;
     dispatch.call("update", this, msg);
   } // render_cells()
+
+  function highlight(d){
+      // Highlight the cell with the current sort year,
+      // so the map highlighting corresponds with the grid highlighting.
+      var highlightData = [Object.assign({}, d, { Year: sortYear })];
+      dispatch.call("highlight", null, highlightData);
+  }
 
   function render_axes() {
       var t = d3.transition().duration(500);
@@ -245,9 +282,10 @@ function Grid(){
       ;
       xAxisG
         .transition(d3.transition().duration(500))
-          .call(d3.axisTop().scale(xScale.domain(sorted)))
+          .call(axisX.scale(xScale.domain(sorted)))
       ;
-      render_cells();
+      svg.select(".viz")
+          .call(render_cells, data);
   } // resort()
 
   // Sets up the click handlers on the data download buttons.
@@ -277,6 +315,8 @@ function Grid(){
               .attr("class", "viz")
         , axes = g.append("g")
               .attr("class", "axes")
+        , overlay = g.append("g")
+              .attr("class", "highlight-overlay")
       ;
       xAxisG = axes.append("g")
           .attr("class", "x axis")

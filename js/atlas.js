@@ -7,6 +7,7 @@ function Atlas() {
       , tooltipContent
       , svg
       , selectedYear
+      , dispatch
     ;
 
     function my(el) {
@@ -14,18 +15,27 @@ function Atlas() {
           .attr("viewBox", "0 0 " + width + " " + height)
           .call(tooltip)
       ;
-      svg
-        .append("g")
-          .attr("id", "usa")
-        .selectAll(".state")
-          .data(geogrify)
-        .enter().append("g")
-          .attr("class", function(d) {
-              return d.feature.properties.usps + " state";
-            })
-        .append("path")
-          .attr("d", function(d) { return path(d.feature); })
+      var usa = svg.append("g").attr("id", "usa");
+      var overlay = svg.append("g").attr("id", "highlight-overlay");
+
+      usa.call(initStateShapes);
+
+      // Set up highlighting.
+      var overlayStates = overlay.call(initStateShapes)
+        .selectAll(".state path")
+          .classed("highlighted", true)
+          .attr("stroke-opacity", 0)
       ;
+      dispatch.on("highlight.atlas", function (highlightData){
+          overlayStates.transition().duration(500)
+              .attr("stroke-opacity", function (d){
+                  return highlightData.some(function (highlightDatum){
+                      return d.feature.properties.usps === highlightDatum.State;
+                  }) ? 1 : 0;
+              })
+          ;
+      });
+
       svg.append("text")
           .attr("class", "atlas-selected-year")
           .attr("x", width / 2)
@@ -33,6 +43,19 @@ function Atlas() {
       ;
       reset();
     } // Main Function Object
+
+    function initStateShapes(selection) {
+        selection
+          .selectAll(".state")
+          .data(geogrify)
+          .enter().append("g")
+            .attr("class", function(d) {
+                return d.feature.properties.usps + " state";
+              })
+          .append("path")
+            .attr("d", function(d) { return path(d.feature); })
+        ;
+    }
 
     function geogrify(usa) {
       return topojson.feature(usa, usa.objects.states).features
@@ -47,7 +70,7 @@ function Atlas() {
     } // geogrify()
 
     function reset() {
-        svg.selectAll(".state path")
+        svg.select("#usa").selectAll(".state path")
             .style("fill", "#ccc")
             .style("stroke", "white")
         ;
@@ -64,8 +87,10 @@ function Atlas() {
             .rollup(function(leaves) { return leaves[0]; })
             .entries(data)
         ;
+
+        var usa = svg.select("#usa");
         data.forEach(function(datum) {
-            svg.selectAll(".state" + "." + datum.key + " path")
+            usa.selectAll(".state" + "." + datum.key + " path")
                 .style("fill", datum.value.color)
                 .style("stroke", "white")
                 .on("mouseover", function() {
@@ -73,8 +98,12 @@ function Atlas() {
                         .html(tooltipContent(datum.value.d))
                         .show()
                     ;
+                    dispatch.call("highlight", null, [datum.value.d]);
                   })
-                .on("mouseout", tooltip.hide)
+                .on("mouseout", function() {
+                    tooltip.hide();
+                    dispatch.call("highlight", null, []);
+                })
             ;
           })
         ;
@@ -102,6 +131,13 @@ function Atlas() {
     my.selectedYear = function (selectedYear) {
         svg.select(".atlas-selected-year").text(selectedYear);
       } // my.selectedYear
+    ;
+
+    my.connect = function (_){
+        if(!arguments.length) return dispatch;
+        dispatch = _;
+        return my;
+      } // my.connect()
     ;
 
     // This is always the last thing returned
