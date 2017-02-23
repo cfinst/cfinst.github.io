@@ -109,7 +109,7 @@ function Grid(){
 
 
   // Visualize the selectedColumn.
-  function render_cells(selection, data, highlight) {
+  function render_cells(selection, data, highlighted) {
     if(!colorScale) return;
     var rects = selection.selectAll("rect")
           .data(data, function (d){ return d.Identifier; })
@@ -132,17 +132,19 @@ function Grid(){
                 .show()
             ;
 
-            // Highlight the cell with the current sort year,
-            // so the map highlighting corresponds with the grid highlighting.
-            var highlightData = [Object.assign({}, d, { Year: sortYear })];
-            dispatch.call("highlight", null, highlightData);
+            highlight(d);
           })
           .on("mouseout", function() {
               tooltip.hide();
               dispatch.call("highlight", null, []);
           })
+          .on("click", function (d){
+              dispatch.call("selectYear", null, d.Year);
+              highlight(d);
+            }
+          )
       .merge(rects)
-        .classed("highlighted", highlight)
+        .classed("highlighted", highlighted)
       .transition().duration(500)
         .attr("x", function (d){ return xScale(d[xColumn]); })
         .attr("y", function (d){ return yScale(d[yColumn]); })
@@ -153,7 +155,7 @@ function Grid(){
             var value = valueAccessor(d);
 
             // Construct the message passed into the choropleth.
-            if(d.Year === sortYear && !highlight) {
+            if(d.Year === sortYear && !highlighted) {
                 msg.push({
                     d: d
                   , state: d[xColumn]
@@ -179,6 +181,13 @@ function Grid(){
     ;
     dispatch.call("update", this, msg);
   } // render_cells()
+
+  function highlight(d){
+      // Highlight the cell with the current sort year,
+      // so the map highlighting corresponds with the grid highlighting.
+      var highlightData = [Object.assign({}, d, { Year: sortYear })];
+      dispatch.call("highlight", null, highlightData);
+  }
 
   function render_axes() {
       var t = d3.transition().duration(500);
