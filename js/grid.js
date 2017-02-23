@@ -336,12 +336,18 @@ function Grid(){
           var value;
           // Handle the case of a threshold scale.
           if(keyColumn){
+
+              // Use the key column values to extract
+              // "Unlimited" and "Prohibited" values.
               value = d[keyColumn] === "Limited"
                 ? +d[selectedColumn]
                 : d[keyColumn] === "No"
-                  ? -Infinity
-                  : Infinity
+                  ? -Infinity // Treated as "Prohibited"
+                  : Infinity // Treated as "Unlimited"
               ;
+
+              // Treat a value of 0 as "Prohibited"
+              value = value === 0 ? -Infinity : value;
           } else {
               value = d[selectedColumn];
               value = (
