@@ -64,6 +64,11 @@ function Grid(){
 
       // Set up data download buttons.
       connect_download_buttons();
+      
+      // Set up highlighting.
+      dispatch.on("highlight.grid", function (d){
+          console.log(d);
+      });
 
       // Further changes will cause a reset
       reset = true;
