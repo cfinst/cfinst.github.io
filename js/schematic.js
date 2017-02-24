@@ -129,9 +129,6 @@ function corpus() {
     // Update the visualization according to the current section.
     signal.on("navigate.vis", function (section) {
 
-        // Clear out the data-driven form controls.
-        // d3.select("#controls-form").selectAll("*").remove();
-
         // Initialize the section navigated to.
         switch(section) {
             case "contribution-limits":
