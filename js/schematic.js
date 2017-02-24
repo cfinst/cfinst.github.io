@@ -65,8 +65,8 @@ function tooltipContent(d) {
 function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other, usa){
     if(error) throw error;
 
-    corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other);
     carto(usa);
+    corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other);
 
     setupTabNavigation();
 
@@ -84,7 +84,7 @@ function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosur
     ;
 } // visualize()
 
-function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other) {
+function corpus() {
     var data = d3.nest()
             .key(function(d) {
                 // Construct the identifier from these two fields,
@@ -92,7 +92,7 @@ function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclo
                 return d.State + d.Year;
             })
             .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
-            .map(d3.merge([contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other]))
+            .map(d3.merge(arguments))
             .values()
     ;
     grid
