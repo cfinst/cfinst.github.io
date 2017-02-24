@@ -128,24 +128,17 @@ function corpus() {
 
     // Update the visualization according to the current section.
     signal.on("navigate.vis", function (section) {
-
-        // Initialize the section navigated to.
-        switch(section) {
-            case "contribution-limits":
-                initContributionLimitsSection(data);
-                break;
-            case "disclosure":
-                initDisclosuresSection(data);
-                break;
-            case "public-financing":
-                initPublicFinancingSection(data);
-                break;
-            case "other-restrictions":
-                initOtherRestrictionsSection(data);
-                break;
-            default:
-                console.log("Unknown section name \"" + section + "\"");
-        }
+        var fn = {
+                    "contribution-limits": initContributionLimitsSection
+                    , "disclosure": initDisclosuresSection
+                    , "public-financing": initPublicFinancingSection
+                    , "other-restrictions": initOtherRestrictionsSection
+                  }[section] || null
+        ;
+        (fn)
+          ? fn(data)
+          : console.log("Unknown section name \"" + section + "\"")
+        ;
     });
 
 } // corpus()
