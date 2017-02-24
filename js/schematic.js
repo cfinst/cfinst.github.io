@@ -123,7 +123,7 @@ function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclo
 
     // Set the URL history to the current section.
     signal.on("navigate.history", function (section) {
-        history.pushState(null, null, '?section=' + section);
+        window.location.hash = '#' + section;
     });
 
     // Update the visualization according to the current section.
@@ -172,7 +172,6 @@ function getQueryVariables() {
     var vars = {}
       , query = window.location.search.substring(1).toLowerCase().split("&")
       , arg // loop variable
-
     ;
     query.forEach(function(q) {
         arg = q.split("=");
@@ -180,6 +179,7 @@ function getQueryVariables() {
             vars[arg[0]] = decodeURIComponent(arg[1]);
       })
     ;
+    vars.section = window.location.hash.substring(1).toLowerCase() || defaultSection;
     return vars;
 } // getQueryVariables()
 
