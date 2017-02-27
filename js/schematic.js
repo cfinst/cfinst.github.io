@@ -73,8 +73,7 @@ function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosur
     // Initialize the selected year to the most recent.
     signal.call("selectYear", null, d3.select("#chooser-year").node().value);
     // Initialize the navigation state.
-    var defaultSection = "contribution-limits";
-    var section = getQueryVariables().section || defaultSection;
+    var section = getQueryVariables().section;
 
     d3.select("a[href='#" + section + "']")
       .node()
