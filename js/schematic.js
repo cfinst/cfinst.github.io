@@ -71,9 +71,7 @@ function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosur
     setupTabNavigation();
 
     // Initialize the selected year to the most recent.
-    var maxYear = d3.max(grid.data(), function (d){ return d.Year; });
-    signal.call("selectYear", null, maxYear);
-
+    signal.call("selectYear", null, d3.select("#chooser-year").node().value);
     // Initialize the navigation state.
     var defaultSection = "contribution-limits";
     var section = getQueryVariables().section || defaultSection;
@@ -92,7 +90,7 @@ function corpus() {
                 return d.State + d.Year;
             })
             .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
-            .map(d3.merge(arguments))
+            .map(d3.merge(arguments){% if site.filterYear %}.filter(function(d) { return d.Year != +{{ site.filterYear }}; }){% endif %})
             .values()
     ;
     grid
@@ -100,6 +98,19 @@ function corpus() {
         .data(data)
         .tooltip(tip)
       () // Call grid()
+    ;
+    var years = d3.extent(data, function(d){ return +d.Year; });
+    // Populate Year Selector
+    d3.select("#chooser-year")
+        .on("change", function() {
+            signal.call("selectYear", null, this.value);
+          })
+      .select("optgroup").selectAll("option")
+        .data(d3.range(years[1], years[0], -2), identity)
+      .enter().append("option")
+        .attr("value", identity)
+        .text(identity)
+        .property("selected", function(d, i) { return !i ? "selected" : null; })
     ;
 
     // Signal Handling
@@ -149,7 +160,6 @@ function carto (usa){
         .datum(usa)
         .call(atlas.tooltip(tip))
     ;
-    signal.on("selectYear.atlas", atlas.selectedYear);
     signal.on("update", atlas.update);
 } // carto()
 
@@ -169,6 +179,7 @@ function getQueryVariables() {
             vars[arg[0]] = decodeURIComponent(arg[1]);
       })
     ;
+    var defaultSection = 'contribution-limits';
     vars.section = window.location.hash.substring(1).toLowerCase() || defaultSection;
     return vars;
 } // getQueryVariables()
