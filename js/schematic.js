@@ -138,17 +138,14 @@ function corpus() {
 
     // Update the visualization according to the current section.
     signal.on("navigate.vis", function (section) {
-        var fn = {
-                    "contribution-limits": initContributionLimitsSection
-                    , "disclosure": initDisclosuresSection
-                    , "public-financing": initPublicFinancingSection
-                    , "other-restrictions": initOtherRestrictionsSection
-                  }[section] || null
+        var navs = {
+                "contribution-limits": initContributionLimitsSection
+                , "disclosure": initDisclosuresSection
+                , "public-financing": initPublicFinancingSection
+                , "other-restrictions": initOtherRestrictionsSection
+              }
         ;
-        (fn)
-          ? fn(data)
-          : console.log("Unknown section name \"" + section + "\"")
-        ;
+        navs[section](data) || console.log("Unknown section \"" + section + "\"")
     });
 
 } // corpus()
