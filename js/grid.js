@@ -377,11 +377,12 @@ function Grid(){
           // Handle the case of a threshold scale.
           if(keyColumn){
 
+              
               // Use the key column values to extract
               // "Unlimited" and "Prohibited" values.
               value = d[keyColumn] === "Limited"
                 ? +d[selectedColumn]
-                : d[keyColumn] === "No"
+                : (d[keyColumn] === "No" || d[keyColumn] === "Prohibited")
                   ? -Infinity // Treated as "Prohibited"
                   : Infinity // Treated as "Unlimited"
               ;
