@@ -5,6 +5,8 @@ logo: img/CFI-logo-white.svg
 # production_url : http://cfinst.github.io
 # (I'm assuming)
 
+filterYear: 2016
+
 markdown: kramdown
 
 collections:

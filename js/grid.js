@@ -65,7 +65,7 @@ function Grid(){
 
       // Set up data download buttons.
       connect_download_buttons();
-      
+
       // Set up highlighting.
       dispatch.on("highlight.grid", function (highlightData){
           svg.select(".highlight-overlay")
@@ -352,8 +352,6 @@ function Grid(){
           .sort(function(a, b) {
               return d3.ascending(a.Year, b.Year);
             })
-          // UPDATE THIS WHEN THE YEAR IS COMPLETE
-          .filter(function(d) { return d.Year != 2016; })
       ;
       reset = true;
       domainify();
