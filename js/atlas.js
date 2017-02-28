@@ -35,12 +35,6 @@ function Atlas() {
               })
           ;
       });
-
-      svg.append("text")
-          .attr("class", "atlas-selected-year")
-          .attr("x", width / 2)
-          .attr("y", 45)
-      ;
       reset();
     } // Main Function Object
 
@@ -127,12 +121,6 @@ function Atlas() {
         return my;
       } // my.tooltipContent()
     ;
-
-    my.selectedYear = function (selectedYear) {
-        svg.select(".atlas-selected-year").text(selectedYear);
-      } // my.selectedYear
-    ;
-
     my.connect = function (_){
         if(!arguments.length) return dispatch;
         dispatch = _;

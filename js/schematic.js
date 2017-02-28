@@ -17,6 +17,7 @@ var signal = d3.dispatch(
         .connect(signal)
   , tip = d3.tip().attr('class', 'd3-tip')
   , tabs = {}
+  , navs = {}
 ;
 // {% capture tabs %}{% for tab in site.data.tabs %}{{ tab.section }},{% endfor %}{% endcapture %}
 liquidToArray('{{ tabs }}').forEach(function(tab) {
@@ -65,18 +66,16 @@ function tooltipContent(d) {
 function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other, usa){
     if(error) throw error;
 
-    corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other);
     carto(usa);
+    corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other);
 
     setupTabNavigation();
 
     // Initialize the selected year to the most recent.
-    var maxYear = d3.max(grid.data(), function (d){ return d.Year; });
-    signal.call("selectYear", null, maxYear);
+    signal.call("selectYear", null, d3.select("#chooser-year").node().value);
 
     // Initialize the navigation state.
-    var defaultSection = "contribution-limits";
-    var section = getQueryVariables().section || defaultSection;
+    var section = getQueryVariables().section;
 
     d3.select("a[href='#" + section + "']")
       .node()
@@ -84,7 +83,7 @@ function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosur
     ;
 } // visualize()
 
-function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other) {
+function corpus() {
     var data = d3.nest()
             .key(function(d) {
                 // Construct the identifier from these two fields,
@@ -92,7 +91,7 @@ function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclo
                 return d.State + d.Year;
             })
             .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
-            .map(d3.merge([contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other]))
+            .map(d3.merge(arguments){% if site.filterYear %}.filter(function(d) { return d.Year != +{{ site.filterYear }}; }){% endif %})
             .values()
     ;
     grid
@@ -100,6 +99,19 @@ function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclo
         .data(data)
         .tooltip(tip)
       () // Call grid()
+    ;
+    var years = d3.extent(data, function(d){ return +d.Year; });
+    // Populate Year Selector
+    d3.select("#chooser-year")
+        .on("change", function() {
+            signal.call("selectYear", null, this.value);
+          })
+      .select("optgroup").selectAll("option")
+        .data(d3.range(years[1], years[0], -2), identity)
+      .enter().append("option")
+        .attr("value", identity)
+        .text(identity)
+        .property("selected", function(d, i) { return !i ? "selected" : null; })
     ;
 
     // Signal Handling
@@ -110,6 +122,9 @@ function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclo
         .on("click", function() { grid.reset()(); })
     ;
     signal.on("selectYear.grid", grid.selectedYear);
+    signal.on("selectYear.chooser", function (selectedYear){
+      d3.select("#chooser-year").node().value = selectedYear;
+    });
     signal.on("downloadAllLimits", function (xColumn, yColumn){
         var filename = "CFI-contribution-limits-all.csv";
         var projectedData = project(data, [xColumn, yColumn].concat(columnsRaw));
@@ -123,33 +138,11 @@ function corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclo
 
     // Set the URL history to the current section.
     signal.on("navigate.history", function (section) {
-        history.pushState(null, null, '?section=' + section);
+        window.location.hash = '#' + section;
     });
 
     // Update the visualization according to the current section.
-    signal.on("navigate.vis", function (section) {
-
-        // Clear out the data-driven form controls.
-        // d3.select("#controls-form").selectAll("*").remove();
-
-        // Initialize the section navigated to.
-        switch(section) {
-            case "contribution-limits":
-                initContributionLimitsSection(data);
-                break;
-            case "disclosure":
-                initDisclosuresSection(data);
-                break;
-            case "public-financing":
-                initPublicFinancingSection(data);
-                break;
-            case "other-restrictions":
-                initOtherRestrictionsSection(data);
-                break;
-            default:
-                console.log("Unknown section name \"" + section + "\"");
-        }
-    });
+    signal.on("navigate.vis", function (section) { navs[section](data); });
 
 } // corpus()
 
@@ -159,7 +152,6 @@ function carto (usa){
         .datum(usa)
         .call(atlas.tooltip(tip))
     ;
-    signal.on("selectYear.atlas", atlas.selectedYear);
     signal.on("update", atlas.update);
 } // carto()
 
@@ -172,7 +164,6 @@ function getQueryVariables() {
     var vars = {}
       , query = window.location.search.substring(1).toLowerCase().split("&")
       , arg // loop variable
-
     ;
     query.forEach(function(q) {
         arg = q.split("=");
@@ -180,6 +171,8 @@ function getQueryVariables() {
             vars[arg[0]] = decodeURIComponent(arg[1]);
       })
     ;
+    var defaultSection = 'contribution-limits';
+    vars.section = window.location.hash.substring(1).toLowerCase() || defaultSection;
     return vars;
 } // getQueryVariables()
 
@@ -239,11 +232,12 @@ function setupTabNavigation() {
     ;
 } // setupTabNavigation()
 
-function initContributionLimitsSection(data) {
+{% for section in site.data.sections %}
+{% if section[0] == 'contribution-limits' %}
+navs["{{ section[0] }}"] = function(data) {
     var colorScale = {
-          {% for section in site.data.sections %}{% if section[0] == 'contribution-limits' %}
-            {% for scale in section[1].legends %}
-              {% assign outer = forloop.index %}
+          {% for scale in section[1].legends %}
+            {% assign outer = forloop.index %}
             {% for legend in scale[1] %}
               {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
               {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
@@ -254,17 +248,16 @@ function initContributionLimitsSection(data) {
             {% unless forloop.last %},{% endunless %}
             {% endfor %}
             {% capture abbrs %}{% for group in section[1].controls %}{% for dropdown in group.dropdowns %}{% for option in dropdown.options %}{% if option.abbr %}{{ option.abbr }}: {{ option.text }},{% endif %}{% endfor %}{% endfor %}{% endfor %}{% endcapture %}
-          {% endif %}{% endfor %}
         }
       , abbrs = liquidToMap('{{ abbrs | strip }}')
       , query = {}
-      , tab = tabs["contribution-limits"]
+      , tab = tabs["{{ section[0] }}"]
     ;
 
     // A missing entry in Contribution Limits means "Unlimited".
     colorScale.default.emptyValue = Infinity;
 
-    d3.selectAll("#contribution-limits select")
+    d3.selectAll("#{{ section[0] }} select")
         .each(function(d) {
             d3.select(this).select("optgroup").selectAll("option")
                 .attr("selected", function(d, i) {
@@ -287,7 +280,7 @@ function initContributionLimitsSection(data) {
     ;
 
     // Set up the legend so it can be toggled depending on the donor.
-    tab.container(d3.select("#contribution-limits"));
+    tab.container(d3.select("#{{ section[0] }}"));
 
     // Initial render.
     update();
@@ -337,13 +330,12 @@ function initContributionLimitsSection(data) {
             .style("visibility", bool ? "hidden" : "visible")
         ;
     } // disablePartyAsRecipient()
-} // initContributionLimitsSection()
-
-function initDisclosuresSection() {
+} // navs["{{ sections[0]}}"]()
+{% elsif section[0] == 'disclosure' %}
+navs["{{ section[0] }}"] = function () {
     var colorScale = {
-      {% for section in site.data.sections %}{% if section[0] == 'disclosure' %}
-        {% for scale in section[1].legends %}
-          {% assign outer = forloop.index %}
+      {% for scale in section[1].legends %}
+        {% assign outer = forloop.index %}
         {% for legend in scale[1] %}
           {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
           {% capture labels %}{% for item in legend[1] %}{{ item.label }},{% endfor %}{% endcapture %}
@@ -353,18 +345,16 @@ function initDisclosuresSection() {
                 .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
         {% endfor %}
         {% unless forloop.last %},{% endunless %}
-        {% endfor %}
-      {% endif %}{% endfor %}
+      {% endfor %}
     };
     colorScale.small.emptyValue = colorScale.big.emptyValue = -Infinity;
-    d3.select("#disclosure")
-        .call(tabs.disclosure.colorScale(colorScale).grid(grid))
+    d3.select("#{{ section[0] }}")
+        .call(tabs.{{ section[0] }}.colorScale(colorScale).grid(grid))
     ;
-} // initDisclosuresSection()
-
-function initPublicFinancingSection(data) {
+} // navs["{{ sections[0]}}"]()
+{% else %} {% comment %}other-restrictions and public-financing{% endcomment %}
+navs["{{ section[0] }}"] = function() {
     var colorScale = {
-      {% for section in site.data.sections %}{% if section[0] == 'public-financing' %}
       {% for scale in section[1].legends %}
         {% assign outer = forloop.index %}
         {% for legend in scale[1] %}
@@ -376,32 +366,11 @@ function initPublicFinancingSection(data) {
         {% endfor %}
         {% unless forloop.last %},{% endunless %}
       {% endfor %}
-      {% endif %}{% endfor %}
     };
-    d3.select("#public-financing")
-        .call(tabs["public-financing"].colorScale(colorScale).grid(grid))
+    d3.select("#{{ section[0] }}")
+        .call(tabs["{{ section[0] }}"].colorScale(colorScale).grid(grid))
     ;
-} // initPublicFinancingSection()
-
-function initOtherRestrictionsSection(data) {
-    var colorScale = {
-      {% for section in site.data.sections %}{% if section[0] == 'other-restrictions' %}
-      {% for scale in section[1].legends %}
-        {% assign outer = forloop.index %}
-        {% for legend in scale[1] %}
-          {% capture labels %}{% for item in legend[1] %}{{ item.label }},{% endfor %}{% endcapture %}
-          {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
-            {{ legend[0] }}: d3.scaleOrdinal()
-                .domain(liquidToArray('{{ labels }}'))
-                .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
-        {% endfor %}
-        {% unless forloop.last %},{% endunless %}
-      {% endfor %}
-      {% endif %}{% endfor %}
-    };
-    d3.select("#other-restrictions")
-        .call(tabs["other-restrictions"].colorScale(colorScale).grid(grid))
-    ;
-} // initOtherRestrictionsSection()
-
+} // navs["{{ sections[0]}}"]()
+{% endif %}
+{% endfor %}
 }());
