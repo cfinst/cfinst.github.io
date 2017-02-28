@@ -69,7 +69,7 @@ textarea.form-control {
     vertical-align: text-top;
 }
 .highlighted {
-    stroke: #07ff00;
+    stroke: #ffff00;
     fill: none;
 }
 .grid-rect.highlighted {
