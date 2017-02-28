@@ -78,3 +78,8 @@ textarea.form-control {
 .state .highlighted {
     stroke-width: 6px;
 }
+.year-indicator-overlay {
+    fill: none;
+    stroke: white;
+    stroke-width: 2px;
+}

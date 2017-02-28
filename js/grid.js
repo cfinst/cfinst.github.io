@@ -315,7 +315,9 @@ function Grid(){
               .attr("class", "viz")
         , axes = g.append("g")
               .attr("class", "axes")
-        , overlay = g.append("g")
+        , yearIndicatorOverlay = g.append("g")
+              .attr("class", "year-indicator-overlay")
+        , highlightOverlay = g.append("g")
               .attr("class", "highlight-overlay")
       ;
       xAxisG = axes.append("g")
@@ -472,6 +474,14 @@ function Grid(){
                   .attr()
           })
       ;
+      var yearRect = svg.select(".year-indicator-overlay")
+        .selectAll("rect").data([1]);
+      yearRect.merge(yearRect.enter().append("rect"))
+        .transition().duration(500)
+          .attr("x", 0)
+          .attr("y", function (d){ return yScale(sortYear); })
+          .attr("width", xScale.range()[1])
+          .attr("height", yScale.step())
     }
   ;
   my.colorScale = function (_){
