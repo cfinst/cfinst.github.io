@@ -73,6 +73,7 @@ function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosur
 
     // Initialize the selected year to the most recent.
     signal.call("selectYear", null, d3.select("#chooser-year").node().value);
+
     // Initialize the navigation state.
     var section = getQueryVariables().section;
 
@@ -121,6 +122,9 @@ function corpus() {
         .on("click", function() { grid.reset()(); })
     ;
     signal.on("selectYear.grid", grid.selectedYear);
+    signal.on("selectYear.chooser", function (selectedYear){
+      d3.select("#chooser-year").node().value = selectedYear;
+    });
     signal.on("downloadAllLimits", function (xColumn, yColumn){
         var filename = "CFI-contribution-limits-all.csv";
         var projectedData = project(data, [xColumn, yColumn].concat(columnsRaw));
