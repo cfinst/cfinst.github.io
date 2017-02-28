@@ -325,10 +325,18 @@ navs["{{ section[0] }}"] = function(data) {
     } // abbreviate()
 
     function disablePartyAsRecipient(bool) {
-        d3.select("#chooser-recipient").select("option[value='Party']")
+        var dropdown = d3.select("#chooser-recipient")
+          , first = dropdown.select("option").attr("value")
+          , recip = dropdown.node().value
+        ;
+        dropdown.select("option[value='Party']")
             .property("disabled", bool)
             .style("visibility", bool ? "hidden" : "visible")
         ;
+        // Set the recipient dropdown to the first (non-party) option
+        dropdown.node().value = first;
+        // Set the query variable with the new recipient dropdown value
+        query[dropdown.node().id.split("chooser-")[1]] = dropdown.node().value;
     } // disablePartyAsRecipient()
 } // navs["{{ sections[0]}}"]()
 {% elsif section[0] == 'disclosure' %}
