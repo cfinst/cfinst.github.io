@@ -98,6 +98,7 @@ function corpus() {
         .svg(d3.select("svg#main"))
         .data(data)
         .tooltip(tip)
+      () // Call grid()
     ;
     var years = d3.extent(data, function(d){ return +d.Year; });
     // Populate Year Selector
@@ -236,7 +237,6 @@ function setupTabNavigation() {
 navs["{{ section[0] }}"] = function(data) {
     var colorScale = {
           {% for scale in section[1].legends %}
-            {% assign outer = forloop.index %}
             {% for legend in scale[1] %}
               {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
               {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
@@ -342,7 +342,6 @@ navs["{{ section[0] }}"] = function(data) {
 navs["{{ section[0] }}"] = function () {
     var colorScale = {
       {% for scale in section[1].legends %}
-        {% assign outer = forloop.index %}
         {% for legend in scale[1] %}
           {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
           {% capture labels %}{% for item in legend[1] %}{{ item.label }},{% endfor %}{% endcapture %}
@@ -363,7 +362,6 @@ navs["{{ section[0] }}"] = function () {
 navs["{{ section[0] }}"] = function() {
     var colorScale = {
       {% for scale in section[1].legends %}
-        {% assign outer = forloop.index %}
         {% for legend in scale[1] %}
           {% capture labels %}{% for item in legend[1] %}{{ item.label }},{% endfor %}{% endcapture %}
           {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
