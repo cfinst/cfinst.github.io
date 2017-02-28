@@ -98,7 +98,6 @@ function corpus() {
         .svg(d3.select("svg#main"))
         .data(data)
         .tooltip(tip)
-      () // Call grid()
     ;
     var years = d3.extent(data, function(d){ return +d.Year; });
     // Populate Year Selector

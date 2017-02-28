@@ -58,9 +58,10 @@ function Grid(){
       domainify();
 
       // Render DOM elements
-      svg.select(".viz")
-          .call(render_cells, data);
       render_axes();
+      svg.select(".viz")
+          .call(render_cells, data)
+          .call(render_year_indicators);
       render_button();
 
       // Set up data download buttons.
@@ -182,6 +183,26 @@ function Grid(){
     dispatch.call("update", this, msg);
   } // render_cells()
 
+  function render_year_indicators(){
+      // Highlight the tick for the selected year.
+      svg.selectAll(".y.axis .tick text")
+          .each(function(d) {
+              var self = d3.select(this);
+              self.classed("sortby", sortYear === d);
+              d3.select(self.node().parentNode).select("line")
+                  .attr()
+          })
+      ;
+      var yearRect = svg.select(".year-indicator-overlay")
+        .selectAll("rect").data([1]);
+      yearRect.merge(yearRect.enter().append("rect"))
+        .transition().duration(500)
+          .attr("x", 0)
+          .attr("y", function (d){ return yScale(sortYear); })
+          .attr("width", xScale.range()[1])
+          .attr("height", yScale.step())
+  } // render_year_indicators()
+
   function highlight(d){
       // Highlight the cell with the current sort year,
       // so the map highlighting corresponds with the grid highlighting.
@@ -285,7 +306,8 @@ function Grid(){
           .call(axisX.scale(xScale.domain(sorted)))
       ;
       svg.select(".viz")
-          .call(render_cells, data);
+          .call(render_cells, data)
+          .call(render_year_indicators);
   } // resort()
 
   // Sets up the click handlers on the data download buttons.
@@ -464,24 +486,6 @@ function Grid(){
 
       sortYear = _;
       resort();
-
-      // Highlight the tick for the selected year.
-      svg.selectAll(".y.axis .tick text")
-          .each(function(d) {
-              var self = d3.select(this);
-              self.classed("sortby", sortYear === d);
-              d3.select(self.node().parentNode).select("line")
-                  .attr()
-          })
-      ;
-      var yearRect = svg.select(".year-indicator-overlay")
-        .selectAll("rect").data([1]);
-      yearRect.merge(yearRect.enter().append("rect"))
-        .transition().duration(500)
-          .attr("x", 0)
-          .attr("y", function (d){ return yScale(sortYear); })
-          .attr("width", xScale.range()[1])
-          .attr("height", yScale.step())
     }
   ;
   my.colorScale = function (_){
