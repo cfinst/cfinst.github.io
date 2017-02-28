@@ -234,9 +234,8 @@ function setupTabNavigation() {
 
 {% for section in site.data.sections %}
 {% if section[0] == 'contribution-limits' %}
-navs["{{ section[0] }}"] = function() {
-    var data = arguments
-      , colorScale = {
+navs["{{ section[0] }}"] = function(data) {
+    var colorScale = {
           {% for scale in section[1].legends %}
             {% assign outer = forloop.index %}
             {% for legend in scale[1] %}
