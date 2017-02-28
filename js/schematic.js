@@ -327,7 +327,7 @@ navs["{{ section[0] }}"] = function() {
             .style("visibility", bool ? "hidden" : "visible")
         ;
     } // disablePartyAsRecipient()
-} // initContributionLimitsSection()
+} // navs["{{ sections[0]}}"]()
 {% elsif section[0] == 'disclosure' %}
 navs["{{ section[0] }}"] = function () {
     var colorScale = {
@@ -348,8 +348,8 @@ navs["{{ section[0] }}"] = function () {
     d3.select("#{{ section[0] }}")
         .call(tabs.{{ section[0] }}.colorScale(colorScale).grid(grid))
     ;
-} // initDisclosuresSection()
-{% elsif section[0] == 'public-financing' %}
+} // navs["{{ sections[0]}}"]()
+{% else %} {% comment %}other-restrictions and public-financing{% endcomment %}
 navs["{{ section[0] }}"] = function() {
     var colorScale = {
       {% for scale in section[1].legends %}
@@ -367,26 +367,7 @@ navs["{{ section[0] }}"] = function() {
     d3.select("#{{ section[0] }}")
         .call(tabs["{{ section[0] }}"].colorScale(colorScale).grid(grid))
     ;
-} // initPublicFinancingSection()
-{% else %}
-navs["{{ section[0] }}"] = function() {
-    var colorScale = {
-      {% for scale in section[1].legends %}
-        {% assign outer = forloop.index %}
-        {% for legend in scale[1] %}
-          {% capture labels %}{% for item in legend[1] %}{{ item.label }},{% endfor %}{% endcapture %}
-          {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
-            {{ legend[0] }}: d3.scaleOrdinal()
-                .domain(liquidToArray('{{ labels }}'))
-                .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
-        {% endfor %}
-        {% unless forloop.last %},{% endunless %}
-      {% endfor %}
-    };
-    d3.select("#{{ section[0] }}")
-        .call(tabs["{{ section[0] }}"].colorScale(colorScale).grid(grid))
-    ;
-} // initOtherRestrictionsSection()
+} // navs["{{ sections[0]}}"]()
 {% endif %}
 {% endfor %}
 }());
