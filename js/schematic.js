@@ -8,6 +8,7 @@ var signal = d3.dispatch(
       , "downloadAllLimits"
       , "navigate"
       , "highlight"
+      , "sortMode"
     )
   , grid = Grid()
         .tooltipContent(tooltipContent)
