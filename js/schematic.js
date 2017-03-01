@@ -357,7 +357,7 @@ navs["{{ section[0] }}"] = function () {
     colorScale.small.emptyValue = colorScale.big.emptyValue = -Infinity;
     {% endif %}
     d3.select("#{{ section[0] }}")
-        .call(tabs.{{ section[0] }}.colorScale(colorScale).grid(grid))
+        .call(tabs["{{ section[0] }}"].colorScale(colorScale).grid(grid))
     ;
 } // navs["{{ section[0]}}"]()
 {% endif %}
