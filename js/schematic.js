@@ -236,17 +236,14 @@ function setupTabNavigation() {
 {% if section[0] == 'contribution-limits' %}
 navs["{{ section[0] }}"] = function(data) {
     var colorScale = {
-          {% for scale in section[1].legends %}
-            {% for legend in scale[1] %}
-              {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
-              {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
-                {{ legend[0] }}: d3.scaleThreshold()
-                    .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
-                    .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
-            {% endfor %}
-            {% unless forloop.last %},{% endunless %}
-            {% endfor %}
-            {% capture abbrs %}{% for group in section[1].controls %}{% for dropdown in group.dropdowns %}{% for option in dropdown.options %}{% if option.abbr %}{{ option.abbr }}: {{ option.text }},{% endif %}{% endfor %}{% endfor %}{% endfor %}{% endcapture %}
+          {% for scale in section[1].legends %}{% for legend in scale[1] %}
+            {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+            {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
+            {% unless forloop.first %}, {% endunless %}{{ legend[0] }}: d3.scaleThreshold()
+                .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
+                .range(liquidToArray('{{ colors }}'))
+          {% endfor %}{% endfor %}
+          {% capture abbrs %}{% for group in section[1].controls %}{% for dropdown in group.dropdowns %}{% for option in dropdown.options %}{% if option.abbr %}{{ option.abbr }}: {{ option.text }},{% endif %}{% endfor %}{% endfor %}{% endfor %}{% endcapture %}
         }
       , abbrs = liquidToMap('{{ abbrs | strip }}')
       , query = {}
@@ -338,44 +335,31 @@ navs["{{ section[0] }}"] = function(data) {
         query[dropdown.node().id.split("chooser-")[1]] = dropdown.node().value;
     } // disablePartyAsRecipient()
 } // navs["{{ sections[0]}}"]()
-{% elsif section[0] == 'disclosure' %}
+{% else %}
 navs["{{ section[0] }}"] = function () {
     var colorScale = {
-      {% for scale in section[1].legends %}
-        {% for legend in scale[1] %}
-          {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
-          {% capture labels %}{% for item in legend[1] %}{{ item.label }},{% endfor %}{% endcapture %}
-          {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
-            {{ legend[0] }}: d3.scale{% if scale[0] == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
-                .domain(liquidToArray({% if scale[0] == "threshold" %}'{{ bins }}').map(function(d) { return +d + 1; }){% else %}'{{ labels }}'){% endif %})
-                .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
-        {% endfor %}
-        {% unless forloop.last %},{% endunless %}
-      {% endfor %}
+      {% for scale in section[1].legends %}{% unless forloop.first %}, {% endunless %}{% for legend in scale[1] %}
+      {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
+      {% unless forloop.first %}, {% endunless %}
+      {% if scale[0] == "threshold" %}
+        {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+          {{ legend[0] }}: d3.scaleThreshold()
+              .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
+      {% elsif scale[0] == "ordinal" %}
+        {% capture labels %}{% for item in legend[1] %}{{ item.label }},{% endfor %}{% endcapture %}
+          {{ legend[0] }}: d3.scaleOrdinal()
+              .domain(liquidToArray('{{ labels }}'))
+      {% endif %}
+              .range(liquidToArray('{{ colors }}'))
+      {% endfor %}{% endfor %}
     };
+    {% if scale[0] == "threshold" %}
     colorScale.small.emptyValue = colorScale.big.emptyValue = -Infinity;
+    {% endif %}
     d3.select("#{{ section[0] }}")
         .call(tabs.{{ section[0] }}.colorScale(colorScale).grid(grid))
     ;
-} // navs["{{ sections[0]}}"]()
-{% else %} {% comment %}other-restrictions and public-financing{% endcomment %}
-navs["{{ section[0] }}"] = function() {
-    var colorScale = {
-      {% for scale in section[1].legends %}
-        {% for legend in scale[1] %}
-          {% capture labels %}{% for item in legend[1] %}{{ item.label }},{% endfor %}{% endcapture %}
-          {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
-            {{ legend[0] }}: d3.scaleOrdinal()
-                .domain(liquidToArray('{{ labels }}'))
-                .range(liquidToArray('{{ colors }}')){% unless forloop.last %},{% endunless %}
-        {% endfor %}
-        {% unless forloop.last %},{% endunless %}
-      {% endfor %}
-    };
-    d3.select("#{{ section[0] }}")
-        .call(tabs["{{ section[0] }}"].colorScale(colorScale).grid(grid))
-    ;
-} // navs["{{ sections[0]}}"]()
+} // navs["{{ section[0]}}"]()
 {% endif %}
 {% endfor %}
 }());
