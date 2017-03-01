@@ -107,7 +107,7 @@ function corpus() {
             signal.call("selectYear", null, this.value);
           })
       .select("optgroup").selectAll("option")
-        .data(d3.range(years[1], years[0], -2), identity)
+        .data(d3.range(years[0], years[1] + 2, 2).reverse(), identity)
       .enter().append("option")
         .attr("value", identity)
         .text(identity)
@@ -276,9 +276,9 @@ navs["{{ section[0] }}"] = function(data) {
     ;
 
     // Set up the legend so it can be toggled depending on the donor.
-    tab.container(d3.select("#{{ section[0] }}"));
-
+    tabs["{{ section[0] }}"].colorScale(colorScale).grid(grid);
     // Initial render.
+    d3.select("#{{ section[0] }}").call(tabs["{{ section[0] }}"]);
     update();
 
     // Updates the grid and legend based on the current query.
