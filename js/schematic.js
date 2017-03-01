@@ -18,6 +18,7 @@ var signal = d3.dispatch(
   , tip = d3.tip().attr('class', 'd3-tip')
   , tabs = {}
   , navs = {}
+  , query = {}
 ;
 // {% capture tabs %}{% for tab in site.data.tabs %}{{ tab.section }},{% endfor %}{% endcapture %}
 liquidToArray('{{ tabs }}').forEach(function(tab) {
@@ -75,9 +76,9 @@ function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosur
     signal.call("selectYear", null, d3.select("#chooser-year").node().value);
 
     // Initialize the navigation state.
-    var section = getQueryVariables().section;
+    getQueryVariables(); // populate the query variable
 
-    d3.select("a[href='#" + section + "']")
+    d3.select("a[href='#" + query.section + "']")
       .node()
       .click()
     ;
@@ -161,19 +162,19 @@ function identity(d) { return d; }
 
 // Capture URL query param
 function getQueryVariables() {
-    var vars = {}
-      , query = window.location.search.substring(1).toLowerCase().split("&")
-      , arg // loop variable
+    var arg // loop variable
+      , qstr = window.location.search.substring(1).toLowerCase().split("&")
+      , defaultSection = 'contribution-limits'
     ;
-    query.forEach(function(q) {
+    qstr.forEach(function(q) {
         arg = q.split("=");
         if(arg[0].length && arg[1].length)
             vars[arg[0]] = decodeURIComponent(arg[1]);
       })
     ;
-    var defaultSection = 'contribution-limits';
-    vars.section = window.location.hash.substring(1).toLowerCase() || defaultSection;
-    return vars;
+    query.section = window.location.hash.substring(1).toLowerCase()
+      || defaultSection
+    ;
 } // getQueryVariables()
 
 // Convert a formatted liquid template string into a usable array for Javascript
