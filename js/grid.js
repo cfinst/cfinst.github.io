@@ -16,7 +16,6 @@ function Grid(){
     , xAxisG
     , yAxisG
     , yAxis2G
-    , buttonG
     , tooltip
   ;
 
@@ -61,9 +60,8 @@ function Grid(){
       render_axes();
       svg.select(".viz")
           .call(render_cells, data)
-          .call(render_year_indicators);
-      render_button();
-
+          .call(render_year_indicators)
+      ;
       // Set up data download buttons.
       connect_download_buttons();
 
@@ -249,25 +247,6 @@ function Grid(){
   } // render_axes()
 
 
-  function render_button() {
-      buttonG
-          .attr("transform", "translate(" + width + ",0)")
-        .selectAll("foreignObject")
-          .data([1])
-        .enter().append("foreignObject")
-          .attr("width", side)
-          .attr("height", side)
-          .each(function(d) {
-              d3.select(this)
-                .append("button")
-                .append("i")
-                  .attr("class", "fa fa-sort-alpha-asc")
-                  .text("Blah")
-              ;
-            })
-      ;
-  } // render_button()
-
   function domainify() {
       if(reset) {
           xScale.domain(
@@ -350,9 +329,6 @@ function Grid(){
       ;
       yAxis2G = axes.append("g")
           .attr("class", "y axis")
-      ;
-      buttonG = g.append("g")
-          .attr("class", "reset-sort")
       ;
       return my;
     } // my.svg()
