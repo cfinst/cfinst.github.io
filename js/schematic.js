@@ -18,7 +18,6 @@ var signal = d3.dispatch(
         .connect(signal)
   , tip = d3.tip().attr('class', 'd3-tip')
   , tabs = {}
-  , navs = {}
   , query = {}
 ;
 // {% capture tabs %}{% for tab in site.data.tabs %}{{ tab.section }},{% endfor %}{% endcapture %}
@@ -123,26 +122,31 @@ function corpus() {
     ;
     signal.on("selectYear.grid", grid.selectedYear);
     signal.on("selectYear.chooser", function (selectedYear){
-      d3.select("#chooser-year").node().value = selectedYear;
-    });
+        d3.select("#chooser-year").node().value = selectedYear;
+      })
+    ;
     signal.on("downloadAllLimits", function (xColumn, yColumn){
         var filename = "CFI-contribution-limits-all.csv";
         var projectedData = project(data, [xColumn, yColumn].concat(columnsRaw));
         downloadCSV(projectedData, filename);
-    });
+      })
+    ;
     signal.on("downloadCurrentLimits", function (xColumn, yColumn, selectedColumn){
         var filename = "CFI-contribution-limits-" + selectedColumn + ".csv";
         var projectedData = project(data, [xColumn, yColumn, selectedColumn]);
         downloadCSV(projectedData, filename);
-    });
-
+      })
+    ;
     // Set the URL history to the current section.
     signal.on("navigate.history", function (section) {
         window.location.hash = '#' + section;
-    });
-
+      })
+    ;
     // Update the visualization according to the current section.
-    signal.on("navigate.vis", function (section) { navs[section](data); });
+    signal.on("navigate.vis", function (section) {
+        tabs[section](data);
+      })
+    ;
 
 } // corpus()
 
@@ -232,96 +236,101 @@ function setupTabNavigation() {
     ;
 } // setupTabNavigation()
 
+var colorScale = {};
 {% for section in site.data.sections %}
-navs["{{ section[0] }}"] = function(data) {
-  var colorScale = {};
+colorScale["{{ section[0] }}"] = {};
   {% for legend in section[1].legends %}
-  {% capture bins %}{% for item in legend.scale %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
-  {% capture colors %}{% for item in legend.scale %}{{ item.color }},{% endfor %}{% endcapture %}
-  {% capture labels %}{% for item in legend.scale %}{{ item.label }},{% endfor %}{% endcapture %}
-  {% capture scale %}{% if legend.type == "threshold" %}Threshold{% else %}Ordinal{% endif %}{% endcapture %}
-  colorScale["{{ legend.name }}"] = d3.scale{{ scale }}()
-      .range(liquidToArray('{{ colors }}'))
-      .domain(liquidToArray(
-        {% if legend.type == "threshold" %}'{{ bins }}').map(function(d) { return +d + 1; }))
-        {% elsif legend.type == "ordinal" %}'{{ labels }}'))
-        {% endif %}
+    {% capture bins %}{% for item in legend.scale %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+    {% capture colors %}{% for item in legend.scale %}{{ item.color }},{% endfor %}{% endcapture %}
+    {% capture labels %}{% for item in legend.scale %}{{ item.label }},{% endfor %}{% endcapture %}
+    {% capture scale %}{% if legend.type == "threshold" %}Threshold{% else %}Ordinal{% endif %}{% endcapture %}
+colorScale["{{ section[0] }}"]["{{ legend.name }}"] = d3.scale{{ scale }}()
+    .range(liquidToArray('{{ colors }}'))
+    .domain(liquidToArray(
+      {% if legend.type == "threshold" %}'{{ bins }}').map(function(d) { return +d + 1; }
+      {% elsif legend.type == "ordinal" %}'{{ labels }}'
+      {% endif %}))
     ;
-    {% if legend.type == "threshold" %}colorScale["{{ legend.name }}"].emptyValue = {{ legend.fallback }};{% endif %}
+    {% if legend.type == "threshold" %}colorScale["{{ section[0] }}"]["{{ legend.name }}"].emptyValue = {{ legend.fallback }};{% endif %}
   {% endfor %}
-
-  {% if section[0] == 'contribution-limits' %}
-  {% capture abbrs %}{% for group in section[1].controls %}{% for dropdown in group.dropdowns %}{% for option in dropdown.options %}{% if option.abbr %}{{ option.abbr }}: {{ option.text }},{% endif %}{% endfor %}{% endfor %}{% endfor %}{% endcapture %}
-    var abbrs = liquidToMap('{{ abbrs | strip }}')
-      , query = {}
-      , tab = tabs["{{ section[0] }}"]
-    ;
-    d3.selectAll("#{{ section[0] }} select")
-        .each(function(d) {
-            d3.select(this).select("optgroup").selectAll("option")
-                .attr("selected", function(d, i) {
-                    return !i ? "selected" : null;
-                  })
-            ;
-            var key = this.id.split("chooser-")[1];
-            query[key] = this.value;
-          })
-        .on("change", function() {
-            query[this.id.split("chooser-")[1]] = this.value;
-            update();
-          })
-    ;
-
-    // Set up the legend so it can be toggled depending on the donor.
-    tab.colorScale(colorScale).grid(grid);
-    // Initial render.
-    d3.select("#{{ section[0] }}").call(tab);
-    update();
-
-    // Updates the grid and legend based on the current query.
-    function update(){
-      var legend = query.donor === "StateP" ? "partyAsDonor" : "default";
-      grid
-          .colorScale(colorScale[legend])
-          .selectedColumn(querify(), true)
-          .selectedColumnLabel(labelify())
-        () // Call grid()
-      ;
-      tab.toggleLegend(legend);
-    } // renderGrid()
-
-    function querify() {
-        var col = query["donor"] + "To" + query["recipient"] + "Limit"
-          , branch = !d3.map(data[0]).has([col + "_Max"])
-        ;
-        d3.select("#chooser-recipient-branch")
-            .attr("disabled", !branch || null)
-            .property("value", !branch ? "" : query["recipient-branch"])
-        ;
-        return col + (branch ? "_" + query["recipient-branch"] : "") + "_Max";
-    } // querify()
-
-    function labelify() {
-        var col = query["donor"] + "To" + query["recipient"] + "Limit"
-          , branch = !d3.map(data[0]).has([col + "_Max"]);
-        var label = [
-          abbreviate(query["donor"])
-          , " to "
-          , abbreviate(query["recipient"])
-          , branch ? (" (" + abbreviate(query["recipient-branch"]) + ")") : ""
-        ].join("");
-        return label;
-    } // labelify()
-
-    function abbreviate(str) {
-        return abbrs.get(str) || str;
-    } // abbreviate()
-} // navs["{{ section[0]}}"]()
-{% else %}
-    d3.select("#{{ section[0] }}")
-        .call(tabs["{{ section[0] }}"].colorScale(colorScale).grid(grid))
-    ;
-} // navs["{{ section[0]}}"]()
-{% endif %}
 {% endfor %}
+console.log(colorScale);
+d3.selectAll(".tab-pane")
+    .each(function(d, i) {
+        var name = this.id;
+        console.log("calling", name, colorScale[name]);
+        d3.select(this)
+            .call(tabs[name].colorScale(colorScale[name]).grid(grid))
+        ;
+      })
+;
 }());
+
+
+
+
+{% comment %}  // CONTRIBUTION LIMITS CUSTOMIZATIONS
+{% if section[0] == 'contribution-limits' %}
+  var abbrs = liquidToMap('{{ abbrs | strip }}')
+    , query = {}
+    , tab = tabs["{{ section[0] }}"]
+  ;
+  d3.selectAll("#{{ section[0] }} select")
+      .each(function(d) {
+          d3.select(this).select("optgroup").selectAll("option")
+              .attr("selected", function(d, i) {
+                  return !i ? "selected" : null;
+                })
+          ;
+        })
+      .on("change", function() {
+          query[this.id.split("chooser-")[1]] = this.value;
+          update();
+        })
+  ;
+
+  // Set up the legend so it can be toggled depending on the donor.
+  tab.colorScale(colorScale).grid(grid);
+  // Initial render.
+  // update();
+
+  // Updates the grid and legend based on the current query.
+  function update(){
+    var legend = query.donor === "StateP" ? "partyAsDonor" : "default";
+    grid
+        .colorScale(colorScale[legend])
+        .selectedColumn(querify(), true)
+        .selectedColumnLabel(labelify())
+      () // Call grid()
+    ;
+    tab.toggleLegend(legend);
+  } // renderGrid()
+
+  function querify() {
+      var col = query["donor"] + "To" + query["recipient"] + "Limit"
+        , branch = !d3.map(data[0]).has([col + "_Max"])
+      ;
+      d3.select("#chooser-recipient-branch")
+          .attr("disabled", !branch || null)
+          .property("value", !branch ? "" : query["recipient-branch"])
+      ;
+      return col + (branch ? "_" + query["recipient-branch"] : "") + "_Max";
+  } // querify()
+
+  function labelify() {
+      var col = query["donor"] + "To" + query["recipient"] + "Limit"
+        , branch = !d3.map(data[0]).has([col + "_Max"]);
+      var label = [
+        abbreviate(query["donor"])
+        , " to "
+        , abbreviate(query["recipient"])
+        , branch ? (" (" + abbreviate(query["recipient-branch"]) + ")") : ""
+      ].join("");
+      return label;
+  } // labelify()
+
+  function abbreviate(str) {
+      return abbrs.get(str) || str;
+  } // abbreviate()
+{% endif %}
+{% endcomment %}
