@@ -6,7 +6,7 @@
       <option value="{{ question.name }}"
            data-legend="{{ question.legend }}"
            data-question="{{ question.question }}"
-           data-note='{{ question.note }}'
+           {% if question.note %}data-note='{{ question.note }}'{% endif %}
            data-label='{{ question.label }}'>{{ question.label }}</option>
     {% endfor %}
   </optgroup>
