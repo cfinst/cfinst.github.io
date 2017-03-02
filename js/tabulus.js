@@ -21,12 +21,11 @@ function Tabulus() {
                     var key = this.id.split("chooser-")[1] || "question";
                     query[key] = this.value;
 
-                    if(query.question) {
-                        query.answer = d3.select(this)
+                    var datum = d3.select(this)
                           .select("option[value='" + this.value + "']")
                             .datum()
-                        ;
-                    }
+                    ;
+                    query.answer = datum;
                     update();
                   })
               .selectAll("option")
@@ -38,12 +37,11 @@ function Tabulus() {
         }
         dropdown.each(function(d, i) {
             d3.select(this)
-                .on("change")
+              .on("change")
                 .apply(this, [d, i])
             ;
           })
         ;
-        update();
     } // my()
 
 
@@ -68,9 +66,9 @@ function Tabulus() {
               () // Call grid()
             ;
         } else {
+            if(!(query.donor && query.recipient)) return;
+            if(query.recipient === "Cand" && !query.branch) return;
             console.log(query);
-            if(!Object.keys(query).length)
-            return;
         }
     } // update()
 
