@@ -236,25 +236,22 @@ function setupTabNavigation() {
 
 {% for section in site.data.sections %}
 navs["{{ section[0] }}"] = function(data) {
+  var colorScale = {};
   {% if section[0] == 'contribution-limits' %}
-    var colorScale = {
-          {% for scale in section[1].legends %}{% for legend in scale[1] %}
-            {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
-            {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
-            {% unless forloop.first %}, {% endunless %}{{ legend[0] }}: d3.scaleThreshold()
-                .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
-                .range(liquidToArray('{{ colors }}'))
-          {% endfor %}{% endfor %}
-          {% capture abbrs %}{% for group in section[1].controls %}{% for dropdown in group.dropdowns %}{% for option in dropdown.options %}{% if option.abbr %}{{ option.abbr }}: {{ option.text }},{% endif %}{% endfor %}{% endfor %}{% endfor %}{% endcapture %}
-        }
-      , abbrs = liquidToMap('{{ abbrs | strip }}')
+  {% for legend in section[1].legends %}
+    {% capture bins %}{% for item in legend.scale %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+    {% capture colors %}{% for item in legend.scale %}{{ item.color }},{% endfor %}{% endcapture %}
+    colorScale["{{ legend.name }}"] = d3.scale{% if legend.type == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
+            .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
+            .range(liquidToArray('{{ colors }}'))
+    ;
+    colorScale["{{ legend.name }}"].emptyValue = {{ legend.fallback }};
+  {% endfor %}
+  {% capture abbrs %}{% for group in section[1].controls %}{% for dropdown in group.dropdowns %}{% for option in dropdown.options %}{% if option.abbr %}{{ option.abbr }}: {{ option.text }},{% endif %}{% endfor %}{% endfor %}{% endfor %}{% endcapture %}
+    var abbrs = liquidToMap('{{ abbrs | strip }}')
       , query = {}
       , tab = tabs["{{ section[0] }}"]
     ;
-
-    // A missing entry in Contribution Limits means "Unlimited".
-    colorScale.default.emptyValue = Infinity;
-
     d3.selectAll("#{{ section[0] }} select")
         .each(function(d) {
             d3.select(this).select("optgroup").selectAll("option")
@@ -266,21 +263,15 @@ navs["{{ section[0] }}"] = function(data) {
             query[key] = this.value;
           })
         .on("change", function() {
-            if(this.id === "chooser-donor") {
-                // State Party cannot donate to local party, so disable those
-                disablePartyAsRecipient(this.value === "StateP");
-            }
-
             query[this.id.split("chooser-")[1]] = this.value;
-
             update();
           })
     ;
 
     // Set up the legend so it can be toggled depending on the donor.
-    tabs["{{ section[0] }}"].colorScale(colorScale).grid(grid);
+    tab.colorScale(colorScale).grid(grid);
     // Initial render.
-    d3.select("#{{ section[0] }}").call(tabs["{{ section[0] }}"]);
+    d3.select("#{{ section[0] }}").call(tab);
     update();
 
     // Updates the grid and legend based on the current query.
@@ -321,22 +312,7 @@ navs["{{ section[0] }}"] = function(data) {
     function abbreviate(str) {
         return abbrs.get(str) || str;
     } // abbreviate()
-
-    function disablePartyAsRecipient(bool) {
-        var dropdown = d3.select("#chooser-recipient")
-          , first = dropdown.select("option").attr("value")
-          , recip = dropdown.node().value
-        ;
-        dropdown.select("option[value='Party']")
-            .property("disabled", bool)
-            .style("visibility", bool ? "hidden" : "visible")
-        ;
-        // Set the recipient dropdown to the first (non-party) option
-        dropdown.node().value = first;
-        // Set the query variable with the new recipient dropdown value
-        query[dropdown.node().id.split("chooser-")[1]] = dropdown.node().value;
-    } // disablePartyAsRecipient()
-} // navs["{{ sections[0]}}"]()
+} // navs["{{ section[0]}}"]()
 {% else %}
     var colorScale = {
     {% for scale in section[1].legends %}{% unless forloop.first %}, {% endunless %}{% for legend in scale[1] %}

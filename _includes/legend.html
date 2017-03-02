@@ -1,4 +1,4 @@
-{% for legendtype in section[1].legends %}{% for legend in legendtype[1] %}
+{% for legend in section[1].legends %}
 <ul class="list-unstyled legend-{{ legend.name }}">
   {% for item in legend.scale %}
   <li>
@@ -9,4 +9,4 @@
   </li>
   {% endfor %}
 </ul>
-{% endfor %}{% endfor %}
+{% endfor %}
