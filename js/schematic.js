@@ -22,9 +22,7 @@ var signal = d3.dispatch(
   , query = {}
 ;
 // {% capture tabs %}{% for tab in site.data.tabs %}{{ tab.section }},{% endfor %}{% endcapture %}
-liquidToArray('{{ tabs }}').forEach(function(tab) {
-    tabs[tab] = Tabulus();
-});
+liquidToArray('{{ tabs }}').forEach(function(tab) { tabs[tab] = Tabulus(); });
 
 // Load the data and kick-off the visualization.
 d3.queue()
@@ -43,8 +41,7 @@ d3.queue()
 // Responsive
 d3.select(window)
     .on("resize", function() {
-        grid
-            .resize()
+        grid.resize()
           () // Call the grid as well
         ;
       })
@@ -87,14 +84,15 @@ function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosur
 
 function corpus() {
     var data = d3.nest()
-            .key(function(d) {
-                // Construct the identifier from these two fields,
-                // because the value of d.Identifier is not reliable (sometimes "l").
-                return d.State + d.Year;
+          .key(function(d) {
+              // Construct the identifier from these two fields,
+              // because the value of d.Identifier is not reliable.
+              return d.State + d.Year;
             })
-            .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
-            .map(d3.merge(arguments){% if site.filterYear %}.filter(function(d) { return d.Year != +{{ site.filterYear }}; }){% endif %})
-            .values()
+          .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
+          .map(d3.merge(arguments)
+{% if site.filterYear %}.filter(function(d) { return d.Year != +{{ site.filterYear }}; }){% endif %})
+          .values()
     ;
     grid
         .svg(d3.select("svg#main"))
@@ -237,16 +235,22 @@ function setupTabNavigation() {
 {% for section in site.data.sections %}
 navs["{{ section[0] }}"] = function(data) {
   var colorScale = {};
-  {% if section[0] == 'contribution-limits' %}
   {% for legend in section[1].legends %}
-    {% capture bins %}{% for item in legend.scale %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
-    {% capture colors %}{% for item in legend.scale %}{{ item.color }},{% endfor %}{% endcapture %}
-    colorScale["{{ legend.name }}"] = d3.scale{% if legend.type == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
-            .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
-            .range(liquidToArray('{{ colors }}'))
+  {% capture bins %}{% for item in legend.scale %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+  {% capture colors %}{% for item in legend.scale %}{{ item.color }},{% endfor %}{% endcapture %}
+  {% capture labels %}{% for item in legend.scale %}{{ item.label }},{% endfor %}{% endcapture %}
+  {% capture scale %}{% if legend.type == "threshold" %}Threshold{% else %}Ordinal{% endif %}{% endcapture %}
+  colorScale["{{ legend.name }}"] = d3.scale{{ scale }}()
+      .range(liquidToArray('{{ colors }}'))
+      .domain(liquidToArray(
+        {% if legend.type == "threshold" %}'{{ bins }}').map(function(d) { return +d + 1; }))
+        {% elsif legend.type == "ordinal" %}'{{ labels }}'))
+        {% endif %}
     ;
-    colorScale["{{ legend.name }}"].emptyValue = {{ legend.fallback }};
+    {% if legend.type == "threshold" %}colorScale["{{ legend.name }}"].emptyValue = {{ legend.fallback }};{% endif %}
   {% endfor %}
+
+  {% if section[0] == 'contribution-limits' %}
   {% capture abbrs %}{% for group in section[1].controls %}{% for dropdown in group.dropdowns %}{% for option in dropdown.options %}{% if option.abbr %}{{ option.abbr }}: {{ option.text }},{% endif %}{% endfor %}{% endfor %}{% endfor %}{% endcapture %}
     var abbrs = liquidToMap('{{ abbrs | strip }}')
       , query = {}
@@ -314,19 +318,6 @@ navs["{{ section[0] }}"] = function(data) {
     } // abbreviate()
 } // navs["{{ section[0]}}"]()
 {% else %}
-{% for legend in section[1].legends %}
-  {% capture bins %}{% for item in legend.scale %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
-  {% capture colors %}{% for item in legend.scale %}{{ item.color }},{% endfor %}{% endcapture %}
-  {% capture labels %}{% for item in legend.scale %}{{ item.label }},{% endfor %}{% endcapture %}
-    colorScale["{{ legend.name }}"] = d3.scale{% if legend.type == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
-        .range(liquidToArray('{{ colors }}'))
-        .domain(liquidToArray(
-          {% if legend.type == "threshold" %}'{{ bins }}').map(function(d) { return +d + 1; }))
-          {% elsif legend.type == "ordinal" %}'{{ labels }}'))
-          {% endif %}
-    ;
-    {% if scale[0] == "threshold" %}colorScale["{{ legend.name }}"].emptyValue = {{ legend.fallback }};{% endif %}
-    {% endfor %}
     d3.select("#{{ section[0] }}")
         .call(tabs["{{ section[0] }}"].colorScale(colorScale).grid(grid))
     ;
