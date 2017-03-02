@@ -4,13 +4,18 @@
       label: Donor
       options:
         - text: Individual
+          legend: default
         - text: Political Action Committee (PAC)
           abbr: PAC
+          legend: default
         - text: State Party
           abbr: StateP
+          legend: partyAsDonor
         - text: Corporation
           abbr: Corp
+          legend: default
         - text: Labor
+          legend: default
 - group: recipient
   dropdowns:
     - id: recipient
@@ -18,10 +23,13 @@
       options:
         - text: Candidate
           abbr: Cand
-        - text: Party
+        - text: Local Party
+          abbr: Party
+          disable: branch
         - text: Political Action Committee (PAC)
           abbr: PAC
-    - id: recipient-branch
+          disable: branch
+    - id: branch
       label: Branch (Recipient)
       options:
         - text: House/Assembly
