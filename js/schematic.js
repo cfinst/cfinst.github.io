@@ -268,39 +268,7 @@
 {% if section[0] == 'contribution-limits' %}
   var abbrs = liquidToMap('{{ abbrs | strip }}')
     , query = {}
-    , tab = tabs["{{ section[0] }}"]
   ;
-  d3.selectAll("#{{ section[0] }} select")
-      .each(function(d) {
-          d3.select(this).select("optgroup").selectAll("option")
-              .attr("selected", function(d, i) {
-                  return !i ? "selected" : null;
-                })
-          ;
-        })
-      .on("change", function() {
-          query[this.id.split("chooser-")[1]] = this.value;
-          update();
-        })
-  ;
-
-  // Set up the legend so it can be toggled depending on the donor.
-  tab.colorScale(colorScale).grid(grid);
-  // Initial render.
-  // update();
-
-  // Updates the grid and legend based on the current query.
-  function update(){
-    var legend = query.donor === "StateP" ? "partyAsDonor" : "default";
-    grid
-        .colorScale(colorScale[legend])
-        .selectedColumn(querify(), true)
-        .selectedColumnLabel(labelify())
-      () // Call grid()
-    ;
-    tab.toggleLegend(legend);
-  } // renderGrid()
-
   function querify() {
       var col = query["donor"] + "To" + query["recipient"] + "Limit"
         , branch = !d3.map(data[0]).has([col + "_Max"])
