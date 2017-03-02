@@ -314,25 +314,19 @@ navs["{{ section[0] }}"] = function(data) {
     } // abbreviate()
 } // navs["{{ section[0]}}"]()
 {% else %}
-    var colorScale = {
-    {% for scale in section[1].legends %}{% unless forloop.first %}, {% endunless %}{% for legend in scale[1] %}
-    {% capture colors %}{% for item in legend[1] %}{{ item.color }},{% endfor %}{% endcapture %}
-    {% unless forloop.first %}, {% endunless %}
-    {% if scale[0] == "threshold" %}
-      {% capture bins %}{% for item in legend[1] %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
-        {{ legend[0] }}: d3.scaleThreshold()
-            .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
-    {% elsif scale[0] == "ordinal" %}
-      {% capture labels %}{% for item in legend[1] %}{{ item.label }},{% endfor %}{% endcapture %}
-        {{ legend[0] }}: d3.scaleOrdinal()
-            .domain(liquidToArray('{{ labels }}'))
-    {% endif %}
-            .range(liquidToArray('{{ colors }}'))
-    {% endfor %}{% endfor %}
-    };
-    {% if scale[0] == "threshold" %}
-    colorScale.small.emptyValue = colorScale.big.emptyValue = -Infinity;
-    {% endif %}
+{% for legend in section[1].legends %}
+  {% capture bins %}{% for item in legend.scale %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+  {% capture colors %}{% for item in legend.scale %}{{ item.color }},{% endfor %}{% endcapture %}
+  {% capture labels %}{% for item in legend.scale %}{{ item.label }},{% endfor %}{% endcapture %}
+    colorScale["{{ legend.name }}"] = d3.scale{% if legend.type == "threshold" %}Threshold{% else %}Ordinal{% endif %}()
+        .range(liquidToArray('{{ colors }}'))
+        .domain(liquidToArray(
+          {% if legend.type == "threshold" %}'{{ bins }}').map(function(d) { return +d + 1; }))
+          {% elsif legend.type == "ordinal" %}'{{ labels }}'))
+          {% endif %}
+    ;
+    {% if scale[0] == "threshold" %}colorScale["{{ legend.name }}"].emptyValue = {{ legend.fallback }};{% endif %}
+    {% endfor %}
     d3.select("#{{ section[0] }}")
         .call(tabs["{{ section[0] }}"].colorScale(colorScale).grid(grid))
     ;
