@@ -17,25 +17,25 @@ function Tabulus() {
         if(!container) {
             container = sel;
             dropdown
-                .on("change", function(d) {
-                    var key = this.id.split("chooser-")[1] || "question";
-                    query[key] = this.value;
-
-                    var datum = d3.select(this)
+                .on("change", function() {
+                    var key = this.id.split("chooser-")[1] || "question"
+                      , datum = d3.select(this)
                           .select("option[value='" + this.value + "']")
                             .datum()
                     ;
+                    query[key] = this.value;
                     query.answer = datum;
                     update();
                   })
               .selectAll("option")
-                .datum(function() { return this.dataset; })
+                .datum(function() { return this.dataset; }) // create datum from data-* attributes
                 .attr("selected", function(d, i) {
                     return !i ? "selected" : null;
                   })
             ;
         }
         dropdown.each(function(d, i) {
+            // Call the "change" handler function for each dropdown
             d3.select(this)
               .on("change")
                 .apply(this, [d, i])
@@ -49,9 +49,8 @@ function Tabulus() {
     * Private Helper Functions
     */
     function update() {
-        if(query.answer) {
-            toggleLegend(query.answer.legend);
-
+        toggleLegend(query.answer.legend);
+        if(query.question) {
             container.select(".field-description")
                 .html(
                     query.answer.note
