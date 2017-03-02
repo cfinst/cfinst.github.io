@@ -7,50 +7,51 @@ function Tabulus() {
       , grid
       , dropdown
       , section
-      , query = { question: null }
+      , query = {}
     ;
     /*
     ** Main Function Object
     */
     function my(sel) {
-        container = sel;
-        dropdown = dropdown || sel.select("select")
-            .on("change", function(d) {
-                query.question = this.value;
-                query.answer = d3.select(this)
-                  .select("option[value='" + this.value + "']")
-                    .datum()
-                ;
-                update();
-              })
-        ;
-        dropdown.selectAll("option")
-            .datum(function() { return this.dataset; })
-          .each(function(d, i) {
-              if(!i) {
-                query.question = this.value;
-                query.answer = d;
-              }
-            })
+        dropdown = dropdown || sel.selectAll("select");
+        if(!container) {
+            container = sel;
+            dropdown
+                .on("change", function(d) {
+                    var key = this.id.split("chooser-")[1] || "question";
+                    query[key] = this.value;
+
+                    if(query.question) {
+                        query.answer = d3.select(this)
+                          .select("option[value='" + this.value + "']")
+                            .datum()
+                        ;
+                    }
+                    update();
+                  })
+              .selectAll("option")
+                .datum(function() { return this.dataset; })
+                .attr("selected", function(d, i) {
+                    return !i ? "selected" : null;
+                  })
+            ;
+        }
+        dropdown.each(function(d, i) {
+            d3.select(this)
+                .on("change")
+                .apply(this, [d, i])
+            ;
+          })
         ;
         update();
     } // my()
 
-    function toggleLegend(legend){
-        container.selectAll(".legend ul")
-            .style("display", function() {
-                return d3.select(this).classed("legend-" + legend)
-                  ? null
-                  : "none"
-                ;
-              })
-        ;
-    } // toggleLegend()
 
     /*
     * Private Helper Functions
     */
     function update() {
+        if(!query.answer) return;
         toggleLegend(query.answer.legend);
 
         container.select(".field-description")
@@ -68,6 +69,16 @@ function Tabulus() {
         ;
     } // update()
 
+    function toggleLegend(legend){
+        container.selectAll(".legend ul")
+            .style("display", function() {
+                return d3.select(this).classed("legend-" + legend)
+                  ? null
+                  : "none"
+                ;
+              })
+        ;
+    } // toggleLegend()
 
     /*
     ** API - Getter/Setter Methods
