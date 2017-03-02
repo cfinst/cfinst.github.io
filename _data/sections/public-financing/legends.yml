@@ -1,5 +1,6 @@
-ordinal:
-  taxes:
+- name: taxes
+  type: ordinal
+  scale:
     - label: Refund
       color: "#4393c3"
     - label: Tax Credit
@@ -8,7 +9,9 @@ ordinal:
       color: "#053061"
     - label: None
       color: gray
-  default:
+- name: default
+  type: ordinal
+  scale:
     - label: "Yes"
       color: "#4393c3"
     - label: Changed mid-cycle
@@ -17,7 +20,9 @@ ordinal:
       color: "#053061"
     - label: Missing Data
       color: gray
-  financing:
+- name: financing
+  type: ordinal
+  scale:
     - label: Full Public Financing
       color: "#92c5de" # lighter blue
     - label: Partial Grant
