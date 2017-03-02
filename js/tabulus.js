@@ -51,22 +51,27 @@ function Tabulus() {
     * Private Helper Functions
     */
     function update() {
-        if(!query.answer) return;
-        toggleLegend(query.answer.legend);
+        if(query.answer) {
+            toggleLegend(query.answer.legend);
 
-        container.select(".field-description")
-            .html(
-                query.answer.note
-                  ? (query.answer.question + "*\n\n* " + query.answer.note)
-                  : query.answer.question
-                )
-        ;
-        grid
-            .colorScale(colorScale[query.answer.legend])
-            .selectedColumn(query.question)
-            .selectedColumnLabel(query.answer.label)
-          () // Call grid()
-        ;
+            container.select(".field-description")
+                .html(
+                    query.answer.note
+                      ? (query.answer.question + "*\n\n* " + query.answer.note)
+                      : query.answer.question
+                    )
+            ;
+            grid
+                .colorScale(colorScale[query.answer.legend])
+                .selectedColumn(query.question)
+                .selectedColumnLabel(query.answer.label)
+              () // Call grid()
+            ;
+        } else {
+            console.log(query);
+            if(!Object.keys(query).length)
+            return;
+        }
     } // update()
 
     function toggleLegend(legend){
