@@ -23,7 +23,7 @@ To run this site on your own machine, you'll need a working [Ruby](https://www.r
 gem install jekyll
 
 # Use Jekyll to serve this site.
-cd cfi
+cd cfinst.github.io
 jekyll serve --watch
 ```
 
