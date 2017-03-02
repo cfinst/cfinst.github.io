@@ -34,8 +34,9 @@ function Tabulus() {
                   })
             ;
         }
-        dropdown.each(function(d, i) {
-            // Call the "change" handler function for each dropdown
+        // Call the "change" handler function for the first dropdown to trigger render
+        container.select("select").each(function(d, i) {
+
             d3.select(this)
               .on("change")
                 .apply(this, [d, i])
