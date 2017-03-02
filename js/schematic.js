@@ -305,11 +305,11 @@
       var col = query["donor"] + "To" + query["recipient"] + "Limit"
         , branch = !d3.map(data[0]).has([col + "_Max"])
       ;
-      d3.select("#chooser-recipient-branch")
+      d3.select("#chooser-branch")
           .attr("disabled", !branch || null)
-          .property("value", !branch ? "" : query["recipient-branch"])
+          .property("value", !branch ? "" : query["branch"])
       ;
-      return col + (branch ? "_" + query["recipient-branch"] : "") + "_Max";
+      return col + (branch ? "_" + query["branch"] : "") + "_Max";
   } // querify()
 
   function labelify() {
@@ -319,7 +319,7 @@
         abbreviate(query["donor"])
         , " to "
         , abbreviate(query["recipient"])
-        , branch ? (" (" + abbreviate(query["recipient-branch"]) + ")") : ""
+        , branch ? (" (" + abbreviate(query["branch"]) + ")") : ""
       ].join("");
       return label;
   } // labelify()
