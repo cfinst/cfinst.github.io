@@ -1,10 +1,13 @@
 <div class="col-sm-{{ 12 | divided_by: num }}">
-  <label class="control-label">{{ control.label }}</label>
-  <select class="chooser form-control" id="chooser-{{ control.id }}">
-    <optgroup label="Select a {{ control.label }}">
-      {% for option in control.options %}{% capture value %}{% if option.abbr %}{{ option.abbr }}{% else %}{{ option.text }}{% endif %}{% endcapture %}
-        <option value="{{ value }}">{{ option.text }}</option>
-      {% endfor %}
-    </optgroup>
-  </select>
+<label class="control-label">{{ control.label }}</label>
+<select class="chooser form-control" id="chooser-{{ control.id }}">
+  <optgroup label="Select a {{ control.label }}">
+    {% for option in control.options %}{% capture value %}{% if option.abbr %}{{ option.abbr }}{% else %}{{ option.text }}{% endif %}{% endcapture %}
+      <option value="{{ value }}"
+          {% if option.legend %}data-legend="{{ option.legend }}"{% endif %}
+          {% if option.disable %}data-disable="{{ option.disable }}"{% endif %}
+        >{{ option.text }}</option>
+    {% endfor %}
+  </optgroup>
+</select>
 </div><!--.col-sm-6-->
