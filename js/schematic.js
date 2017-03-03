@@ -90,6 +90,7 @@
               })
             .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
             .map(d3.merge(arguments)
+// Check the Jekyll config to see if we need to filter out years still being worked on
   {% if site.filterYear %}.filter(function(d) { return d.Year != +{{ site.filterYear }}; }){% endif %})
             .values()
       ;
@@ -222,6 +223,11 @@
       ;
   } // setupTabNavigation()
 
+  /*
+  ** Set up the colorScale object, which is keyed by the tab/section
+  ** The colors and labels for the various colorScales are all defined in
+  ** Jekyll, so we're using Jekyll template statements to populate the object.
+  */
   var colorScale = {};
   {% for section in site.data.sections %}
   colorScale["{{ section[0] }}"] = {};
