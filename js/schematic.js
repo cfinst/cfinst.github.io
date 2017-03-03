@@ -18,7 +18,9 @@
           .connect(signal)
     , tip = d3.tip().attr('class', 'd3-tip')
     , tabs = {}
-    , query = {}
+    , query = { // These are the defaults
+          section: 'contribution-limits'
+      }
   ;
   // {% capture tabs %}{% for tab in site.data.tabs %}{{ tab.section }},{% endfor %}{% endcapture %}
   liquidToArray('{{ tabs }}').forEach(function(tab) { tabs[tab] = Tabulus(); });
@@ -178,7 +180,6 @@
   function getQueryVariables() {
       var arg // loop variable
         , qstr = window.location.search.substring(1).toLowerCase().split("&")
-        , defaultSection = 'contribution-limits'
       ;
       qstr.forEach(function(q) {
           arg = q.split("=");
@@ -187,7 +188,7 @@
         })
       ;
       query.section = window.location.hash.substring(1).toLowerCase()
-        || defaultSection
+        || query.section
       ;
   } // getQueryVariables()
 
