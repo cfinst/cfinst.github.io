@@ -250,8 +250,8 @@
         {% if legend.type == "threshold" %}'{{ bins }}').map(function(d) { return +d + 1; }
         {% elsif legend.type == "ordinal" %}'{{ labels }}'
         {% endif %}))
-      ;
-      {% if legend.type == "threshold" %}colorScale["{{ section[0] }}"]["{{ legend.name }}"].emptyValue = {{ legend.fallback }};{% endif %}
+  ;
+  {% if legend.type == "threshold" %}colorScale["{{ section[0] }}"]["{{ legend.name }}"].emptyValue = {{ legend.fallback }};{% endif %}
     {% endfor %}
   {% endfor %}
   d3.selectAll(".tab-pane").each(function(d, i) {
@@ -266,9 +266,6 @@
 
 {% comment %}  // CONTRIBUTION LIMITS CUSTOMIZATIONS
 {% if section[0] == 'contribution-limits' %}
-  var abbrs = liquidToMap('{{ abbrs | strip }}')
-    , query = {}
-  ;
   function querify() {
       var col = query["donor"] + "To" + query["recipient"] + "Limit"
         , branch = !d3.map(data[0]).has([col + "_Max"])
