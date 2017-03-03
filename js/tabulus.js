@@ -28,8 +28,8 @@ function Tabulus() {
                       , datum = self.select("option[value='" + this.value + "']")
                             .datum()
                     ;
-                    query[key] = datum;
                     query.question = null;
+                    query[key] = datum;
                     query.disabled = self.attr("disabled");
 
                     if(datum.disable) {
