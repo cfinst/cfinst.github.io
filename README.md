@@ -36,10 +36,10 @@ Now the site should be available at [http://localhost:4000/](http://localhost:40
 The following instructions are for updating the data used by this software from a new database dump from the original Microsoft Access database. After following these steps, the software will use the updated data.
 
 1. Download database dump file, e.g. `CFI State Laws Update_Merge.zip`. This will likely end up in your `~/Downloads` folder (on Linux / Mac).
-2. Move the file into the data directory of this repository: `cd cfi/data; mv ~/Downloads/CFI\ State\ Laws\ Update_Merge.zip .`
+2. Move the file into the data directory of this repository: `cd cfinst.github.io/data; mv ~/Downloads/CFI\ State\ Laws\ Update_Merge.zip .`
 3. Unzip the file `unzip CFI\ State\ Laws\ Update_Merge.zip`
 4. Install [mdbtools](https://github.com/brianb/mdbtools). In Ubuntu Linux, these can be installed with the command `sudo apt-get install mdbtools`.
-4. Run the shell script that generates the CSV files from the database dump: `cd cfi; ./bin/parse-mdb.sh data/CFI\ State\ Laws\ Update_Merge.mdb`
+4. Run the shell script that generates the CSV files from the database dump: `cd cfints.github.io; ./bin/parse-mdb.sh data/CFI\ State\ Laws\ Update_Merge.mdb`
 
 If successful, you should see the following output:
 
@@ -57,7 +57,7 @@ Exporting Laws_04_PublicFinancing to CSV...
 ...
 ```
 
-### Updating Field Descriptions
+### Updating Field Descriptions (This is outdated, changes can be made directlyin Github now)
 
 Export the field description spreadsheets as CSV files, then copy them into `data/disclosure-fields.csv` and `data/public-funding-fields.csv`.
 
