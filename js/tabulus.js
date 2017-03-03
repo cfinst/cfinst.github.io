@@ -6,7 +6,6 @@ function Tabulus() {
       , colorScale
       , grid
       , dropdown
-      , section
       , query = {}
     ;
     /*
@@ -39,13 +38,11 @@ function Tabulus() {
                               , value = this.value
                             ;
                             d3.select(this)
-                                .attr("disabled", name == datum.disable
-                                    ? "disabled"
-                                    : null
+                                .attr("disabled"
+                                    , name === datum.disable ? "disabled" : null
                                   )
-                                .property("value", name == datum.disable
-                                    ? ""
-                                    : value
+                                .property("value"
+                                    , name === datum.disable ? "" : value
                                   )
                             ;
                           })
