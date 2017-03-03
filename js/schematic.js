@@ -189,20 +189,6 @@
       ;
   } // liquidToArray()
 
-  // Convert a formatted liquid template string into a usable hash for Javascript
-  // Convert a list of key:value pairs (separated by a ':' and generates a Map)
-  function liquidToMap(str) {
-      return new Map(liquidToArray(str)
-          .map(function(d) {
-              return d.split(':')
-                  .map(function(e) { return e.trim(); })
-              ;
-            })
-        )
-      ;
-  } // liquidToMap()
-
-
   // Causes the given data to be downloaded as a CSV file with the given name.
   // Draws from
   // http://stackoverflow.com/questions/12676649/javascript-programmatically-trigger-file-download-in-firefox
