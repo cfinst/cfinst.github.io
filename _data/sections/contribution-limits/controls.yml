@@ -1,6 +1,6 @@
 - group: donor
   dropdowns:
-    - question: donor
+    - id: donor
       label: Donor
       options:
         - label: Individual
