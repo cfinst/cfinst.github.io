@@ -1,40 +1,40 @@
 - group: donor
   dropdowns:
-    - id: donor
+    - question: donor
       label: Donor
       options:
-        - text: Individual
+        - label: Individual
           legend: default
-        - text: Political Action Committee (PAC)
+        - label: Political Action Committee (PAC)
           abbr: PAC
           legend: default
-        - text: State Party
+        - label: State Party
           abbr: StateP
           legend: partyAsDonor
-        - text: Corporation
+        - label: Corporation
           abbr: Corp
           legend: default
-        - text: Labor
+        - label: Labor
           legend: default
 - group: recipient
   dropdowns:
     - id: recipient
       label: Recipient
       options:
-        - text: Candidate
+        - label: Candidate
           abbr: Cand
-        - text: Local Party
+        - label: Local Party
           abbr: Party
           disable: branch
-        - text: Political Action Committee (PAC)
+        - label: Political Action Committee (PAC)
           abbr: PAC
           disable: branch
     - id: branch
       label: Branch (Recipient)
       options:
-        - text: House/Assembly
+        - label: House/Assembly
           abbr: H
-        - text: Senate
+        - label: Senate
           abbr: S
-        - text: Governor
+        - label: Governor
           abbr: G
