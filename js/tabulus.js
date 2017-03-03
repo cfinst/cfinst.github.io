@@ -66,10 +66,21 @@ function Tabulus() {
             if(!(query.donor && query.recipient)) return;
             if(query.recipient.value === "Cand" && !query.branch) return;
             toggleLegend(query.donor.legend || "default");
-            query.question = query.donor.value + "To" + query.recipient.value
+            query.question = query.donor.value
+              + "To"
+              + query.recipient.value
+              + "Limit"
               + (query.branch ? "_" + query.branch.value : "") + "_Max"
             ;
-            console.log(query);
+            query.label = query.donor.label + " to " + query.recipient.label
+              + (query.branch ? "(" + query.branch.label + ")" : "")
+            ;
+            grid
+                .colorScale(colorScale[query.donor.legend])
+                .selectedColumn(query.question, true)
+                .selectedColumnLabel(query.label)
+              ()
+            ;
         }
     } // update()
 
