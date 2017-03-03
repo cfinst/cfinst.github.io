@@ -19,12 +19,12 @@ function Tabulus() {
             dropdown
                 .on("change", function() {
                     var key = this.id.split("chooser-")[1] || "question"
-                      , datum = d3.select(this)
-                          .select("option[value='" + this.value + "']")
+                      , self = d3.select(this)
+                      , datum = self.select("option[value='" + this.value + "']")
                             .datum()
                     ;
-                    query[key] = this.value;
-                    query.answer = datum;
+                    query.question = null;
+                    query[key] = self.attr("disabled") ? null : datum;
                     update();
                   })
               .selectAll("option")
@@ -35,12 +35,8 @@ function Tabulus() {
             ;
         }
         // Call the "change" handler function for the first dropdown to trigger render
-        container.select("select").each(function(d, i) {
-
-            d3.select(this)
-              .on("change")
-                .apply(this, [d, i])
-            ;
+        container.select("select").each(function() {
+            d3.select(this).on("change").apply(this, []);
           })
         ;
     } // my()
@@ -50,24 +46,29 @@ function Tabulus() {
     * Private Helper Functions
     */
     function update() {
-        toggleLegend(query.answer.legend);
         if(query.question) {
+            var question = query.question;
             container.select(".field-description")
-                .html(
-                    query.answer.note
-                      ? (query.answer.question + "*\n\n* " + query.answer.note)
-                      : query.answer.question
-                    )
+                .html(question.question + (
+                    question.note
+                      ? ("*\n\n* " + question.note)
+                      : ""
+                  ))
             ;
             grid
-                .colorScale(colorScale[query.answer.legend])
-                .selectedColumn(query.question)
-                .selectedColumnLabel(query.answer.label)
+                .colorScale(colorScale[question.legend])
+                .selectedColumn(question.value)
+                .selectedColumnLabel(question.label)
               () // Call grid()
             ;
+            toggleLegend(question.legend);
         } else {
             if(!(query.donor && query.recipient)) return;
-            if(query.recipient === "Cand" && !query.branch) return;
+            if(query.recipient.value === "Cand" && !query.branch) return;
+            toggleLegend(query.donor.legend || "default");
+            query.question = query.donor.value + "To" + query.recipient.value
+              + (query.branch ? "_" + query.branch.value : "") + "_Max"
+            ;
             console.log(query);
         }
     } // update()
