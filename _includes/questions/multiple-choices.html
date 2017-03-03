@@ -4,6 +4,8 @@
   <optgroup label="Select a {{ control.label }}">
     {% for option in control.options %}{% capture value %}{% if option.abbr %}{{ option.abbr }}{% else %}{{ option.label }}{% endif %}{% endcapture %}
       <option value="{{ value }}"
+          data-label='{{ option.label }}'
+          data-value='{{ value }}'
           {% if option.legend %}data-legend="{{ option.legend }}"{% endif %}
           {% if option.disable %}data-disable="{{ option.disable }}"{% endif %}
         >{{ option.label }}</option>

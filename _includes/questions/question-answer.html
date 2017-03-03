@@ -4,10 +4,12 @@
     <optgroup label="Select a Question">
     {% for question in controls %}
       <option value="{{ question.name }}"
-           data-legend="{{ question.legend }}"
-           data-question="{{ question.question }}"
-           {% if question.note %}data-note='{{ question.note }}'{% endif %}
-           data-label='{{ question.label }}'>{{ question.label }}</option>
+          data-value="{{ question.name }}"
+          data-legend="{{ question.legend }}"
+          data-question="{{ question.question }}"
+          {% if question.note %}data-note='{{ question.note }}'{% endif %}
+          data-label='{{ question.label }}'
+        >{{ question.label }}</option>
     {% endfor %}
   </optgroup>
   </select>
