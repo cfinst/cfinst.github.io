@@ -16,6 +16,12 @@ function Tabulus() {
         dropdown = dropdown || sel.selectAll("select");
         if(!container) {
             container = sel;
+            dropdown.selectAll("option")
+                .datum(function() { return this.dataset; }) // create datum from data-* attributes
+                .attr("selected", function(d, i) {
+                    return !i ? "selected" : null;
+                  })
+            ;
             dropdown
                 .on("change", function() {
                     var key = this.id.split("chooser-")[1] || "question"
@@ -23,14 +29,29 @@ function Tabulus() {
                       , datum = self.select("option[value='" + this.value + "']")
                             .datum()
                     ;
+                    query[key] = datum;
                     query.question = null;
-                    query[key] = self.attr("disabled") ? null : datum;
+                    query.disabled = self.attr("disabled");
+
+                    if(datum.disable) {
+                        dropdown.each(function() {
+                            var name = this.id.split("chooser-")[1]
+                              , value = this.value
+                            ;
+                            d3.select(this)
+                                .attr("disabled", name == datum.disable
+                                    ? "disabled"
+                                    : null
+                                  )
+                                .property("value", name == datum.disable
+                                    ? ""
+                                    : value
+                                  )
+                            ;
+                          })
+                        ;
+                    }
                     update();
-                  })
-              .selectAll("option")
-                .datum(function() { return this.dataset; }) // create datum from data-* attributes
-                .attr("selected", function(d, i) {
-                    return !i ? "selected" : null;
                   })
             ;
         }
@@ -55,33 +76,37 @@ function Tabulus() {
                       : ""
                   ))
             ;
-            grid
-                .colorScale(colorScale[question.legend])
-                .selectedColumn(question.value)
-                .selectedColumnLabel(question.label)
-              () // Call grid()
-            ;
-            toggleLegend(question.legend);
         } else {
             if(!(query.donor && query.recipient)) return;
             if(query.recipient.value === "Cand" && !query.branch) return;
-            toggleLegend(query.donor.legend || "default");
-            query.question = query.donor.value
+            query.question = {};
+            query.question.value = query.donor.value
               + "To"
               + query.recipient.value
               + "Limit"
-              + (query.branch ? "_" + query.branch.value : "") + "_Max"
+              + (query.branch
+                  ? (query.branch.disabled ? "" : "_" + query.branch.value)
+                  : ""
+                )
+              + "_Max"
             ;
-            query.label = query.donor.label + " to " + query.recipient.label
-              + (query.branch ? "(" + query.branch.label + ")" : "")
+            query.question.label = query.donor.label
+              + " to "
+              + query.recipient.label
+              + (query.branch
+                  ? (query.branch.disabled ? "" : "(" + query.branch.label + ")")
+                  : ""
+                )
             ;
-            grid
-                .colorScale(colorScale[query.donor.legend])
-                .selectedColumn(query.question, true)
-                .selectedColumnLabel(query.label)
-              ()
-            ;
+            query.question.legend = query.donor.legend || "default";
         }
+        grid
+            .colorScale(colorScale[query.question.legend])
+            .selectedColumn(query.question.value)
+            .selectedColumnLabel(query.question.label)
+          () // Call grid()
+        ;
+        toggleLegend(query.question.legend);
     } // update()
 
     function toggleLegend(legend){
