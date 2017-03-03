@@ -65,35 +65,46 @@
       if(error) throw error;
 
       carto(usa);
-      corpus(contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other);
+      corpus(ingest(
+            contribs, contribs2, contribs3
+          , disclosure1, disclosure2, disclosure3
+          , publicFinancing
+          , other
+      ));
 
+      // Initialize the navigation state.
+      getQueryVariables(); // populate the query variable
       setupTabNavigation();
+      setupSignals();
+
 
       // Initialize the selected year to the most recent.
       signal.call("selectYear", null, d3.select("#chooser-year").node().value);
 
-      // Initialize the navigation state.
-      getQueryVariables(); // populate the query variable
-
       d3.select("a[href='#" + query.section + "']")
-        .node()
+          .node()
         .click()
       ;
   } // visualize()
 
-  function corpus() {
-      var data = d3.nest()
-            .key(function(d) {
-                // Construct the identifier from these two fields,
-                // because the value of d.Identifier is not reliable.
-                return d.State + d.Year;
-              })
-            .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
-            .map(d3.merge(arguments)
-// Check the Jekyll config to see if we need to filter out years still being worked on
-  {% if site.filterYear %}.filter(function(d) { return d.Year != +{{ site.filterYear }}; }){% endif %})
-            .values()
+  function ingest() {
+      return d3.nest()
+          .key(function(d) {
+              // Construct the identifier from these two fields,
+              // because the value of d.Identifier is not reliable.
+              return d.State + d.Year;
+            })
+          .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
+          .map(d3.merge(arguments)
+  {% comment %}
+  Check Jekyll config to see if a year is being worked on
+  {%endcomment %}{% if site.filterYear %}
+          .filter(function(d) { return d.Year != +{{ site.filterYear }}; }){% endif %})
+          .values()
       ;
+  } // ingest()
+
+  function corpus(data) {
       grid
           .svg(d3.select("svg#main"))
           .data(data)
@@ -113,7 +124,18 @@
           .text(identity)
           .property("selected", function(d, i) { return !i ? "selected" : null; })
       ;
+  } // corpus()
 
+  function carto (usa){
+      d3.select("svg#map")
+          .datum(usa)
+          .call(atlas.tooltip(tip))
+      ;
+      signal.on("update", atlas.update);
+  } // carto()
+
+
+  function setupSignals() {
       // Signal Handling
       d3.select(".controls .checkbox input")
           .on("change", function() { grid.empty(this.checked)(); })
@@ -144,21 +166,9 @@
         })
       ;
       // Update the visualization according to the current section.
-      signal.on("navigate.vis", function (section) {
-          tabs[section](data);
-        })
-      ;
+      signal.on("navigate.vis", function (section) { tabs[section](); });
 
-  } // corpus()
-
-
-  function carto (usa){
-      d3.select("svg#map")
-          .datum(usa)
-          .call(atlas.tooltip(tip))
-      ;
-      signal.on("update", atlas.update);
-  } // carto()
+  } // setupSignals()
 
 
   // Helper Utility Functions
