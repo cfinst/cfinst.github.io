@@ -33,7 +33,6 @@ function Grid(){
     , format // The formatter function, works from the output of valueAccessor(d).
     , data
     , sortYear
-    , scorecard
     , empty = false
     , reset = true
     , dispatch
@@ -262,15 +261,6 @@ function Grid(){
       }
   } // domainify()
 
-  function score() {
-      scorecard = d3.nest()
-          .key(function(d) { return d[xColumn]; })
-          // .key(function(d) { return d[yColumn]; })
-          // .rollup(function(leaves) { return leaves[0]; })
-          .object(data);
-      ;
-  } // score();
-
   function resort() {
       if(!colorScale) return;
       var sorted = data
@@ -316,8 +306,6 @@ function Grid(){
               .attr("class", "viz")
         , axes = g.append("g")
               .attr("class", "axes")
-        , yearIndicatorOverlay = g.append("g")
-              .attr("class", "year-indicator-overlay")
         , highlightOverlay = g.append("g")
               .attr("class", "highlight-overlay")
       ;
@@ -355,7 +343,6 @@ function Grid(){
       ;
       reset = true;
       domainify();
-      score();
       return my;
     } // my.data()
   ;
