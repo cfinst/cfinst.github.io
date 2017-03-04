@@ -6,6 +6,7 @@ function Tabulus() {
       , colorScale
       , grid
       , dropdown
+      , dispatch
       , query = {}
     ;
     /*
@@ -139,6 +140,18 @@ function Tabulus() {
         container = _;
         return my;
       } // my.container()
+    ;
+    my.connect = function (_){
+        if(!arguments.length) return dispatch;
+        dispatch = _;
+        return my;
+      } // my.connect()
+    ;
+    my.query = function (_){
+        if(!arguments.length) return query;
+        query = _;
+        return my;
+      } // my.query()
     ;
     my.toggleLegend = toggleLegend;
 
