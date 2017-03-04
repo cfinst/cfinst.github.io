@@ -67,12 +67,13 @@
       if(error) throw error;
 
       carto(usa);
-      corpus(ingest(
+      corpus(ingest(d3.merge([
             contribs, contribs2, contribs3
           , disclosure1, disclosure2, disclosure3
           , publicFinancing
           , other
-      ));
+        ])))
+      ;
 
       // Initialize the navigation state.
       getQueryVariables(); // populate the query variable
@@ -89,7 +90,7 @@
       ;
   } // visualize()
 
-  function ingest() {
+  function ingest(dataset) {
       return d3.nest()
           .key(function(d) {
               // Construct the identifier from these two fields,
@@ -97,11 +98,11 @@
               return d.State + d.Year;
             })
           .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
-          .map(d3.merge(arguments)
-  {% comment %}
-  Check Jekyll config to see if a year is being worked on
-  {%endcomment %}{% if site.filterYear %}
-          .filter(function(d) { return d.Year != +{{ site.filterYear }}; }){% endif %})
+          .map(dataset
+  {% comment %}Check Jekyll config to see if a year is being worked on{%endcomment %}
+  {% if site.filterYear %}
+          .filter(function(d) { return d.Year != +{{ site.filterYear }}; })
+  {% endif %})
           .values()
       ;
   } // ingest()
