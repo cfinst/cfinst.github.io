@@ -79,19 +79,20 @@
       ;
 
       // Initialize the navigation state.
-      getQueryVariables(); // populate the query variable
+      queryFromURL(); // populate the query variable
       console.log(query)
       setupTabNavigation();
       setupSignals();
 
-
       // Initialize the selected year to the most recent.
       signal.call("selectYear", null, d3.select("#chooser-year").node().value);
 
-      d3.select("a[href='#" + query.section + "']")
-          .node()
-        .click()
-      ;
+      // If the query section doesn't have a valid link, default to the first tab
+      var sec = d3.select("a[href='#" + query.section + "']");
+      sec = sec.size() ? sec : d3.select(".nav-tabs a");
+
+      // Click the section tab
+      sec.node().click();
   } // visualize()
 
   function ingest(dataset) {
@@ -141,6 +142,13 @@
       signal.on("update", atlas.update);
   } // carto()
 
+  function setupTabNavigation() {
+      d3.select(".nav").selectAll("li a")
+          .on("click", function (d){
+              signal.call("navigate", null, this.href.split('#')[1]);
+          })
+      ;
+  } // setupTabNavigation()
 
   function setupSignals() {
       // Signal Handling
@@ -173,7 +181,7 @@
         })
       ;
       // Update the visualization according to the current section.
-      signal.on("navigate.vis", function (section) { tabs[section](); });
+      signal.on("navigate.vis", function (section){ tabs[section](); });
 
   } // setupSignals()
 
@@ -182,7 +190,7 @@
   function identity(d) { return d; }
 
   // Capture URL query param
-  function getQueryVariables() {
+  function queryFromURL() {
       var arg // loop variable
         , args = {}// store the incoming request
         , location = window.location.hash.substring(1).toLowerCase().split("?")
@@ -198,7 +206,7 @@
       d3.keys(query).forEach(function(k) { query[k] = args[k]; });
       // Populate section from the hash only
       query.section = location[0] || query.section;
-  } // getQueryVariables()
+  } // queryFromURL()
 
   // Convert a formatted liquid template string into a usable array for Javascript
   //  Basically, it takes a list of strings and splits into an array
@@ -233,14 +241,6 @@
           }, {});
       });
   } // project()
-
-  function setupTabNavigation() {
-      d3.select(".nav").selectAll("li a")
-          .on("click", function (d){
-              signal.call("navigate", null, this.href.split('#')[1]);
-          })
-      ;
-  } // setupTabNavigation()
 
   /*
   ** Set up the colorScale object, which is keyed by the tab/section
