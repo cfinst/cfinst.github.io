@@ -5,24 +5,25 @@ function Tabulus() {
     var container
       , colorScale
       , grid
-      , dropdown
+      , dropdowns
       , dispatch
-      , query = {}
+      , query
     ;
     /*
     ** Main Function Object
     */
     function my(sel) {
-        if(!container) {
-            dropdown = dropdown || sel.selectAll("select");
-            container = sel;
-            dropdown.selectAll("option")
+        if(!query) {
+            query = {};
+            container = container || sel;
+            dropdowns = dropdowns || container.selectAll("select");
+            dropdowns.selectAll("option")
                 .datum(function() { return this.dataset; }) // create datum from data-* attributes
                 .attr("selected", function(d, i) {
                     return !i ? "selected" : null;
                   })
             ;
-            dropdown
+            dropdowns
                 .on("change", function() {
                     // Q&A dropdowns have no id, just the class "question"
                     // The contrib limits dropdowns have unique identifiers
@@ -36,7 +37,7 @@ function Tabulus() {
                     query.disabled = self.attr("disabled");
 
                     if(datum.disable) {
-                        dropdown.each(function() {
+                        dropdowns.each(function() {
                             var name = this.id.split("chooser-")[1]
                               , value = this.value
                             ;
