@@ -80,6 +80,7 @@
 
       // Initialize the navigation state.
       getQueryVariables(); // populate the query variable
+      console.log(query)
       setupTabNavigation();
       setupSignals();
 
@@ -183,17 +184,20 @@
   // Capture URL query param
   function getQueryVariables() {
       var arg // loop variable
-        , qstr = window.location.search.substring(1).toLowerCase().split("&")
+        , args = {}// store the incoming request
+        , location = window.location.hash.substring(1).toLowerCase().split("?")
+        , qstr = (location[1] || "").split('&')
       ;
       qstr.forEach(function(q) {
           arg = q.split("=");
           if(arg[0].length && arg[1].length)
-              vars[arg[0]] = decodeURIComponent(arg[1]);
+              args[arg[0]] = decodeURIComponent(arg[1]);
         })
       ;
-      query.section = window.location.hash.substring(1).toLowerCase()
-        || query.section
-      ;
+      // Now populate the query object from the URL
+      d3.keys(query).forEach(function(k) { query[k] = args[k]; });
+      // Populate section from the hash only
+      query.section = location[0] || query.section;
   } // getQueryVariables()
 
   // Convert a formatted liquid template string into a usable array for Javascript
