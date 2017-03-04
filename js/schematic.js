@@ -241,23 +241,24 @@
   ** Jekyll, so we're using Jekyll template statements to populate the object.
   */
   var colorScale = {};
-  {% for section in site.data.sections %}
+{% for section in site.data.sections %}
   colorScale["{{ section[0] }}"] = {};
-    {% for legend in section[1].legends %}
-      {% capture bins %}{% for item in legend.scale %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
-      {% capture colors %}{% for item in legend.scale %}{{ item.color }},{% endfor %}{% endcapture %}
-      {% capture labels %}{% for item in legend.scale %}{{ item.label }},{% endfor %}{% endcapture %}
-      {% capture scale %}{% if legend.type == "threshold" %}Threshold{% else %}Ordinal{% endif %}{% endcapture %}
+  {% for legend in section[1].legends %}
+    {% capture bins %}{% for item in legend.scale %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+    {% capture colors %}{% for item in legend.scale %}{{ item.color }},{% endfor %}{% endcapture %}
+    {% capture labels %}{% for item in legend.scale %}{{ item.label }},{% endfor %}{% endcapture %}
+    {% capture scale %}{% if legend.type == "threshold" %}Threshold{% else %}Ordinal{% endif %}{% endcapture %}
   colorScale["{{ section[0] }}"]["{{ legend.name }}"] = d3.scale{{ scale }}()
       .range(liquidToArray('{{ colors }}'))
-      .domain(liquidToArray(
-        {% if legend.type == "threshold" %}'{{ bins }}').map(function(d) { return +d + 1; }
-        {% elsif legend.type == "ordinal" %}'{{ labels }}'
-        {% endif %}))
+    {% if legend.type == "threshold" %}
+      .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
+    {% elsif legend.type == "ordinal" %}
+      .domain(liquidToArray('{{ labels }}'))
+    {% endif %}
   ;
   {% if legend.type == "threshold" %}colorScale["{{ section[0] }}"]["{{ legend.name }}"].emptyValue = {{ legend.fallback }};{% endif %}
-    {% endfor %}
-  {% endfor %}
+{% endfor %}{% endfor %}
+
   d3.selectAll(".tab-pane").each(function(d, i) {
       var name = this.id;
       d3.select(this).call(tabs[name].colorScale(colorScale[name]).grid(grid));
