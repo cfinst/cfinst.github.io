@@ -20,6 +20,9 @@
     , tabs = {}
     , query = { // These are the defaults
           section: 'contribution-limits'
+        , question: null
+        , state: null
+        , year: null
       }
   ;
   // {% capture tabs %}{% for tab in site.data.tabs %}{{ tab.section }},{% endfor %}{% endcapture %}
