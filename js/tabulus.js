@@ -12,8 +12,8 @@ function Tabulus() {
     ** Main Function Object
     */
     function my(sel) {
-        dropdown = dropdown || sel.selectAll("select");
         if(!container) {
+            dropdown = dropdown || sel.selectAll("select");
             container = sel;
             dropdown.selectAll("option")
                 .datum(function() { return this.dataset; }) // create datum from data-* attributes
@@ -23,6 +23,8 @@ function Tabulus() {
             ;
             dropdown
                 .on("change", function() {
+                    // Q&A dropdowns have no id, just the class "question"
+                    // The contrib limits dropdowns have unique identifiers
                     var key = this.id.split("chooser-")[1] || "question"
                       , self = d3.select(this)
                       , datum = self.select("option[value='" + this.value + "']")
