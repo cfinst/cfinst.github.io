@@ -2,7 +2,8 @@
 ---
 (function () {
   var signal = d3.dispatch(
-        "update"
+        "control"
+        , "update"
         , "selectYear"
         , "downloadCurrentLimits"
         , "downloadAllLimits"
@@ -26,7 +27,11 @@
       }
   ;
   // {% capture tabs %}{% for tab in site.data.tabs %}{{ tab.section }},{% endfor %}{% endcapture %}
-  liquidToArray('{{ tabs }}').forEach(function(tab) { tabs[tab] = Tabulus(); });
+  liquidToArray('{{ tabs }}').forEach(function(tab) {
+      tabs[tab] = Tabulus()
+          .connect(signal)
+      ;
+  });
 
   // Load the data and kick-off the visualization.
   d3.queue()
@@ -183,6 +188,19 @@
       // Update the visualization according to the current section.
       signal.on("navigate.vis", function (section){ tabs[section](); });
 
+      signal.on("control", function(question) {
+          question.each(function(value, key) { query[key] = value; });
+
+          var mvkeys = ["section", "question", "year"]
+            , valid = mvkeys.map(function(d) { return query[d]; })
+            , length = valid.filter(identity).length
+          ;
+          var blah = length < mvkeys.length
+            ? "meh"
+            : query
+          ;
+        })
+      ;
   } // setupSignals()
 
 
