@@ -13,60 +13,83 @@ function Tabulus() {
     ** Main Function Object
     */
     function my(sel) {
-        if(!query) {
-            query = {};
-            container = container || sel;
-            dropdowns = dropdowns || container.selectAll("select");
-            dropdowns.selectAll("option")
-                .datum(function() { return this.dataset; }) // create datum from data-* attributes
-                .attr("selected", function(d, i) {
-                    return !i ? "selected" : null;
-                  })
-            ;
-            dropdowns
-                .on("change", function() {
-                    // Q&A dropdowns have no id, just the class "question"
-                    // The contrib limits dropdowns have unique identifiers
-                    var key = this.id.split("chooser-")[1] || "question"
-                      , self = d3.select(this)
-                      , datum = self.select("option[value='" + this.value + "']")
-                            .datum()
-                    ;
-                    query.question = null;
-                    query[key] = datum;
-                    query.disabled = self.attr("disabled");
+      if(!container) initialize(sel);
+      if(!query) querify();
 
-                    if(datum.disable) {
-                        dropdowns.each(function() {
-                            var name = this.id.split("chooser-")[1]
-                              , value = this.value
-                            ;
-                            d3.select(this)
-                                .attr("disabled"
-                                    , name === datum.disable ? "disabled" : null
-                                  )
-                                .property("value"
-                                    , name === datum.disable ? "" : value
-                                  )
-                            ;
-                          })
-                        ;
-                    }
-                    update();
-                  })
-            ;
-        }
-        // Call the "change" handler function for the first dropdown to trigger render
-        container.select("select").each(function() {
-            d3.select(this).on("change").apply(this, []);
-          })
-        ;
+      // if(datum.disable) {
+      //     dropdowns.each(function() {
+      //         var name = this.id.split("chooser-")[1]
+      //           , value = this.value
+      //         ;
+      //         d3.select(this)
+      //             .attr("disabled"
+      //                 , name === datum.disable ? "disabled" : null
+      //               )
+      //             .property("value"
+      //                 , name === datum.disable ? "" : value
+      //               )
+      //         ;
+      //       })
+      //     ;
+      // }
+      d3.map(query).each(function(value, key) {
+          container.select("select.chooser-" + key)
+              .each(function(d, i) { this.value = value; })
+          ;
+
+      });
+      // Call the "change" handler function for the first dropdown to trigger render
+      container.selectAll("select").each(function() {
+          d3.select(this).on("change").apply(this, []);
+        })
+      ;
+      update();
     } // my()
 
 
     /*
     * Private Helper Functions
     */
+    function initialize(sel) {
+        container = container || sel;
+        dropdowns = dropdowns || container.selectAll("select");
+
+        dropdowns.selectAll("option")
+            // create datum from data-* attributes
+            .datum(function() { return this.dataset; })
+             // automatically select the first option
+            .property("selected", function(d, i) {
+                return !i ? "selected" : null;
+              })
+        ;
+        dropdowns
+            .on("change", function() {
+                // Q&A dropdowns have no id, just the class "question"
+                // The contrib limits dropdowns have unique identifiers
+                var self = d3.select(this)
+                  , classes = self.attr("class").split(' ')
+                  , key = classes
+                      .filter(function(k) { return ~k.indexOf("chooser-"); })
+                      [0].split("chooser-")[1]
+                  , option = self.select("option[value='" + this.value + "']")
+                  , signal = d3.map()
+                ;
+                key = self.attr("disabled") ? "_" + key : key;
+                option = option.size() ? option : self.select("option");
+
+                var datum = option.datum();
+                query[key] = datum;
+                signal.set(key, datum);
+                dispatch.call("control", this, signal);
+                console.log(signal);
+              })
+        ;
+    } // initialize()
+
+    function querify() {
+        query = {};
+    } // querify()
+
     function update() {
         if(query.question) {
             var question = query.question;
