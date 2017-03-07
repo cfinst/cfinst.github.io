@@ -6,7 +6,7 @@ function Tabulus() {
       , dropdowns
       , signal
       , wiring = d3.dispatch("choice")
-      , query
+      , query = {}
       , curry = {}
     ;
     /*
@@ -94,13 +94,16 @@ function Tabulus() {
               + "To"
               + curry.recipient.value
               + "Limit"
-              + (curry.recipient.disable ? "" : "_" + curry.branch.value)
+              + (curry.recipient.disable === "branch"
+                  ? ""
+                  : "_" + curry.branch.value
+                )
               + "_Max"
             ;
             query.label = curry.donor.label + " to "
               + curry.recipient.label
               + (
-                  curry.recipient.disable
+                  curry.recipient.disable == "branch"
                     ? ""
                     : " (" + curry.branch.label + ")"
                 )
