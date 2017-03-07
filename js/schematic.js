@@ -130,14 +130,6 @@ function corpus() {
       })
     ;
 
-
-    d3.select(".controls .checkbox input")
-        .on("change", function() { grid.empty(this.checked)(); })
-    ;
-    d3.select(".alphabetize-states-button")
-        .on("click", function() { grid.reset()(); })
-    ;
-
     // Signal Handling
     signal.on("selectYear.grid", grid.selectedYear);
     signal.on("selectYear.chooser", function (selectedYear){
