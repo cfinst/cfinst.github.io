@@ -346,7 +346,7 @@ function Grid(){
               // "Unlimited" and "Prohibited" values.
               value = d[keyColumn] === "Limited"
                 ? +d[selectedColumn]
-                : d[keyColumn] === "No"
+                : (d[keyColumn] === "No" || d[keyColumn] === "Prohibited")
                   ? -Infinity // Treated as "Prohibited"
                   : Infinity // Treated as "Unlimited"
               ;
