@@ -34,7 +34,6 @@ function Grid(){
     , data
     , sortYear
     , sortMode
-    , scorecard
     , empty = false
     , dispatch
   ;
@@ -260,15 +259,6 @@ function Grid(){
       );
   } // domainify()
 
-  function score() {
-      scorecard = d3.nest()
-          .key(function(d) { return d[xColumn]; })
-          // .key(function(d) { return d[yColumn]; })
-          // .rollup(function(leaves) { return leaves[0]; })
-          .object(data);
-      ;
-  } // score();
-
   // Sets up the click handlers on the data download buttons.
   function connect_download_buttons() {
     d3.select("#data-download-button")
@@ -334,7 +324,6 @@ function Grid(){
             })
       ;
       domainify();
-      score();
       return my;
     } // my.data()
   ;
