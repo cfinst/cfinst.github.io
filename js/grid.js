@@ -46,11 +46,11 @@ function Grid(){
       // for detecting unanticipated data values later.
       var before = colorScale.domain().slice();
 
-      // Adjust to the size of the HTML container
-      size_up();
-
       // Set up the domains
       domainify();
+
+      // Adjust to the size of the HTML container
+      size_up();
 
       // Render DOM elements
       render_axes();
@@ -323,7 +323,6 @@ function Grid(){
               return d3.ascending(a.Year, b.Year);
             })
       ;
-      domainify();
       return my;
     } // my.data()
   ;
