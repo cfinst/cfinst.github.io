@@ -102,6 +102,7 @@ function corpus() {
       () // Call grid()
     ;
     var years = d3.extent(data, function(d){ return +d.Year; });
+
     // Populate Year Selector
     d3.select("#chooser-year")
         .on("change", function() {
@@ -114,6 +115,14 @@ function corpus() {
         .text(identity)
         .property("selected", function(d, i) { return !i ? "selected" : null; })
     ;
+
+    // Set up signal dispatch from sort mode toggle buttons.
+    d3.selectAll(".sort-mode-buttons button")
+        .on("click", function() {
+            signal.call("sortMode", null, this.value);
+          })
+    ;
+
 
     // Signal Handling
     d3.select(".controls .checkbox input")
