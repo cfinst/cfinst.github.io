@@ -36,7 +36,6 @@ function Grid(){
     , sortMode
     , scorecard
     , empty = false
-    , reset = true
     , dispatch
   ;
 
@@ -50,16 +49,6 @@ function Grid(){
 
       // Adjust to the size of the HTML container
       size_up();
-
-      ;
-//      xAxisG
-//        .transition(d3.transition().duration(500))
-//          .call(axisX.scale(xScale.domain(sorted)))
-//      ;
-//      svg.select(".viz")
-//          .call(render_cells, data)
-//          .call(render_year_indicators);
-
 
       // Set up the domains
       domainify();
@@ -78,9 +67,6 @@ function Grid(){
           svg.select(".highlight-overlay")
               .call(render_cells, highlightData, true);
       });
-
-      // Further changes will cause a reset
-      reset = true;
 
       // Detect and warn about unexpected values,
       // because these cause the visualization to display misleading colors.
@@ -247,40 +233,31 @@ function Grid(){
             }
           );
       ;
-      if(reset)
-          // Set the ticks to normal font-weight
-          svg.selectAll(".y.axis .tick text")
-              .classed("sortby", false)
-          ;
   } // render_axes()
 
 
   function domainify() {
-
-      console.log(sortYear);
-      if(reset) {
-          if(sortMode === "alphabetical"){
-            xScale.domain(
-              data
-                  .map(function (d){ return d[xColumn]; })
-                  .sort(d3.ascending)
-            );
-          } else {
-            xScale.domain(
-              data
-                .filter(function(d) { return d[yColumn] === sortYear; })
-                .sort(function(m, n) {
-                    return d3.ascending(valueAccessor(m), valueAccessor(n));
-                  })
-                .map(function(d) { return d[xColumn]; })
-            );
-          }
-          yScale.domain(
-            data
-                .map(function (d){ return d[yColumn]; })
-                .sort(d3.descending)
-          );
+      if(sortMode === "alphabetical"){
+        xScale.domain(
+          data
+              .map(function (d){ return d[xColumn]; })
+              .sort(d3.ascending)
+        );
+      } else {
+        xScale.domain(
+          data
+            .filter(function(d) { return d[yColumn] === sortYear; })
+            .sort(function(m, n) {
+                return d3.ascending(valueAccessor(m), valueAccessor(n));
+              })
+            .map(function(d) { return d[xColumn]; })
+        );
       }
+      yScale.domain(
+        data
+            .map(function (d){ return d[yColumn]; })
+            .sort(d3.descending)
+      );
   } // domainify()
 
   function score() {
@@ -356,7 +333,6 @@ function Grid(){
               return d3.ascending(a.Year, b.Year);
             })
       ;
-      reset = true;
       domainify();
       score();
       return my;
@@ -413,7 +389,6 @@ function Grid(){
           );
       };
 
-      reset = false;
       return my;
     } // my.selectedColumn()
   ;
@@ -437,22 +412,14 @@ function Grid(){
   ;
   my.resize = function (){
       size_up();
-      reset = false;
       return my;
     } // my.resize()
   ;
   my.empty = function (_){
       if(!arguments.length) return empty;
       empty = _;
-      reset = false;
       return my;
     } // my.empty()
-  ;
-  my.reset = function (){ // setter only
-      reset = true;
-      sortYear = null;
-      return my;
-    } // my.reset()
   ;
   my.connect = function (_){
       if(!arguments.length) return dispatch;
