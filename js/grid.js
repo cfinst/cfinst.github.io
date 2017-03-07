@@ -9,7 +9,6 @@ function Grid(){
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
     , colorScale
     , tooltipContent
-    , sortMode
   ;
 
   // DOM Elements.
@@ -34,6 +33,7 @@ function Grid(){
     , format // The formatter function, works from the output of valueAccessor(d).
     , data
     , sortYear
+    , sortMode
     , scorecard
     , empty = false
     , reset = true
@@ -42,7 +42,7 @@ function Grid(){
 
   // Main Function Object
   function my() {
-      if(!data || !colorScale) return;
+      if(!data || !colorScale || !sortMode || !sortYear) return;
 
       // Extract the color scale domain before rendering,
       // for detecting unanticipated data values later.
@@ -51,8 +51,15 @@ function Grid(){
       // Adjust to the size of the HTML container
       size_up();
 
-      // Sort, if a year has been selected
-      if(sortYear) resort();
+      ;
+//      xAxisG
+//        .transition(d3.transition().duration(500))
+//          .call(axisX.scale(xScale.domain(sorted)))
+//      ;
+//      svg.select(".viz")
+//          .call(render_cells, data)
+//          .call(render_year_indicators);
+
 
       // Set up the domains
       domainify();
@@ -249,12 +256,25 @@ function Grid(){
 
 
   function domainify() {
+
+      console.log(sortYear);
       if(reset) {
-          xScale.domain(
-            data
-                .map(function (d){ return d[xColumn]; })
-                .sort(d3.ascending)
-          );
+          if(sortMode === "alphabetical"){
+            xScale.domain(
+              data
+                  .map(function (d){ return d[xColumn]; })
+                  .sort(d3.ascending)
+            );
+          } else {
+            xScale.domain(
+              data
+                .filter(function(d) { return d[yColumn] === sortYear; })
+                .sort(function(m, n) {
+                    return d3.ascending(valueAccessor(m), valueAccessor(n));
+                  })
+                .map(function(d) { return d[xColumn]; })
+            );
+          }
           yScale.domain(
             data
                 .map(function (d){ return d[yColumn]; })
@@ -271,24 +291,6 @@ function Grid(){
           .object(data);
       ;
   } // score();
-
-  function resort() {
-      if(!colorScale) return;
-      var sorted = data
-          .filter(function(d) { return d[yColumn] === sortYear; })
-          .sort(function(m, n) {
-              return d3.ascending(valueAccessor(m), valueAccessor(n));
-            })
-          .map(function(d) { return d[xColumn]; })
-      ;
-      xAxisG
-        .transition(d3.transition().duration(500))
-          .call(axisX.scale(xScale.domain(sorted)))
-      ;
-      svg.select(".viz")
-          .call(render_cells, data)
-          .call(render_year_indicators);
-  } // resort()
 
   // Sets up the click handlers on the data download buttons.
   function connect_download_buttons() {
@@ -462,7 +464,7 @@ function Grid(){
       if(!arguments.length) return sortYear;
 
       sortYear = _;
-      resort();
+      my();
     }
   ;
   my.colorScale = function (_){
@@ -474,6 +476,7 @@ function Grid(){
   my.sortMode = function (_){
       if(!arguments.length) return sortMode;
       sortMode = _;
+      my();
       return my;
     } // my.sortMode()
   ;
