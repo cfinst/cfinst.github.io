@@ -59,9 +59,13 @@ ordinal:
       color: "#2166ac"
     - label: "No"
       color: "#053061"
+    - label: Inoperative mid-cycle
+      color: "#67000d"
     - label: Missing Data
       color: gray
     - label: "N/A"
       color: lightgray
     - label: "disclose donor if >$250"
       color: "#92c5de"
+    - label: "Voluntary"
+      color: green
