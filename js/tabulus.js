@@ -3,47 +3,53 @@ function Tabulus() {
     ** Private variables
     */
     var container
-      , colorScale
-      , grid
       , dropdowns
-      , dispatch
+      , signal
+      , wiring = d3.dispatch("choice")
       , query
+      , curry = {}
     ;
     /*
     ** Main Function Object
     */
     function my(sel) {
       if(!container) initialize(sel);
-      if(!query) querify();
 
-      // if(datum.disable) {
-      //     dropdowns.each(function() {
-      //         var name = this.id.split("chooser-")[1]
-      //           , value = this.value
-      //         ;
-      //         d3.select(this)
-      //             .attr("disabled"
-      //                 , name === datum.disable ? "disabled" : null
-      //               )
-      //             .property("value"
-      //                 , name === datum.disable ? "" : value
-      //               )
-      //         ;
-      //       })
-      //     ;
-      // }
       d3.map(query).each(function(value, key) {
           container.select("select.chooser-" + key)
               .each(function(d, i) { this.value = value; })
           ;
-
       });
-      // Call the "change" handler function for the first dropdown to trigger render
+      // Call the "change" handler function for the dropdowns to trigger render
       container.selectAll("select").each(function() {
           d3.select(this).on("change").apply(this, []);
         })
       ;
-      update();
+      wiring.on("choice", function(arg) {
+        console.log("chose", arg);
+          arg.each(function(value, key) {
+              container.selectAll("select")
+              // disable neighbor dropdowns that need to be disabled
+                  .property("disabled", function() {
+                      return d3.select(this).attr("data-name") === value.disable;
+                    })
+              ;
+              // show the question if this is a question
+              if(value.question) {
+                  container.select(".field-description")
+                      .html(value.question + (
+                          value.note
+                            ? ("*\n\n* " + value.note)
+                            : ""
+                        ))
+                  ;
+              }
+              curry[key] = value;
+            })
+          ;
+          update();
+        })
+      ;
     } // my()
 
 
@@ -55,7 +61,7 @@ function Tabulus() {
         dropdowns = dropdowns || container.selectAll("select");
 
         dropdowns.selectAll("option")
-            // create datum from data-* attributes
+            // create datum for each option from data-* attributes
             .datum(function() { return this.dataset; })
              // automatically select the first option
             .property("selected", function(d, i) {
@@ -67,70 +73,46 @@ function Tabulus() {
                 // Q&A dropdowns have no id, just the class "question"
                 // The contrib limits dropdowns have unique identifiers
                 var self = d3.select(this)
-                  , classes = self.attr("class").split(' ')
-                  , key = classes
-                      .filter(function(k) { return ~k.indexOf("chooser-"); })
-                      [0].split("chooser-")[1]
+                  , key = self.attr("data-name")
                   , option = self.select("option[value='" + this.value + "']")
-                  , signal = d3.map()
+                  , msg = d3.map()
                 ;
                 key = self.attr("disabled") ? "_" + key : key;
                 option = option.size() ? option : self.select("option");
-
-                var datum = option.datum();
-                query[key] = datum;
-                signal.set(key, datum);
-                dispatch.call("control", this, signal);
-                console.log(signal);
-              })
+                msg.set(key, option.datum());
+                wiring.call("choice", this, msg);
+              }) // onChange
         ;
     } // initialize()
 
-    function querify() {
-        query = {};
-    } // querify()
-
     function update() {
-        if(query.question) {
-            var question = query.question;
-            container.select(".field-description")
-                .html(question.question + (
-                    question.note
-                      ? ("*\n\n* " + question.note)
-                      : ""
-                  ))
-            ;
-        } else {
-            if(!(query.donor && query.recipient)) return;
-            if(query.recipient.value === "Cand" && !query.branch) return;
-            query.question = {};
-            query.question.value = query.donor.value
+        if(!curry.question) {
+            if(!(curry.donor && curry.recipient)) return;
+            if(curry.recipient.value === "Cand" && !curry.branch) return;
+
+            query.question = curry.donor.value
               + "To"
-              + query.recipient.value
+              + curry.recipient.value
               + "Limit"
-              + (query.branch
-                  ? (query.branch.disabled ? "" : "_" + query.branch.value)
-                  : ""
-                )
+              + (curry.recipient.disable ? "" : "_" + curry.branch.value)
               + "_Max"
             ;
-            query.question.label = query.donor.label
-              + " to "
-              + query.recipient.label
-              + (query.branch
-                  ? (query.branch.disabled ? "" : "(" + query.branch.label + ")")
-                  : ""
+            query.label = curry.donor.label + " to "
+              + curry.recipient.label
+              + (
+                  curry.recipient.disable
+                    ? ""
+                    : " (" + curry.branch.label + ")"
                 )
             ;
-            query.question.legend = query.donor.legend || "default";
+            query.legend = curry.donor.legend || "default";
+        } else {
+            query.question = curry.question.value;
+            query.label = curry.question.label;
+            query.legend = curry.question.legend;
         }
-        grid
-            .colorScale(colorScale[query.question.legend])
-            .selectedColumn(query.question.value)
-            .selectedColumnLabel(query.question.label)
-          () // Call grid()
-        ;
-        toggleLegend(query.question.legend);
+        console.log("sending", query);
+        signal.call("query", this, query);
     } // update()
 
     function toggleLegend(legend){
@@ -147,18 +129,6 @@ function Tabulus() {
     /*
     ** API - Getter/Setter Methods
     */
-    my.colorScale = function(_) {
-        if(!arguments.length) return colorScale;
-        colorScale = _;
-        return my;
-      } // my.colorScale()
-    ;
-    my.grid = function(_) {
-        if(!arguments.length) return grid;
-        grid = _;
-        return my;
-      } // my.grid()
-    ;
     my.container = function(_) {
         if(!arguments.length) return container;
         container = _;
@@ -166,8 +136,8 @@ function Tabulus() {
       } // my.container()
     ;
     my.connect = function (_){
-        if(!arguments.length) return dispatch;
-        dispatch = _;
+        if(!arguments.length) return signal;
+        signal = _;
         return my;
       } // my.connect()
     ;
