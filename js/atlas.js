@@ -12,12 +12,12 @@ function Atlas() {
 
     function my(el) {
       svg = el
-          .attr("viewBox", "0 0 " + width + " " + height)
+          .attr("viewBox", [0, 0, width, height].join(' '))
           .call(tooltip)
       ;
-      var usa = svg.append("g").attr("id", "usa");
-      var overlay = svg.append("g").attr("id", "highlight-overlay");
-
+      var usa = svg.append("g").attr("id", "usa")
+        , overlay = svg.append("g").attr("id", "highlight-overlay")
+      ;
       usa.call(initStateShapes);
 
       // Set up highlighting.

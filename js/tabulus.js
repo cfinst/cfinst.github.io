@@ -54,7 +54,11 @@ function Tabulus() {
         toggleLegend(query.answer.legend);
 
         container.select(".field-description")
-            .html(query.answer.note ? (query.answer.question + "*\n\n* " + query.answer.note) : query.answer.question)
+            .html(
+                query.answer.note
+                  ? (query.answer.question + "*\n\n* " + query.answer.note)
+                  : query.answer.question
+                )
         ;
         grid
             .colorScale(colorScale[query.answer.legend])

@@ -13,10 +13,26 @@
           <svg id="map"></svg>
         </div><!--.panel-body-->
         <div class="panel-footer">
-          <select class="form-control" id="chooser-year">
-            <optgroup label="Select a Year">
-            </optgroup>
-          </select>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form form-inline">
+                <label>Year: </label>
+                <select class="form-control" id="chooser-year">
+                  <optgroup label="Select a Year">
+                  </optgroup>
+                </select>
+              </div><!--.form-->
+            </div><!--.col-sm-6-->
+            <div class="col-sm-6">
+              <div class="pull-right">
+                <label>Grid sorting: </label>
+                <div class="btn-group sort-mode-buttons">
+                  <button type="button" value="alphabetical" class="btn btn-primary">Alphabetical</button>
+                  <button type="button" value="by-value" class="btn btn-primary">By Value</button>
+                </div><!--.btn-group-->
+              </div><!--.pull-right-->
+            </div><!--.col-sm-6-->
+          </div><!--.row-->
         </div><!--.panel-footer-->
       </div><!--.panel.panel-default-->
     </section><!--.col-lg-8-->
@@ -53,8 +69,8 @@
       </article><!--.tab-pane-->
     {% endfor %}
     </div><!--.tab-content-->
-    <aside>
-      <svg style="display: none;">
+    <aside style="display: none;">
+      <svg>
         <title>Empty cell to be reused in legend items.</title>
         <description>
           This symbol is designed to be reused and scaled to any necessary size.
@@ -70,14 +86,6 @@
   <section id="grid-view" class="col-md-12">
     <figure class="grid">
       <div class="row">
-        <div class="col-sm-9">
-          <p class="year-sort-instruction">Click on a year to re-sort the grid.</p>
-        </div>
-        <div class="col-sm-3">
-          <button class="col-sm-6 btn btn-default btn-block alphabetize-states-button">
-            <i class="fa fa-sort-alpha-asc"></i> Sort States Alphabetically
-          </button>
-        </div>
       </div>
       <svg id="main"></svg>
     </figure>

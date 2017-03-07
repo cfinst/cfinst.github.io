@@ -16,7 +16,6 @@ function Grid(){
     , xAxisG
     , yAxisG
     , yAxis2G
-    , buttonG
     , tooltip
   ;
 
@@ -33,37 +32,32 @@ function Grid(){
     , valueAccessor // The accessor function(d) for the value to visualize.
     , format // The formatter function, works from the output of valueAccessor(d).
     , data
-    , sortYear
-    , scorecard
+    , selectedYear
+    , sortMode
     , empty = false
-    , reset = true
     , dispatch
   ;
 
   // Main Function Object
   function my() {
-      if(!data || !colorScale) return;
+      if(!data || !colorScale || !sortMode || !selectedYear) return;
 
       // Extract the color scale domain before rendering,
       // for detecting unanticipated data values later.
       var before = colorScale.domain().slice();
 
-      // Adjust to the size of the HTML container
-      size_up();
-
-      // Sort, if a year has been selected
-      if(sortYear) resort();
-
       // Set up the domains
       domainify();
+
+      // Adjust to the size of the HTML container
+      size_up();
 
       // Render DOM elements
       render_axes();
       svg.select(".viz")
           .call(render_cells, data)
-          .call(render_year_indicators);
-      render_button();
-
+          .call(render_year_indicators)
+      ;
       // Set up data download buttons.
       connect_download_buttons();
 
@@ -72,9 +66,6 @@ function Grid(){
           svg.select(".highlight-overlay")
               .call(render_cells, highlightData, true);
       });
-
-      // Further changes will cause a reset
-      reset = true;
 
       // Detect and warn about unexpected values,
       // because these cause the visualization to display misleading colors.
@@ -156,7 +147,7 @@ function Grid(){
             var value = valueAccessor(d);
 
             // Construct the message passed into the choropleth.
-            if(d.Year === sortYear && !highlighted) {
+            if(d.Year === selectedYear && !highlighted) {
                 msg.push({
                     d: d
                   , state: d[xColumn]
@@ -188,7 +179,7 @@ function Grid(){
       svg.selectAll(".y.axis .tick text")
           .each(function(d) {
               var self = d3.select(this);
-              self.classed("sortby", sortYear === d);
+              self.classed("sortby", selectedYear === d);
               d3.select(self.node().parentNode).select("line")
                   .attr()
           })
@@ -198,7 +189,7 @@ function Grid(){
       yearRect.merge(yearRect.enter().append("rect"))
         .transition().duration(500)
           .attr("x", 0)
-          .attr("y", function (d){ return yScale(sortYear); })
+          .attr("y", function (d){ return yScale(selectedYear); })
           .attr("width", xScale.range()[1])
           .attr("height", yScale.step())
   } // render_year_indicators()
@@ -206,7 +197,7 @@ function Grid(){
   function highlight(d){
       // Highlight the cell with the current sort year,
       // so the map highlighting corresponds with the grid highlighting.
-      var highlightData = [Object.assign({}, d, { Year: sortYear })];
+      var highlightData = [Object.assign({}, d, { Year: selectedYear })];
       dispatch.call("highlight", null, highlightData);
   }
 
@@ -241,74 +232,32 @@ function Grid(){
             }
           );
       ;
-      if(reset)
-          // Set the ticks to normal font-weight
-          svg.selectAll(".y.axis .tick text")
-              .classed("sortby", false)
-          ;
   } // render_axes()
 
 
-  function render_button() {
-      buttonG
-          .attr("transform", "translate(" + width + ",0)")
-        .selectAll("foreignObject")
-          .data([1])
-        .enter().append("foreignObject")
-          .attr("width", side)
-          .attr("height", side)
-          .each(function(d) {
-              d3.select(this)
-                .append("button")
-                .append("i")
-                  .attr("class", "fa fa-sort-alpha-asc")
-                  .text("Blah")
-              ;
-            })
-      ;
-  } // render_button()
-
   function domainify() {
-      if(reset) {
-          xScale.domain(
-            data
-                .map(function (d){ return d[xColumn]; })
-                .sort(d3.ascending)
-          );
-          yScale.domain(
-            data
-                .map(function (d){ return d[yColumn]; })
-                .sort(d3.descending)
-          );
+      if(sortMode === "alphabetical"){
+        xScale.domain(
+          data
+              .map(function (d){ return d[xColumn]; })
+              .sort(d3.ascending)
+        );
+      } else {
+        xScale.domain(
+          data
+            .filter(function(d) { return d[yColumn] === selectedYear; })
+            .sort(function(m, n) {
+                return d3.ascending(valueAccessor(m), valueAccessor(n));
+              })
+            .map(function(d) { return d[xColumn]; })
+        );
       }
+      yScale.domain(
+        data
+            .map(function (d){ return d[yColumn]; })
+            .sort(d3.descending)
+      );
   } // domainify()
-
-  function score() {
-      scorecard = d3.nest()
-          .key(function(d) { return d[xColumn]; })
-          // .key(function(d) { return d[yColumn]; })
-          // .rollup(function(leaves) { return leaves[0]; })
-          .object(data);
-      ;
-  } // score();
-
-  function resort() {
-      if(!colorScale) return;
-      var sorted = data
-          .filter(function(d) { return d[yColumn] === sortYear; })
-          .sort(function(m, n) {
-              return d3.ascending(valueAccessor(m), valueAccessor(n));
-            })
-          .map(function(d) { return d[xColumn]; })
-      ;
-      xAxisG
-        .transition(d3.transition().duration(500))
-          .call(axisX.scale(xScale.domain(sorted)))
-      ;
-      svg.select(".viz")
-          .call(render_cells, data)
-          .call(render_year_indicators);
-  } // resort()
 
   // Sets up the click handlers on the data download buttons.
   function connect_download_buttons() {
@@ -351,9 +300,6 @@ function Grid(){
       yAxis2G = axes.append("g")
           .attr("class", "y axis")
       ;
-      buttonG = g.append("g")
-          .attr("class", "reset-sort")
-      ;
       return my;
     } // my.svg()
   ;
@@ -377,9 +323,6 @@ function Grid(){
               return d3.ascending(a.Year, b.Year);
             })
       ;
-      reset = true;
-      domainify();
-      score();
       return my;
     } // my.data()
   ;
@@ -434,7 +377,6 @@ function Grid(){
           );
       };
 
-      reset = false;
       return my;
     } // my.selectedColumn()
   ;
@@ -458,22 +400,14 @@ function Grid(){
   ;
   my.resize = function (){
       size_up();
-      reset = false;
       return my;
     } // my.resize()
   ;
   my.empty = function (_){
       if(!arguments.length) return empty;
       empty = _;
-      reset = false;
       return my;
     } // my.empty()
-  ;
-  my.reset = function (){ // setter only
-      reset = true;
-      sortYear = null;
-      return my;
-    } // my.reset()
   ;
   my.connect = function (_){
       if(!arguments.length) return dispatch;
@@ -482,10 +416,10 @@ function Grid(){
     } // my.connect()
   ;
   my.selectedYear = function(_) {
-      if(!arguments.length) return sortYear;
+      if(!arguments.length) return selectedYear;
 
-      sortYear = _;
-      resort();
+      selectedYear = _;
+      my();
     }
   ;
   my.colorScale = function (_){
@@ -493,6 +427,13 @@ function Grid(){
       colorScale = _;
       return my;
     } // my.colorScale()
+  ;
+  my.sortMode = function (_){
+      if(!arguments.length) return sortMode;
+      sortMode = _;
+      my();
+      return my;
+    } // my.sortMode()
   ;
 
   // This is always the last thing returned
