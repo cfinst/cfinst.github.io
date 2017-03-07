@@ -1,6 +1,6 @@
 <div class="col-sm-{{ 12 | divided_by: num }}">
 <label class="control-label">{{ control.label }}</label>
-<select class="form-control chooser chooser-{{ control.id }}">
+<select class="form-control chooser" data-name="{{ control.id }}">
   <optgroup label="Select a {{ control.label }}">
     {% for option in control.options %}{% capture value %}{% if option.abbr %}{{ option.abbr }}{% else %}{{ option.label }}{% endif %}{% endcapture %}
       <option value="{{ value }}"

@@ -1,6 +1,6 @@
 <div class="col-sm-12">
   <label class="control-label">Question</label>
-  <select class="chooser chooser-question form-control">
+  <select class="chooser form-control" data-name="question">
     <optgroup label="Select a Question">
     {% for question in controls %}
       <option value="{{ question.name }}"
