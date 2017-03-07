@@ -32,7 +32,7 @@ function Grid(){
     , valueAccessor // The accessor function(d) for the value to visualize.
     , format // The formatter function, works from the output of valueAccessor(d).
     , data
-    , sortYear
+    , selectedYear
     , sortMode
     , empty = false
     , dispatch
@@ -40,7 +40,7 @@ function Grid(){
 
   // Main Function Object
   function my() {
-      if(!data || !colorScale || !sortMode || !sortYear) return;
+      if(!data || !colorScale || !sortMode || !selectedYear) return;
 
       // Extract the color scale domain before rendering,
       // for detecting unanticipated data values later.
@@ -147,7 +147,7 @@ function Grid(){
             var value = valueAccessor(d);
 
             // Construct the message passed into the choropleth.
-            if(d.Year === sortYear && !highlighted) {
+            if(d.Year === selectedYear && !highlighted) {
                 msg.push({
                     d: d
                   , state: d[xColumn]
@@ -179,7 +179,7 @@ function Grid(){
       svg.selectAll(".y.axis .tick text")
           .each(function(d) {
               var self = d3.select(this);
-              self.classed("sortby", sortYear === d);
+              self.classed("sortby", selectedYear === d);
               d3.select(self.node().parentNode).select("line")
                   .attr()
           })
@@ -189,7 +189,7 @@ function Grid(){
       yearRect.merge(yearRect.enter().append("rect"))
         .transition().duration(500)
           .attr("x", 0)
-          .attr("y", function (d){ return yScale(sortYear); })
+          .attr("y", function (d){ return yScale(selectedYear); })
           .attr("width", xScale.range()[1])
           .attr("height", yScale.step())
   } // render_year_indicators()
@@ -197,7 +197,7 @@ function Grid(){
   function highlight(d){
       // Highlight the cell with the current sort year,
       // so the map highlighting corresponds with the grid highlighting.
-      var highlightData = [Object.assign({}, d, { Year: sortYear })];
+      var highlightData = [Object.assign({}, d, { Year: selectedYear })];
       dispatch.call("highlight", null, highlightData);
   }
 
@@ -245,7 +245,7 @@ function Grid(){
       } else {
         xScale.domain(
           data
-            .filter(function(d) { return d[yColumn] === sortYear; })
+            .filter(function(d) { return d[yColumn] === selectedYear; })
             .sort(function(m, n) {
                 return d3.ascending(valueAccessor(m), valueAccessor(n));
               })
@@ -416,9 +416,9 @@ function Grid(){
     } // my.connect()
   ;
   my.selectedYear = function(_) {
-      if(!arguments.length) return sortYear;
+      if(!arguments.length) return selectedYear;
 
-      sortYear = _;
+      selectedYear = _;
       my();
     }
   ;
