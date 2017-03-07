@@ -2,7 +2,7 @@
 ---
 (function () {
   var signal = d3.dispatch(
-        "control"
+        "query"
         , "update"
         , "selectYear"
         , "downloadCurrentLimits"
@@ -22,6 +22,8 @@
     , query = { // These are the defaults
           section: 'contribution-limits'
         , question: null
+        , label: ''
+        , legend: 'default'
         , state: null
         , year: null
       }
@@ -85,19 +87,16 @@
 
       // Initialize the navigation state.
       queryFromURL(); // populate the query variable
-      console.log(query)
+      console.log("from url", query)
       setupTabNavigation();
       setupSignals();
 
-      // Initialize the selected year to the most recent.
-      signal.call("selectYear", null, d3.select("#chooser-year").node().value);
-
       // If the query section doesn't have a valid link, default to the first tab
-      var sec = d3.select("a[href='#" + query.section + "']");
-      sec = sec.size() ? sec : d3.select(".nav-tabs a");
+      var tab = d3.select("a[href='#" + query.section + "']");
+      tab = tab.size() ? tab : d3.select(".nav-tabs a");
 
       // Click the section tab
-      sec.node().click();
+      tab.node().click();
   } // visualize()
 
   function ingest(dataset) {
@@ -186,19 +185,19 @@
         })
       ;
       // Update the visualization according to the current section.
-      signal.on("navigate.vis", function (section){ tabs[section](); });
+      signal.on("navigate.vis", function (tab){
+          query.section = tab;
+          tabs[tab].query(query)();
+        });
 
-      signal.on("control", function(question) {
-          question.each(function(value, key) { query[key] = value; });
-
-          var mvkeys = ["section", "question", "year"]
-            , valid = mvkeys.map(function(d) { return query[d]; })
-            , length = valid.filter(identity).length
-          ;
-          var blah = length < mvkeys.length
-            ? "meh"
-            : query
-          ;
+      signal.on("query", function(question) {
+        console.log("marshal", question);
+        grid
+            .colorScale(colorScale[question.section][question.legend])
+            .selectedColumn(question.question, question.section === 'contribution-limits')
+            .selectedColumnLabel(question.label)
+          ()
+        ;
         })
       ;
   } // setupSignals()
@@ -223,7 +222,7 @@
       // Now populate the query object from the URL
       d3.keys(query).forEach(function(k) { query[k] = args[k]; });
       // Populate section from the hash only
-      query.section = location[0] || query.section;
+      query.section = location[0];
   } // queryFromURL()
 
   // Convert a formatted liquid template string into a usable array for Javascript
@@ -286,7 +285,7 @@
 
   d3.selectAll(".tab-pane").each(function(d, i) {
       var name = this.id;
-      d3.select(this).call(tabs[name].colorScale(colorScale[name]).grid(grid));
+      d3.select(this).call(tabs[name]);
     })
   ;
 }());
