@@ -9,6 +9,7 @@ function Grid(){
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
     , colorScale
     , tooltipContent
+    , sortMode
   ;
 
   // DOM Elements.
@@ -469,6 +470,12 @@ function Grid(){
       colorScale = _;
       return my;
     } // my.colorScale()
+  ;
+  my.sortMode = function (_){
+      if(!arguments.length) return sortMode;
+      sortMode = _;
+      return my;
+    } // my.sortMode()
   ;
 
   // This is always the last thing returned
