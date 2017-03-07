@@ -13,26 +13,30 @@
           <svg id="map"></svg>
         </div><!--.panel-body-->
         <div class="panel-footer">
-          <div class="col-sm-9">
-            <label>Sort grid: </label>
-            <div class="btn-group" data-toggle="buttons">
-              <label class="btn btn-primary">
-                <input type="radio" name="sortgrid" id="alpha" autocomplete="off" value="alpha"> Alphabetically
-              </label>
-              <label class="btn btn-primary">
-                <input type="radio" name="sortgrid" id="num" value="num" autocomplete="off" checked> By Value
-              </label>
-            </div><!--.btn-group-->
-          </div><!--.col-sm-9-->
-
-          <div class="col-sm-3">
-            <div class="form form-inline">
-              <select class="form-control" id="chooser-year">
-                <optgroup label="Select a Year">
-                </optgroup>
-              </select>
-            </div><!--.form-->
-          </div><!--.col-sm-3--->
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form form-inline">
+                <label>Year: </label>
+                <select class="form-control" id="chooser-year">
+                  <optgroup label="Select a Year">
+                  </optgroup>
+                </select>
+              </div><!--.form-->
+            </div><!--.col-sm-6-->
+            <div class="col-sm-6">
+              <div class="pull-right">
+                <label>Grid sorting: </label>
+                <div class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-primary">
+                    <input type="radio" name="sortgrid" id="alpha" autocomplete="off" value="alpha"> Alphabetically
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="radio" name="sortgrid" id="num" value="num" autocomplete="off" checked> By Value
+                  </label>
+                </div><!--.btn-group-->
+              </div><!--.pull-right-->
+            </div><!--.col-sm-6-->
+          </div><!--.row-->
         </div><!--.panel-footer-->
       </div><!--.panel.panel-default-->
     </section><!--.col-lg-8-->
