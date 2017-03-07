@@ -116,21 +116,29 @@ function corpus() {
         .property("selected", function(d, i) { return !i ? "selected" : null; })
     ;
 
-    // Set up signal dispatch from sort mode toggle buttons.
+    // Set up sort mode toggle buttons.
     d3.selectAll(".sort-mode-buttons button")
         .on("click", function() {
             signal.call("sortMode", null, this.value);
           })
     ;
+    signal.on("sortMode.buttons", function (sortMode){
+        d3.selectAll(".sort-mode-buttons button")
+          .classed("active", function (){
+            return this.value === sortMode;
+          })
+      })
+    ;
 
 
-    // Signal Handling
     d3.select(".controls .checkbox input")
         .on("change", function() { grid.empty(this.checked)(); })
     ;
     d3.select(".alphabetize-states-button")
         .on("click", function() { grid.reset()(); })
     ;
+
+    // Signal Handling
     signal.on("selectYear.grid", grid.selectedYear);
     signal.on("selectYear.chooser", function (selectedYear){
       d3.select("#chooser-year").node().value = selectedYear;
