@@ -138,9 +138,10 @@ function corpus() {
       d3.select("#chooser-year").node().value = selectedYear;
     });
     signal.on("sortMode.grid", grid.sortMode);
-    signal.on("downloadVisibleData", function (xColumn, yColumn, selectedColumn){
+    signal.on("downloadVisibleData", function (){
+        var selectedColumn = grid.selectedColumn()
         var filename = "CFI-contribution-limits-" + selectedColumn + ".csv";
-        var projectedData = project(data, [xColumn, yColumn, selectedColumn]);
+        var projectedData = project(data, ["State", "Year", selectedColumn])
         downloadCSV(projectedData, filename);
     });
 

@@ -263,7 +263,7 @@ function Grid(){
   function connect_download_buttons() {
     d3.selectAll("#data-button-download-current-view")
       .on("click", function (){
-          dispatch.call("downloadVisibleData", null, xColumn, yColumn, selectedColumn);
+          dispatch.call("downloadVisibleData");
         })
     ;
   } // connect_download_buttons()
