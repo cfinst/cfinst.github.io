@@ -18,6 +18,7 @@ var signal = d3.dispatch(
   , tip = d3.tip().attr('class', 'd3-tip')
   , tabs = {}
   , navs = {}
+  , currentSection
 ;
 // {% capture tabs %}{% for tab in site.data.tabs %}{{ tab.section }},{% endfor %}{% endcapture %}
 liquidToArray('{{ tabs }}').forEach(function(tab) {
@@ -143,7 +144,7 @@ function corpus() {
         var valueAccessor = grid.valueAccessor();
         var format = grid.format();
 
-        var filename = "CFI-contribution-limits-" + selectedColumn + ".csv";
+        var filename = "CFI-" + currentSection + "-" + selectedColumn + ".csv";
         var projectedData = data.map(function (d){
             var row = {
               State: d.State,
@@ -162,7 +163,10 @@ function corpus() {
     });
 
     // Update the visualization according to the current section.
-    signal.on("navigate.vis", function (section) { navs[section](data); });
+    signal.on("navigate.vis", function (section) {
+        navs[section](data);
+        currentSection = section;
+    });
 
 } // corpus()
 
