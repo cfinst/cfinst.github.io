@@ -98,7 +98,12 @@
       // Click the section tab
       tab.node().click();
       d3.select("#chooser-year").each(function() {
-          d3.select(this)
+          var self = d3.select(this)
+            , def = self.select("option").node().value
+          ;
+          this.value = query.year;
+          this.value = this.value || def; // if year is invalid, show default
+          self
               .on("change")
             .apply(this, [])
           ;
@@ -141,7 +146,6 @@
         .enter().append("option")
           .attr("value", identity)
           .text(identity)
-          .property("selected", function(d, i) { return !i ? "selected" : null; })
       ;
   } // corpus()
 
