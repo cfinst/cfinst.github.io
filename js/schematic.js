@@ -22,7 +22,7 @@
     , query = { // These are the defaults
           section: 'contribution-limits'
         , question: null
-        , label: ''
+        , label: null
         , legend: 'default'
         , state: null
         , year: null
@@ -191,7 +191,6 @@
         });
 
       signal.on("query", function(question) {
-        console.log("marshal", question);
         // update grid
         grid
             .colorScale(colorScale[question.section][question.legend])
@@ -208,6 +207,7 @@
                 ;
               })
         ;
+        queryToURL(question);
 
         })
       ;
@@ -235,6 +235,16 @@
       // Populate section from the hash only
       query.section = location[0];
   } // queryFromURL()
+
+  function queryToURL(question) {
+      var val = []
+      ;
+      ['question', 'year', 'state'].forEach(function(k) {
+          if(!question[k]) return;
+          val.push([k, encodeURIComponent(question[k])].join('='));
+      })
+      history.pushState(null, null, '#' + question.section + '?' + val.join('&'));
+  } // set_url()
 
   // Convert a formatted liquid template string into a usable array for Javascript
   //  Basically, it takes a list of strings and splits into an array
