@@ -26,7 +26,6 @@ function Tabulus() {
         })
       ;
       wiring.on("choice", function(arg) {
-        console.log("chose", arg);
           arg.each(function(value, key) {
               container.selectAll("select")
               // disable neighbor dropdowns that need to be disabled
@@ -114,7 +113,6 @@ function Tabulus() {
             query.label = curry.question.label;
             query.legend = curry.question.legend;
         }
-        console.log("sending", query);
         signal.call("query", this, query);
     } // update()
 
