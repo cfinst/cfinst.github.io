@@ -5,7 +5,6 @@ var signal = d3.dispatch(
       "update"
       , "selectYear"
       , "downloadCurrentLimits"
-      , "downloadAllLimits"
       , "navigate"
       , "highlight"
       , "sortMode"
@@ -139,11 +138,6 @@ function corpus() {
       d3.select("#chooser-year").node().value = selectedYear;
     });
     signal.on("sortMode.grid", grid.sortMode);
-    signal.on("downloadAllLimits", function (xColumn, yColumn){
-        var filename = "CFI-contribution-limits-all.csv";
-        var projectedData = project(data, [xColumn, yColumn].concat(columnsRaw));
-        downloadCSV(projectedData, filename);
-    });
     signal.on("downloadCurrentLimits", function (xColumn, yColumn, selectedColumn){
         var filename = "CFI-contribution-limits-" + selectedColumn + ".csv";
         var projectedData = project(data, [xColumn, yColumn, selectedColumn]);
