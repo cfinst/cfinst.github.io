@@ -261,7 +261,7 @@ function Grid(){
 
   // Sets up the click handlers on the data download buttons.
   function connect_download_buttons() {
-    d3.select("#data-button-download-current-view")
+    d3.selectAll("#data-button-download-current-view")
       .on("click", function (){
           dispatch.call("downloadVisibleData", null, xColumn, yColumn, selectedColumn);
         })
