@@ -97,6 +97,12 @@
 
       // Click the section tab
       tab.node().click();
+      d3.select("#chooser-year").each(function() {
+          d3.select(this)
+              .on("change")
+            .apply(this, [])
+          ;
+      })
   } // visualize()
 
   function ingest(dataset) {
@@ -127,7 +133,8 @@
       // Populate Year Selector
       d3.select("#chooser-year")
           .on("change", function() {
-              signal.call("selectYear", null, this.value);
+              query.year = +this.value;
+              signal.call("query", this, query);
             })
         .select("optgroup").selectAll("option")
           .data(d3.range(years[0], years[1] + 2, 2).reverse(), identity)
@@ -208,7 +215,6 @@
               })
         ;
         queryToURL(question);
-
         })
       ;
   } // setupSignals()
