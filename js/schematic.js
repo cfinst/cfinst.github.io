@@ -297,7 +297,7 @@ navs["{{ section[0] }}"] = function(data) {
 
     // Updates the grid and legend based on the current query.
     function update(){
-      var legend = query.donor === "StateP" ? "partyAsDonor" : "default";
+      var legend = legendify();
       grid
           .colorScale(colorScale[legend])
           .selectedColumn(querify(), true)
@@ -306,6 +306,19 @@ navs["{{ section[0] }}"] = function(data) {
       ;
       tab.toggleLegend(legend);
     } // renderGrid()
+      
+    function legendify(){
+      switch(query.donor){
+        case "StateP":
+          return "partyAsDonor";
+        case "Individual":
+          return "noProhibited";
+        case "PAC":
+          return "noProhibited";
+        default:
+          return "default";
+      }
+    }
 
     function querify() {
         var col = query["donor"] + "To" + query["recipient"] + "Limit"
