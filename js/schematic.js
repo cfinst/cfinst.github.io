@@ -140,8 +140,19 @@ function corpus() {
     signal.on("sortMode.grid", grid.sortMode);
     signal.on("downloadVisibleData", function (){
         var selectedColumn = grid.selectedColumn()
+        var valueAccessor = grid.valueAccessor();
+        var format = grid.format();
+
         var filename = "CFI-contribution-limits-" + selectedColumn + ".csv";
-        var projectedData = project(data, ["State", "Year", selectedColumn])
+        var projectedData = data.map(function (d){
+            var row = {
+              State: d.State,
+              Year: +d.Year // Don't use quotes around years in the CSV.
+            };
+            row[selectedColumn] = format(valueAccessor(d)) // Match Tooltip value presentation.
+            return row;
+          })
+        ;
         downloadCSV(projectedData, filename);
     });
 
@@ -220,18 +231,6 @@ function downloadCSV(data, filename) {
     link.setAttribute("download", filename);
     link.click();
 } // downloadCSV()
-
-// Performs a projection on the data, isolating the specified columns.
-// Term from relational algebra. See also
-// https://en.wikipedia.org/wiki/Projection_(relational_algebra)
-function project(data, columns) {
-    return data.map(function (fullRow) {
-        return columns.reduce(function (projectedRow, column) {
-            projectedRow[column] = fullRow[column];
-            return projectedRow;
-        }, {});
-    });
-} // project()
 
 function setupTabNavigation() {
     d3.select(".nav").selectAll("li a")
