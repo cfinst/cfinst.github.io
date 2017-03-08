@@ -261,14 +261,9 @@ function Grid(){
 
   // Sets up the click handlers on the data download buttons.
   function connect_download_buttons() {
-    d3.select("#data-download-button")
+    d3.selectAll("#data-button-download-current-view")
       .on("click", function (){
-          dispatch.call("downloadAllLimits", null, xColumn, yColumn);
-        })
-    ;
-    d3.select("#data-button-download-current-view")
-      .on("click", function (){
-          dispatch.call("downloadCurrentLimits", null, xColumn, yColumn, selectedColumn);
+          dispatch.call("downloadVisibleData");
         })
     ;
   } // connect_download_buttons()

@@ -4,8 +4,7 @@
 var signal = d3.dispatch(
       "update"
       , "selectYear"
-      , "downloadCurrentLimits"
-      , "downloadAllLimits"
+      , "downloadVisibleData"
       , "navigate"
       , "highlight"
       , "sortMode"
@@ -19,6 +18,7 @@ var signal = d3.dispatch(
   , tip = d3.tip().attr('class', 'd3-tip')
   , tabs = {}
   , navs = {}
+  , currentSection
 ;
 // {% capture tabs %}{% for tab in site.data.tabs %}{{ tab.section }},{% endfor %}{% endcapture %}
 liquidToArray('{{ tabs }}').forEach(function(tab) {
@@ -139,14 +139,21 @@ function corpus() {
       d3.select("#chooser-year").node().value = selectedYear;
     });
     signal.on("sortMode.grid", grid.sortMode);
-    signal.on("downloadAllLimits", function (xColumn, yColumn){
-        var filename = "CFI-contribution-limits-all.csv";
-        var projectedData = project(data, [xColumn, yColumn].concat(columnsRaw));
-        downloadCSV(projectedData, filename);
-    });
-    signal.on("downloadCurrentLimits", function (xColumn, yColumn, selectedColumn){
-        var filename = "CFI-contribution-limits-" + selectedColumn + ".csv";
-        var projectedData = project(data, [xColumn, yColumn, selectedColumn]);
+    signal.on("downloadVisibleData", function (){
+        var selectedColumn = grid.selectedColumn()
+        var valueAccessor = grid.valueAccessor();
+        var format = grid.format();
+
+        var filename = "CFI-" + currentSection + "-" + selectedColumn + ".csv";
+        var projectedData = data.map(function (d){
+            var row = {
+              State: d.State,
+              Year: +d.Year // Don't use quotes around years in the CSV.
+            };
+            row[selectedColumn] = format(valueAccessor(d)) // Match Tooltip value presentation.
+            return row;
+          })
+        ;
         downloadCSV(projectedData, filename);
     });
 
@@ -156,7 +163,10 @@ function corpus() {
     });
 
     // Update the visualization according to the current section.
-    signal.on("navigate.vis", function (section) { navs[section](data); });
+    signal.on("navigate.vis", function (section) {
+        navs[section](data);
+        currentSection = section;
+    });
 
 } // corpus()
 
@@ -226,18 +236,6 @@ function downloadCSV(data, filename) {
     link.click();
 } // downloadCSV()
 
-// Performs a projection on the data, isolating the specified columns.
-// Term from relational algebra. See also
-// https://en.wikipedia.org/wiki/Projection_(relational_algebra)
-function project(data, columns) {
-    return data.map(function (fullRow) {
-        return columns.reduce(function (projectedRow, column) {
-            projectedRow[column] = fullRow[column];
-            return projectedRow;
-        }, {});
-    });
-} // project()
-
 function setupTabNavigation() {
     d3.select(".nav").selectAll("li a")
         .on("click", function (d){
@@ -297,7 +295,7 @@ navs["{{ section[0] }}"] = function(data) {
 
     // Updates the grid and legend based on the current query.
     function update(){
-      var legend = query.donor === "StateP" ? "partyAsDonor" : "default";
+      var legend = legendify();
       grid
           .colorScale(colorScale[legend])
           .selectedColumn(querify(), true)
@@ -306,6 +304,19 @@ navs["{{ section[0] }}"] = function(data) {
       ;
       tab.toggleLegend(legend);
     } // renderGrid()
+      
+    function legendify(){
+      switch(query.donor){
+        case "StateP":
+          return "partyAsDonor";
+        case "Individual":
+          return "noProhibited";
+        case "PAC":
+          return "noProhibited";
+        default:
+          return "default";
+      }
+    }
 
     function querify() {
         var col = query["donor"] + "To" + query["recipient"] + "Limit"
