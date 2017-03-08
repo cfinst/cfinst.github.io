@@ -118,17 +118,6 @@ function Tabulus() {
         signal.call("query", this, query);
     } // update()
 
-    function toggleLegend(legend){
-        container.selectAll(".legend ul")
-            .style("display", function() {
-                return d3.select(this).classed("legend-" + legend)
-                  ? null
-                  : "none"
-                ;
-              })
-        ;
-    } // toggleLegend()
-
     /*
     ** API - Getter/Setter Methods
     */
@@ -150,7 +139,6 @@ function Tabulus() {
         return my;
       } // my.query()
     ;
-    my.toggleLegend = toggleLegend;
 
     /*
     ** This is ALWAYS the last thing returned

@@ -192,12 +192,23 @@
 
       signal.on("query", function(question) {
         console.log("marshal", question);
+        // update grid
         grid
             .colorScale(colorScale[question.section][question.legend])
             .selectedColumn(question.question, question.section === 'contribution-limits')
             .selectedColumnLabel(question.label)
           ()
         ;
+        // toggle legend
+        d3.selectAll(".legend ul")
+            .style("display", function() {
+                return d3.select(this).classed("legend-" + question.legend)
+                  ? null
+                  : "none"
+                ;
+              })
+        ;
+
         })
       ;
   } // setupSignals()
