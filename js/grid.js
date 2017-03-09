@@ -398,7 +398,7 @@ function Grid(){
       if(!arguments.length) return selectedYear;
 
       selectedYear = _;
-      my();
+      return my;
     }
   ;
   my.colorScale = function (_){
@@ -410,7 +410,6 @@ function Grid(){
   my.sortMode = function (_){
       if(!arguments.length) return sortMode;
       sortMode = _;
-      my();
       return my;
     } // my.sortMode()
   ;
