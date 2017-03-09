@@ -8,6 +8,7 @@ function Atlas() {
       , svg
       , selectedYear
       , dispatch
+      , data
     ;
 
     function my(el) {
@@ -126,6 +127,12 @@ function Atlas() {
         dispatch = _;
         return my;
       } // my.connect()
+    ;
+    my.data = function (_){
+        if(!arguments.length) return data;
+        data = _;
+
+      } // my.data()
     ;
 
     // This is always the last thing returned
