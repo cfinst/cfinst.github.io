@@ -73,50 +73,28 @@ function Tabulus() {
 
     // Set the state for the various controls, based on the query
     function initialize() {
-        if (curry.question){ // Process this as a Q&A field
-            // If the question request matches our current question, exit
-            if(query.question === curry.question.value) return;
-        } else if (curry._question) { // Process this as a multi-dropdown tab
-            // If the question request matches our current combination, exit
-            if(query.question === curry._question) return;
-        }
-        if(!query.question)
-            // Spark all the dropdowns
-            dropdowns.each(function(d, i) {
-                d3.select(this).on("change").apply(this, []);
-              })
-            ;
+        var curr = (curry.question ? curry.question.value : curry._question) || "";
+        if(curr && (query.question === curr)) return
+        query.question = query.question || curr;
 
-        var inputs = container.selectAll(".chooser").size();
-        console.log(inputs)
-        if(inputs > 1) { // Multiple dropdowns
+        if(container.selectAll(".chooser").size() > 1) { // Multiple dropdowns
             // Process as a multi-dropdown tab
             var split = query.question.split("_Max")[0].split("To")
-              , q = { donor: split[0] }
-              , receiver = split[1].split('Limit')
+              , receiver = (split[1] || "").split('Limit')
             ;
-            q.recipient = receiver[0];
-            q.branch = receiver[1] || null;
-
-            d3.keys(q).forEach(function(k) {
-                var dd = container.select(".chooser[data-name='" + k +  "']")
-                  , def = dd.select("option").node().value
-                ;
-                console.log(k, dd, def);
-                dd.node().value = q[k] || null;
-                dd.node().value = dd.node().value || def;
-                dd.each(function() { d3.select(this).on("change").apply(this, []); });
-              })
-            ;
-        } else if(inputs == 1) { // Process this as a Q&A tab (single dropdown)
-            var dd = container.select(".chooser[data-name='question']")
-              , def = dd.select("option").node().value
-            ;
-            dd.node().value = query.question || null;
-            dd.node().value = dd.node().value || def;
-            dd.each(function() { d3.select(this).on("change").apply(this, []); });
+            query.donor = split[0];
+            query.recipient = receiver[0];
+            query.branch = receiver[1] || "";
         }
-
+        container.selectAll(".chooser").each(function() {
+            var self = d3.select(this)
+              , name = self.attr("data-name")
+              , def = this.value || self.select("option").node().value
+            ;
+            this.value = query[name] || null;
+            this.value = this.value || def;
+            self.on("change").apply(this, []);
+        })
     } // initialize()
 
     // Update the query from the states of the various controls
@@ -170,8 +148,7 @@ function Tabulus() {
     my.query = function (_){
         if(!arguments.length) return query;
         query = _;
-        // if there's a new question, set the state
-        initialize();
+        initialize(); // run the query through the system
 
         return my;
       } // my.query()
