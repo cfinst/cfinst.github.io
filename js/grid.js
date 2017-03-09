@@ -151,19 +151,6 @@ function Grid(){
         .attr("stroke-opacity", 1)
         .style("color", function (d){
             var value = valueAccessor(d);
-
-            // Construct the message passed into the choropleth.
-            if(d.Year === sortYear && !highlighted) {
-                msg.push({
-                    d: d
-                  , state: d[xColumn]
-                  , year: d[yColumn]
-                  , color: colorScale(value)
-                  , column: selectedColumn
-                  , limit: d[selectedColumn]
-                });
-            }
-
             return colorScale(value);
           })
     ;
@@ -177,7 +164,6 @@ function Grid(){
         .attr("stroke-opacity", 0)
       .remove()
     ;
-    dispatch.call("update", this, msg);
   } // render_cells()
 
   function render_year_indicators(){
