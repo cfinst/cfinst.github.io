@@ -199,7 +199,7 @@
       signal.on("query", function(question) {
         // update grid
         question.colorScale = colorScale[question.section][question.legend];
-        console.log("calling grid", question);
+        console.log(colorScale, question.section, question.legend);
         grid
             .selectedYear(question.year)
             .colorScale(question.colorScale)
@@ -304,8 +304,8 @@
     {% capture bins %}{% for item in legend.scale %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
     {% capture colors %}{% for item in legend.scale %}{{ item.color }},{% endfor %}{% endcapture %}
     {% capture labels %}{% for item in legend.scale %}{{ item.label }},{% endfor %}{% endcapture %}
-    {% capture scale %}{% if legend.type == "threshold" %}Threshold{% else %}Ordinal{% endif %}{% endcapture %}
-  colorScale["{{ section[0] }}"]["{{ legend.name }}"] = d3.scale{{ scale }}()
+    {% capture type %}{% if legend.type == "threshold" %}Threshold{% else %}Ordinal{% endif %}{% endcapture %}
+  colorScale["{{ section[0] }}"]["{{ legend.name }}"] = d3.scale{{ type }}()
       .range(liquidToArray('{{ colors }}'))
     {% if legend.type == "threshold" %}
       .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
