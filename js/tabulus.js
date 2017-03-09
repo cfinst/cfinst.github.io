@@ -13,18 +13,8 @@ function Tabulus() {
     ** Main Function Object
     */
     function my(sel) {
-      if(!container) initialize(sel);
+      if(!container) setup(sel);
 
-      d3.map(query).each(function(value, key) {
-          container.select("select.chooser-" + key)
-              .each(function(d, i) { this.value = value; })
-          ;
-      });
-      // Call the "change" handler function for the dropdowns to trigger render
-      container.selectAll("select").each(function() {
-          d3.select(this).on("change").apply(this, []);
-        })
-      ;
       wiring.on("choice", function(arg) {
           arg.each(function(value, key) {
               container.selectAll("select")
@@ -55,17 +45,14 @@ function Tabulus() {
     /*
     * Private Helper Functions
     */
-    function initialize(sel) {
+    // Setup the data and callbacks for the user input controls
+    function setup(sel) {
         container = container || sel;
         dropdowns = dropdowns || container.selectAll("select");
 
+        // create a datum object for each option from data-* attributes
         dropdowns.selectAll("option")
-            // create datum for each option from data-* attributes
             .datum(function() { return this.dataset; })
-             // automatically select the first option
-            .property("selected", function(d, i) {
-                return !i ? "selected" : null;
-              })
         ;
         dropdowns
             .on("change", function() {
@@ -82,14 +69,63 @@ function Tabulus() {
                 wiring.call("choice", this, msg);
               }) // onChange
         ;
+    } // setup()
+
+    // Set the state for the various controls, based on the query
+    function initialize() {
+        if (curry.question){ // Process this as a Q&A field
+            // If the question request matches our current question, exit
+            if(query.question === curry.question.value) return;
+        } else if (curry._question) { // Process this as a multi-dropdown tab
+            // If the question request matches our current combination, exit
+            if(query.question === curry._question) return;
+        }
+        if(!query.question)
+            // Spark all the dropdowns
+            dropdowns.each(function(d, i) {
+                d3.select(this).on("change").apply(this, []);
+              })
+            ;
+
+        var inputs = container.selectAll(".chooser").size();
+        console.log(inputs)
+        if(inputs > 1) { // Multiple dropdowns
+            // Process as a multi-dropdown tab
+            var split = query.question.split("_Max")[0].split("To")
+              , q = { donor: split[0] }
+              , receiver = split[1].split('Limit')
+            ;
+            q.recipient = receiver[0];
+            q.branch = receiver[1] || null;
+
+            d3.keys(q).forEach(function(k) {
+                var dd = container.select(".chooser[data-name='" + k +  "']")
+                  , def = dd.select("option").node().value
+                ;
+                console.log(k, dd, def);
+                dd.node().value = q[k] || null;
+                dd.node().value = dd.node().value || def;
+                dd.each(function() { d3.select(this).on("change").apply(this, []); });
+              })
+            ;
+        } else if(inputs == 1) { // Process this as a Q&A tab (single dropdown)
+            var dd = container.select(".chooser[data-name='question']")
+              , def = dd.select("option").node().value
+            ;
+            dd.node().value = query.question || null;
+            dd.node().value = dd.node().value || def;
+            dd.each(function() { d3.select(this).on("change").apply(this, []); });
+        }
+
     } // initialize()
 
+    // Update the query from the states of the various controls
     function update() {
         if(!curry.question) {
             if(!(curry.donor && curry.recipient)) return;
             if(curry.recipient.value === "Cand" && !curry.branch) return;
 
-            query.question = curry.donor.value
+            curry._question = query.question = curry.donor.value
               + "To"
               + curry.recipient.value
               + "Limit"
@@ -134,6 +170,9 @@ function Tabulus() {
     my.query = function (_){
         if(!arguments.length) return query;
         query = _;
+        // if there's a new question, set the state
+        initialize();
+
         return my;
       } // my.query()
     ;
