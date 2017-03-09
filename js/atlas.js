@@ -30,14 +30,41 @@ function Atlas() {
             var self = d3.select(this)
               , state = d.feature.properties.usps
             ;
+            if(!datayear.has(state)) return "black";
+            var answer = datayear.get(state)[query.question]
+              , keyColumn = query.question.split('Limit')[0]
+              , keyAnswer = datayear.get(state)[keyColumn]
+              , value = answer
+            ;
             self.style("fill", function() {
-              if(!datayear.has(state)) return "black";
+                if(query.donor) {
+                    if(keyColumn === query.question){
+                        value = (
+                          value === undefined
+                            ? "Missing Field"
+                            : value.trim() === ""
+                              ? (query.colorScale.emptyValue || "Missing Data")
+                              : isNaN(+value)
+                                ? value
+                                : +value
+                        );
+                    } else {
+                        // Use the key column values to extract
+                        // "Unlimited" and "Prohibited" values.
+                        value = keyAnswer === "Limited"
+                          ? +answer
+                          : keyAnswer === "No"
+                            ? -Infinity // Treated as "Prohibited"
+                            : Infinity // Treated as "Unlimited"
+                        ;
 
-              var keyColumn = query.question.split('Limit')[0];
-              return query.colorScale(datayear.get(state)[query.question]);
-            })
-      ;
-
+                        // Treat a value of 0 as "Prohibited"
+                        value = value === 0 ? -Infinity : value;
+                    }
+                }
+                return query.colorScale(value);
+              })
+            ;
         })
     } // update()
 
