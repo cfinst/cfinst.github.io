@@ -76,13 +76,28 @@
   function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other, usa){
       if(error) throw error;
 
-      carto(usa);
-      corpus(ingest(d3.merge([
+      var data = ingest(d3.merge([
             contribs, contribs2, contribs3
           , disclosure1, disclosure2, disclosure3
           , publicFinancing
           , other
-        ])))
+        ]))
+      ;
+      console.log(data);
+      initializeYearSelector(data.keys());
+
+      atlas
+          .svg(d3.select("svg#map"))
+          .geo(usa)
+          .data(data)
+          .tooltip(tip)
+        () // Call atlas()
+      ;
+      grid
+          .svg(d3.select("svg#main"))
+          .data(d3.merge(data.values().map(function(v) { return v.values(); })))
+          .tooltip(tip)
+        () // Call grid()
       ;
 
       // Initialize the navigation state.
@@ -109,29 +124,19 @@
 
   function ingest(dataset) {
       return d3.nest()
-          .key(function(d) {
-              // Construct the identifier from these two fields,
-              // because the value of d.Identifier is not reliable.
-              return d.State + d.Year;
-            })
+          .key(function(d) { return d.Year; })
+          .key(function(d) { return d.State; })
           .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
           .map(dataset
   {% comment %}Check Jekyll config to see if a year is being worked on{%endcomment %}
   {% if site.filterYear %}
           .filter(function(d) { return d.Year != +{{ site.filterYear }}; })
   {% endif %})
-          .values()
       ;
   } // ingest()
 
-  function corpus(data) {
-      grid
-          .svg(d3.select("svg#main"))
-          .data(data)
-          .tooltip(tip)
-        () // Call grid()
-      ;
-      var years = d3.extent(data, function(d){ return +d.Year; });
+  function initializeYearSelector(yrs) {
+      var years = yrs.map(function(d) { return +d; }).sort(d3.descending);
       // Populate Year Selector
       d3.select("#chooser-year")
           .on("change", function() {
@@ -139,20 +144,12 @@
               signal.call("query", this, query);
             })
         .select("optgroup").selectAll("option")
-          .data(d3.range(years[0], years[1] + 2, 2).reverse(), identity)
+          .data(years, identity)
         .enter().append("option")
           .attr("value", identity)
           .text(identity)
       ;
-  } // corpus()
-
-  function carto (usa){
-      d3.select("svg#map")
-          .datum(usa)
-          .call(atlas.tooltip(tip))
-      ;
-      signal.on("update", atlas.update);
-  } // carto()
+  } // initializeYearSelector()
 
   function setupTabNavigation() {
       d3.select(".nav").selectAll("li a")
@@ -200,12 +197,15 @@
 
       signal.on("query", function(question) {
         // update grid
+        question.colorScale = colorScale[question.section][question.legend];
         grid
-            .colorScale(colorScale[question.section][question.legend])
+            .colorScale(question.colorScale)
             .selectedColumn(question.question, question.section === 'contribution-limits')
             .selectedColumnLabel(question.label)
           ()
         ;
+        atlas.query(question);
+
         // toggle legend
         d3.selectAll(".legend ul")
             .style("display", function() {
