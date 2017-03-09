@@ -62,6 +62,7 @@ function Atlas() {
                         value = value === 0 ? -Infinity : value;
                     }
                 }
+                console.log(query);
                 return query.colorScale(value);
               })
             ;
@@ -126,7 +127,7 @@ function Atlas() {
         if(data.has(query.year))
             update(data.get(query.year));
 
-        return my();
+        return my;
       } // my.query()
     ;
     my.tooltip = function (_){
