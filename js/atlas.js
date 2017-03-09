@@ -6,43 +6,46 @@ function Atlas() {
       , tooltip
       , tooltipContent
       , svg
-      , selectedYear
+      , usa
+      , overlay
       , dispatch
       , data
+      , query = {}
     ;
 
-    function my(el) {
-      svg = el
-          .attr("viewBox", [0, 0, width, height].join(' '))
-          .call(tooltip)
-      ;
-      var usa = svg.append("g").attr("id", "usa")
-        , overlay = svg.append("g").attr("id", "highlight-overlay")
-      ;
-      usa.call(initStateShapes);
-
-      // Set up highlighting.
-      var overlayStates = overlay.call(initStateShapes)
-        .selectAll(".state path")
-          .classed("highlighted", true)
-          .attr("stroke-opacity", 0)
-      ;
-      dispatch.on("highlight.atlas", function (highlightData){
-          overlayStates.transition().duration(500)
-              .attr("stroke-opacity", function (d){
-                  return highlightData.some(function (highlightDatum){
-                      return d.feature.properties.usps === highlightDatum.State;
-                  }) ? 1 : 0;
-              })
-          ;
-      });
-      reset();
+    function my() {
     } // Main Function Object
 
+
+    function reset() {
+        usa.selectAll(".state path")
+            .style("fill", "#ccc")
+            .style("stroke", "white")
+        ;
+    } // reset()
+
+    function update(datayear) {
+        svg.select("#usa").selectAll(".state path").each(function(d) {
+            var self = d3.select(this)
+              , state = d.feature.properties.usps
+            ;
+            self.style("fill", function() {
+              if(!datayear.has(state)) return "black";
+
+              var keyColumn = query.question.split('Limit')[0];
+              return query.colorScale(datayear.get(state)[query.question]);
+            })
+      ;
+
+        })
+    } // update()
+
+
+    /*
+    ** Helper Functions
+    */
     function initStateShapes(selection) {
-        selection
-          .selectAll(".state")
-          .data(geogrify)
+        return selection
           .enter().append("g")
             .attr("class", function(d) {
                 return d.feature.properties.usps + " state";
@@ -50,38 +53,17 @@ function Atlas() {
           .append("path")
             .attr("d", function(d) { return path(d.feature); })
         ;
-    }
+    } // initStateShapes()
 
-    function geogrify(usa) {
-      return topojson.feature(usa, usa.objects.states).features
-          .map(function(d) {
-              var centroid = path.centroid(d);
+    // Helper Utility Functions
+    function identity(d) { return d; }
 
-              if(centroid.some(isNaN)) return;
-              centroid.feature = d;
-              return centroid;
-            })
-      ;
-    } // geogrify()
-
-    function reset() {
-        svg.select("#usa").selectAll(".state path")
-            .style("fill", "#ccc")
-            .style("stroke", "white")
-        ;
-    } // reset()
 
     /*
      * API Functions
     **/
     my.update = function(data) {
         if(!data || !data.length) return;
-
-        data = d3.nest()
-            .key(function(d) { return d.state; })
-            .rollup(function(leaves) { return leaves[0]; })
-            .entries(data)
-        ;
 
         var usa = svg.select("#usa");
         data.forEach(function(datum) {
@@ -110,9 +92,18 @@ function Atlas() {
        return my;
      } // my.reset()
     ;
+    my.query = function(_) {
+        if(!arguments.length) return query;
+        query = _;
+        if(data.has(query.year))
+            update(data.get(query.year));
+
+        return my();
+      } // my.query()
+    ;
     my.tooltip = function (_){
         if(!arguments.length) return tooltip;
-        tooltip = _;
+        svg.call(tooltip = _);
         return my;
       } // my.tooltip()
     ;
@@ -124,17 +115,69 @@ function Atlas() {
     ;
     my.connect = function (_){
         if(!arguments.length) return dispatch;
-        dispatch = _;
+        dispatch = _.on("highlight.atlas", function (highlightData){
+            overlay.transition().duration(500)
+                .attr("stroke-opacity", function (d){
+                    return highlightData.some(function (highlightDatum){
+                        return (d.feature.properties.usps || "") === highlightDatum.State;
+                    }) ? 1 : 0;
+                })
+            ;
+        });
+
         return my;
       } // my.connect()
     ;
     my.data = function (_){
         if(!arguments.length) return data;
         data = _;
-
+        return my;
       } // my.data()
     ;
+    my.geo = function (_){
+        if(!arguments.length) return null;
+        var gjson = topojson.feature(_, _.objects.states).features
+            .map(function(d) {
+                var centroid = path.centroid(d);
 
+                if(centroid.some(isNaN)) return;
+                centroid.feature = d;
+                return centroid;
+            })
+        ;
+        usa.selectAll(".state")
+            .data(gjson)
+            .call(initStateShapes)
+        ;
+        overlay.selectAll(".state")
+            .data(gjson)
+            .call(initStateShapes)
+          .selectAll(".state path")
+            .classed("highlighted", true)
+            .attr("stroke-opacity", 0)
+        ;
+        return my;
+    }
+    my.svg = function (_){
+        if(!arguments.length) return svg;
+        svg = _
+            .attr("viewBox", [0, 0, width, height].join(' '))
+        ;
+        svg.selectAll("*").remove(); // wipe it clean before use
+        var g = svg.selectAll("g")
+            .data(["usa", "highlight-overlay"], identity)
+        ;
+        g = g.enter()
+          .append("g")
+            .attr("id", identity)
+          .merge(g)
+        ;
+        usa = svg.select("#usa");
+        overlay = svg.select("#highlight-overlay");
+
+        return my;
+      } // my.svg()
+    ;
     // This is always the last thing returned
     return my;
 } // Atlas()
