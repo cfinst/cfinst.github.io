@@ -199,10 +199,13 @@
       signal.on("query", function(question) {
         // update grid
         question.colorScale = colorScale[question.section][question.legend];
+        console.log("calling grid", question);
         grid
+            .selectedYear(question.year)
             .colorScale(question.colorScale)
             .selectedColumn(question.question, question.section === 'contribution-limits')
             .selectedColumnLabel(question.label)
+            .sortMode("alphabetical")
           ()
 
         ;
