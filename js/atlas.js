@@ -6,6 +6,7 @@ function Atlas() {
       , tooltip
       , tooltipContent
       , svg
+      , selectedYear
       , usa
       , overlay
       , dispatch
