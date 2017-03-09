@@ -1,9 +1,28 @@
 Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommittee,IE_Filers_Corporation,IE_Filers_Labor,IE_Filers_Lobbyist,IE_Filers_Others,IE_Report_Exemption,IE_Report_Exemption_Amount,IE_Filers_Others_Info,IE_Filers_Others_Donors,IE_Target,IE_Target_SupportOppose,IE_Report_When,ElxnrgCategory,ElxnrgTerm,Elxnrg_Filers_Indiv,Elxnrg_Filers_Party,Elxnrg_Filers_PoliticalCommittee,Elxnrg_Filers_Corporate,Elxnrg_Filers_Labor,Elxnrg_Filers_Lobbyist,Elxnrg_Filers_Others,Elxnrg_Report_Exemption,Elxnrg_Report_Exemption_Amount,Elxnrg_Filers_Others_Info,Elxnrg_Filers_Others_Donors,Elxnrg_Target,Elxnrg_Target_SupportOppose,Elxnrg_Report_When
+,"HI",2014,"No","No","Yes","Yes","Yes","Yes","Yes","No","0","No","No","Yes","Yes",,"Yes","Electioneering Communication","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","2000","Yes","Yes","Yes","No","24 hours"
 "AK1996","AK",1996,"No","No","No","No","No","No","No",,,,,,,,"Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
 "AK1998","AK",1998,"Yes","Yes","Yes","Yes","Yes","Yes","No","Yes","501","No","No","No","No","10 days; Not specified","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
 "AK2000","AK",2000,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","501","No","No","No","No","10 days; Not specified","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
 "AK2002","AK",2002,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","501","No","No","No","No","10 days; Not specified","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
+"AK2004","AK",2004,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","No","No","No","No","10 days; Not specified","No",,,,,,,,,,,,,,,
+"AK2006","AK",2006,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","No","No","No","No","10 days; Not specified","Yes",,"Yes","Yes","Yes","Yes","AK","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
+"AK2008","AK",2008,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","No","No","No","No","10 days; Not specified","Yes",,"Yes","Yes","Yes","Yes","AK","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
+"AK2010","AK",2010,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","Yes","Yes","No","No","10 days; Not specified","No",,,,,,,,,,,,,,,
+"AK2012","AK",2012,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","Yes","Yes","No","No","10 days; Not specified","No",,,,,,"AK",,,,,,,,,
+"AK2014","AK",2014,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","Yes","Yes","No","No","10 days; Not specified","No",,,,,,"AK",,,,,,,,,
+"AK2016","AK",2016,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","Yes","Yes","No","No","10 days; Not specified","No",,,,,,"AK",,,,,,,,,
+"AL1996","AL",1996,"No","No","No","No","No","No","No","No","0","No",,"No","No",,"No",,,,,,,,,,,,,,,
+"AL1998","AL",1998,"No","No","No","No","No","No","No","No","0","No",,"No","No",,"No",,,,,,,,,,,,,,,
+"AL2000","AL",2000,"No","No","No","No","No","No","No","No","0","No",,"No","No",,"No",,,,,,,,,,,,,,,
+"AL2002","AL",2002,"No","No","No","No","No","No","No","No","0","No",,"No","No",,"No",,,,,,,,,,,,,,,
+"AL2004","AL",2004,"No","No","No","No","No","No","No","No","0","No",,"No","No",,"No",,,,,,,,,,,,,,,
+"AL2006","AL",2006,"No","No","No","No","No","No","No","No","0","No",,"No","No",,"No",,,,,,,,,,,,,,,
+"AL2008","AL",2008,"No","No","No","No","No","No","No","No","0","No",,"No","No",,"No",,,,,,,,,,,,,,,
+"AL2010","AL",2010,"No","No","No","No","No","No","No","No","0","No",,"No","No",,"No",,,,,,,,,,,,,,,
+"AL2012","AL",2012,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes","120 days","Yes","Yes","Yes","Yes","No","Yes","Yes","Yes","1000","Yes","Yes","Yes","Yes","NA"
+"AL2014","AL",2014,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes","120 days","Yes","Yes","Yes","Yes","AL","Yes","Yes","Yes","1000","Yes","Yes","Yes","Yes","NA"
 "AL2016","AL",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"AR1996","AR",1996,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
 "AR1998","AR",1998,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","500","No","No","Yes","Yes","See A.C.A. 7-6-220(a)","No",,,,,,,,,,,,,,,
 "AR2000","AR",2000,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","500","No","No","Yes","Yes","See A.C.A. 7-6-220(a)","No",,,,,,,,,,,,,,,
 "AR2002","AR",2002,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","500","No","No","Yes","Yes","See A.C.A. 7-6-220(a)","No",,,,,,,,,,,,,,,
@@ -14,6 +33,8 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "AR2012","AR",2012,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","500","No","No","Yes","Yes","See A.C.A. 7-6-220(a)","No",,,,,,,,,,,,,,,
 "AR2014","AR",2014,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","500","No","No","Yes","Yes","See A.C.A. 7-6-220(a)","No",,,,,,,,,,,,,,,
 "AR2016","AR",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"AZ1996","AZ",1996,"No","Yes","Yes","No","No","No","No","No","0","Yes","Yes","Yes","Yes","IE report included in standard filings","No",,,,,,,,,,,,,,,
+"AZ1998","AZ",1998,"No","Yes","Yes","No","No","No","No","No","0","Yes","Yes","Yes","Yes","IE report included in standard filings","No",,,,,,,,,,,,,,,
 "AZ2000","AZ",2000,"Yes","Yes","Yes","No","No","No","No","Yes","501","Yes","Yes","Yes","Yes","IE report included in standard filings","No",,,,,,,,,,,,,,,
 "AZ2002","AZ",2002,"Yes","Yes","Yes","No","No","No","No","Yes","501","Yes","Yes","Yes","Yes","IE report included in standard filings","No",,,,,,,,,,,,,,,
 "AZ2004","AZ",2004,"Yes","Yes","Yes","No","No","No","No","Yes","501","Yes","Yes","Yes","Yes","IE report included in standard filings","No",,,,,,,,,,,,,,,
@@ -35,16 +56,17 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "CA2014","CA",2014,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","500","Yes","No","Yes","No","Regular filing schedule or 24-hours for late expenditures or expenditures of more than $1,000","No",,,,,,,,,,,,,,,
 "CA2016","CA",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 "CO1996","CO",1996,"Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","500","No","No","Yes","Yes","24 hours","No",,,,,,,,,,,,,,,
-"CO1998","CO",1998,"Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","500","Yes","No","Yes","Yes","24 hours","No",,,,,,,,,,,,,,,
-"CO2000","CO",2000,"Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","500","No","No","Yes","Yes","24 hours","No",,,,,,,,,,,,,,,
-"CO2002","CO",2002,"Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","500","No","No","Yes","Yes","24 hours","No",,,,,,,,,,,,,,,
-"CO2004","CO",2004,"Yes","Yes","Yes","Prohibited","Prohibited","No","Yes","Yes","500","No","No","Yes","Yes","48 hrs. if w/in 30 days of a primary or general election","Yes","electioneering","Yes","Yes","Yes","Prohibited","Prohibited","No","Yes","Yes","1000","No","Yes if contribution <250","No","No","not specified"
-"CO2006","CO",2006,"Yes","Yes","Yes","Prohibited","Prohibited","No","Yes","Yes","500","No","No","Yes","Yes","48 hrs. if w/in 30 days of a primary or general election","Yes","electioneering","Yes","Yes","Yes","Prohibited","prohibited","No","Yes","Yes","1000","No","Yes if contribution <250","No","No","not specified"
-"CO2008","CO",2008,"Yes","Yes","Yes","Prohibited","Prohibited","No","Yes","Yes","500","No","No","Yes","Yes","48 hours","Yes","Electioneering","Yes","Yes","Yes","prohibited","prohibited","No","Yes","Yes","1000","No","if contribution > 250","No","No","30 days after election"
-"CO2010","CO",2010,"Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","500","Yes","disclose donor if >$250","Yes","Yes","48 hours","Yes","Electioneering","Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","1000","No","disclose donor if >$250","No","No","30 days after election"
-"CO2012","CO",2012,"Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","500","Yes","disclose donor if >$250","Yes","Yes","48 hours","Yes","Electioneering","Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","1000","No","disclose donor if >$250","No","No","30 days after election"
-"CO2014","CO",2014,"Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","500","No","No","Yes","Yes","48 hours","Yes","Electioneering","Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","1000","No","disclose donor if >$250","No","No","30 days after election"
+"CO1998","CO",1998,"Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","1001","Yes","No","Yes","Yes","24 hours","No",,,,,,,,,,,,,,,
+"CO2000","CO",2000,"Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","1001","No","No","Yes","Yes","24 hours","No",,,,,,,,,,,,,,,
+"CO2002","CO",2002,"Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","1001","No","No","Yes","Yes","24 hours","No",,,,,,,,,,,,,,,
+"CO2004","CO",2004,"Yes","Yes","Yes","Prohibited","Prohibited","No","Yes","Yes","1001","No","No","Yes","Yes","48 hrs. if w/in 30 days of a primary or general election","Yes","electioneering","Yes","Yes","Yes","Prohibited","Prohibited","No","Yes","Yes","1000","No","Yes if contribution <250","No","No","not specified"
+"CO2006","CO",2006,"Yes","Yes","Yes","Prohibited","Prohibited","No","Yes","Yes","1001","No","No","Yes","Yes","48 hrs. if w/in 30 days of a primary or general election","Yes","electioneering","Yes","Yes","Yes","Prohibited","prohibited","No","Yes","Yes","1000","No","Yes if contribution <250","No","No","not specified"
+"CO2008","CO",2008,"Yes","Yes","Yes","Prohibited","Prohibited","No","Yes","Yes","1001","No","No","Yes","Yes","48 hours","Yes","Electioneering","Yes","Yes","Yes","prohibited","prohibited","No","Yes","Yes","1000","No","if contribution > 250","No","No","30 days after election"
+"CO2010","CO",2010,"Yes","Yes","Yes","Changed mid-cycle","Changed mid-cycle","No","Yes","Yes","1001","Yes","disclose donor if >$250","Yes","Yes","48 hours","Yes","Electioneering","Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","1000","No","disclose donor if >$250","No","No","30 days after election"
+"CO2012","CO",2012,"Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","1001","Yes","disclose donor if >$250","Yes","Yes","48 hours","Yes","Electioneering","Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","1000","No","disclose donor if >$250","No","No","30 days after election"
+"CO2014","CO",2014,"Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","1001","No","No","Yes","Yes","48 hours","Yes","Electioneering","Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","1000","No","disclose donor if >$250","No","No","30 days after election"
 "CO2016","CO",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"CT1996","CT",1996,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
 "CT1998","CT",1998,"Yes","No","No","No","No","No","No","Yes","1001","No","No","No","No","Same filing schedule as campaign committees","No",,,,,,,,,,,,,,,
 "CT2000","CT",2000,"Yes","No","No","No","No","No","No","Yes","1001","No","No","No","No","Same filing schedule as campaign committees","No",,,,,,,,,,,,,,,
 "CT2002","CT",2002,"Yes","No","No","No","No","No","No","Yes","1001","No","No","No","No","Same filing schedule as campaign committees","No",,,,,,,,,,,,,,,
@@ -80,14 +102,23 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "GA1996","GA",1996,"No","No","Yes","No","No","No","No","Yes","101","No","No","No","No","Reported in standard Disclosure Reports","No",,,,,,,,,,,,,,,
 "GA1998","GA",1998,"No","No","Yes","No","No","No","No","Yes","101","No","No","No","No","Reported in standard Disclosure Reports","No",,,,,,,,,,,,,,,
 "GA2000","GA",2000,"Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","101","No","No","No","No","Reported in standard Disclosure Reports","No",,,,,,,,,,,,,,,
-"GA2002","GA",2002,"Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","5000","No","No","No","No","Reported in standard Disclosure Reports","No",,,,,,"GA",,,,,,,,,
-"GA2004","GA",2004,"Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","5000","No","No","No","No","Reported in standard Disclosure Reports","No",,,,,,,,,,,,,,,
-"GA2006","GA",2006,"Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","5000","No","No","No","No","Reported in standard Disclosure Reports","No",,,,,,,,,,,,,,,
-"GA2008","GA",2008,"Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","5000","No","No","No","No","Reported in standard Disclosure Reports","No",,,,,,,,,,,,,,,
-"GA2010","GA",2010,"Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","5000","No","No","No","No","Reported in standard Disclosure Reports","No",,,,,,"GA",,,,,,,,,
-"GA2012","GA",2012,"Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","5000","No","No","No","No","Reported in standard Disclosure Reports","No",,,,,,,,,,,,,,,
-"GA2014","GA",2014,"Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","5000","No","No","No","No","Reported in standard Disclosure Reports","No",,,,,,,,,,,,,,,
+"GA2002","GA",2002,"Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","500","No","No","No","No","Reported in standard Disclosure Reports","No",,,,,,"GA",,,,,,,,,
+"GA2004","GA",2004,"Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","500","No","No","No","No","Reported in standard Disclosure Reports","No",,,,,,,,,,,,,,,
+"GA2006","GA",2006,"Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","500","No","No","No","No","Reported in standard Disclosure Reports","No",,,,,,,,,,,,,,,
+"GA2008","GA",2008,"Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","500","No","No","No","No","Reported in standard Disclosure Reports","No",,,,,,,,,,,,,,,
+"GA2010","GA",2010,"Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","500","No","No","No","No","Reported in standard Disclosure Reports","No",,,,,,,,,,,,,,,
+"GA2012","GA",2012,"Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","500","No","No","No","No","Reported in standard Disclosure Reports","No",,,,,,,,,,,,,,,
+"GA2014","GA",2014,"Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","500","No","No","No","No","Reported in standard Disclosure Reports","No",,,,,,,,,,,,,,,
 "GA2016","GA",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"HI1996","HI",1996,"No","No","No","Yes","Yes","Yes","Yes","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
+"HI1998","HI",1998,"No","No","No","Yes","Yes","Yes","Yes","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
+"HI2000","HI",2000,"No","No","No","Yes","Yes","Yes","Yes","No","0","No","No","No","No",,"Yes","Electioneering Communication","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","2000","Yes","Yes","Yes","No","24 hours"
+"HI2002","HI",2002,"No","No","No","Yes","Yes","Yes","Yes","No","0","No","No","No","No",,"Yes","Electioneering Communication","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","2000","Yes","Yes","Yes","No","24 hours"
+"HI2004","HI",2004,"No","No","No","Yes","Yes","Yes","Yes","No","0","No","No","No","No",,"Yes","Electioneering Communication","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","2000","Yes","Yes","Yes","No","24 hours"
+"HI2006","HI",2006,"No","No","No","Yes","Yes","Yes","Yes","No","0","No","No","No","No",,"Yes","Electioneering Communication","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","2000","Yes","Yes","Yes","No","24 hours"
+"HI2008","HI",2008,"No","No","No","Yes","Yes","Yes","Yes","No","0","No","No","No","No",,"Yes","Electioneering Communication","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","2000","Yes","Yes","Yes","No","24 hours"
+"HI2010","HI",2010,"No","No","No","Yes","Yes","Yes","Yes","No","0","No","No","No","No",,"Yes","Electioneering Communication","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","2000","Yes","Yes","Yes","No","24 hours"
+"HI2012","HI",2012,"No","No","No","Yes","Yes","Yes","Yes","No","0","No","No","No","No",,"Yes","Electioneering Communication","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","2000","Yes","Yes","Yes","No","24 hours"
 "HI2016","HI",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 "IA1996","IA",1996,"Yes","Yes","Yes","No","Yes","Yes","Yes","Yes","501","Yes","No","Yes","Yes","72 hours","No",,,,,,,,,,,,,,,
 "IA1998","IA",1998,"Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","501","Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","72 hours","No",,,,,,,,,,,,,,,
@@ -104,16 +135,23 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "ID1998","ID",1998,"Changed mid-cycle","Changed mid-cycle","Changed mid-cycle","Changed mid-cycle","Changed mid-cycle","Yes","Changed mid-cycle","Yes","101","Yes","No","Yes","No","not less than seven (7) days prior to the primary and general election and thirty (30) days after the general election.","No",,,,,,,,,,,,,,,
 "ID2000","ID",2000,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","No","Yes","No","not less than seven (7) days prior to the primary and general election and thirty (30) days after the primary and general election.","No",,,,,,,,,,,,,,,
 "ID2002","ID",2002,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","No","Yes","No","not less than seven (7) days prior to the primary and general election and thirty (30) days after the primary and general election.","No",,,,,,"ID",,,,,,,,,
-"ID2004","ID",2004,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","No","Yes","No","Not less than seven (7) days prior to the primary and general election and thirty (30) days after the primary and general election.","No",,,,,,,,,,,,,,,
-"ID2006","ID",2006,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","No","Yes","No","Not less than seven (7) days prior to the primary and general election and thirty (30) days after the primary and general election.","Yes","Electioneering Communications","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","Yes","No","No","Statements shall be filed with the secretary of state, not less than seven (7) days prior to the primary and general election and thirty (30) days after the primary and general election. Additionally any electioneering communication > $1,000 disc.w/in 48h"
-"ID2008","ID",2008,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","No","Yes","No","Not less than seven (7) days prior to the primary and general election and thirty (30) days after the primary and general election.","Yes","Electioneering Communications","Yes","Yes","Yes","Yes","ID","Yes","Yes","Yes","101","Yes","Yes","No","No","Statements shall be filed with the secretary of state, not less than seven (7) days prior to the primary and general election and thirty (30) days after the primary and general election. Additionally any electioneering communication > $1,000 disc.w/in 48h"
-"ID2010","ID",2010,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","No","Yes","No","Not less than seven (7) days prior to the primary and general election and thirty (30) days after the primary and general election.","Yes","Electioneering Communications","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","Yes","No","No","Statements shall be filed with the secretary of state, not less than seven (7) days prior to the primary and general election and thirty (30) days after the primary and general election. Additionally any electioneering communication > $1,000 disc.w/in 48h"
-"ID2012","ID",2012,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","No","Yes","No","Not less than seven (7) days prior to the primary and general election and thirty (30) days after the primary and general election.","Yes","Electioneering Communications","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","Yes","No","No","Statements shall be filed with the secretary of state, not less than seven (7) days prior to the primary and general election and thirty (30) days after the primary and general election. Additionally any electioneering communication > $1,000 disc.w/in 48h"
-"ID2014","ID",2014,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","No","Yes","No","Not less than seven (7) days prior to the primary and general election and thirty (30) days after the primary and general election.","Yes","Electioneering Communications","Yes","Yes","Yes","Yes","ID","Yes","Yes","Yes","101","Yes","Yes","No","No","Statements shall be filed with the secretary of state, not less than seven (7) days prior to the primary and general election and thirty (30) days after the primary and general election. Additionally any electioneering communication > $1,000 disc.w/in 48h"
-"ID2016","ID",2016,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","No","Yes","No","Not less than seven (7) days prior to the primary and general election and thirty (30) days after the primary and general election.","Yes","Electioneering Communications","Yes","Yes","Yes","Yes","ID","Yes","Yes","Yes","101","Yes","Yes","No","No","Statements shall be filed with the secretary of state, not less than seven (7) days prior to the primary and general election and thirty (30) days after the primary and general election. Additionally any electioneering communication > $1,000 disc.w/in 48h"
-"IL2010","IL",2010,"Yes","Yes","No","No","No","No","No","Yes","3000","Yes","Yes","Yes","Yes","2 business days","Yes","60 days before a general election or 30 days before a primary election","Yes","Yes","Yes","No","IL","No","Yes","No",,"No","No","Yes","Yes",
-"IL2012","IL",2012,"Yes","No","No","No","No","No","No","Yes","3000","Yes","Yes","Yes","Yes","2 business days","Yes","60 days before a general election or 30 days before a primary election","Yes","Yes","Yes","No","IL","No","Yes","No",,"No","No","Yes","Yes",
-"IL2014","IL",2014,"Yes","No","No","No","No","No","No","Yes","3000","Yes","Yes","Yes","Yes","2 business days","Yes","60 days before a general election or 30 days before a primary election","Yes","Yes","Yes","No","IL","No","Yes","No",,"No","No","Yes","Yes",
+"ID2004","ID",2004,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","No","Yes","No","Not less than 7 days prior to primary & general elections & 30 days after primary & general elections; persons who make IEs aggregating $1,000 or more 16 days prior, but not more than 48 hours prior, to prim & gen election to file report w/in 48 hours","No",,,,,,,,,,,,,,,
+"ID2006","ID",2006,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","No","Yes","No","Not less than 7 days prior to primary & general elections & 30 days after primary & general elections; persons who make IEs aggregating $1,000 or more 16 days prior, but not more than 48 hours prior, to prim & gen election to file report w/in 48 hours","Yes","Electioneering Communications","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","Yes","No","No","Statements shall be filed with the secretary of state, not less than seven (7) days prior to the primary and general election and thirty (30) days after the primary and general election. Additionally any electioneering communication > $1,000 disc.w/in 48h"
+"ID2008","ID",2008,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","No","Yes","No","Not less than 7 days prior to primary & general elections & 30 days after primary & general elections; persons who make IEs aggregating $1,000 or more 16 days prior, but not more than 48 hours prior, to prim & gen election to file report w/in 48 hours","Yes","Electioneering Communications","Yes","Yes","Yes","Yes","ID","Yes","Yes","Yes","101","Yes","Yes","No","No","Statements shall be filed with the secretary of state, not less than seven (7) days prior to the primary and general election and thirty (30) days after the primary and general election. Additionally any electioneering communication > $1,000 disc.w/in 48h"
+"ID2010","ID",2010,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","No","Yes","No","Not less than 7 days prior to primary & general elections & 30 days after primary & general elections; persons who make IEs aggregating $1,000 or more 16 days prior, but not more than 48 hours prior, to prim & gen election to file report w/in 48 hours","Yes","Electioneering Communications","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","Yes","No","No","Statements shall be filed with the secretary of state, not less than seven (7) days prior to the primary and general election and thirty (30) days after the primary and general election. Additionally any electioneering communication > $1,000 disc.w/in 48h"
+"ID2012","ID",2012,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","No","Yes","No","Not less than 7 days prior to primary & general elections & 30 days after primary & general elections; persons who make IEs aggregating $1,000 or more 16 days prior, but not more than 48 hours prior, to prim & gen election to file report w/in 48 hours","Yes","Electioneering Communications","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","Yes","No","No","Statements shall be filed with the secretary of state, not less than seven (7) days prior to the primary and general election and thirty (30) days after the primary and general election. Additionally any electioneering communication > $1,000 disc.w/in 48h"
+"ID2014","ID",2014,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","No","Yes","No","Not less than 7 days prior to primary & general elections & 30 days after primary & general elections; persons who make IEs aggregating $1,000 or more 16 days prior, but not more than 48 hours prior, to prim & gen election to file report w/in 48 hours","Yes","Electioneering Communications","Yes","Yes","Yes","Yes","ID","Yes","Yes","Yes","101","Yes","Yes","No","No","Statements shall be filed with the secretary of state, not less than seven (7) days prior to the primary and general election and thirty (30) days after the primary and general election. Additionally any electioneering communication > $1,000 disc.w/in 48h"
+"ID2016","ID",2016,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","Yes","No","Yes","No","Not less than 7 days prior to primary & general elections & 30 days after primary & general elections; persons who make IEs aggregating $1,000 or more 16 days prior, but not more than 48 hours prior, to prim & gen election to file report w/in 48 hours","Yes","Electioneering Communications","Yes","Yes","Yes","Yes","ID","Yes","Yes","Yes","101","Yes","Yes","No","No","Statements shall be filed with the secretary of state, not less than seven (7) days prior to the primary and general election and thirty (30) days after the primary and general election. Additionally any electioneering communication > $1,000 disc.w/in 48h"
+"IL1996","IL",1996,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
+"IL1998","IL",1998,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,"IL",,,,,,,,,
+"IL2000","IL",2000,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,"IL",,,,,,,,,
+"IL2002","IL",2002,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,"IL",,,,,,,,,
+"IL2004","IL",2004,"No","No","No","No","No","No","Yes","No","0","No","No","No","No",,"Yes","60 days before a general election or 30 days before a primary election","Yes","Yes","Yes","No","No","No","Yes","No",,"No","No","Yes","Yes",
+"IL2006","IL",2006,"No","No","No","No","No","No","Yes","No","0","No","No","No","No",,"Yes","60 days before a general election or 30 days before a primary election","Yes","Yes","Yes","No","IL","No","Yes","No",,"No","No","Yes","Yes",
+"IL2008","IL",2008,"No","No","No","No","No","No","Yes","No","0","No","No","No","No",,"Yes","60 days before a general election or 30 days before a primary election","Yes","Yes","Yes","No","IL","No","Yes","No",,"No","No","Yes","Yes",
+"IL2010","IL",2010,"Yes","Yes","No","No","No","No","No","Yes","3001","Yes","Yes","Yes","Yes","2 business days","Yes","60 days before a general election or 30 days before a primary election","Yes","Yes","Yes","No","IL","No","Yes","No",,"No","No","Yes","Yes",
+"IL2012","IL",2012,"Yes","No","No","No","No","No","No","Yes","3001","Yes","Yes","Yes","Yes","2 business days","Yes","60 days before a general election or 30 days before a primary election","Yes","Yes","Yes","No","IL","No","Yes","No",,"No","No","Yes","Yes",
+"IL2014","IL",2014,"Yes","No","No","No","No","No","No","Yes","5001","Yes","Yes","Yes","Yes","2 business days","Yes","60 days before a general election or 30 days before a primary election","Yes","Yes","Yes","No","IL","No","Yes","No",,"No","No","Yes","Yes",
 "IL2016","IL",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 "IN1996","IN",1996,"No","No","No","No","No","No","No",,,"No","No","No","No",,"No",,,,,,,,,,,,,,,
 "IN1998","IN",1998,"No","No","No","No","No","No","No",,,"No","No","No","No",,"No",,,,,,,,,,,,,,,
@@ -203,6 +241,15 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "MI2012","MI",2012,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","101","Yes","Yes","No","No","Filed within 10 days; Available within 3 business days of transmittal to the relevant local government unit","No",,,,,,,,,,,,,,,
 "MI2014","MI",2014,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","101","Yes","Yes","No","No","Filed within 10 days; Available within 3 business days of transmittal to the relevant local government unit","No",,,,,,,,,,,,,,,
 "MI2016","MI",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"MN1996","MN",1996,"Yes","No","No","No","No","No","No","No","0","No","No","Yes","No","10 days before election.","No",,,,,,,,,,,,,,,
+"MN1998","MN",1998,"Yes","No","No","No","No","No","No","No","0","No","No","Yes","No","10 days before election.","No",,,,,,,,,,,,,,,
+"MN2000","MN",2000,"Yes","No","No","No","No","No","No","No","0","No","No","Yes","No","10 days before election.","No",,,,,,,,,,,,,,,
+"MN2002","MN",2002,"Yes","No","No","No","No","No","No","No","0","No","No","Yes","No","10 days before election.","No",,,,,,,,,,,,,,,
+"MN2004","MN",2004,"Yes","No","No","No","No","No","No","No","0","No","No","Yes","No","10 days before election.","No",,,,,,,,,,,,,,,
+"MN2006","MN",2006,"Yes","No","No","No","No","No","No","No","0","No","No","Yes","No","10 days before election.","No",,,,,,,,,,,,,,,
+"MN2008","MN",2008,"Yes","No","No","No","No","No","No","No","0","No","No","Yes","No","10 days before election.","No",,,,,,,,,,,,,,,
+"MN2010","MN",2010,"Yes","No","No","No","No","No","No","No","0","No","No","Yes","No","10 days before election.","No",,,,,,,,,,,,,,,
+"MN2012","MN",2012,"Yes","No","No","No","No","No","No","No","0","No","No","Yes","No","10 days before election.","No",,,,,,,,,,,,,,,
 "MN2014","MN",2014,"Yes","No","No","No","No","No","No","Yes","1500","No","No","Yes","No","10 days before election.","No",,,,,,,,,,,,,,,
 "MN2016","MN",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 "MO1996","MO",1996,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","501","No","No","No","No","Within fourteen days after the date of making an expenditure which by itself or when added to all other such expenditures during the same campaign equals five hundred dollars or more.  But, if IE is made within fourteen days of an election within 48 hrs.","No",,,,,,,,,,,,,,,
@@ -225,7 +272,7 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "MS2008","MS",2008,"Yes","No","No","No","No","Yes","No","Yes","200","No","Yes","Yes","Yes","The statute seems to suggest annual reports but the actual requirements are unclear.","No",,,,,,"MS",,,,,,,,,
 "MS2010","MS",2010,"Yes","No","No","No","No","Yes","No","Yes","200","No","Yes","Yes","Yes","The statute seems to suggest annual reports but the actual requirements are unclear.","No",,,,,,"MS",,,,,,,,,
 "MS2012","MS",2012,"Yes","No","No","No","No","Yes","No","Yes","200","No","Yes","Yes","Yes","The statute seems to suggest annual reports but the actual requirements are unclear.","No",,,,,,"MS",,,,,,,,,
-"MS2014","MS",2014,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"MS2014","MS",2014,"Yes","No","No","No","No","Yes","No","Yes","200","No","Yes","Yes","Yes","The statute seems to suggest annual reports but the actual requirements are unclear.","No",,,,,,"MS",,,,,,,,,
 "MS2016","MS",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 "MT1996","MT",1996,"No","No","No","No","No","No","No","N/A",,"N/A","N/A","N/A","N/A","N/A","Yes","Electioneering","No","No","No","No","No","No","No","Not specified",,"No","No","No","No","N/A"
 "MT1998","MT",1998,"No","No","No","No","No","No","No","N/A",,"N/A","N/A","N/A","N/A","N/A","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
@@ -249,6 +296,7 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "NC2012","NC",2012,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","101","Yes","Yes","Yes","Yes","30 days after they exceed $100 or 10 days before an election the contributions or expenditures affect, whichever occurs earlier","Yes","Electioneering","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","5001","Yes","No","Yes","Yes","Within 10 days; within 40 hours for expenses over $5,000 or donations over $1,000"
 "NC2014","NC",2014,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","101","Yes","Yes","Yes","Yes","30 days after they exceed $100 or 10 days before an election the contributions or expenditures affect, whichever occurs earlier","Yes","Electioneering","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","5001","Yes","No","Yes","Yes","Within 10 days; within 40 hours for expenses over $5,000 or donations over $1,000"
 "NC2016","NC",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"ND1996","ND",1996,"Yes","No","No","Yes","Yes","Yes","Yes","No","0","Yes","No","Yes","No","12 days prior to election","No",,,,,,,,,,,,,,,
 "ND1998","ND",1998,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","101","Yes","No","Yes","No","12 days prior to election","No",,,,,,,,,,,,,,,
 "ND2000","ND",2000,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","101","Yes","No","Yes","No","12 days prior to election","No",,,,,,,,,,,,,,,
 "ND2002","ND",2002,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","101","Yes","No","Yes","No","12 days prior to election","No",,,,,,,,,,,,,,,
@@ -312,8 +360,17 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "NV2008","NV",2008,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","No","Yes","No","No","There are set reporting periods.","No",,,,,,,,,,,,,,,
 "NV2010","NV",2010,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","No","Yes","No","No","There are set reporting periods.","No",,,,,,,,,,,,,,,
 "NV2012","NV",2012,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","No","Yes","No","No","There are set reporting periods.","No",,,,,,,,,,,,,,,
-"NV2014","NV",2014,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","No","Yes","No","No","There are set reporting periods.","No",,,,,,,,,,,,,,,
+"NV2014","NV",2014,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","1001","No","Yes","No","No","There are set reporting periods.","No",,,,,,,,,,,,,,,
 "NV2016","NV",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"NY1996","NY",1996,"No","No","No","No","No","No","No","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
+"NY1998","NY",1998,"No","No","No","No","No","No","No","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
+"NY2000","NY",2000,"No","No","No","No","No","No","No","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
+"NY2002","NY",2002,"No","No","No","No","No","No","No","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
+"NY2004","NY",2004,"No","No","No","No","No","No","No","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
+"NY2006","NY",2006,"No","No","No","No","No","No","No","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
+"NY2008","NY",2008,"No","No","No","No","No","No","No","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
+"NY2010","NY",2010,"No","No","No","No","No","No","No","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
+"NY2012","NY",2012,"No","No","No","No","No","No","No","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
 "NY2014","NY",2014,"Yes","No","Yes","Yes","Yes",,,"Yes","1000","Yes",,"Yes","No","Must file as and follow rules for PAC's as well. File reports weekly on Fridays up to 30 days before an election (then 24 hours). No requirement for availability","No",,,,,,,,,,,,,,,
 "NY2016","NY",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 "OH1996","OH",1996,"Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","500","Yes","No","Yes","Yes","normal report deadlines","No",,,,,,,,,,,,,,,
@@ -382,14 +439,47 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "SC2012","SC",2012,"No","Yes","Yes","Yes","Yes","Yes","Yes","Yes","10000","No","No","No","No","Immediately/ NA","No",,,,,,,,,,,,,,,
 "SC2014","SC",2014,"No","Yes","Yes","Yes","Yes","Yes","Yes","Yes","10000","No","No","No","No","Immediately/ NA","No",,,,,,,,,,,,,,,
 "SC2016","SC",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"SD1996","SD",1996,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
+"SD1998","SD",1998,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
+"SD2000","SD",2000,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
+"SD2002","SD",2002,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
+"SD2004","SD",2004,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
+"SD2006","SD",2006,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
 "SD2008","SD",2008,"Yes","No","No","No","No","No","Yes","Yes","1000","Yes","Yes","Yes","Yes","Within 48 hours of communication. SDCL 12-27-16 (2008); Sess. Laws. Ch. 80, s. 16 (2007).","Yes","A communication that clearly identifies a candidate or public office holder, but does not expressly advocate the election or defeat of the candidate. SDCL 12-27-17 (2008); Sess. Laws. Ch. 80, s. 16 (2007)","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","1000","Yes","Yes","Yes","No","Within 48 hours of communication"
 "SD2010","SD",2010,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","2001","Yes","Yes","Yes","Yes","Within 48 hours of communication. SDCL 12-27-16 (2008); Sess. Laws. Ch. 80, s. 16 (2007).","Yes","A communication that clearly identifies a candidate or public office holder, but does not expressly advocate the election or defeat of the candidate. SDCL 12-27-17 (2008); Sess. Laws. Ch. 80, s. 16 (2007)","No","Yes","Yes","No","No","No","No","Yes","1000","Yes","Yes","Yes","No","Within 48 hours of communication"
 "SD2012","SD",2012,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","2001","Yes","Yes","Yes","Yes","Within 48 hours of communication. SDCL 12-27-16 (2008); Sess. Laws. Ch. 80, s. 16 (2007).","Yes","A communication that clearly identifies a candidate or public office holder, but does not expressly advocate the election or defeat of the candidate. SDCL 12-27-17 (2008); Sess. Laws. Ch. 80, s. 16 (2007)","No","Yes","Yes","No","No","No","No","Yes","1000","Yes","Yes","Yes","No","Within 48 hours of communication"
 "SD2014","SD",2014,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","100","Yes","Yes","Yes","Yes","Within 48 hours of communication. SDCL 12-27-16 (2008); Sess. Laws. Ch. 80, s. 16 (2007).","Yes","A communication that clearly identifies a candidate or public office holder, but does not expressly advocate the election or defeat of the candidate. SDCL 12-27-17 (2008); Sess. Laws. Ch. 80, s. 16 (2007)","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","100","Yes","Yes","Yes","No","Within 48 hours of communication. SDCL 12-27-1 (2013)."
 "SD2016","SD",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"TN1996","TN",1996,"No","No","No","No","No","No","No","No","0","No","No","No","No","N/A","No",,,,,,,,,,,,,,,
+"TN1998","TN",1998,"No","No","No","No","No","No","No","No","0","No","No","No","No","N/A","No",,,,,,,,,,,,,,,
+"TN2000","TN",2000,"No","No","No","No","No","No","No","No","0","No","No","No","No","N/A","No",,,,,,,,,,,,,,,
+"TN2002","TN",2002,"No","No","No","No","No","No","No","No","0","No","No","No","No","N/A","No",,,,,,,,,,,,,,,
+"TN2004","TN",2004,"No","No","No","No","No","No","No","No","0","No","No","No","No","N/A","No",,,,,,,,,,,,,,,
+"TN2006","TN",2006,"No","No","No","No","No","No","No","No","0","No","No","No","No","N/A","No",,,,,,,,,,,,,,,
+"TN2008","TN",2008,"No","No","No","No","No","No","No","No","0","No","No","No","No","N/A","No",,,,,,,,,,,,,,,
+"TN2010","TN",2010,"No","No","No","Yes","No","Yes","Yes","No","0","No","No","No","No","N/A","No",,,,,,,,,,,,,,,
 "TN2012","TN",2012,"No","No","No","Yes","No","Yes","Yes","Yes","250","No","No","No","No","N/A","No",,,,,,,,,,,,,,,
 "TN2014","TN",2014,"No","No","No","Yes","No","Yes","Yes","Yes","250","No","No","No","No","N/A","No",,,,,,,,,,,,,,,
+"TN2016","TN",2016,"No",,,,,,,"No","0",,,,,,,,,,,,,,,,,,,,,
+"TX1996","TX",1996,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes",,,,,,,,,,,,,,,
+"TX1998","TX",1998,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes",,,,,,"TX",,,,,,,,,
+"TX2000","TX",2000,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes",,,,,,"TX",,,,,,,,,
+"TX2002","TX",2002,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes",,,,,,"TX",,,,,,,,,
+"TX2004","TX",2004,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes",,,,,,"TX",,,,,,,,,
+"TX2006","TX",2006,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes",,,,,,"TX",,,,,,,,,
+"TX2008","TX",2008,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes",,,,,,"TX",,,,,,,,,
+"TX2010","TX",2010,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes",,,,,,"TX",,,,,,,,,
+"TX2012","TX",2012,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes",,,,,,"TX",,,,,,,,,
+"TX2014","TX",2014,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes",,,,,,"TX",,,,,,,,,
 "TX2016","TX",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"UT1996","UT",1996,"No","No","No","No","No","No","No","No","0","No","No",,,,"No",,,,,,,,,,,,,,,
+"UT1998","UT",1998,"No","No","No","No","No","No","No","No","0","No","No",,,,"No",,,,,,,,,,,,,,,
+"UT2000","UT",2000,"No","No","No","No","No","No","No","No","0","No","No",,,,"No",,,,,,,,,,,,,,,
+"UT2002","UT",2002,"No","No","No","No","No","No","No","No","0","No","No",,,,"No",,,,,,,,,,,,,,,
+"UT2004","UT",2004,"No","No","No","No","No","No","No","No","0","No","No",,,,"No",,,,,,,,,,,,,,,
+"UT2006","UT",2006,"No","No","No","No","No","No","No","No","0","No","No",,,,"No",,,,,,,,,,,,,,,
+"UT2008","UT",2008,"No","No","No","No","No","No","No","No","0","No","No",,,,"No",,,,,,,,,,,,,,,
+"UT2010","UT",2010,"No","No","No","No","No","No","No","No","0","No","No",,,,"No",,,,,,,,,,,,,,,
 "UT2012","UT",2012,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","$10,001 for any single electioneering communication","No","Yes","Yes","No","Within 24 hours.","No",,,,,,,,,,,,,,,
 "UT2014","UT",2014,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","$1,001 for any single electioneering communication","No","Yes","Yes","Yes","Within 30 dYA.","No",,,,,,,,,,,,,,,
 "UT2016","UT",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -437,6 +527,8 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "WI2012","WI",2012,"Yes","Yes","Yes","No","No","Yes","Yes","Yes","251","No","No","Yes","Yes","Oath related to Indenendent Disbursements must be filed prior to initial expenditures made, but Independent Expenditures themseleves are reported on a separate schedule on regularly scheduled reports.","No",,,,,,,,,,,,,,,
 "WI2014","WI",2014,"Yes","Yes","Yes","No","No","Yes","Yes","Yes","251","No","No","Yes","Yes","Oath related to Indenendent Disbursements must be filed prior to initial expenditures made, but Independent Expenditures themseleves are reported on a separate schedule on regularly scheduled reports.","No",,,,,,,,,,,,,,,
 "WI2016","WI",2016,"Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","2501","No","No","Yes","Yes","Within 72 Hours of the expenditure","No",,,,,,,,,,,,,,,
+"WV1996","WV",1996,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
+"WV1998","WV",1998,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
 "WV2000","WV",2000,"No","No","No","Yes","Yes","Yes","Yes","Yes","1001","No","No","No","No","Within 24 hours",,,,,,,,,,,,,,,,
 "WV2002","WV",2002,"No","No","No","Yes","Yes","Yes","Yes","Yes","1001","No","No","No","No","Within 24 hours","No",,,,,,,,,,,,,,,
 "WV2004","WV",2004,"No","No","No","Yes","Yes","Yes","Yes","Yes","1001","No","No","No","No","Within 24 hours","No",,,,,,,,,,,,,,,
@@ -446,99 +538,6 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "WV2012","WV",2012,"No","No","No","Yes","Yes","Yes","Yes","Yes","1001","No","No","No","No","Within 24 hours","Yes","electioneering communications","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","1000","Noc","No","Yes","No","Report must be filed within twenty-four hours of each disclosure date; Made available within 5 business days"
 "WV2014","WV",2014,"No","No","No","Yes","Yes","Yes","Yes","Yes","1001","No","No","No","No","Within 24 hours","Yes","electioneering communications","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","1000","Noc","No","Yes","No","Report must be filed within twenty-four hours of each disclosure date; Made available within 5 business days"
 "WV2016","WV",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-"WY2016","WY",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-"AK2004","AK",2004,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","No","No","No","No","10 days; Not specified","No",,,,,,,,,,,,,,,
-"AK2006","AK",2006,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","No","No","No","No","10 days; Not specified","Yes",,"Yes","Yes","Yes","Yes","AK","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
-"AK2008","AK",2008,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","No","No","No","No","10 days; Not specified","Yes",,"Yes","Yes","Yes","Yes","AK","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
-"AK2010","AK",2010,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","Yes","Yes","No","No","10 days; Not specified","No",,,,,,,,,,,,,,,
-"AK2012","AK",2012,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","Yes","Yes","No","No","10 days; Not specified","No",,,,,,"AK",,,,,,,,,
-"AK2014","AK",2014,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","Yes","Yes","No","No","10 days; Not specified","No",,,,,,"AK",,,,,,,,,
-"AK2016","AK",2016,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","Yes","Yes","No","No","10 days; Not specified","No",,,,,,"AK",,,,,,,,,
-"AL1996","AL",1996,"No","No","No","No","No","No","No","No","0","No",,"No","No",,"No",,,,,,,,,,,,,,,
-"AL1998","AL",1998,"No","No","No","No","No","No","No","No","0","No",,"No","No",,"No",,,,,,,,,,,,,,,
-"AL2000","AL",2000,"No","No","No","No","No","No","No","No","0","No",,"No","No",,"No",,,,,,,,,,,,,,,
-"AL2002","AL",2002,"No","No","No","No","No","No","No","No","0","No",,"No","No",,"No",,,,,,,,,,,,,,,
-"AL2004","AL",2004,"No","No","No","No","No","No","No","No","0","No",,"No","No",,"No",,,,,,,,,,,,,,,
-"AL2006","AL",2006,"No","No","No","No","No","No","No","No","0","No",,"No","No",,"No",,,,,,,,,,,,,,,
-"AL2008","AL",2008,"No","No","No","No","No","No","No","No","0","No",,"No","No",,"No",,,,,,,,,,,,,,,
-"AL2010","AL",2010,"No","No","No","No","No","No","No","No","0","No",,"No","No",,"No",,,,,,,,,,,,,,,
-"AL2012","AL",2012,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes","120 days","Yes","Yes","Yes","Yes","No","Yes","Yes","Yes","1000","Yes","Yes","Yes","Yes","NA"
-"AL2014","AL",2014,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes","120 days","Yes","Yes","Yes","Yes","AL","Yes","Yes","Yes","1000","Yes","Yes","Yes","Yes","NA"
-"AR1996","AR",1996,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
-"AZ1996","AZ",1996,"No","Yes","Yes","No","No","No","No","No","0","Yes","Yes","Yes","Yes","IE report included in standard filings","No",,,,,,,,,,,,,,,
-"AZ1998","AZ",1998,"No","Yes","Yes","No","No","No","No","No","0","Yes","Yes","Yes","Yes","IE report included in standard filings","No",,,,,,,,,,,,,,,
-"CT1996","CT",1996,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
-"HI1996","HI",1996,"No","No","No","Yes","Yes","Yes","Yes","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
-"HI1998","HI",1998,"No","No","No","Yes","Yes","Yes","Yes","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
-"HI2000","HI",2000,"No","No","No","Yes","Yes","Yes","Yes","No","0","No","No","No","No",,"Yes","Electioneering Communication","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","2000","Yes","Yes","Yes","No","24 hours"
-"HI2002","HI",2002,"No","No","No","Yes","Yes","Yes","Yes","No","0","No","No","No","No",,"Yes","Electioneering Communication","Yes","Yes","Yes","Yes","HI","Yes","Yes","Yes","2000","Yes","Yes","Yes","No","24 hours"
-"HI2004","HI",2004,"No","No","No","Yes","Yes","Yes","Yes","No","0","No","No","No","No",,"Yes","Electioneering Communication","Yes","Yes","Yes","Yes","HI","Yes","Yes","Yes","2000","Yes","Yes","Yes","No","24 hours"
-"HI2006","HI",2006,"No","No","No","Yes","Yes","Yes","Yes","No","0","No","No","No","No",,"Yes","Electioneering Communication","Yes","Yes","Yes","Yes","HI","Yes","Yes","Yes","2000","Yes","Yes","Yes","No","24 hours"
-"HI2008","HI",2008,"No","No","No","Yes","Yes","Yes","Yes","No","0","No","No","No","No",,"Yes","Electioneering Communication","Yes","Yes","Yes","Yes","HI","Yes","Yes","Yes","2000","Yes","Yes","Yes","No","24 hours"
-"HI2010","HI",2010,"No","No","No","Yes","Yes","Yes","Yes","No","0","No","No","No","No",,"Yes","Electioneering Communication","Yes","Yes","Yes","Yes","HI","Yes","Yes","Yes","2000","Yes","Yes","Yes","No","24 hours"
-"HI2012","HI",2012,"No","No","No","Yes","Yes","Yes","Yes","No","0","No","No","No","No",,"Yes","Electioneering Communication","Yes","Yes","Yes","Yes","HI","Yes","Yes","Yes","2000","Yes","Yes","Yes","No","24 hours"
-"HI2014","HI",2014,"No","No","No","Yes","Yes","Yes","Yes","No","0","No","No","No","No",,"Yes","Electioneering Communication","Yes","Yes","Yes","Yes","HI","Yes","Yes","Yes","2000","Yes","Yes","Yes","No","24 hours"
-"IL1996","IL",1996,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
-"IL1998","IL",1998,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,"IL",,,,,,,,,
-"IL2000","IL",2000,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,"IL",,,,,,,,,
-"IL2002","IL",2002,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,"IL",,,,,,,,,
-"IL2004","IL",2004,"No","No","No","No","No","No","Yes","No","0","No","No","No","No",,"Yes","60 days before a general election or 30 days before a primary election","Yes","Yes","Yes","No","No","No","Yes","No",,"No","No","Yes","Yes",
-"IL2006","IL",2006,"No","No","No","No","No","No","Yes","No","0","No","No","No","No",,"Yes","60 days before a general election or 30 days before a primary election","Yes","Yes","Yes","No","IL","No","Yes","No",,"No","No","Yes","Yes",
-"IL2008","IL",2008,"No","No","No","No","No","No","Yes","No","0","No","No","No","No",,"Yes","60 days before a general election or 30 days before a primary election","Yes","Yes","Yes","No","IL","No","Yes","No",,"No","No","Yes","Yes",
-"MN1996","MN",1996,"Yes","No","No","No","No","No","No","No","0","No","No","Yes","No","10 days before election.","No",,,,,,,,,,,,,,,
-"MN1998","MN",1998,"Yes","No","No","No","No","No","No","No","0","No","No","Yes","No","10 days before election.","No",,,,,,,,,,,,,,,
-"MN2000","MN",2000,"Yes","No","No","No","No","No","No","No","0","No","No","Yes","No","10 days before election.","No",,,,,,,,,,,,,,,
-"MN2002","MN",2002,"Yes","No","No","No","No","No","No","No","0","No","No","Yes","No","10 days before election.","No",,,,,,,,,,,,,,,
-"MN2004","MN",2004,"Yes","No","No","No","No","No","No","No","0","No","No","Yes","No","10 days before election.","No",,,,,,,,,,,,,,,
-"MN2006","MN",2006,"Yes","No","No","No","No","No","No","No","0","No","No","Yes","No","10 days before election.","No",,,,,,,,,,,,,,,
-"MN2008","MN",2008,"Yes","No","No","No","No","No","No","No","0","No","No","Yes","No","10 days before election.","No",,,,,,,,,,,,,,,
-"MN2010","MN",2010,"Yes","No","No","No","No","No","No","No","0","No","No","Yes","No","10 days before election.","No",,,,,,,,,,,,,,,
-"MN2012","MN",2012,"Yes","No","No","No","No","No","No","No","0","No","No","Yes","No","10 days before election.","No",,,,,,,,,,,,,,,
-"ND1996","ND",1996,"Yes","No","No","Yes","Yes","Yes","Yes","No","0","Yes","No","Yes","No","12 days prior to election","No",,,,,,,,,,,,,,,
-"NY1996","NY",1996,"No","No","No","No","No","No","No","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
-"NY1998","NY",1998,"No","No","No","No","No","No","No","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
-"NY2000","NY",2000,"No","No","No","No","No","No","No","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
-"NY2002","NY",2002,"No","No","No","No","No","No","No","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
-"NY2004","NY",2004,"No","No","No","No","No","No","No","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
-"NY2006","NY",2006,"No","No","No","No","No","No","No","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
-"NY2008","NY",2008,"No","No","No","No","No","No","No","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
-"NY2010","NY",2010,"No","No","No","No","No","No","No","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
-"NY2012","NY",2012,"No","No","No","No","No","No","No","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
-"SD1996","SD",1996,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
-"SD1998","SD",1998,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
-"SD2000","SD",2000,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
-"SD2002","SD",2002,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
-"SD2004","SD",2004,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
-"SD2006","SD",2006,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
-"TN1996","TN",1996,"No","No","No","No","No","No","No","No","0","No","No","No","No","N/A","No",,,,,,,,,,,,,,,
-"TN1998","TN",1998,"No","No","No","No","No","No","No","No","0","No","No","No","No","N/A","No",,,,,,,,,,,,,,,
-"TN2000","TN",2000,"No","No","No","No","No","No","No","No","0","No","No","No","No","N/A","No",,,,,,,,,,,,,,,
-"TN2002","TN",2002,"No","No","No","No","No","No","No","No","0","No","No","No","No","N/A","No",,,,,,,,,,,,,,,
-"TN2004","TN",2004,"No","No","No","No","No","No","No","No","0","No","No","No","No","N/A","No",,,,,,,,,,,,,,,
-"TN2006","TN",2006,"No","No","No","No","No","No","No","No","0","No","No","No","No","N/A","No",,,,,,,,,,,,,,,
-"TN2008","TN",2008,"No","No","No","No","No","No","No","No","0","No","No","No","No","N/A","No",,,,,,,,,,,,,,,
-"TN2010","TN",2010,"No","No","No","Yes","No","Yes","Yes","No","0","No","No","No","No","N/A","No",,,,,,,,,,,,,,,
-"TN2016","TN",2016,"No",,,,,,,"No","0",,,,,,,,,,,,,,,,,,,,,
-"TX1996","TX",1996,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes",,,,,,,,,,,,,,,
-"TX1998","TX",1998,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes",,,,,,"TX",,,,,,,,,
-"TX2000","TX",2000,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes",,,,,,"TX",,,,,,,,,
-"TX2002","TX",2002,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes",,,,,,"TX",,,,,,,,,
-"TX2004","TX",2004,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes",,,,,,"TX",,,,,,,,,
-"TX2006","TX",2006,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes",,,,,,"TX",,,,,,,,,
-"TX2008","TX",2008,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes",,,,,,"TX",,,,,,,,,
-"TX2010","TX",2010,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes",,,,,,"TX",,,,,,,,,
-"TX2012","TX",2012,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes",,,,,,"TX",,,,,,,,,
-"TX2014","TX",2014,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes",,,,,,"TX",,,,,,,,,
-"UT1996","UT",1996,"No","No","No","No","No","No","No","No","0","No","No",,,,"No",,,,,,,,,,,,,,,
-"UT1998","UT",1998,"No","No","No","No","No","No","No","No","0","No","No",,,,"No",,,,,,,,,,,,,,,
-"UT2000","UT",2000,"No","No","No","No","No","No","No","No","0","No","No",,,,"No",,,,,,,,,,,,,,,
-"UT2002","UT",2002,"No","No","No","No","No","No","No","No","0","No","No",,,,"No",,,,,,,,,,,,,,,
-"UT2004","UT",2004,"No","No","No","No","No","No","No","No","0","No","No",,,,"No",,,,,,,,,,,,,,,
-"UT2006","UT",2006,"No","No","No","No","No","No","No","No","0","No","No",,,,"No",,,,,,,,,,,,,,,
-"UT2008","UT",2008,"No","No","No","No","No","No","No","No","0","No","No",,,,"No",,,,,,,,,,,,,,,
-"UT2010","UT",2010,"No","No","No","No","No","No","No","No","0","No","No",,,,"No",,,,,,,,,,,,,,,
-"WV1996","WV",1996,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
-"WV1998","WV",1998,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","No","No","No","No","NA","No",,,,,,,,,,,,,,,
 "WY1996","WY",1996,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,"No","No","No","No","No","No","No","No",,"No","No","No","No",
 "WY1998","WY",1998,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,"No","No","No","No","No","No","No","No",,"No","No","No","No",
 "WY2000","WY",2000,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,"No","No","No","No","No","No","No","No",,"No","No","No","No",
@@ -549,3 +548,4 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "WY2010","WY",2010,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,"No","No","No","No","No","No","No","No",,"No","No","No","No",
 "WY2012","WY",2012,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","Yes","Yes","No","No","Report of expenditures required 7 days before election. Reports of expenditures and contributions required within 10 days after an election.","No",,"No","No","No","No","No","No","No","No",,"No","No","No","No",
 "WY2014","WY",2014,"No","No","Yes","Yes","Yes","No","Yes","No","0","No","No","No","No",,"Yes","""campaign literature or campaign advertising in any communication medium"" 22-25-110","No","Yes","Yes","Yes","Yes","No","Yes","Yes","$501","No","Yes","No","No","At least 7 days before election. 22-25-106(h)"
+"WY2016","WY",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

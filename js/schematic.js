@@ -100,6 +100,7 @@
         () // Call grid()
       ;
 
+
       // Initialize the navigation state.
       queryFromURL(); // populate the query variable
       console.log("from url", query)
@@ -149,7 +150,7 @@
           .attr("value", identity)
           .text(identity)
       ;
-  } // initializeYearSelector()
+  } // initializeYearSelector(
 
   function setupTabNavigation() {
       d3.select(".nav").selectAll("li a")
@@ -203,6 +204,7 @@
             .selectedColumn(question.question, question.section === 'contribution-limits')
             .selectedColumnLabel(question.label)
           ()
+
         ;
         atlas.query(question);
 
