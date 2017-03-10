@@ -37,6 +37,7 @@
 
   // Load the data and kick-off the visualization.
   d3.queue()
+    .defer(d3.json, "data/usa.json")
     .defer(d3.csv, "data/CSVs/Laws_02_Contributions_1.csv")
     .defer(d3.csv, "data/CSVs/Laws_02_Contributions_2.csv")
     .defer(d3.csv, "data/CSVs/Laws_02_Contributions_3.csv")
@@ -45,7 +46,6 @@
     .defer(d3.csv, "data/CSVs/Laws_03_Disclosure_3.csv")
     .defer(d3.csv, "data/CSVs/Laws_04_PublicFinancing.csv")
     .defer(d3.csv, "data/CSVs/Laws_05_Other.csv")
-    .defer(d3.json, "data/usa.json")
       .await(visualize)
   ;
 
@@ -73,7 +73,7 @@
   /*
   ** Main Functions
   */
-  function visualize(error, contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other, usa){
+  function visualize(error, usa, contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other){
       if(error) throw error;
 
       var data = ingest(d3.merge([
@@ -221,8 +221,7 @@
               })
         ;
         queryToURL(question);
-        })
-      ;
+      });
   } // setupSignals()
 
 
