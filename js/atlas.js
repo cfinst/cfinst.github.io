@@ -15,6 +15,8 @@ function Atlas() {
     ;
 
     function my() {
+      if(data.has(query.year))
+          update();
     } // Main Function Object
 
 
@@ -25,10 +27,11 @@ function Atlas() {
         ;
     } // reset()
 
-    function update(datayear) {
+    function update() {
         svg.select("#usa").selectAll(".state path").each(function(d) {
             var self = d3.select(this)
               , state = d.feature.properties.usps
+              , datayear = data.get(query.year)
             ;
             if(!datayear.has(state)) return "black";
             var answer = datayear.get(state)[query.question]
@@ -37,7 +40,8 @@ function Atlas() {
               , value = answer
             ;
             self.style("fill", function() {
-                if(query.donor) {
+                if(query.question.endsWith('_Max') && ~query.question.indexOf('Limit')) {
+                // Contribution Limit database keys have the word "Limit" and end in "_Max"
                     if(keyColumn === query.question){
                         value = (
                           value === undefined
@@ -62,6 +66,7 @@ function Atlas() {
                         value = value === 0 ? -Infinity : value;
                     }
                 }
+                console.log()
                 return query.colorScale(value);
               })
             ;
@@ -99,8 +104,6 @@ function Atlas() {
     my.query = function(_) {
         if(!arguments.length) return query;
         query = _;
-        if(data.has(query.year))
-            update(data.get(query.year));
 
         return my;
       } // my.query()
