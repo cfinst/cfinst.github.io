@@ -209,7 +209,10 @@
           ()
 
         ;
-        atlas.query(question);
+        atlas
+            .query(question)
+            ()
+        ;
 
         // toggle legend
         d3.selectAll(".legend ul")
