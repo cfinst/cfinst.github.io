@@ -62,7 +62,6 @@ function Atlas() {
                         value = value === 0 ? -Infinity : value;
                     }
                 }
-                console.log(query);
                 return query.colorScale(value);
               })
             ;
@@ -91,30 +90,6 @@ function Atlas() {
     /*
      * API Functions
     **/
-    my.update = function(data) {
-        if(!data || !data.length) return;
-
-        var usa = svg.select("#usa");
-        data.forEach(function(datum) {
-            usa.selectAll(".state" + "." + datum.key + " path")
-                .style("fill", datum.value.color)
-                .style("stroke", "white")
-                .on("mouseover", function() {
-                    tooltip
-                        .html(tooltipContent(datum.value.d))
-                        .show()
-                    ;
-                    dispatch.call("highlight", null, [datum.value.d]);
-                  })
-                .on("mouseout", function() {
-                    tooltip.hide();
-                    dispatch.call("highlight", null, []);
-                })
-            ;
-          })
-        ;
-        return my;
-      } // update()
     ;
     my.reset = function (){
        reset();
