@@ -132,7 +132,8 @@ function Grid(){
               dispatch.call("highlight", null, []);
           })
           .on("click", function (d){
-              dispatch.call("selectYear", null, d.Year);
+              query.year = d.Year;
+              dispatch.call("query", null, query);
               highlight(d);
             }
           )
