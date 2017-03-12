@@ -7,7 +7,6 @@
         , "downloadAllLimits"
         , "navigate"
         , "highlight"
-        , "sortMode"
       )
     , grid = Grid()
           .tooltipContent(tooltipContent)
@@ -19,9 +18,9 @@
     , tabs = {}
     , query = { // These are the defaults
           section: 'contribution-limits'
+        , legend: 'default'
         , question: null
         , label: null
-        , legend: 'default'
         , state: null
         , year: null
       }
@@ -160,12 +159,6 @@
 
   function setupSignals() {
       // Signal Handling
-      d3.select(".controls .checkbox input")
-          .on("change", function() { grid.empty(this.checked)(); })
-      ;
-      d3.select(".alphabetize-states-button")
-          .on("click", function() { grid.reset()(); })
-      ;
       signal.on("downloadAllLimits", function (xColumn, yColumn){
           var filename = "CFI-contribution-limits-all.csv";
           var projectedData = project(data, [xColumn, yColumn].concat(columnsRaw));
