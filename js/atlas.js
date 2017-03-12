@@ -125,7 +125,7 @@ function Atlas() {
         dispatch = _.on("highlight.atlas", function (highlightData){
             overlay.transition().duration(500)
                 .attr("stroke-opacity", function (d){
-                    if(!d.feature.properties) return 0;
+                    if(!d.feature || !d.feature.properties) return 0;
 
                     return highlightData.some(function (highlightDatum){
                         return (d.feature.properties.usps || "") === highlightDatum.State;
