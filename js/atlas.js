@@ -28,49 +28,62 @@ function Atlas() {
     } // reset()
 
     function update() {
-        svg.select("#usa").selectAll(".state path").each(function(d) {
-            var self = d3.select(this)
-              , state = d.feature.properties.usps
-              , datayear = data.get(query.year)
-            ;
-            if(!datayear.has(state)) return "black";
-            var answer = datayear.get(state)[query.question]
-              , keyColumn = query.question.split('Limit')[0]
-              , keyAnswer = datayear.get(state)[keyColumn]
-              , value = answer
-            ;
-            self.style("fill", function() {
-                if(query.question.endsWith('_Max') && ~query.question.indexOf('Limit')) {
-                // Contribution Limit database keys have the word "Limit" and end in "_Max"
-                    if(keyColumn === query.question){
-                        value = (
-                          value === undefined
-                            ? "Missing Field"
-                            : value.trim() === ""
-                              ? (query.colorScale.emptyValue || "Missing Data")
-                              : isNaN(+value)
-                                ? value
-                                : +value
-                        );
-                    } else {
-                        // Use the key column values to extract
-                        // "Unlimited" and "Prohibited" values.
-                        value = keyAnswer === "Limited"
-                          ? +answer
-                          : keyAnswer === "No"
-                            ? -Infinity // Treated as "Prohibited"
-                            : Infinity // Treated as "Unlimited"
-                        ;
+      svg.select("#usa").selectAll(".state path").each(function(d) {
+          var self = d3.select(this)
+            , state = d.feature.properties.usps
+            , datayear = data.get(query.year)
+          ;
+          if(!datayear.has(state)) return;
 
-                        // Treat a value of 0 as "Prohibited"
-                        value = value === 0 ? -Infinity : value;
-                    }
-                }
-                return query.colorScale(value);
+          var datum = datayear.get(state);
+          var value = datum[query.question]
+            , keyColumn = query.question.split('Limit')[0]
+            , keyAnswer = datum[keyColumn]
+          ;
+          self
+            .on("mouseover", function(d) {
+                tooltip
+                    .html(tooltipContent(datum))
+                    .show()
+                ;
+                dispatch.call("highlight", null, [datum]);
               })
-            ;
-          })
-        ;
+            .on("mouseout", function(d) {
+                tooltip.hide();
+                dispatch.call("highlight", null, []);
+              })
+          .style("fill", function() {
+              if(!datayear.has(state)) return "black";
+              if(query.question.endsWith('_Max') && ~query.question.indexOf('Limit')) {
+              // Contribution Limit database keys have the word "Limit" and end in "_Max"
+                  if(keyColumn === query.question){
+                      value = (
+                        value === undefined
+                          ? "Missing Field"
+                          : value.trim() === ""
+                            ? (query.colorScale.emptyValue || "Missing Data")
+                            : isNaN(+value)
+                              ? value
+                              : +value
+                      );
+                  } else {
+                      // Use the key column values to extract
+                      // "Unlimited" and "Prohibited" values.
+                      value = keyAnswer === "Limited"
+                        ? +answer
+                        : keyAnswer === "No"
+                          ? -Infinity // Treated as "Prohibited"
+                          : Infinity // Treated as "Unlimited"
+                      ;
+
+                      // Treat a value of 0 as "Prohibited"
+                      value = value === 0 ? -Infinity : value;
+                  }
+              }
+              return query.colorScale(value);
+            })
+          ;
+        });
         overlay.selectAll(".state")
             .classed("chosen", function(d) {
                 if(!d.feature || !d.feature.properties) return false;
