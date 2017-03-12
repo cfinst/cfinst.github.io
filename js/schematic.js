@@ -102,6 +102,7 @@
       queryFromURL(); // populate the query variable
       console.log("from url", query)
       setupTabNavigation();
+      connectSorterButtons();
       setupSignals();
 
       // If the query section doesn't have a valid link, default to the first tab
@@ -117,7 +118,9 @@
           this.value = query.year;
           this.value = this.value || def; // if year is invalid, show default
           self.on("change").apply(this, []);
-      })
+        })
+      ;
+      d3.select(".sorter-slicer").select(".btn").node().click();
   } // visualize()
 
   function ingest(dataset) {
@@ -148,6 +151,15 @@
           .text(identity)
       ;
   } // initializeYearSelector(
+
+  function connectSorterButtons() {
+      d3.select(".sorter-slicer").selectAll(".btn")
+          .on("click", function() {
+              query.sortMode = d3.select(this).select("input").node().value;
+              signal.call("query", null, query);
+            })
+      ;
+  } // connectSorterButtons()
 
   function setupTabNavigation() {
       d3.select(".nav").selectAll("li a")
@@ -185,7 +197,6 @@
       signal.on("query", function(question) {
         // update grid
         question.colorScale = colorScale[question.section][question.legend];
-        question.sortMode = "alphabetical"; // TODO: MAKE THIS DyNAMIC
 
         grid.query(question) ();
         atlas.query(question) ();
