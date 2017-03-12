@@ -124,19 +124,17 @@ function Grid(){
                 .html(tooltipContent(d))
                 .show()
             ;
-
             highlight(d);
           })
-          .on("mouseout", function() {
-              tooltip.hide();
-              dispatch.call("highlight", null, []);
+        .on("mouseout", function() {
+            tooltip.hide();
+            dispatch.call("highlight", null, []);
           })
-          .on("click", function (d){
-              query.year = d.Year;
-              dispatch.call("query", null, query);
-              highlight(d);
-            }
-          )
+        .on("click", function (d){
+            query.year = d.Year;
+            dispatch.call("query", null, query);
+            highlight(d);
+          })
       .merge(rects)
         .classed("highlighted", highlighted)
       .transition().duration(500)
