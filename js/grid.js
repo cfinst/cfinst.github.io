@@ -324,6 +324,8 @@ function Grid(){
               .attr("class", "viz")
         , axes = g.append("g")
               .attr("class", "axes")
+        , yearIndicatorOverlay = g.append("g")
+              .attr("class", "year-indicator-overlay")
         , highlightOverlay = g.append("g")
               .attr("class", "highlight-overlay")
       ;
