@@ -75,9 +75,7 @@ function Atlas() {
           .transition().duration(500)
             .attr("stroke-opacity", function (d){
                 if(!d.feature || !d.feature.properties) return 0;
-                if (d.feature.properties.usps !== query.state) return 0;
-                console.log(this, query.state, d.feature.properties.usps);
-                return 1;
+                return (d.feature.properties.usps === query.state) ? 1 : 0;
             })
         ;
     } // update()
