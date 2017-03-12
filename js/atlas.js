@@ -181,7 +181,8 @@ function Atlas() {
         usa.selectAll("path")
             .on("click", function(d) {
                 if(!d.feature || !d.feature.properties) return;
-                query.state = d.feature.properties.usps;
+                var usps = d.feature.properties.usps;
+                query.state = (query.state === usps) ? null : usps;
                 dispatch.call("query", null, query);
               })
         ;
