@@ -134,6 +134,7 @@ function Grid(){
           })
         .on("click", function (d){
             query.year = d.Year;
+            query.state = d.State;
             dispatch.call("query", null, query);
             highlight(d);
           })
