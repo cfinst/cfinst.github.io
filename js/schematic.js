@@ -196,7 +196,7 @@
 
         grid.query(question) ();
         atlas.query(question) ();
-        d3.select("#chooser-year").node().value = query.year;
+        d3.select("#chooser-year").node().value = question.year;
 
         // toggle legend
         d3.selectAll(".legend ul")
