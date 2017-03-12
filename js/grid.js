@@ -74,9 +74,11 @@ function Grid(){
       if(before.length !== after.length){
           var unexpectedValues = after.slice(before.length);
           console.warn("WARNING");
-          console.warn("There are values present in the data that are not part of the legend configurations:");
+          console.warn("There are values present in the data that are not part"
+            + " of the legend configurations:");
           console.warn(JSON.stringify(unexpectedValues));
-          console.warn("Please be sure to account for these values in the legend configurations located in _data/sections");
+          console.warn("Please be sure to account for these values in the legend"
+            + " configurations located in _data/sections");
           console.warn("The following values are already accounted for:");
           console.warn(JSON.stringify(before));
       }
