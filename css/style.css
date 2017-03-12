@@ -24,7 +24,7 @@
 .sortby {
     font-weight: bold;
 }
-.state {
+.state > path {
     transition:
       fill-opacity .5s linear,
       fill .5s linear,
