@@ -72,8 +72,12 @@ textarea.form-control {
 }
 .highlighted {
     stroke: #ffff00;
+    stroke-dasharray: 10, 10;
     fill: none;
     fill-opacity: 0;
+}
+.chosen {
+    stroke-dasharray: none;
 }
 .grid-rect.highlighted {
     stroke-width: 3px;
