@@ -4,7 +4,6 @@
   var signal = d3.dispatch(
         "query"
         , "update"
-        , "selectYear"
         , "downloadCurrentLimits"
         , "downloadAllLimits"
         , "navigate"
