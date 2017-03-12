@@ -84,7 +84,7 @@ function Tabulus() {
             ;
             query.donor = split[0];
             query.recipient = receiver[0];
-            query.branch = receiver[1] || "";
+            query.branch = (receiver[1] || "").split('_')[1]
         }
         container.selectAll(".chooser").each(function() {
             var self = d3.select(this)
