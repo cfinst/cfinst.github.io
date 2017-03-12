@@ -14,31 +14,6 @@ function Tabulus() {
     */
     function my(sel) {
       if(!container) setup(sel);
-
-      wiring.on("choice", function(arg) {
-          arg.each(function(value, key) {
-              container.selectAll("select")
-              // disable neighbor dropdowns that need to be disabled
-                  .property("disabled", function() {
-                      return d3.select(this).attr("data-name") === value.disable;
-                    })
-              ;
-              // show the question if this is a question
-              if(value.question) {
-                  container.select(".field-description")
-                      .html(value.question + (
-                          value.note
-                            ? ("*\n\n* " + value.note)
-                            : ""
-                        ))
-                  ;
-              }
-              curry[key] = value;
-            })
-          ;
-          update();
-        })
-      ;
     } // my()
 
 
@@ -69,6 +44,32 @@ function Tabulus() {
                 wiring.call("choice", this, msg);
               }) // onChange
         ;
+        wiring.on("choice", function(arg) {
+            arg.each(function(value, key) {
+                if(value.disable) {
+                    container.selectAll("select")
+                    // disable neighbor dropdowns that need to be disabled
+                        .property("disabled", function() {
+                            var name = d3.select(this).attr("data-name");
+                            return name === value.disable;
+                          })
+                    ;
+                }
+                // show the question if this is a question
+                if(value.question) {
+                    container.select(".field-description")
+                        .html(
+                          value.question + (value.note ? ("*\n\n* " + value.note) : "")
+                          )
+                    ;
+                }
+                curry[key] = value;
+              })
+            ;
+            update();
+          })
+        ;
+
     } // setup()
 
     // Set the state for the various controls, based on the query
