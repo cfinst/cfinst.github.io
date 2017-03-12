@@ -72,11 +72,15 @@ function Atlas() {
           })
         ;
         overlay.selectAll(".state")
+            .classed("chosen", function(d) {
+                if(!d.feature || !d.feature.properties) return false;
+                return d.feature.properties.usps === query.state;
+              })
           .transition().duration(500)
-            .attr("stroke-opacity", function (d){
+            .style("stroke-opacity", function(d) {
                 if(!d.feature || !d.feature.properties) return 0;
                 return (d.feature.properties.usps === query.state) ? 1 : 0;
-            })
+              })
         ;
     } // update()
 
@@ -129,7 +133,13 @@ function Atlas() {
     ;
     my.connect = function (_){
         if(!arguments.length) return dispatch;
-        dispatch = _;
+        dispatch = _.on("highlight.atlas", function(state) {
+            overlay.selectAll(".state:not(.chosen)")
+                .style("stroke-opacity", function(d) {
+                    if(!d.feature || !d.feature.properties || !state.length) return 0;
+                    return (d.feature.properties.usps === state[0].State) ? 1 : 0;
+                  })
+        });
 
         return my;
       } // my.connect()
