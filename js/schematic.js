@@ -168,11 +168,6 @@
       d3.select(".alphabetize-states-button")
           .on("click", function() { grid.reset()(); })
       ;
-      signal.on("selectYear.grid", grid.selectedYear);
-      signal.on("selectYear.chooser", function (selectedYear){
-          d3.select("#chooser-year").node().value = selectedYear;
-        })
-      ;
       signal.on("downloadAllLimits", function (xColumn, yColumn){
           var filename = "CFI-contribution-limits-all.csv";
           var projectedData = project(data, [xColumn, yColumn].concat(columnsRaw));
@@ -199,20 +194,11 @@
       signal.on("query", function(question) {
         // update grid
         question.colorScale = colorScale[question.section][question.legend];
-        console.log(colorScale, question.section, question.legend);
-        grid
-            .selectedYear(question.year)
-            .colorScale(question.colorScale)
-            .selectedColumn(question.question, question.section === 'contribution-limits')
-            .selectedColumnLabel(question.label)
-            .sortMode("alphabetical")
-          ()
+        question.sortMode = "alphabetical"; // TODO: MAKE THIS DyNAMIC
 
-        ;
-        atlas
-            .query(question)
-            ()
-        ;
+        grid.query(question) ();
+        atlas.query(question) ();
+        d3.select("#chooser-year").node().value = query.year;
 
         // toggle legend
         d3.selectAll(".legend ul")
@@ -223,6 +209,7 @@
                 ;
               })
         ;
+        // Set the year
         queryToURL(question);
       });
   } // setupSignals()

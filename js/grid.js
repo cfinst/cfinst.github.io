@@ -35,6 +35,7 @@ function Grid(){
     , selectedYear
     , sortMode
     , empty = false
+    , query = {}
     , dispatch
   ;
 
@@ -165,8 +166,8 @@ function Grid(){
       svg.selectAll(".y.axis .tick text")
           .each(function(d) {
               var self = d3.select(this);
-              self.classed("sortby", selectedYear === d);
-              d3.select(self.node().parentNode).select("line")
+              self.classed("sortby", +selectedYear === d);
+              d3.select(this.parentNode).select("line")
                   .attr()
           })
       ;
@@ -214,7 +215,8 @@ function Grid(){
       svg.selectAll(".y.axis .tick text")
           // Sort dataset when y-axis labels are clicked
           .on("click", function (d){
-              dispatch.call("selectYear", null, d);
+              query.year = d;
+              dispatch.call("query", null, query);
             }
           );
       ;
@@ -244,6 +246,60 @@ function Grid(){
             .sort(d3.descending)
       );
   } // domainify()
+
+
+  function decrypt(){
+      selectedColumn = query.question;
+      var keyColumn = query.section === 'contribution-limits' && (
+          ~selectedColumn.indexOf('Limit')
+          ? selectedColumn.split('Limit')[0]
+          : undefined
+      );
+
+      valueAccessor = function (d){
+          var value;
+          // Handle the case of a threshold scale.
+          if(keyColumn){
+
+              // Use the key column values to extract
+              // "Unlimited" and "Prohibited" values.
+              value = d[keyColumn] === "Limited"
+                ? +d[selectedColumn]
+                : (d[keyColumn] === "No" || d[keyColumn] === "Prohibited")
+                  ? -Infinity // Treated as "Prohibited"
+                  : Infinity // Treated as "Unlimited"
+              ;
+
+              // Treat a value of 0 as "Prohibited"
+              value = value === 0 ? -Infinity : value;
+          } else {
+              value = d[selectedColumn];
+              value = (
+                value === undefined ? "Missing Field" :
+                value.trim() === "" ? (colorScale.emptyValue || "Missing Data") :
+                isNaN(+value) ? value :
+                +value
+              );
+          }
+          return value;
+      }
+
+      format = function (value){
+          return (
+              value === -Infinity
+                ? "Prohibited"
+                : value === Infinity
+                  ? "Unlimited"
+                  : typeof value === "string"
+                    ? value
+                    : moneyFormat(value)
+          );
+      };
+
+      return my;
+    } // decrypt()
+  ;
+
 
   // Sets up the click handlers on the data download buttons.
   function connect_download_buttons() {
@@ -305,59 +361,19 @@ function Grid(){
       return my;
     } // my.data()
   ;
+  my.query = function(_) {
+      if(!arguments.length) return query;
+      query = _;
+      selectedYear = query.year;
+      colorScale = query.colorScale;
+      selectedColumnLabel = query.label;
+      sortMode = query.sortMode;
 
-  my.selectedColumn = function (_, useKeyColumn){
-      if(!arguments.length) return selectedColumn;
-
-      selectedColumn = _;
-      var keyColumn = useKeyColumn && (
-          ~selectedColumn.indexOf('Limit')
-          ? selectedColumn.split('Limit')[0]
-          : undefined
-      );
-
-      valueAccessor = function (d){
-          var value;
-          // Handle the case of a threshold scale.
-          if(keyColumn){
-
-              // Use the key column values to extract
-              // "Unlimited" and "Prohibited" values.
-              value = d[keyColumn] === "Limited"
-                ? +d[selectedColumn]
-                : (d[keyColumn] === "No" || d[keyColumn] === "Prohibited")
-                  ? -Infinity // Treated as "Prohibited"
-                  : Infinity // Treated as "Unlimited"
-              ;
-
-              // Treat a value of 0 as "Prohibited"
-              value = value === 0 ? -Infinity : value;
-          } else {
-              value = d[selectedColumn];
-              value = (
-                value === undefined ? "Missing Field" :
-                value.trim() === "" ? (colorScale.emptyValue || "Missing Data") :
-                isNaN(+value) ? value :
-                +value
-              );
-          }
-          return value;
-      }
-
-      format = function (value){
-          return (
-              value === -Infinity
-                ? "Prohibited"
-                : value === Infinity
-                  ? "Unlimited"
-                  : typeof value === "string"
-                    ? value
-                    : moneyFormat(value)
-          );
-      };
+      // selectedColumn
+      decrypt();
 
       return my;
-    } // my.selectedColumn()
+    } // my.query()
   ;
   my.valueAccessor = function (_){
       if(!arguments.length) return valueAccessor;
@@ -370,12 +386,6 @@ function Grid(){
       format = _;
       return my;
     } // my.format()
-  ;
-  my.selectedColumnLabel = function (_){
-      if(!arguments.length) return selectedColumnLabel;
-      selectedColumnLabel = _;
-      return my;
-    } // my.selectedColumnLabel()
   ;
   my.resize = function (){
       size_up();
@@ -393,25 +403,6 @@ function Grid(){
       dispatch = _;
       return my;
     } // my.connect()
-  ;
-  my.selectedYear = function(_) {
-      if(!arguments.length) return selectedYear;
-
-      selectedYear = _;
-      return my;
-    }
-  ;
-  my.colorScale = function (_){
-      if(!arguments.length) return colorScale;
-      colorScale = _;
-      return my;
-    } // my.colorScale()
-  ;
-  my.sortMode = function (_){
-      if(!arguments.length) return sortMode;
-      sortMode = _;
-      return my;
-    } // my.sortMode()
   ;
 
   // This is always the last thing returned
