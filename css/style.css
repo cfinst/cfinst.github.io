@@ -24,13 +24,15 @@
 .sortby {
     font-weight: bold;
 }
+.state {
+    stroke-width: 1px;
+    stroke: white;
+}
 .state > path {
     transition:
       fill-opacity .5s linear,
       fill .5s linear,
       stroke .5s linear;
-    stroke-width: 1px;
-    stroke: white;
 }
 .atlas-selected-year {
     fill: black;
