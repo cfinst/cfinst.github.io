@@ -70,7 +70,7 @@ function Atlas() {
                       // Use the key column values to extract
                       // "Unlimited" and "Prohibited" values.
                       value = keyAnswer === "Limited"
-                        ? +answer
+                        ? +value
                         : keyAnswer === "No"
                           ? -Infinity // Treated as "Prohibited"
                           : Infinity // Treated as "Unlimited"
@@ -177,6 +177,13 @@ function Atlas() {
         usa.selectAll(".state")
             .data(gjson)
             .call(initStateShapes)
+        ;
+        usa.selectAll("path")
+            .on("click", function(d) {
+                if(!d.feature || !d.feature.properties) return;
+                query.state = d.feature.properties.usps;
+                dispatch.call("query", null, query);
+              })
         ;
         overlay.selectAll(".state")
             .data(gjson)
