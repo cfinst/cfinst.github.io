@@ -24,17 +24,13 @@
 .sortby {
     font-weight: bold;
 }
-.state > path {
+.state {
     transition:
       fill-opacity .5s linear,
       fill .5s linear,
       stroke .5s linear;
     stroke-width: 1px;
     stroke: white;
-}
-#highlight-overlay > .state > path {
-    fill-opacity: 0;
-    fill: white;
 }
 .atlas-selected-year {
     fill: black;
@@ -77,15 +73,19 @@ textarea.form-control {
 .highlighted {
     stroke: #ffff00;
     fill: none;
+    fill-opacity: 0;
 }
 .grid-rect.highlighted {
     stroke-width: 3px;
-}
-.state .highlighted {
-    stroke-width: 6px;
 }
 .year-indicator-overlay {
     fill: none;
     stroke: white;
     stroke-width: 2px;
+}
+.highlight-overlay {
+    pointer-events: none;
+}
+.highlight-overlay .state {
+    stroke-width: 6px;
 }

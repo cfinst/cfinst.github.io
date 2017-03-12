@@ -66,11 +66,20 @@ function Atlas() {
                         value = value === 0 ? -Infinity : value;
                     }
                 }
-                console.log()
                 return query.colorScale(value);
               })
             ;
-        })
+          })
+        ;
+        overlay.selectAll(".state")
+          .transition().duration(500)
+            .attr("stroke-opacity", function (d){
+                if(!d.feature || !d.feature.properties) return 0;
+                if (d.feature.properties.usps !== query.state) return 0;
+                console.log(this, query.state, d.feature.properties.usps);
+                return 1;
+            })
+        ;
     } // update()
 
 
@@ -122,17 +131,7 @@ function Atlas() {
     ;
     my.connect = function (_){
         if(!arguments.length) return dispatch;
-        dispatch = _.on("highlight.atlas", function (highlightData){
-            overlay.transition().duration(500)
-                .attr("stroke-opacity", function (d){
-                    if(!d.feature || !d.feature.properties) return 0;
-
-                    return highlightData.some(function (highlightDatum){
-                        return (d.feature.properties.usps || "") === highlightDatum.State;
-                    }) ? 1 : 0;
-                })
-            ;
-        });
+        dispatch = _;
 
         return my;
       } // my.connect()
@@ -161,7 +160,8 @@ function Atlas() {
         overlay.selectAll(".state")
             .data(gjson)
             .call(initStateShapes)
-          .selectAll(".state path")
+        ;
+        overlay.selectAll(".state")
             .classed("highlighted", true)
             .attr("stroke-opacity", 0)
         ;
@@ -182,7 +182,9 @@ function Atlas() {
           .merge(g)
         ;
         usa = svg.select("#usa");
-        overlay = svg.select("#highlight-overlay");
+        overlay = svg.select("#highlight-overlay")
+            .attr("class", "highlight-overlay")
+        ;
 
         return my;
       } // my.svg()
