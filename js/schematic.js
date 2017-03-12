@@ -64,7 +64,7 @@
   function tooltipContent(d) {
       return "<span style='text-align: center;'>"
         + "<h4>" + d.State + " " + d.Year + "</h4>"
-        + "<h5>" + grid.selectedColumnLabel() + "</h5>"
+        + "<h5>" + query.label + "</h5>"
         + "<h4>" + grid.format()(grid.valueAccessor()(d)) + "</h4>"
         + "</span>"
       ;
