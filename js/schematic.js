@@ -3,7 +3,6 @@
 (function () {
   var signal = d3.dispatch(
         "query"
-        , "update"
         , "downloadCurrentLimits"
         , "downloadAllLimits"
         , "navigate"
