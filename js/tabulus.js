@@ -38,7 +38,7 @@ function Tabulus() {
                   , option = self.select("option[value='" + this.value + "']")
                   , msg = d3.map()
                 ;
-                option = option.size() ? option : self.select("option");
+                option = option.size() ? option : self.select("optgroup option");
                 msg.set(key, option.datum());
                 wiring.call("choice", this, msg);
               }) // onChange
@@ -56,7 +56,7 @@ function Tabulus() {
                             self.attr("data-default", val);
                             this.value = "";
                         } else if(value.disable === "_" + name) {
-                            this.value = self.attr("data-default");
+                            this.value = self.attr("data-default") || self.select("optgroup option");
                             self.property("disabled", false)
                         }
                       })
@@ -92,15 +92,14 @@ function Tabulus() {
             ;
             query.donor = split[0];
             query.recipient = receiver[0];
-            query.branch = (receiver[1] || "").split("_")[1]
+            query.branch = (receiver[1] || "").split("_")[1] || " "
         }
         container.selectAll(".chooser").each(function() {
             var self = d3.select(this)
               , name = self.attr("data-name")
               , def = this.value || self.select("option").node().value
             ;
-            this.value = query[name] || null;
-            this.value = this.value || def;
+            this.value = query[name] || def;
             self.on("change").apply(this, []);
         })
     } // run_query()
