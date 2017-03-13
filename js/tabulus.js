@@ -38,7 +38,6 @@ function Tabulus() {
                   , option = self.select("option[value='" + this.value + "']")
                   , msg = d3.map()
                 ;
-                key = self.attr("disabled") ? "_" + key : key;
                 option = option.size() ? option : self.select("option");
                 msg.set(key, option.datum());
                 wiring.call("choice", this, msg);
@@ -47,12 +46,20 @@ function Tabulus() {
         wiring.on("choice", function(arg) {
             arg.each(function(value, key) {
                 if(value.disable) {
-                    container.selectAll("select")
-                    // disable neighbor dropdowns that need to be disabled
-                        .property("disabled", function() {
-                            var name = d3.select(this).attr("data-name");
-                            return name === value.disable;
-                          })
+                    container.selectAll("select").each(function() {
+                        var self = d3.select(this)
+                          , name = self.attr("data-name")
+                        ;
+                        if(value.disable === name) {
+                            self.property("disabled", true);
+                            var val = this.value;
+                            self.attr("data-default", val);
+                            this.value = "";
+                        } else if(value.disable === "_" + name) {
+                            this.value = self.attr("data-default");
+                            self.property("disabled", false)
+                        }
+                      })
                     ;
                 }
                 // show the question if this is a question
@@ -85,7 +92,7 @@ function Tabulus() {
             ;
             query.donor = split[0];
             query.recipient = receiver[0];
-            query.branch = (receiver[1] || "").split('_')[1]
+            query.branch = (receiver[1] || "").split("_")[1]
         }
         container.selectAll(".chooser").each(function() {
             var self = d3.select(this)
