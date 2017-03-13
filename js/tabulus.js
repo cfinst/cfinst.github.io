@@ -80,7 +80,7 @@ function Tabulus() {
     } // setup()
 
     // Set the state for the various controls, based on the query
-    function initialize() {
+    function run_query() {
         var curr = (curry.question ? curry.question.value : curry._question) || "";
         if(curr && (query.question === curr)) return
         query.question = query.question || curr;
@@ -103,7 +103,7 @@ function Tabulus() {
             this.value = this.value || def;
             self.on("change").apply(this, []);
         })
-    } // initialize()
+    } // run_query()
 
     // Update the query from the states of the various controls
     function update() {
@@ -156,7 +156,7 @@ function Tabulus() {
     my.query = function (_){
         if(!arguments.length) return query;
         query = _;
-        initialize(); // run the query through the system
+        run_query(); // run the query through the system
 
         return my;
       } // my.query()
