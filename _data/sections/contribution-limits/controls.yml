@@ -23,7 +23,7 @@
       options:
         - label: Candidate
           abbr: Cand
-          disable: none
+          disable: _branch
         - label: Local Party
           abbr: Party
           disable: branch
