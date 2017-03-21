@@ -152,11 +152,12 @@ function Atlas() {
         dispatch = _.on("highlight.atlas", function(state) {
             overlay
               .selectAll(".state")
+                .transition().duration(500)
                 .style("stroke-opacity", function(d) {
                     if(!d.feature || !d.feature.properties || !state.length) return 0;
                     return (d.feature.properties.usps === state[0].State) ? 1 : 0;
                   })
-
+            ;
               // TODO reinstate this
               // Part of https://github.com/cfinst/cfinst.github.io/issues/170
               //.selectAll(".state:not(.chosen)")
