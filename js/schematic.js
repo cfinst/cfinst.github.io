@@ -21,7 +21,7 @@
         , legend: 'default'
         , question: null
         , label: null
-        , state: null
+        //, state: null // TODO reinstate this. https://github.com/cfinst/cfinst.github.io/issues/170
         , year: null
       }
   ;
@@ -244,7 +244,7 @@
   function queryToURL(question) {
       var val = []
       ;
-      ['question', 'year', 'state'].forEach(function(k) {
+      ['question', 'year'].forEach(function(k) {
           if(!question[k]) return;
           val.push([k, encodeURIComponent(question[k])].join('='));
       })

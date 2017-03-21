@@ -74,13 +74,17 @@ textarea.form-control {
 }
 .highlighted {
     stroke: #ffff00;
-    stroke-dasharray: 10, 10;
     fill: none;
     fill-opacity: 0;
 }
+/*
+TODO reinstate something like this.
+Part of https://github.com/cfinst/cfinst.github.io/issues/170
 .chosen {
+    stroke-dasharray: 10, 10;
     stroke-dasharray: none;
 }
+*/
 .grid-rect.highlighted {
     stroke-width: 3px;
 }

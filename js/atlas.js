@@ -84,17 +84,20 @@ function Atlas() {
             })
           ;
         });
-        overlay.selectAll(".state")
-            .classed("chosen", function(d) {
-                if(!d.feature || !d.feature.properties) return false;
-                return d.feature.properties.usps === query.state;
-              })
-          .transition().duration(500)
-            .style("stroke-opacity", function(d) {
-                if(!d.feature || !d.feature.properties) return 0;
-                return (d.feature.properties.usps === query.state) ? 1 : 0;
-              })
-        ;
+
+        // TODO reinstate this
+        // Part of https://github.com/cfinst/cfinst.github.io/issues/170
+        //overlay.selectAll(".state")
+        //    .classed("chosen", function(d) {
+        //        if(!d.feature || !d.feature.properties) return false;
+        //        return d.feature.properties.usps === query.state;
+        //      })
+        //  .transition().duration(500)
+        //    .style("stroke-opacity", function(d) {
+        //        if(!d.feature || !d.feature.properties) return 0;
+        //        return (d.feature.properties.usps === query.state) ? 1 : 0;
+        //      })
+        //;
     } // update()
 
 
@@ -147,11 +150,16 @@ function Atlas() {
     my.connect = function (_){
         if(!arguments.length) return dispatch;
         dispatch = _.on("highlight.atlas", function(state) {
-            overlay.selectAll(".state:not(.chosen)")
+            overlay
+              .selectAll(".state")
                 .style("stroke-opacity", function(d) {
                     if(!d.feature || !d.feature.properties || !state.length) return 0;
                     return (d.feature.properties.usps === state[0].State) ? 1 : 0;
                   })
+
+              // TODO reinstate this
+              // Part of https://github.com/cfinst/cfinst.github.io/issues/170
+              //.selectAll(".state:not(.chosen)")
         });
 
         return my;
@@ -178,14 +186,16 @@ function Atlas() {
             .data(gjson)
             .call(initStateShapes)
         ;
-        usa.selectAll("path")
-            .on("click", function(d) {
-                if(!d.feature || !d.feature.properties) return;
-                var usps = d.feature.properties.usps;
-                query.state = (query.state === usps) ? null : usps;
-                dispatch.call("query", null, query);
-              })
-        ;
+        // TODO reinstate this
+        // Part of https://github.com/cfinst/cfinst.github.io/issues/170
+        //usa.selectAll("path")
+        //    .on("click", function(d) {
+        //        if(!d.feature || !d.feature.properties) return;
+        //        var usps = d.feature.properties.usps;
+        //        query.state = (query.state === usps) ? null : usps;
+        //        dispatch.call("query", null, query);
+        //      })
+        //;
         overlay.selectAll(".state")
             .data(gjson)
             .call(initStateShapes)
