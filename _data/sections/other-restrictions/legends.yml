@@ -1,5 +1,6 @@
-ordinal:
-  default:
+- name: default
+  type: ordinal
+  scale:
     - label: "No"
       color: "#053061"
     - label: Changed mid-cycle

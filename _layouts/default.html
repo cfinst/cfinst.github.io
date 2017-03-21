@@ -14,21 +14,24 @@
         </div><!--.panel-body-->
         <div class="panel-footer">
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <div class="form form-inline">
                 <label>Year: </label>
                 <select class="form-control" id="chooser-year">
-                  <optgroup label="Select a Year">
-                  </optgroup>
+                  <optgroup label="Select a Year"></optgroup>
                 </select>
               </div><!--.form-->
             </div><!--.col-sm-6-->
-            <div class="col-sm-6">
+            <div class="col-sm-8">
               <div class="pull-right">
                 <label>Grid sorting: </label>
-                <div class="btn-group sort-mode-buttons">
-                  <button type="button" value="alphabetical" class="btn btn-primary">Alphabetical</button>
-                  <button type="button" value="by-value" class="btn btn-primary">By Value</button>
+                <div class="btn-group sorter-slicer" data-toggle="buttons">
+                  <label class="btn btn-primary">
+                    <input type="radio" name="sortgrid" id="alpha" autocomplete="off" value="alphabetical"> Alphabetically
+                  </label>
+                  <label class="btn btn-primary">
+                    <input type="radio" name="sortgrid" id="numerical" value="num" autocomplete="off" checked> By Value
+                  </label>
                 </div><!--.btn-group-->
               </div><!--.pull-right-->
             </div><!--.col-sm-6-->
@@ -55,7 +58,7 @@
             </div><!--.col-sm-6-->
             <div class="col-sm-6">
               <section class="buttons-and-modals">
-                <div "btn-group" role="group">
+                <div class="btn-group" role="group">
                   {% include buttons/about.html %}
                   {% include buttons/download.html %}
                 </div>
@@ -84,11 +87,7 @@
   </section><!--.col-md-6#meta-->
 
   <section id="grid-view" class="col-md-12">
-    <figure class="grid">
-      <div class="row">
-      </div>
-      <svg id="main"></svg>
-    </figure>
+    <svg id="main"></svg>
   </section><!--.col-md-12-->
 </div>
 

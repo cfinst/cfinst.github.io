@@ -1,8 +1,10 @@
 # Color Palettes:
 #   Blues: http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=11
 #   Reds: http://colorbrewer2.org/#type=sequential&scheme=Reds&n=9
-threshold:
-  default:
+- name: default
+  type: threshold
+  fallback: -Infinity
+  scale:
     - min: -Infinity
       max: 0
       label: Prohibited
@@ -28,7 +30,10 @@ threshold:
       max: Infinity
       label: Unlimited
       color: "#cb181d"
-  noProhibited:
+- name: noProhibited
+  type: threshold
+  fallback: -Infinity
+  scale:
     - min: 1
       max: 1000
       label: $1000 or less
@@ -50,7 +55,10 @@ threshold:
       max: Infinity
       label: Unlimited
       color: "#cb181d"
-  partyAsDonor:
+- name: partyAsDonor
+  type: threshold
+  fallback: -Infinity
+  scale:
     - min: -Infinity
       max: 0
       label: Prohibited

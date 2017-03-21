@@ -35,6 +35,7 @@ function Grid(){
     , selectedYear
     , sortMode
     , empty = false
+    , query = {}
     , dispatch
   ;
 
@@ -73,9 +74,11 @@ function Grid(){
       if(before.length !== after.length){
           var unexpectedValues = after.slice(before.length);
           console.warn("WARNING");
-          console.warn("There are values present in the data that are not part of the legend configurations:");
+          console.warn("There are values present in the data that are not part"
+            + " of the legend configurations:");
           console.warn(JSON.stringify(unexpectedValues));
-          console.warn("Please be sure to account for these values in the legend configurations located in _data/sections");
+          console.warn("Please be sure to account for these values in the legend"
+            + " configurations located in _data/sections");
           console.warn("The following values are already accounted for:");
           console.warn(JSON.stringify(before));
       }
@@ -123,18 +126,18 @@ function Grid(){
                 .html(tooltipContent(d))
                 .show()
             ;
-
             highlight(d);
           })
-          .on("mouseout", function() {
-              tooltip.hide();
-              dispatch.call("highlight", null, []);
+        .on("mouseout", function() {
+            tooltip.hide();
+            dispatch.call("highlight", null, []);
           })
-          .on("click", function (d){
-              dispatch.call("selectYear", null, d.Year);
-              highlight(d);
-            }
-          )
+        .on("click", function (d){
+            query.year = d.Year;
+            query.state = d.State;
+            dispatch.call("query", null, query);
+            highlight(d);
+          })
       .merge(rects)
         .classed("highlighted", highlighted)
       .transition().duration(500)
@@ -145,19 +148,6 @@ function Grid(){
         .attr("stroke-opacity", 1)
         .style("color", function (d){
             var value = valueAccessor(d);
-
-            // Construct the message passed into the choropleth.
-            if(d.Year === selectedYear && !highlighted) {
-                msg.push({
-                    d: d
-                  , state: d[xColumn]
-                  , year: d[yColumn]
-                  , color: colorScale(value)
-                  , column: selectedColumn
-                  , limit: d[selectedColumn]
-                });
-            }
-
             return colorScale(value);
           })
     ;
@@ -171,16 +161,15 @@ function Grid(){
         .attr("stroke-opacity", 0)
       .remove()
     ;
-    dispatch.call("update", this, msg);
   } // render_cells()
 
   function render_year_indicators(){
       // Highlight the tick for the selected year.
       svg.selectAll(".y.axis .tick text")
-          .each(function(d) {
+          .each(function() {
               var self = d3.select(this);
-              self.classed("sortby", selectedYear === d);
-              d3.select(self.node().parentNode).select("line")
+              self.classed("sortby", selectedYear === self.text());
+              d3.select(this.parentNode).select("line")
                   .attr()
           })
       ;
@@ -228,7 +217,8 @@ function Grid(){
       svg.selectAll(".y.axis .tick text")
           // Sort dataset when y-axis labels are clicked
           .on("click", function (d){
-              dispatch.call("selectYear", null, d);
+              query.year = d;
+              dispatch.call("query", null, query);
             }
           );
       ;
@@ -245,7 +235,7 @@ function Grid(){
       } else {
         xScale.domain(
           data
-            .filter(function(d) { return d[yColumn] === selectedYear; })
+            .filter(function(d) { return +d[yColumn] === +selectedYear; })
             .sort(function(m, n) {
                 return d3.ascending(valueAccessor(m), valueAccessor(n));
               })
@@ -258,6 +248,60 @@ function Grid(){
             .sort(d3.descending)
       );
   } // domainify()
+
+
+  function decrypt(){
+      selectedColumn = query.question;
+      var keyColumn = query.section === 'contribution-limits' && (
+          ~selectedColumn.indexOf('Limit')
+          ? selectedColumn.split('Limit')[0]
+          : undefined
+      );
+
+      valueAccessor = function (d){
+          var value;
+          // Handle the case of a threshold scale.
+          if(keyColumn){
+
+              // Use the key column values to extract
+              // "Unlimited" and "Prohibited" values.
+              value = d[keyColumn] === "Limited"
+                ? +d[selectedColumn]
+                : (d[keyColumn] === "No" || d[keyColumn] === "Prohibited")
+                  ? -Infinity // Treated as "Prohibited"
+                  : Infinity // Treated as "Unlimited"
+              ;
+
+              // Treat a value of 0 as "Prohibited"
+              value = value === 0 ? -Infinity : value;
+          } else {
+              value = d[selectedColumn];
+              value = (
+                value === undefined ? "Missing Field" :
+                value.trim() === "" ? (colorScale.emptyValue || "Missing Data") :
+                isNaN(+value) ? value :
+                +value
+              );
+          }
+          return value;
+      }
+
+      format = function (value){
+          return (
+              value === -Infinity
+                ? "Prohibited"
+                : value === Infinity
+                  ? "Unlimited"
+                  : typeof value === "string"
+                    ? value
+                    : moneyFormat(value)
+          );
+      };
+
+      return my;
+    } // decrypt()
+  ;
+
 
   // Sets up the click handlers on the data download buttons.
   function connect_download_buttons() {
@@ -321,58 +365,22 @@ function Grid(){
       return my;
     } // my.data()
   ;
+  my.query = function(_) {
+      if(!arguments.length) return query;
+      query = _;
+      selectedYear = query.year;
+      colorScale = query.colorScale;
+      selectedColumnLabel = query.label;
+      sortMode = query.sortMode;
 
-  my.selectedColumn = function (_, useKeyColumn){
-      if(!arguments.length) return selectedColumn;
-
-      selectedColumn = _;
-      var keyColumn = useKeyColumn && (
-          ~selectedColumn.indexOf('Limit')
-          ? selectedColumn.split('Limit')[0]
-          : undefined
-      );
-
-      valueAccessor = function (d){
-          var value;
-          // Handle the case of a threshold scale.
-          if(keyColumn){
-
-              // Use the key column values to extract
-              // "Unlimited" and "Prohibited" values.
-              value = d[keyColumn] === "Limited"
-                ? +d[selectedColumn]
-                : (d[keyColumn] === "No" || d[keyColumn] === "Prohibited")
-                  ? -Infinity // Treated as "Prohibited"
-                  : Infinity // Treated as "Unlimited"
-              ;
-
-              // Treat a value of 0 as "Prohibited"
-              value = value === 0 ? -Infinity : value;
-          } else {
-              value = d[selectedColumn];
-              value = (
-                value === undefined ? "Missing Field" :
-                value.trim() === "" ? (colorScale.emptyValue || "Missing Data") :
-                isNaN(+value) ? value :
-                +value
-              );
-          }
-          return value;
-      }
-
-      format = function (value){
-          return (
-              value === -Infinity
-                ? "Prohibited"
-                : value === Infinity
-                  ? "Unlimited"
-                  : typeof value === "string"
-                    ? value
-                    : moneyFormat(value)
-          );
-      };
+      // selectedColumn
+      decrypt();
 
       return my;
+    } // my.query()
+  ;
+  my.selectedColumn = function (){
+      return selectedColumn;
     } // my.selectedColumn()
   ;
   my.valueAccessor = function (_){
@@ -386,12 +394,6 @@ function Grid(){
       format = _;
       return my;
     } // my.format()
-  ;
-  my.selectedColumnLabel = function (_){
-      if(!arguments.length) return selectedColumnLabel;
-      selectedColumnLabel = _;
-      return my;
-    } // my.selectedColumnLabel()
   ;
   my.resize = function (){
       size_up();
@@ -409,26 +411,6 @@ function Grid(){
       dispatch = _;
       return my;
     } // my.connect()
-  ;
-  my.selectedYear = function(_) {
-      if(!arguments.length) return selectedYear;
-
-      selectedYear = _;
-      my();
-    }
-  ;
-  my.colorScale = function (_){
-      if(!arguments.length) return colorScale;
-      colorScale = _;
-      return my;
-    } // my.colorScale()
-  ;
-  my.sortMode = function (_){
-      if(!arguments.length) return sortMode;
-      sortMode = _;
-      my();
-      return my;
-    } // my.sortMode()
   ;
 
   // This is always the last thing returned

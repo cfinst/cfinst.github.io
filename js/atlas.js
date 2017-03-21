@@ -7,41 +7,105 @@ function Atlas() {
       , tooltipContent
       , svg
       , selectedYear
+      , usa
+      , overlay
       , dispatch
+      , data
+      , query = {}
     ;
 
-    function my(el) {
-      svg = el
-          .attr("viewBox", [0, 0, width, height].join(' '))
-          .call(tooltip)
-      ;
-      var usa = svg.append("g").attr("id", "usa")
-        , overlay = svg.append("g").attr("id", "highlight-overlay")
-      ;
-      usa.call(initStateShapes);
-
-      // Set up highlighting.
-      var overlayStates = overlay.call(initStateShapes)
-        .selectAll(".state path")
-          .classed("highlighted", true)
-          .attr("stroke-opacity", 0)
-      ;
-      dispatch.on("highlight.atlas", function (highlightData){
-          overlayStates.transition().duration(500)
-              .attr("stroke-opacity", function (d){
-                  return highlightData.some(function (highlightDatum){
-                      return d.feature.properties.usps === highlightDatum.State;
-                  }) ? 1 : 0;
-              })
-          ;
-      });
-      reset();
+    function my() {
+      if(data.has(query.year))
+          update();
     } // Main Function Object
 
+
+    function reset() {
+        usa.selectAll(".state path")
+            .style("fill", "#ccc")
+            .style("stroke", "white")
+        ;
+    } // reset()
+
+    function update() {
+      svg.select("#usa").selectAll(".state path").each(function(d) {
+          var self = d3.select(this)
+            , state = d.feature.properties.usps
+            , datayear = data.get(query.year)
+          ;
+          if(!datayear.has(state)) return;
+
+          var datum = datayear.get(state);
+          var value = datum[query.question]
+            , keyColumn = query.question.split('Limit')[0]
+            , keyAnswer = datum[keyColumn]
+          ;
+          self
+            .on("mouseover", function(d) {
+                tooltip
+                    .html(tooltipContent(datum))
+                    .show()
+                ;
+                dispatch.call("highlight", null, [datum]);
+              })
+            .on("mouseout", function(d) {
+                tooltip.hide();
+                dispatch.call("highlight", null, []);
+              })
+          .style("fill", function() {
+              if(!datayear.has(state)) return "black";
+              if(query.question.endsWith('_Max') && ~query.question.indexOf('Limit')) {
+              // Contribution Limit database keys have the word "Limit" and end in "_Max"
+                  if(keyColumn === query.question){
+                      value = (
+                        value === undefined
+                          ? "Missing Field"
+                          : value.trim() === ""
+                            ? (query.colorScale.emptyValue || "Missing Data")
+                            : isNaN(+value)
+                              ? value
+                              : +value
+                      );
+                  } else {
+                      // Use the key column values to extract
+                      // "Unlimited" and "Prohibited" values.
+                      value = keyAnswer === "Limited"
+                        ? +value
+                        : keyAnswer === "No"
+                          ? -Infinity // Treated as "Prohibited"
+                          : Infinity // Treated as "Unlimited"
+                      ;
+
+                      // Treat a value of 0 as "Prohibited"
+                      value = value === 0 ? -Infinity : value;
+                  }
+              }
+              return query.colorScale(value);
+            })
+          ;
+        });
+
+        // TODO reinstate this
+        // Part of https://github.com/cfinst/cfinst.github.io/issues/170
+        //overlay.selectAll(".state")
+        //    .classed("chosen", function(d) {
+        //        if(!d.feature || !d.feature.properties) return false;
+        //        return d.feature.properties.usps === query.state;
+        //      })
+        //  .transition().duration(500)
+        //    .style("stroke-opacity", function(d) {
+        //        if(!d.feature || !d.feature.properties) return 0;
+        //        return (d.feature.properties.usps === query.state) ? 1 : 0;
+        //      })
+        //;
+    } // update()
+
+
+    /*
+    ** Helper Functions
+    */
     function initStateShapes(selection) {
-        selection
-          .selectAll(".state")
-          .data(geogrify)
+        return selection
           .enter().append("g")
             .attr("class", function(d) {
                 return d.feature.properties.usps + " state";
@@ -49,69 +113,31 @@ function Atlas() {
           .append("path")
             .attr("d", function(d) { return path(d.feature); })
         ;
-    }
+    } // initStateShapes()
 
-    function geogrify(usa) {
-      return topojson.feature(usa, usa.objects.states).features
-          .map(function(d) {
-              var centroid = path.centroid(d);
+    // Helper Utility Functions
+    function identity(d) { return d; }
 
-              if(centroid.some(isNaN)) return;
-              centroid.feature = d;
-              return centroid;
-            })
-      ;
-    } // geogrify()
-
-    function reset() {
-        svg.select("#usa").selectAll(".state path")
-            .style("fill", "#ccc")
-            .style("stroke", "white")
-        ;
-    } // reset()
 
     /*
      * API Functions
     **/
-    my.update = function(data) {
-        if(!data || !data.length) return;
-
-        data = d3.nest()
-            .key(function(d) { return d.state; })
-            .rollup(function(leaves) { return leaves[0]; })
-            .entries(data)
-        ;
-
-        var usa = svg.select("#usa");
-        data.forEach(function(datum) {
-            usa.selectAll(".state" + "." + datum.key + " path")
-                .style("fill", datum.value.color)
-                .style("stroke", "white")
-                .on("mouseover", function() {
-                    tooltip
-                        .html(tooltipContent(datum.value.d))
-                        .show()
-                    ;
-                    dispatch.call("highlight", null, [datum.value.d]);
-                  })
-                .on("mouseout", function() {
-                    tooltip.hide();
-                    dispatch.call("highlight", null, []);
-                })
-            ;
-          })
-        ;
-        return my;
-      } // update()
     ;
     my.reset = function (){
        reset();
        return my;
      } // my.reset()
     ;
+    my.query = function(_) {
+        if(!arguments.length) return query;
+        query = _;
+
+        return my;
+      } // my.query()
+    ;
     my.tooltip = function (_){
         if(!arguments.length) return tooltip;
-        tooltip = _;
+        svg.call(tooltip = _);
         return my;
       } // my.tooltip()
     ;
@@ -123,11 +149,86 @@ function Atlas() {
     ;
     my.connect = function (_){
         if(!arguments.length) return dispatch;
-        dispatch = _;
+        dispatch = _.on("highlight.atlas", function(state) {
+            overlay
+              .selectAll(".state")
+                .transition().duration(500)
+                .style("stroke-opacity", function(d) {
+                    if(!d.feature || !d.feature.properties || !state.length) return 0;
+                    return (d.feature.properties.usps === state[0].State) ? 1 : 0;
+                  })
+            ;
+              // TODO reinstate this
+              // Part of https://github.com/cfinst/cfinst.github.io/issues/170
+              //.selectAll(".state:not(.chosen)")
+        });
+
         return my;
       } // my.connect()
     ;
+    my.data = function (_){
+        if(!arguments.length) return data;
+        data = _;
+        return my;
+      } // my.data()
+    ;
+    my.geo = function (_){
+        if(!arguments.length) return null;
+        var gjson = topojson.feature(_, _.objects.states).features
+            .map(function(d) {
+                var centroid = path.centroid(d);
 
+                if(centroid.some(isNaN)) return;
+                centroid.feature = d;
+                return centroid;
+            })
+        ;
+        usa.selectAll(".state")
+            .data(gjson)
+            .call(initStateShapes)
+        ;
+        // TODO reinstate this
+        // Part of https://github.com/cfinst/cfinst.github.io/issues/170
+        //usa.selectAll("path")
+        //    .on("click", function(d) {
+        //        if(!d.feature || !d.feature.properties) return;
+        //        var usps = d.feature.properties.usps;
+        //        query.state = (query.state === usps) ? null : usps;
+        //        dispatch.call("query", null, query);
+        //      })
+        //;
+        overlay.selectAll(".state")
+            .data(gjson)
+            .call(initStateShapes)
+        ;
+        overlay.selectAll(".state")
+            .classed("highlighted", true)
+            .attr("stroke-opacity", 0)
+        ;
+        return my;
+    }
+    my.svg = function (_){
+        if(!arguments.length) return svg;
+        svg = _
+            .attr("viewBox", [0, 0, width, height].join(' '))
+        ;
+        svg.selectAll("*").remove(); // wipe it clean before use
+        var g = svg.selectAll("g")
+            .data(["usa", "highlight-overlay"], identity)
+        ;
+        g = g.enter()
+          .append("g")
+            .attr("id", identity)
+          .merge(g)
+        ;
+        usa = svg.select("#usa");
+        overlay = svg.select("#highlight-overlay")
+            .attr("class", "highlight-overlay")
+        ;
+
+        return my;
+      } // my.svg()
+    ;
     // This is always the last thing returned
     return my;
 } // Atlas()
