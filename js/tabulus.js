@@ -49,15 +49,19 @@ function Tabulus() {
                     container.selectAll("select").each(function() {
                         var self = d3.select(this)
                           , name = self.attr("data-name")
+                          , altname = "_" + name
                         ;
                         if(value.disable === name) {
-                            self.property("disabled", true);
-                            var val = this.value;
-                            self.attr("data-default", val);
+                            if(this.disabled) return; // no need to act if already disabled
+                            curry[altname] = this.value;
                             this.value = "";
-                        } else if(value.disable === "_" + name) {
-                            this.value = self.attr("data-default") || self.select("optgroup option");
-                            self.property("disabled", false)
+                            this.disabled = true;
+                        } else if(value.disable === altname) {
+                            if(!this.disabled) return;
+                            this.disabled = false;
+                            this.value = curry[altname]
+                              || self.select("optgroup option").node().value
+                            ;
                         }
                       })
                     ;
@@ -65,8 +69,8 @@ function Tabulus() {
                 // show the question if this is a question
                 if(value.question) {
                     container.select(".field-description")
-                        .html(
-                          value.question + (value.note ? ("*\n\n* " + value.note) : "")
+                        .html(value.question
+                            + (value.note ? ("*\n\n* " + value.note) : "")
                           )
                     ;
                 }
