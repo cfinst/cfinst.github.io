@@ -12,6 +12,7 @@ function Atlas() {
       , dispatch
       , data
       , query = {}
+      , valueAccessor
     ;
 
     function my() {
@@ -28,6 +29,7 @@ function Atlas() {
     } // reset()
 
     function update() {
+      if(!valueAccessor) return ;
       svg.select("#usa").selectAll(".state path").each(function(d) {
           var self = d3.select(this)
             , state = d.feature.properties.usps
@@ -36,7 +38,7 @@ function Atlas() {
           if(!datayear.has(state)) return;
 
           var datum = datayear.get(state);
-          var value = datum[query.question]
+          var value = valueAccessor(datum)
             , keyColumn = query.question.split('Limit')[0]
             , keyAnswer = datum[keyColumn]
           ;
@@ -53,33 +55,6 @@ function Atlas() {
                 dispatch.call("highlight", null, []);
               })
           .style("fill", function() {
-              if(!datayear.has(state)) return "black";
-              if(query.question.endsWith('_Max') && ~query.question.indexOf('Limit')) {
-              // Contribution Limit database keys have the word "Limit" and end in "_Max"
-                  if(keyColumn === query.question){
-                      value = (
-                        value === undefined
-                          ? "Missing Field"
-                          : value.trim() === ""
-                            ? (query.colorScale.emptyValue || "Missing Data")
-                            : isNaN(+value)
-                              ? value
-                              : +value
-                      );
-                  } else {
-                      // Use the key column values to extract
-                      // "Unlimited" and "Prohibited" values.
-                      value = keyAnswer === "Limited"
-                        ? +value
-                        : keyAnswer === "No"
-                          ? -Infinity // Treated as "Prohibited"
-                          : Infinity // Treated as "Unlimited"
-                      ;
-
-                      // Treat a value of 0 as "Prohibited"
-                      value = value === 0 ? -Infinity : value;
-                  }
-              }
               return query.colorScale(value);
             })
           ;
@@ -229,6 +204,13 @@ function Atlas() {
         return my;
       } // my.svg()
     ;
+
+    my.valueAccessor = function (_){
+        valueAccessor = _;
+        return my;
+      }
+    ;
+
     // This is always the last thing returned
     return my;
 } // Atlas()
