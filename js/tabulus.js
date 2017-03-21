@@ -101,7 +101,7 @@ function Tabulus() {
         container.selectAll(".chooser").each(function() {
             var self = d3.select(this)
               , name = self.attr("data-name")
-              , def = this.value || self.select("option").node().value
+              , def = this.value
             ;
             this.value = query[name] || def;
             self.on("change").apply(this, []);
