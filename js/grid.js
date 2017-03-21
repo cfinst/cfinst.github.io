@@ -235,7 +235,7 @@ function Grid(){
       } else {
         xScale.domain(
           data
-            .filter(function(d) { return d[yColumn] === selectedYear; })
+            .filter(function(d) { return +d[yColumn] === +selectedYear; })
             .sort(function(m, n) {
                 return d3.ascending(valueAccessor(m), valueAccessor(n));
               })
