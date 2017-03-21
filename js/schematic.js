@@ -100,7 +100,6 @@
 
       // Initialize the navigation state.
       queryFromURL(); // populate the query variable
-      console.log("from url", query)
       setupTabNavigation();
       connectSorterButtons();
       setupSignals();
@@ -191,6 +190,7 @@
       // Update the visualization according to the current section.
       signal.on("navigate.vis", function (tab){
           query.section = tab;
+          query.question = null;
           tabs[tab].query(query)();
         });
 
