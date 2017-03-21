@@ -133,7 +133,7 @@ function Grid(){
             dispatch.call("highlight", null, []);
           })
         .on("click", function (d){
-            query.year = d.Year;
+            query.year = +d.Year;
             query.state = d.State;
             dispatch.call("query", null, query);
             highlight(d);
@@ -166,12 +166,7 @@ function Grid(){
   function render_year_indicators(){
       // Highlight the tick for the selected year.
       svg.selectAll(".y.axis .tick text")
-          .each(function() {
-              var self = d3.select(this);
-              self.classed("sortby", selectedYear === self.text());
-              d3.select(this.parentNode).select("line")
-                  .attr()
-          })
+          .classed("sortby", function(d) { return selectedYear === +d; })
       ;
       var yearRect = svg.select(".year-indicator-overlay")
         .selectAll("rect").data([1]);
