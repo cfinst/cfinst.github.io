@@ -1,4 +1,5 @@
 ---
+
 ---
 (function () {
   var signal = d3.dispatch(
@@ -83,20 +84,17 @@
 
       initializeYearSelector(data.keys());
 
+      grid
+          .svg(d3.select("svg#main"))
+          .data(d3.merge(data.values().map(function(v) { return v.values(); })))
+          .tooltip(tip)
+      ;
       atlas
           .svg(d3.select("svg#map"))
           .geo(usa)
           .data(data)
           .tooltip(tip)
-        () // Call atlas()
       ;
-      grid
-          .svg(d3.select("svg#main"))
-          .data(d3.merge(data.values().map(function(v) { return v.values(); })))
-          .tooltip(tip)
-        () // Call grid()
-      ;
-
 
       // Initialize the navigation state.
       queryFromURL(); // populate the query variable
@@ -207,7 +205,9 @@
         question.colorScale = colorScale[question.section][question.legend];
 
         grid.query(question) ();
-        atlas.query(question) ();
+        atlas
+          .valueAccessor(grid.valueAccessor())
+          .query(question) ();
         d3.select("#chooser-year").node().value = question.year;
 
         // toggle legend
