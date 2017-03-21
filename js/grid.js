@@ -379,6 +379,10 @@ function Grid(){
       return my;
     } // my.query()
   ;
+  my.selectedColumn = function (){
+      return selectedColumn;
+    } // my.selectedColumn()
+  ;
   my.valueAccessor = function (_){
       if(!arguments.length) return valueAccessor;
       valueAccessor = _;

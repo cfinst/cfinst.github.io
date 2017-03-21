@@ -3,8 +3,7 @@
 (function () {
   var signal = d3.dispatch(
         "query"
-        , "downloadCurrentLimits"
-        , "downloadAllLimits"
+        , "downloadVisibleData"
         , "navigate"
         , "highlight"
       )
@@ -73,13 +72,15 @@
   function visualize(error, usa, contribs, contribs2, contribs3, disclosure1, disclosure2, disclosure3, publicFinancing, other){
       if(error) throw error;
 
-      var data = ingest(d3.merge([
-            contribs, contribs2, contribs3
-          , disclosure1, disclosure2, disclosure3
-          , publicFinancing
-          , other
-        ]))
+      var dataset = d3.merge([
+              contribs, contribs2, contribs3
+            , disclosure1, disclosure2, disclosure3
+            , publicFinancing
+            , other
+          ])
+        , data = ingest(dataset)
       ;
+
       initializeYearSelector(data.keys());
 
       atlas
@@ -101,7 +102,7 @@
       queryFromURL(); // populate the query variable
       setupTabNavigation();
       connectSorterButtons();
-      setupSignals();
+      setupSignals(dataset);
 
       // If the query section doesn't have a valid link, default to the first tab
       query.section = query.section || d3.select(".nav-tabs a").attr("href").split('#')[1];
@@ -169,20 +170,26 @@
       ;
   } // setupTabNavigation()
 
-  function setupSignals() {
-      // Signal Handling
-      signal.on("downloadAllLimits", function (xColumn, yColumn){
-          var filename = "CFI-contribution-limits-all.csv";
-          var projectedData = project(data, [xColumn, yColumn].concat(columnsRaw));
+  function setupSignals(dataset) {
+
+      signal.on("downloadVisibleData", function (){
+          var selectedColumn = grid.selectedColumn()
+          var valueAccessor = grid.valueAccessor();
+          var format = grid.format();
+
+          var filename = "CFI-" + query.section + "-" + selectedColumn + ".csv";
+          var projectedData = dataset.map(function (d){
+              var row = {
+                State: d.State,
+                Year: +d.Year // Don't use quotes around years in the CSV.
+              };
+              row[selectedColumn] = format(valueAccessor(d)) // Match Tooltip value presentation.
+              return row;
+            })
+          ;
           downloadCSV(projectedData, filename);
-        })
-      ;
-      signal.on("downloadCurrentLimits", function (xColumn, yColumn, selectedColumn){
-          var filename = "CFI-contribution-limits-" + selectedColumn + ".csv";
-          var projectedData = project(data, [xColumn, yColumn, selectedColumn]);
-          downloadCSV(projectedData, filename);
-        })
-      ;
+      });
+
       // Set the URL history to the current section.
       signal.on("navigate.history", function (section) {
           window.location.hash = '#' + section;
@@ -271,18 +278,6 @@
       link.setAttribute("download", filename);
       link.click();
   } // downloadCSV()
-
-  // Performs a projection on the data, isolating the specified columns.
-  // Term from relational algebra. See also
-  // https://en.wikipedia.org/wiki/Projection_(relational_algebra)
-  function project(data, columns) {
-      return data.map(function (fullRow) {
-          return columns.reduce(function (projectedRow, column) {
-              projectedRow[column] = fullRow[column];
-              return projectedRow;
-          }, {});
-      });
-  } // project()
 
   /*
   ** Set up the colorScale object, which is keyed by the tab/section
