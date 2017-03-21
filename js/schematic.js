@@ -105,11 +105,13 @@
       setupSignals();
 
       // If the query section doesn't have a valid link, default to the first tab
-      var tab = d3.select("a[href='#" + query.section + "']");
-      tab = tab.size() ? tab : d3.select(".nav-tabs a");
+      query.section = query.section || d3.select(".nav-tabs a").attr("href").split('#')[1];
+      var tab = tabs[query.section].query(query);
 
       // Click the section tab
-      tab.node().click();
+      d3.select("a[href='#" + query.section + "']").node().click();
+
+      // Select a year
       d3.select("#chooser-year").each(function() {
           var self = d3.select(this)
             , def = self.select("option").node().value
