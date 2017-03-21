@@ -121,7 +121,10 @@
           self.on("change").apply(this, []);
         })
       ;
+
+      // Initialize the sort mode to "Alphabetically" (first button encountered).
       d3.select(".sorter-slicer").select(".btn").node().click();
+
   } // visualize()
 
   function ingest(dataset) {
