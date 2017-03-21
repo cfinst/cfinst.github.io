@@ -166,9 +166,9 @@ function Grid(){
   function render_year_indicators(){
       // Highlight the tick for the selected year.
       svg.selectAll(".y.axis .tick text")
-          .each(function(d) {
+          .each(function() {
               var self = d3.select(this);
-              self.classed("sortby", +selectedYear === d);
+              self.classed("sortby", selectedYear === self.text());
               d3.select(this.parentNode).select("line")
                   .attr()
           })
