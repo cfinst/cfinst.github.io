@@ -80,7 +80,6 @@
           , other
         ]))
       ;
-      console.log(data);
       initializeYearSelector(data.keys());
 
       atlas
