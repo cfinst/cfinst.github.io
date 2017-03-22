@@ -14,6 +14,8 @@
     , atlas = Atlas()
           .tooltipContent(tooltipContent)
           .connect(signal)
+    , legend = Legend()
+          .connect(signal)
     , tip = d3.tip().attr('class', 'd3-tip')
     , tabs = {}
     , query = { // These are the defaults
@@ -94,6 +96,9 @@
           .geo(usa)
           .data(data)
           .tooltip(tip)
+      ;
+      legend
+          .container(d3.select("ul#legend"))
       ;
 
       // Initialize the navigation state.
@@ -209,22 +214,23 @@
         // update grid
         question.colorScale = colorScale[question.section][question.legend];
 
-        grid.query(question) ();
+        grid
+            .query(question)
+          ()
+        ;
         atlas
-          .valueAccessor(grid.valueAccessor())
-          .query(question) ();
+            .valueAccessor(grid.valueAccessor())
+            .query(question)
+          ()
+        ;
+        legend
+            .query(question)
+          ()
+        ;
         d3.select("#chooser-year").node().value = question.year;
 
         // toggle legend
-        d3.selectAll(".legend ul")
-            .style("display", function() {
-                return d3.select(this).classed("legend-" + question.legend)
-                  ? null
-                  : "none"
-                ;
-              })
-        ;
-        // Set the year
+        // Set the URL
         queryToURL(question);
       });
   } // setupSignals()
@@ -293,22 +299,23 @@
 {% for section in site.data.sections %}
   colorScale["{{ section[0] }}"] = {};
   {% for legend in section[1].legends %}
-  {% capture bins %}{% for item in legend.scale %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
-  {% capture colors %}{% for item in legend.scale %}{{ item.color }},{% endfor %}{% endcapture %}
-  {% capture labels %}{% for item in legend.scale %}{{ item.label }},{% endfor %}{% endcapture %}
-colorScale["{{ section[0] }}"]["{{ legend.name }}"] =
-{% if legend.type == "threshold" %}d3.scaleThreshold()
-    .range(liquidToArray('{{ colors }}'))
-    .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
-;
-colorScale["{{ section[0] }}"]["{{ legend.name }}"].emptyValue = {{ legend.fallback }};
-{% elsif legend.type == "ordinal" %}d3.scaleOrdinal()
-    .domain(liquidToArray('{{ labels }}'))
-    .range(liquidToArray('{{ colors }}'))
-;
-{% endif %}
+    {% capture bins %}{% for item in legend.scale %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+    {% capture colors %}{% for item in legend.scale %}{{ item.color }},{% endfor %}{% endcapture %}
+    {% capture labels %}{% for item in legend.scale %}{{ item.label }},{% endfor %}{% endcapture %}
+  colorScale["{{ section[0] }}"]["{{ legend.name }}"] =
+  {% if legend.type == "threshold" %}d3.scaleThreshold()
+      .range(liquidToArray('{{ colors }}'))
+      .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
+  ;
+  colorScale["{{ section[0] }}"]["{{ legend.name }}"].emptyValue = {{ legend.fallback }};
+  {% elsif legend.type == "ordinal" %}d3.scaleOrdinal()
+      .domain(liquidToArray('{{ labels }}'))
+      .range(liquidToArray('{{ colors }}'))
+  ;
+  {% endif %}
 {% endfor %}{% endfor %}
 
+  console.log(colorScale);
   d3.selectAll(".tab-pane").each(function(d, i) {
       var name = this.id;
       d3.select(this).call(tabs[name]);
