@@ -2,10 +2,11 @@ organization: Campaign Finance Institute
 title: Campaign Finance Law Database
 description: Data inventory grid for the Campaign Finance Institute
 logo: img/CFI-logo-white.svg
+
 # production_url : http://cfinst.github.io
 # (I'm assuming)
 
-filterYear: 2016
+exclude: ['package.json', 'bower.json', 'node_modules', 'bin', 'README*', 'LICENSE', 'PoCs']
 
 markdown: kramdown
 
@@ -16,3 +17,6 @@ collections:
 authors:
   - Curran Kelleher
   - Seemant Kulleen
+
+
+filterYear: 2016
