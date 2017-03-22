@@ -237,15 +237,19 @@ function Grid(){
 
         // Count infinities per X value, for tie breaking in sorting.
         // TODO factor this out.
-        var infinityCounts = {};
+        var sums = {};
         data.forEach(function (d){
-            var infinityCount = infinityCounts[d[xColumn]] || 0;
-            if(valueAccessor(d) === Infinity){
-                infinityCount++;
-            } else if(valueAccessor(d) === -Infinity){
-                infinityCount--;
+            var sum = sums[d[xColumn]] || 0,
+                value = valueAccessor(d),
+                infinityWeight = 100000;
+
+            if(value === Infinity){
+                value = infinityWeight;
+            } else if(value === -Infinity){
+                value = -infinityWeight;
             }
-            infinityCounts[d[xColumn]] = infinityCount;
+
+            sums[d[xColumn]] = sum + value;
           })
         ;
 
@@ -255,12 +259,12 @@ function Grid(){
             .sort(function(m, n) {
                 var comparison = d3.ascending(valueAccessor(m), valueAccessor(n));
 
-                // Break ties by sorting by infinity count.
+                // Break ties by sorting by sums across X values (weighted with infinity counts).
                 if(comparison === 0){
-                    comparison = d3.ascending(infinityCounts[m[xColumn]], infinityCounts[n[xColumn]])
+                    comparison = d3.ascending(sums[m[xColumn]], sums[n[xColumn]])
                 }
 
-                // Break ties firther by sorting alphabetically.
+                // Break ties further by sorting alphabetically.
                 if(comparison === 0){
                     comparison = d3.ascending(m[xColumn], n[xColumn])
                 }
