@@ -6,91 +6,97 @@
 </header>
 
 <div class="container-fluid">
-  <section id="meta" class="col-md-12">
-    <section id="visualization" class="col-md-6 col-sm-12">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <svg id="map"></svg>
-        </div><!--.panel-body-->
-        <div class="panel-footer">
+  <div class="row">
+    <section id="meta" class="col-md-12">
+      <section id="visualization" class="col-md-6 col-sm-12">
+        <div class="panel panel-default">
           <div class="row">
-            <div class="col-sm-4">
-              <div class="form form-inline">
-                <label>Year: </label>
-                <select class="form-control" id="chooser-year">
-                  <optgroup label="Select a Year"></optgroup>
-                </select>
-              </div><!--.form-->
-            </div><!--.col-sm-6-->
-            <div class="col-sm-8">
-              <div class="pull-right">
-                <label>Grid sorting: </label>
-                <div class="btn-group sorter-slicer" data-toggle="buttons">
-                  <label class="btn btn-primary">
-                    <input type="radio" name="sortgrid" id="alpha" autocomplete="off" value="alphabetical"> Alphabetically
-                  </label>
-                  <label class="btn btn-primary">
-                    <input type="radio" name="sortgrid" id="numerical" value="num" autocomplete="off" checked> By Value
-                  </label>
-                </div><!--.btn-group-->
-              </div><!--.pull-right-->
-            </div><!--.col-sm-6-->
+            <div class="panel-body">
+              <svg id="map"></svg>
+            </div><!--.panel-body-->
           </div><!--.row-->
-        </div><!--.panel-footer-->
-      </div><!--.panel.panel-default-->
-    </section><!--.col-lg-8-->
+          <div class="panel-footer">
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="form form-inline">
+                  <label>Year: </label>
+                  <select class="form-control" id="chooser-year">
+                    <optgroup label="Select a Year"></optgroup>
+                  </select>
+                </div><!--.form-->
+              </div><!--.col-sm-6-->
+              <div class="col-sm-8">
+                <div class="pull-right">
+                  <label>Grid sorting: </label>
+                  <div class="btn-group sorter-slicer" data-toggle="buttons">
+                    <label class="btn btn-primary">
+                      <input type="radio" name="sortgrid" id="alpha" autocomplete="off" value="alphabetical"> Alphabetically
+                    </label>
+                    <label class="btn btn-primary">
+                      <input type="radio" name="sortgrid" id="numerical" value="num" autocomplete="off" checked> By Value
+                    </label>
+                  </div><!--.btn-group-->
+                </div><!--.pull-right-->
+              </div><!--.col-sm-6-->
+            </div><!--.row-->
+          </div><!--.panel-footer-->
+        </div><!--.panel.panel-default-->
+      </section><!--.col-lg-8-->
 
-    <article class="col-md-6 col-sm-12">
-      <div class="panel panel-default">
-        <div class="panel-heading tab-content">
-        {% for section in site.data.sections %}
-        {% assign controls = section[1].controls %}
-          <div role="tabpanel" id="{{ section[0] }}" class="tab-pane">
-            <form class="controls-form form-horizontal">
-              {% include questions.html %}
-            </form><!--.controls-form-->
-          </div><!--.tab-pane-->
-        {% endfor %}
-        </div><!--.panel-heading-->
-        <div class="panel-body">
-          <div class="col-sm-6">
-            <section class="legend">
-              <ul id="legend" class="list-unstyled"></ul>
-            </section><!--/#legend-->
-          </div><!--.col-sm-6-->
-          <div class="col-sm-6">
-            <section class="buttons-and-modals">
-              <div class="btn-group" role="group">
-                {% include buttons/about.html %}
-                {% include buttons/download.html %}
-              </div>
-            </section><!--.modal-container-->
-            <aside>
-              {% for section in site.data.sections %}
-              {% include modals.html %}
-              {% endfor %}
-            </aside>
-          </div><!--.col-sm-6-->
-        </div><!--.panel-bod-->
-      </div><!--.panel-->
-    </article><!--.tab-pane-->
-    <aside style="display: none;">
-      <svg>
-        <title>Empty cell to be reused in legend items.</title>
-        <description>
-          This symbol is designed to be reused and scaled to any necessary size.
-          It inherits 'fill' from its parent.
-        </description>
-        <symbol id="cell" viewBox="0 0 1 1">
-          <rect x="0" y="0" width="1" height="1"></rect>
-        </symbol>
-      </svg>
-    </aside>
-  </section><!--.col-md-6#meta-->
+      <article class="col-md-6 col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading tab-content">
+          {% for section in site.data.sections %}
+          {% assign controls = section[1].controls %}
+            <div role="tabpanel" id="{{ section[0] }}" class="tab-pane">
+              <form class="controls-form form-horizontal">
+                {% include questions.html %}
+              </form><!--.controls-form-->
+            </div><!--.tab-pane-->
+          {% endfor %}
+          </div><!--.panel-heading-->
+          <div class="panel-body">
+            <div class="col-sm-6">
+              <section class="legend">
+                <ul id="legend" class="list-unstyled"></ul>
+              </section><!--/#legend-->
+            </div><!--.col-sm-6-->
+            <div class="col-sm-6">
+              <section class="buttons-and-modals">
+                <div class="btn-group" role="group">
+                  {% include buttons/about.html %}
+                  {% include buttons/download.html %}
+                </div>
+              </section><!--.modal-container-->
+              <aside>
+                {% for section in site.data.sections %}
+                {% include modals.html %}
+                {% endfor %}
+              </aside>
+            </div><!--.col-sm-6-->
+          </div><!--.panel-bod-->
+        </div><!--.panel-->
+      </article><!--.tab-pane-->
+      <aside style="display: none;">
+        <svg>
+          <title>Empty cell to be reused in legend items.</title>
+          <description>
+            This symbol is designed to be reused and scaled to any necessary size.
+            It inherits 'fill' from its parent.
+          </description>
+          <symbol id="cell" viewBox="0 0 1 1">
+            <rect x="0" y="0" width="1" height="1"></rect>
+          </symbol>
+        </svg>
+      </aside>
+    </section><!--.col-md-6#meta-->
+  </div><!--.row-->
 
-  <section id="grid-view" class="col-md-12">
-    <svg id="main"></svg>
-  </section><!--.col-md-12-->
+  <div class="row">
+    <section id="grid-view" class="col-md-12">
+      <svg id="main"></svg>
+    </section><!--.col-md-12-->
+  </div><!--.row-->
 </div>
 
 {% include javascripts.html %}
