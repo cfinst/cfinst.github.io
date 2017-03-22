@@ -1,0 +1,4 @@
+---
+---
+Field Name,Question,Short Label,Additional Notes{% for control in site.data.sections.["public-financing"].controls %}
+"{{ control.name }}","{{ control.question }}","{{ control.label }}","{{ control.note }}"{% endfor %}
