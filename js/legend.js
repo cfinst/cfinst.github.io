@@ -16,8 +16,7 @@ function Legend() {
     ** Main Function Object
     */
     function my() {
-        console.log(data, query)
-
+        console.log(data[query.section], query.legend)
     } // my()
 
     /*

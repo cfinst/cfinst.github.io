@@ -315,7 +315,6 @@
   {% endif %}
 {% endfor %}{% endfor %}
 
-  console.log(colorScale);
   d3.selectAll(".tab-pane").each(function(d, i) {
       var name = this.id;
       d3.select(this).call(tabs[name]);
