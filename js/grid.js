@@ -232,7 +232,9 @@ function Grid(){
           data
             .filter(function(d) { return +d[yColumn] === +selectedYear; })
             .sort(function(m, n) {
-                return d3.ascending(valueAccessor(m), valueAccessor(n));
+                return d3.ascending(valueAccessor(m), valueAccessor(n))
+                  || d3.ascending(m[xColumn], n[xColumn])
+                ;
               })
             .map(function(d) { return d[xColumn]; })
         );
