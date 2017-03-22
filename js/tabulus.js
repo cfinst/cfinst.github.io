@@ -13,7 +13,7 @@ function Tabulus() {
     ** Main Function Object
     */
     function my(sel) {
-      if(!container) setup(sel);
+        if(!container) setup(sel);
     } // my()
 
 
