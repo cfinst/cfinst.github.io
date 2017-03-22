@@ -181,7 +181,7 @@
   function setupSignals(dataset) {
 
       signal.on("downloadVisibleData", function (){
-          var selectedColumn = grid.selectedColumn()
+          var selectedColumn = query.question;
           var valueAccessor = grid.valueAccessor();
           var format = grid.format();
 
@@ -315,7 +315,6 @@
   {% endif %}
 {% endfor %}{% endfor %}
 
-  console.log(colorScale);
   d3.selectAll(".tab-pane").each(function(d, i) {
       var name = this.id;
       d3.select(this).call(tabs[name]);
