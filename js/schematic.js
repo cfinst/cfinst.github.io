@@ -293,19 +293,20 @@
 {% for section in site.data.sections %}
   colorScale["{{ section[0] }}"] = {};
   {% for legend in section[1].legends %}
-    {% capture bins %}{% for item in legend.scale %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
-    {% capture colors %}{% for item in legend.scale %}{{ item.color }},{% endfor %}{% endcapture %}
-    {% capture labels %}{% for item in legend.scale %}{{ item.label }},{% endfor %}{% endcapture %}
-    {% capture type %}{% if legend.type == "threshold" %}Threshold{% else %}Ordinal{% endif %}{% endcapture %}
-  colorScale["{{ section[0] }}"]["{{ legend.name }}"] = d3.scale{{ type }}()
-      .range(liquidToArray('{{ colors }}'))
-    {% if legend.type == "threshold" %}
-      .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
-    {% elsif legend.type == "ordinal" %}
-      .domain(liquidToArray('{{ labels }}'))
-    {% endif %}
-  ;
-  {% if legend.type == "threshold" %}colorScale["{{ section[0] }}"]["{{ legend.name }}"].emptyValue = {{ legend.fallback }};{% endif %}
+  {% capture bins %}{% for item in legend.scale %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
+  {% capture colors %}{% for item in legend.scale %}{{ item.color }},{% endfor %}{% endcapture %}
+  {% capture labels %}{% for item in legend.scale %}{{ item.label }},{% endfor %}{% endcapture %}
+colorScale["{{ section[0] }}"]["{{ legend.name }}"] =
+{% if legend.type == "threshold" %}d3.scaleThreshold()
+    .range(liquidToArray('{{ colors }}'))
+    .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
+;
+colorScale["{{ section[0] }}"]["{{ legend.name }}"].emptyValue = {{ legend.fallback }};
+{% elsif legend.type == "ordinal" %}d3.scaleOrdinal()
+    .domain(liquidToArray('{{ labels }}'))
+    .range(liquidToArray('{{ colors }}'))
+;
+{% endif %}
 {% endfor %}{% endfor %}
 
   d3.selectAll(".tab-pane").each(function(d, i) {
