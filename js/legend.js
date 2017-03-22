@@ -8,7 +8,9 @@ function Legend() {
       , query
       , dispatch
       , data = { {% for section in site.data.sections %}
-          "{{ section[0] }}": {{ section[1].legends | jsonify }}{% unless forloop.last %},{% endunless %}
+          "{{ section[0] }}": d3.nest().key(function(d) { return d.name; })
+                .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
+                .object({{ section[1].legends | jsonify }}){% unless forloop.last %},{% endunless %}
         {% endfor %} }
     ;
 
@@ -16,7 +18,32 @@ function Legend() {
     ** Main Function Object
     */
     function my() {
-        console.log(data[query.section], query.legend)
+        console.log(data[query.section][query.legend], container.node());
+        var li = container.selectAll("li")
+            .data(data[query.section][query.legend].scale)
+        ;
+        li.exit().remove();
+        li = li.enter()
+          .append("li")
+            .each(function() {
+                var self = d3.select(this);
+                self.append("svg")
+                    .attr("role", "presentation")
+                  .append("use")
+                    .attr("xlink:href", "#cell")
+                ;
+                self.append("span")
+                ;
+              })
+          .merge(li)
+        ;
+        li.each(function(d, i) {
+            var self = d3.select(this);
+            self.select("svg").attr("fill", d.color);
+            self.select("span")
+                .text(d.label || "$" + d.min + " - " + "$" + d.max)
+            ;
+        })
     } // my()
 
     /*
