@@ -71,6 +71,7 @@ textarea.form-control {
 }
 .legend li span {
     vertical-align: text-top;
+    margin-left: 0.5em;
 }
 .highlighted {
     stroke: #ffff00;

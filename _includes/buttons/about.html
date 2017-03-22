@@ -1,10 +1,8 @@
 {% for button in site.data.buttons.about %}
-  <a id="{{ section[0] }}-{{ button.name }}-button"
+  <a role="button"
         class="btn btn-default btn-block"
-        role="button"
         data-toggle="modal"
-        href="../modals/{{ section[0] }}-{{ button.name }}.html"
-        data-target="#{{ section[0] }}-{{ button.name }}-modal">
+        data-name="{{ button.name }}">
     {{ button.text }}
   </a>
 {% endfor %}

@@ -40,38 +40,40 @@
       </div><!--.panel.panel-default-->
     </section><!--.col-lg-8-->
 
-    <div class="tab-content col-md-6 col-sm-12">
-    {% for section in site.data.sections %}
-    {% assign controls = section[1].controls %}
-      <article role="tabpanel" id="{{ section[0] }}" class="tab-pane">
-        <div class="panel panel-default">
-          <div class="panel-heading">
+    <article class="col-md-6 col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-heading tab-content">
+        {% for section in site.data.sections %}
+        {% assign controls = section[1].controls %}
+          <div role="tabpanel" id="{{ section[0] }}" class="tab-pane">
             <form class="controls-form form-horizontal">
               {% include questions.html %}
             </form><!--.controls-form-->
-          </div><!--.panel-heading-->
-          <div class="panel-body">
-            <div class="col-sm-6">
-              <section class="legend">
-                {% include legend.html %}
-              </section><!--/#legend-->
-            </div><!--.col-sm-6-->
-            <div class="col-sm-6">
-              <section class="buttons-and-modals">
-                <div class="btn-group" role="group">
-                  {% include buttons/about.html %}
-                  {% include buttons/download.html %}
-                </div>
-              </section><!--.modal-container-->
-              <aside>
-                {% include modals.html %}
-              </aside>
-            </div><!--.col-sm-6-->
-          </div><!--.panel-bod-->
-        </div><!--.panel-->
-      </article><!--.tab-pane-->
-    {% endfor %}
-    </div><!--.tab-content-->
+          </div><!--.tab-pane-->
+        {% endfor %}
+        </div><!--.panel-heading-->
+        <div class="panel-body">
+          <div class="col-sm-6">
+            <section class="legend">
+              <ul id="legend" class="list-unstyled"></ul>
+            </section><!--/#legend-->
+          </div><!--.col-sm-6-->
+          <div class="col-sm-6">
+            <section class="buttons-and-modals">
+              <div class="btn-group" role="group">
+                {% include buttons/about.html %}
+                {% include buttons/download.html %}
+              </div>
+            </section><!--.modal-container-->
+            <aside>
+              {% for section in site.data.sections %}
+              {% include modals.html %}
+              {% endfor %}
+            </aside>
+          </div><!--.col-sm-6-->
+        </div><!--.panel-bod-->
+      </div><!--.panel-->
+    </article><!--.tab-pane-->
     <aside style="display: none;">
       <svg>
         <title>Empty cell to be reused in legend items.</title>
