@@ -14,6 +14,18 @@ function Tabulus() {
     */
     function my(sel) {
         if(!container) setup(sel);
+        d3.selectAll("a[data-toggle='modal']")
+            .each(function() {
+                var self = d3.select(this)
+                  , name = self.attr("data-name")
+                ;
+                self
+                    .attr("id", query.section + "-" + name + "-button")
+                    .attr("href", "../modals/" + query.section + "-" + name + ".html")
+                    .attr("data-target", "#" + query.section + "-" + name + "-modal")
+                ;
+              })
+        ;
     } // my()
 
 
