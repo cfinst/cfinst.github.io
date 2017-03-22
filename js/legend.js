@@ -12,6 +12,7 @@ function Legend() {
                 .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
                 .object({{ section[1].legends | jsonify }}){% unless forloop.last %},{% endunless %}
         {% endfor %} }
+      , commaFormat = d3.format(",")
     ;
 
     /*
@@ -40,7 +41,7 @@ function Legend() {
             var self = d3.select(this);
             self.select("svg").attr("fill", d.color);
             self.select("span")
-                .text(d.label || "$" + d.min + " - " + "$" + d.max)
+                .text(d.label || "$" + commaFormat(d.min) + " - " + "$" + commaFormat(d.max))
             ;
         })
     } // my()
