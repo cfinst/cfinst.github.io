@@ -11,24 +11,31 @@
 # CSV files under _site/downloads/metadata
 jekyll build
 
-# This temporary directory will be zipped and deleted.
-mkdir cfi-laws-database
+# This temporary directory will
+#  - populated with CSV files and LICENSE file,
+#  - zipped,
+#  - and deleted.
+DOWNLOAD_DIR=cfi-laws-database
+
+# Create the temporary directory.
+# This will be included in the .zip file, so the name matters.
+mkdir $DOWNLOAD_DIR
 
 # Put the database tables in "data".
-mkdir cfi-laws-database/data
-cp data/CSVs/* ./cfi-laws-database/data
+mkdir $DOWNLOAD_DIR/data
+cp data/CSVs/* ./$DOWNLOAD_DIR/data
 
 # Put the LICENSE file at the top level.
-mv cfi-laws-database/data/LICENSE cfi-laws-database
+mv $DOWNLOAD_DIR/data/LICENSE $DOWNLOAD_DIR
 
 # Put the metadata tables in "metadata".
-mkdir cfi-laws-database/metadata
-cp _site/downloads/metadata/* ./cfi-laws-database/metadata
+mkdir $DOWNLOAD_DIR/metadata
+cp _site/downloads/metadata/* ./$DOWNLOAD_DIR/metadata
 
 # Create the .zip file.
 echo
-echo "Creating cfi-laws-database.zip"
-zip -r downloads/cfi-laws-database.zip cfi-laws-database
+echo "Creating $DOWNLOAD_DIR.zip"
+zip -r downloads/$DOWNLOAD_DIR.zip $DOWNLOAD_DIR
 
 # Delete the temporary directory.
-rm -rf cfi-laws-database
+rm -rf $DOWNLOAD_DIR
