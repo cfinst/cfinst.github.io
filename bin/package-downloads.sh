@@ -28,7 +28,7 @@ cp _site/downloads/metadata/* ./cfi-laws-database/metadata
 # Create the .zip file.
 echo
 echo "Creating cfi-laws-database.zip"
-zip -r cfi-laws-database.zip cfi-laws-database
+zip -r downloads/cfi-laws-database.zip cfi-laws-database
 
 # Delete the temporary directory.
 rm -rf cfi-laws-database
