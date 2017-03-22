@@ -18,7 +18,6 @@ function Legend() {
     ** Main Function Object
     */
     function my() {
-        console.log(data[query.section][query.legend], container.node());
         var li = container.selectAll("li")
             .data(data[query.section][query.legend].scale)
         ;
