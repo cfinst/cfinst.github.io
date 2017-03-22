@@ -166,7 +166,13 @@ function Grid(){
   function render_year_indicators(){
       // Highlight the tick for the selected year.
       svg.selectAll(".y.axis .tick text")
-          .classed("sortby", function(d) { return selectedYear === +d; })
+          .classed("sortby", function(d) {
+
+              // Parse defensively here, in case some interaction somewhere
+              // inadvertently dispatches a selected year change
+              // without first parsing the year value into a string.
+              return +selectedYear === +d;
+          })
       ;
       var yearRect = svg.select(".year-indicator-overlay")
         .selectAll("rect").data([1]);
@@ -212,7 +218,7 @@ function Grid(){
       svg.selectAll(".y.axis .tick text")
           // Sort dataset when y-axis labels are clicked
           .on("click", function (d){
-              query.year = d;
+              query.year = +d;
               dispatch.call("query", null, query);
             }
           );
