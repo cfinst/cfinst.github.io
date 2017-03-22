@@ -234,13 +234,38 @@ function Grid(){
               .sort(d3.ascending)
         );
       } else {
+
+        // Count infinities per X value, for tie breaking in sorting.
+        // TODO factor this out.
+        var infinityCounts = {};
+        data.forEach(function (d){
+            var infinityCount = infinityCounts[d[xColumn]] || 0;
+            if(valueAccessor(d) === Infinity){
+                infinityCount++;
+            } else if(valueAccessor(d) === -Infinity){
+                infinityCount--;
+            }
+            infinityCounts[d[xColumn]] = infinityCount;
+          })
+        ;
+
         xScale.domain(
           data
             .filter(function(d) { return +d[yColumn] === +selectedYear; })
             .sort(function(m, n) {
-                return d3.ascending(valueAccessor(m), valueAccessor(n))
-                  || d3.ascending(m[xColumn], n[xColumn])
-                ;
+                var comparison = d3.ascending(valueAccessor(m), valueAccessor(n));
+
+                // Break ties by sorting by infinity count.
+                if(comparison === 0){
+                    comparison = d3.ascending(infinityCounts[m[xColumn]], infinityCounts[n[xColumn]])
+                }
+
+                // Break ties firther by sorting alphabetically.
+                if(comparison === 0){
+                    comparison = d3.ascending(m[xColumn], n[xColumn])
+                }
+
+                return comparison;
               })
             .map(function(d) { return d[xColumn]; })
         );
