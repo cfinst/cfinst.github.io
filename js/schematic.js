@@ -181,7 +181,7 @@
   function setupSignals(dataset) {
 
       signal.on("downloadVisibleData", function (){
-          var selectedColumn = grid.selectedColumn()
+          var selectedColumn = query.question;
           var valueAccessor = grid.valueAccessor();
           var format = grid.format();
 
