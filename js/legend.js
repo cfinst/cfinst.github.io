@@ -38,8 +38,8 @@ function Legend() {
       } // my.container()
     ;
     my.query = function (_){
-        query = _;
         if(!arguments.length) return query;
+        query = _;
         return my;
       } // my.container()
     ;
