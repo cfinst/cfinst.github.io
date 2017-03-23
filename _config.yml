@@ -6,7 +6,7 @@ logo: img/CFI-logo-white.svg
 # production_url : http://cfinst.github.io
 # (I'm assuming)
 
-exclude: ['package.json', 'bower.json', 'node_modules', 'bin', 'README*', 'LICENSE', 'PoCs']
+exclude: ['package.json', 'bower.json', 'node_modules', 'bin', 'README*', 'LICENSE', 'PoCs', 'downloads/build']
 
 markdown: kramdown
 
