@@ -298,22 +298,18 @@
   var colorScale = {};
 {% for section in site.data.sections %}
   colorScale["{{ section[0] }}"] = {};
-  {% for legend in section[1].legends %}
-    {% capture bins %}{% for item in legend.scale %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
-    {% capture colors %}{% for item in legend.scale %}{{ item.color }},{% endfor %}{% endcapture %}
-    {% capture labels %}{% for item in legend.scale %}{{ item.label }},{% endfor %}{% endcapture %}
-  colorScale["{{ section[0] }}"]["{{ legend.name }}"] =
-  {% if legend.type == "threshold" %}d3.scaleThreshold()
+  {% for legend in section[1].legends %}{% capture colors %}{% for item in legend.scale %}{{ item.color }},{% endfor %}{% endcapture %}
+  colorScale["{{ section[0] }}"]["{{ legend.name }}"] = d3.scale{{ legend.type | capitalize }}()
       .range(liquidToArray('{{ colors }}'))
+  {% if legend.type == "threshold" %}{% capture bins %}{% for item in legend.scale %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
       .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
-  ;
-  colorScale["{{ section[0] }}"]["{{ legend.name }}"].emptyValue = {{ legend.fallback }};
-  {% elsif legend.type == "ordinal" %}d3.scaleOrdinal()
+  {% elsif legend.type == "ordinal" %} {% capture labels %}{% for item in legend.scale %}{{ item.label }},{% endfor %}{% endcapture %}
       .domain(liquidToArray('{{ labels }}'))
-      .range(liquidToArray('{{ colors }}'))
-  ;
-  {% endif %}
-{% endfor %}{% endfor %}
+  {% endif %};
+  {% if legend.type == "threshold" %}colorScale["{{ section[0] }}"]["{{ legend.name }}"].emptyValue = {{ legend.fallback }};{% endif %}
+  {% endfor %}
+{% endfor %}
+  console.log(colorScale);
 
   d3.selectAll(".tab-pane").each(function(d, i) {
       var name = this.id;
