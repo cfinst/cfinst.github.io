@@ -57,24 +57,13 @@ Exporting Laws_04_PublicFinancing to CSV...
 ...
 ```
 
-### Updating Field Descriptions (This is outdated, changes can be made directlyin Github now)
+### Updating Field Descriptions
 
-Export the field description spreadsheets as CSV files, then copy them into `data/disclosure-fields.csv` and `data/public-funding-fields.csv`.
-
-Here's one example set of commands that matches file names when exported from Google Sheets.
-
-```
-cd cfi/data
-mv ~/Downloads/Field\ Names-Descriptions\ for\ Visuals_v5.xlsx\ -\ Disclosure.csv ./disclosure-fields.csv 
-mv ~/Downloads/Field\ Names-Descriptions\ for\ Visuals_v5.xlsx\ -\ Public\ Financing.csv ./public-financing-fields.csv 
-mv ~/Downloads/Field\ Names-Descriptions\ for\ Visuals_v5.xlsx\ -\ Other\ Restrictions.csv ./other-restrictions-fields.csv 
-```
-
-Note: Make sure there are no empty rows in the Public Funding fields sheet. If there are empty lines in the CSV file, they should be deleted.
+Field descriptions live inside the Jekyll configurations, under `_data/sections/<section>/controls.yml`. These files are automatically converted to .CSV files when you run `./bin/package-downloads.sh`.
 
 ### Packaging Download Files
 
-The database content as well as metadata (field descriptions and about button contents) is packaged into .zip files for download. To create these .zip files, run the following script.
+The database content as well as metadata (field descriptions and about button contents) is packaged into a .zip file for download. To create this .zip file, run the following script:
 
 ```
 ./bin/package-downloads.sh
@@ -83,28 +72,53 @@ The database content as well as metadata (field descriptions and about button co
 You should see output similar to the following:
 
 ```
-Creating full-database-csv.zip
-  adding: full-database-csv/ (stored 0%)
-  adding: full-database-csv/Laws_03_Disclosure_3.csv (deflated 94%)
-  adding: full-database-csv/Laws_05_Other.csv (deflated 94%)
-  adding: full-database-csv/Laws_03_Disclosure_1.csv (deflated 96%)
-  adding: full-database-csv/Laws_02_Contributions_1.csv (deflated 96%)
-  adding: full-database-csv/Laws_00_IdentifierTable.csv (deflated 76%)
-  adding: full-database-csv/Laws_03_Disclosure_2.csv (deflated 91%)
-  adding: full-database-csv/Laws_02_Contributions_3.csv (deflated 94%)
-  adding: full-database-csv/Laws_04_PublicFinancing.csv (deflated 93%)
-  adding: full-database-csv/Laws_01_Defintions.csv (deflated 95%)
-  adding: full-database-csv/Laws_02_Contributions_2.csv (deflated 96%)
+$ ./bin/package-downloads.sh
+Configuration file: /home/curran/repos/cfi/_config.yml
+            Source: /home/curran/repos/cfi
+       Destination: /home/curran/repos/cfi/_site
+ Incremental build: disabled. Enable with --incremental
+      Generating... 
+                    done in 0.133 seconds.
+ Auto-regeneration: disabled. Use --watch to enable.
 
-Creating metadata.zip
-  adding: metadata/ (stored 0%)
-  adding: metadata/about-buttons.csv (deflated 76%)
-  adding: metadata/other-restrictions-fields.csv (deflated 60%)
-  adding: metadata/disclosure-fields.csv (deflated 70%)
-  adding: metadata/public-financing-fields.csv (deflated 58%)
+Creating cfi-laws-database.zip
+updating: cfi-laws-database/ (stored 0%)
+updating: cfi-laws-database/LICENSE (deflated 68%)
+updating: cfi-laws-database/metadata/ (stored 0%)
+updating: cfi-laws-database/metadata/other-restrictions-fields.csv (deflated 61%)
+updating: cfi-laws-database/metadata/disclosure-fields.csv (deflated 70%)
+updating: cfi-laws-database/metadata/public-financing-fields.csv (deflated 59%)
+updating: cfi-laws-database/data/ (stored 0%)
+updating: cfi-laws-database/data/Laws_03_Disclosure_3.csv (deflated 94%)
+updating: cfi-laws-database/data/Laws_05_Other.csv (deflated 93%)
+updating: cfi-laws-database/data/Laws_03_Disclosure_1.csv (deflated 96%)
+updating: cfi-laws-database/data/Laws_02_Contributions_1.csv (deflated 95%)
+updating: cfi-laws-database/data/Laws_00_IdentifierTable.csv (deflated 76%)
+updating: cfi-laws-database/data/Laws_03_Disclosure_2.csv (deflated 92%)
+updating: cfi-laws-database/data/Laws_02_Contributions_3.csv (deflated 93%)
+updating: cfi-laws-database/data/Laws_04_PublicFinancing.csv (deflated 93%)
+updating: cfi-laws-database/data/Laws_01_Defintions.csv (deflated 95%)
+updating: cfi-laws-database/data/Laws_02_Contributions_2.csv (deflated 96%)
 ```
 
-This will produce the following files inside the `downloads` folder:
+This will produce the `cfi-laws-database.zip` file inside the `downloads` directory, which will contain *both* the database tables and the metadata (field description) tables. The .zip archive will have the following layout:
 
- * full-database-csv.zip - Contains CSV files representing the full database.
- * metadata.zip - Contains helper files used by the visualization.
+```
+├── cfi-laws-database
+    ├── LICENSE
+    ├── data
+    │   ├── Laws_00_IdentifierTable.csv
+    │   ├── Laws_01_Defintions.csv
+    │   ├── Laws_02_Contributions_1.csv
+    │   ├── Laws_02_Contributions_2.csv
+    │   ├── Laws_02_Contributions_3.csv
+    │   ├── Laws_03_Disclosure_1.csv
+    │   ├── Laws_03_Disclosure_2.csv
+    │   ├── Laws_03_Disclosure_3.csv
+    │   ├── Laws_04_PublicFinancing.csv
+    │   └── Laws_05_Other.csv
+    └── metadata
+        ├── disclosure-fields.csv
+        ├── other-restrictions-fields.csv
+        └── public-financing-fields.csv
+```

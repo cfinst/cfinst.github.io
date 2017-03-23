@@ -7,22 +7,35 @@
 #  Seemant Kulleen
 #  Curran Kelleher
 
-rm -rf downloads
-mkdir downloads
-mkdir downloads/full-database-csv
-cp data/CSVs/* ./downloads/full-database-csv/
-mkdir downloads/metadata
-cp data/*.csv downloads/metadata/
-cd downloads/
+# Run the Jekyll build, to create the
+# CSV files under _site/downloads/metadata
+jekyll build
 
-echo
-echo "Creating full-database-csv.zip"
-zip -r full-database-csv.zip full-database-csv
+# This temporary directory will
+#  - populated with CSV files and LICENSE file,
+#  - zipped,
+#  - and deleted.
+DOWNLOAD_DIR=cfi-laws-database
 
-echo
-echo "Creating metadata.zip"
-zip -r metadata.zip metadata
-echo
+# Create the temporary directory.
+# This will be included in the .zip file, so the name matters.
+mkdir $DOWNLOAD_DIR
 
-rm -rf full-database-csv
-rm -rf metadata
+# Put the database tables in "data".
+mkdir $DOWNLOAD_DIR/data
+cp data/CSVs/* ./$DOWNLOAD_DIR/data
+
+# Put the LICENSE file at the top level.
+mv $DOWNLOAD_DIR/data/LICENSE $DOWNLOAD_DIR
+
+# Put the metadata tables in "metadata".
+mkdir $DOWNLOAD_DIR/metadata
+cp _site/downloads/metadata/* ./$DOWNLOAD_DIR/metadata
+
+# Create the .zip file.
+echo
+echo "Creating $DOWNLOAD_DIR.zip"
+zip -r downloads/$DOWNLOAD_DIR.zip $DOWNLOAD_DIR
+
+# Delete the temporary directory.
+rm -rf $DOWNLOAD_DIR
