@@ -228,22 +228,50 @@ function Grid(){
 
   function domainify() {
       if(sortMode === "alphabetical"){
-        xScale.domain(
-          data
-              .map(function (d){ return d[xColumn]; })
-              .sort(d3.ascending)
-        );
+          xScale.domain(
+            data
+                .map(function (d){ return d[xColumn]; })
+                .sort(d3.ascending)
+          );
       } else {
-        xScale.domain(
-          data
-            .filter(function(d) { return +d[yColumn] === +selectedYear; })
-            .sort(function(m, n) {
-                return d3.ascending(valueAccessor(m), valueAccessor(n))
-                  || d3.ascending(m[xColumn], n[xColumn])
-                ;
-              })
-            .map(function(d) { return d[xColumn]; })
-        );
+
+          // Count infinities per X value, for tie breaking in sorting.
+          var sums = {};
+          data.forEach(function (d){
+              var sum = sums[d[xColumn]] || 0,
+                  value = valueAccessor(d),
+                  infinityWeight = 100000;
+
+              if(value === Infinity){
+                  value = infinityWeight;
+              } else if(value === -Infinity){
+                  value = -infinityWeight;
+              }
+
+              sums[d[xColumn]] = sum + value;
+            })
+          ;
+
+          xScale.domain(
+            data
+              .filter(function(d) { return +d[yColumn] === +selectedYear; })
+              .sort(function(m, n) {
+                  var comparison = d3.ascending(valueAccessor(m), valueAccessor(n));
+
+                  // Break ties by sorting by sums across X values (weighted with infinity counts).
+                  if(comparison === 0){
+                      comparison = d3.ascending(sums[m[xColumn]], sums[n[xColumn]])
+                  }
+
+                  // Break ties further by sorting alphabetically.
+                  if(comparison === 0){
+                      comparison = d3.ascending(m[xColumn], n[xColumn])
+                  }
+
+                  return comparison;
+                })
+              .map(function(d) { return d[xColumn]; })
+          );
       }
       yScale.domain(
         data
