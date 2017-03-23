@@ -12,7 +12,13 @@ function Legend() {
                 .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
                 .object({{ section[1].legends | jsonify }}){% unless forloop.last %},{% endunless %}
         {% endfor %} }
-      , commaFormat = d3.format(",")
+      , englishUSLocale = d3.formatLocale({
+        "decimal": ".",
+        "thousands": ",",
+        "grouping": [3],
+        "currency": ["$", ""]
+      })
+      , commaFormat = englishUSLocale.format(",")
     ;
 
     /*
