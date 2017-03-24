@@ -17,12 +17,12 @@ function Tabulus() {
         d3.selectAll("a[data-toggle='modal']")
             .each(function() {
                 var self = d3.select(this)
-                  , name = query.section + "-" + self.attr("data-name")
+                  , name = [query.section, self.attr("data-name")]
                 ;
                 self
-                    .attr("id", name + "-button")
-                    .attr("href", "../modals/" + name + ".html")
-                    .attr("data-target", "#" + name + "-modal")
+                    .attr("id", name.join('-') + "-button")
+                    .attr("href", "../modals/" + name.join('/') + ".html")
+                    .attr("data-target", "#" + name.join('-') + "-modal")
                 ;
               })
         ;
