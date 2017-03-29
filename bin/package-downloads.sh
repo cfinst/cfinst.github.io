@@ -20,6 +20,12 @@ jekyll build
 # in the .zip file, so the name does matter.
 DOWNLOAD_DIR=cfi-laws-database
 
+# Use variables for directory names, for easy maintenance.
+DISCLOSURE=$DOWNLOAD_DIR/disclosure
+OTHER_RESTRICTIONS=$DOWNLOAD_DIR/other-restrictions
+PUBLIC_FINANCING=$DOWNLOAD_DIR/public-financing
+CONTRIBUTION_LIMITS=$DOWNLOAD_DIR/contribution-limits
+
 # Create the temporary directory.
 mkdir $DOWNLOAD_DIR
 
@@ -33,15 +39,23 @@ mkdir $DOWNLOAD_DIR
 cp -r _site/downloads/build/* $DOWNLOAD_DIR
 
 # Create the directory for contribution-limits.
-# TODO
+# No field-descriptions.csv file here.
+mkdir $DOWNLOAD_DIR/contribution-limits
 
-## Put the database tables in "data".
-#mkdir $DOWNLOAD_DIR/data
-#cp data/CSVs/* ./$DOWNLOAD_DIR/data
+# Distribute the database tables to the appropriate section directories.
+cp data/CSVs/Laws_00_IdentifierTable.csv $DOWNLOAD_DIR
+cp data/CSVs/Laws_01_Defintions.csv $DOWNLOAD_DIR
+cp data/CSVs/Laws_02_Contributions_1.csv $CONTRIBUTION_LIMITS
+cp data/CSVs/Laws_02_Contributions_2.csv $CONTRIBUTION_LIMITS
+cp data/CSVs/Laws_02_Contributions_3.csv $CONTRIBUTION_LIMITS
+cp data/CSVs/Laws_03_Disclosure_1.csv $DISCLOSURE
+cp data/CSVs/Laws_03_Disclosure_2.csv $DISCLOSURE
+cp data/CSVs/Laws_03_Disclosure_3.csv $DISCLOSURE
+cp data/CSVs/Laws_04_PublicFinancing.csv $PUBLIC_FINANCING
+cp data/CSVs/Laws_05_Other.csv $OTHER_RESTRICTIONS
 
 # Put the LICENSE file at the top level.
 cp ./data/CSVs/LICENSE $DOWNLOAD_DIR
-
 
 # Remove the old .zip file.
 rm ./downloads/$DOWNLOAD_DIR.zip
