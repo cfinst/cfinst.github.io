@@ -30,7 +30,7 @@ CONTRIBUTION_LIMITS=$DOWNLOAD_DIR/contribution-limits
 mkdir $DOWNLOAD_DIR
 
 # Scaffold out the directory structure based on the Jekyll build.
-# After this, the $DOWNLOAD_DIR will contain subdirectories
+# After this, $DOWNLOAD_DIR will contain subdirectories
 # for the following sections:
 #  - disclosure
 #  - other-restrictions
@@ -38,7 +38,13 @@ mkdir $DOWNLOAD_DIR
 # Each of these will contain a field-descriptions.csv file.
 cp -r _site/downloads/build/* $DOWNLOAD_DIR
 
-# Create the directory for contribution-limits.
+# Copy over the markdown data behind the modals for each section.
+# This step will create the directory for contribution-limits.
+# After this, section subdirectories will contain the following files:
+#  - about.md
+#  - howto.md
+cp -r _modals/* $DOWNLOAD_DIR
+
 # No field-descriptions.csv file here.
 mkdir $DOWNLOAD_DIR/contribution-limits
 
@@ -64,6 +70,9 @@ rm ./downloads/$DOWNLOAD_DIR.zip
 echo
 echo "Creating $DOWNLOAD_DIR.zip"
 zip -r ./downloads/$DOWNLOAD_DIR.zip $DOWNLOAD_DIR
+
+# Print out the directory structure.
+tree $DOWNLOAD_DIR
 
 # Delete the temporary directory.
 rm -rf $DOWNLOAD_DIR
