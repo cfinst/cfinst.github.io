@@ -15,27 +15,41 @@ jekyll build
 #  - populated with CSV files and LICENSE file,
 #  - zipped,
 #  - and deleted.
+#
+# Note that this directory itself will be included
+# in the .zip file, so the name does matter.
 DOWNLOAD_DIR=cfi-laws-database
 
 # Create the temporary directory.
-# This will be included in the .zip file, so the name matters.
 mkdir $DOWNLOAD_DIR
 
-# Put the database tables in "data".
-mkdir $DOWNLOAD_DIR/data
-cp data/CSVs/* ./$DOWNLOAD_DIR/data
+# Scaffold out the directory structure based on the Jekyll build.
+# After this, the $DOWNLOAD_DIR will contain subdirectories
+# for the following sections:
+#  - disclosure
+#  - other-restrictions
+#  - public-financing
+# Each of these will contain a field-descriptions.csv file.
+cp -r _site/downloads/build/* $DOWNLOAD_DIR
 
-# Put the LICENSE file at the top level.
-mv $DOWNLOAD_DIR/data/LICENSE $DOWNLOAD_DIR
+# Create the directory for contribution-limits.
+# TODO
 
-# Put the metadata tables in "metadata".
-mkdir $DOWNLOAD_DIR/metadata
-cp _site/downloads/metadata/* ./$DOWNLOAD_DIR/metadata
+## Put the database tables in "data".
+#mkdir $DOWNLOAD_DIR/data
+#cp data/CSVs/* ./$DOWNLOAD_DIR/data
+#
+## Put the LICENSE file at the top level.
+#mv $DOWNLOAD_DIR/data/LICENSE $DOWNLOAD_DIR
+#
 
-# Create the .zip file.
+# Remove the old .zip file.
+rm ./downloads/$DOWNLOAD_DIR.zip
+
+# Create the new .zip file.
 echo
 echo "Creating $DOWNLOAD_DIR.zip"
-zip -r downloads/$DOWNLOAD_DIR.zip $DOWNLOAD_DIR
+zip -r ./downloads/$DOWNLOAD_DIR.zip $DOWNLOAD_DIR
 
 # Delete the temporary directory.
 rm -rf $DOWNLOAD_DIR
