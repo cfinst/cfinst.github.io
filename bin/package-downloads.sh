@@ -45,6 +45,18 @@ cp -r _site/downloads/build/* $DOWNLOAD_DIR
 #  - howto.md
 cp -r _modals/* $DOWNLOAD_DIR
 
+# Strip out YML front-matter from markdown files.
+# Draws from http://stackoverflow.com/questions/28221779/how-to-remove-yaml-frontmatter-from-markdown-files
+STRIP_FRONTMATTER="sed -i '1 { /^---/ { :a N; /\n---/! ba; d} }'"
+eval $STRIP_FRONTMATTER $CONTRIBUTION_LIMITS/about.md
+eval $STRIP_FRONTMATTER $CONTRIBUTION_LIMITS/howto.md
+eval $STRIP_FRONTMATTER $PUBLIC_FINANCING/about.md
+eval $STRIP_FRONTMATTER $PUBLIC_FINANCING/howto.md
+eval $STRIP_FRONTMATTER $DISCLOSURE/about.md
+eval $STRIP_FRONTMATTER $DISCLOSURE/howto.md
+eval $STRIP_FRONTMATTER $OTHER_RESTRICTIONS/about.md
+eval $STRIP_FRONTMATTER $OTHER_RESTRICTIONS/howto.md
+
 # No field-descriptions.csv file here.
 mkdir $DOWNLOAD_DIR/contribution-limits
 
