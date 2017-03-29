@@ -1,0 +1,6 @@
+---
+# We could source thse via CDN instead.
+---
+{% include_relative _vendor/bootstrap.min.css %}
+{% include_relative _vendor/bootstrap-theme.min.css %}
+{% include_relative _vendor/font-awesome.min.css %}
