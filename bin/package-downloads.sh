@@ -38,10 +38,10 @@ cp -r _site/downloads/build/* $DOWNLOAD_DIR
 ## Put the database tables in "data".
 #mkdir $DOWNLOAD_DIR/data
 #cp data/CSVs/* ./$DOWNLOAD_DIR/data
-#
-## Put the LICENSE file at the top level.
-#mv $DOWNLOAD_DIR/data/LICENSE $DOWNLOAD_DIR
-#
+
+# Put the LICENSE file at the top level.
+cp ./data/CSVs/LICENSE $DOWNLOAD_DIR
+
 
 # Remove the old .zip file.
 rm ./downloads/$DOWNLOAD_DIR.zip
