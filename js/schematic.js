@@ -309,7 +309,6 @@
   {% if legend.type == "threshold" %}colorScale["{{ section[0] }}"]["{{ legend.name }}"].emptyValue = {{ legend.fallback }};{% endif %}
   {% endfor %}
 {% endfor %}
-  console.log(colorScale);
 
   d3.selectAll(".tab-pane").each(function(d, i) {
       var name = this.id;
