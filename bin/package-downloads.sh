@@ -56,10 +56,8 @@ do
 		mkdir -p ${DOWNLOAD_DIR}/${i}
 		echo "# ${TITLE}
 
-		$(
-		sed \
-			-e '1 { /^---/ { :a N; /\n---/! ba; d} }' \
-			_modals/${i}/${f})" > ${DOWNLOAD_DIR}/${i}/${f}
+		$(sed -e '1 { /^---/ { :a N; /\n---/! ba; d} }' _modals/${i}/${f})" \
+		> ${DOWNLOAD_DIR}/${i}/${f}
 	done
 done
 
@@ -87,7 +85,7 @@ echo "Creating $DOWNLOAD_DIR.zip"
 zip -r ./downloads/$DOWNLOAD_DIR.zip $DOWNLOAD_DIR
 
 # Print out the directory structure.
-ls -l $DOWNLOAD_DIR
+find $DOWNLOAD_DIR | sed 's|[^/]*/|- |g'
 
 # Delete the temporary directory.
 rm -rf $DOWNLOAD_DIR
