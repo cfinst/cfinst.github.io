@@ -43,22 +43,23 @@ cp -r _site/downloads/build/* $DOWNLOAD_DIR
 # After this, section subdirectories will contain the following files:
 #  - about.md
 #  - howto.md
-cp -r _modals/* $DOWNLOAD_DIR
-
-# Strip out YML front-matter from markdown files.
+#
+# During the copy process, add a markdownified title to the page, which
+# is taken from the YAML front-matter.  We will also strip out YML
+# front-matter from the final result
 # Draws from http://stackoverflow.com/questions/28221779/how-to-remove-yaml-frontmatter-from-markdown-files
-STRIP_FRONTMATTER="sed -i '1 { /^---/ { :a N; /\n---/! ba; d} }'"
-eval $STRIP_FRONTMATTER $CONTRIBUTION_LIMITS/about.md
-eval $STRIP_FRONTMATTER $CONTRIBUTION_LIMITS/howto.md
-eval $STRIP_FRONTMATTER $PUBLIC_FINANCING/about.md
-eval $STRIP_FRONTMATTER $PUBLIC_FINANCING/howto.md
-eval $STRIP_FRONTMATTER $DISCLOSURE/about.md
-eval $STRIP_FRONTMATTER $DISCLOSURE/howto.md
-eval $STRIP_FRONTMATTER $OTHER_RESTRICTIONS/about.md
-eval $STRIP_FRONTMATTER $OTHER_RESTRICTIONS/howto.md
+for i in `ls _modals`
+do
+	for f in `ls _modals/${i}`
+	do
+		TITLE=$(awk -F': ' '/^title: / { print $2 }' _modals/${i}/${f})
+		mkdir -p ${DOWNLOAD_DIR}/${i}
+		echo "# ${TITLE}
 
-# No field-descriptions.csv file here.
-mkdir $DOWNLOAD_DIR/contribution-limits
+		$(sed -e '1 { /^---/ { :a N; /\n---/! ba; d} }' _modals/${i}/${f})" \
+		> ${DOWNLOAD_DIR}/${i}/${f}
+	done
+done
 
 # Distribute the database tables to the appropriate section directories.
 cp data/CSVs/Laws_00_IdentifierTable.csv $DOWNLOAD_DIR
@@ -84,7 +85,7 @@ echo "Creating $DOWNLOAD_DIR.zip"
 zip -r ./downloads/$DOWNLOAD_DIR.zip $DOWNLOAD_DIR
 
 # Print out the directory structure.
-tree $DOWNLOAD_DIR
+find $DOWNLOAD_DIR | sed 's|[^/]*/|- |g'
 
 # Delete the temporary directory.
 rm -rf $DOWNLOAD_DIR
