@@ -212,6 +212,7 @@
 
       signal.on("query", function(question) {
         question.colorScale = colorScale[question.section][question.legend];
+        console.log(question.colorScale.type);
 
         grid
             .query(question)
@@ -309,8 +310,13 @@
       .domain(liquidToArray('{{ labels }}'))
   {% endif %};
   {% if legend.type == "threshold" %}colorScale["{{ section[0] }}"]["{{ legend.name }}"].emptyValue = {{ legend.fallback }};{% endif %}
+
+  // Store the type so we know when to prune the legend.
+  colorScale["{{ section[0] }}"]["{{ legend.name }}"].type = "{{legend.type}}";
+
   {% endfor %}
 {% endfor %}
+
 
   d3.selectAll(".tab-pane").each(function(d, i) {
       var name = this.id;
