@@ -55,13 +55,21 @@ function Legend() {
               })
           .merge(li)
         ;
-        li.each(function(d, i) {
-            var self = d3.select(this);
-            self.select("svg").attr("fill", d.color);
-            self.select("span")
-                .text(d.label || "$" + commaFormat(d.min) + " - " + "$" + commaFormat(d.max))
-            ;
-        })
+
+        li
+            .each(function(d, i) {
+                var self = d3.select(this);
+                self.select("svg").attr("fill", d.color);
+                self.select("span")
+                    .text(d.label || "$" + commaFormat(d.min) + " - " + "$" + commaFormat(d.max))
+                ;
+            })
+            .on("mouseover", function (d){
+                console.log(d);
+            })
+            .on("mouseout", function (){
+                console.log("out");
+            });
     } // my()
 
     /*
