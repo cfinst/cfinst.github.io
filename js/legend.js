@@ -28,9 +28,14 @@ function Legend() {
     function my() {
         var legendEntries = data[query.section][query.legend].scale;
 
-        legendEntries = legendEntries.filter(function (d){
-          return visibleValues.has(d.label)
-        });
+        // Prune the legend items such that only values that are
+        // visible in the visualization (present in the data)
+        // are shown in the legend.
+        if(visibleValues !== "all"){
+          legendEntries = legendEntries.filter(function (d){
+            return visibleValues.has(d.label)
+          });
+        }
 
         var li = container.selectAll("li")
             .data(legendEntries)
@@ -88,6 +93,11 @@ function Legend() {
         return my;
       } // my.connect()
     ;
+
+    // Sets the set of values to show in the legend.
+    // If the values is "all", than all values are retained.
+    // Otherwise the value is a D3 set containing data values
+    // that should be retained in the legend (all others are not shown).
     my.visibleValues = function (_){
         if(!arguments.length) return visibleValues;
         visibleValues = _;

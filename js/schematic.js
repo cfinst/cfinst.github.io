@@ -212,8 +212,6 @@
 
       signal.on("query", function(question) {
         question.colorScale = colorScale[question.section][question.legend];
-        console.log(question.colorScale.type);
-
         grid
             .query(question)
           ()
@@ -225,11 +223,18 @@
             .query(question)
           ()
         ;
+
+        var visibleValues = "all";
+        if(question.colorScale.type === "ordinal"){
+          visibleValues = d3.set(dataset.map(valueAccessor))
+        }
+
         legend
             .query(question)
-            .visibleValues(d3.set(dataset.map(valueAccessor)))
+            .visibleValues(visibleValues)
           ()
         ;
+
         d3.select("#chooser-year").node().value = question.year;
 
         // toggle legend
