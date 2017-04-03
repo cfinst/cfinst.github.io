@@ -2,6 +2,8 @@ This directory contains the full Historical Database of State Campaign Finance L
 
 The database tables are included here in .csv format. At the top level, you'll find `Laws_00_IdentifierTable.csv` and `Laws_01_Defintions.csv`. The identifier table defines the overall structure of the database, all US states with biannual data going back to 1996. This table may be useful for importing the data into a relational database. The definitions table contains full text descriptions for each field.
 
+At the top level directory, you'll also find files that start with `CFI_StateLaws_`. These files are the original codebooks that contain full, unabridged descriptions for each database field.
+
 Each category of campaign finance law has its own subdirectory here:
 
  * contribution-limits
