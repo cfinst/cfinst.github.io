@@ -71,9 +71,11 @@ function Legend() {
 
                 if("min" in d && "max" in d){
                     // Handle threshold scales.
+                    var min = +d.min;
+                    var max = +d.max;
                     highlightData = dataset.filter(function (datum){
                         var val = valueAccessor(datum);
-                        return val > d.min && val < d.max;
+                        return val === min || val === max || val > d.min && val < d.max;
                     });
                 } else {
                     // Handle ordinal scales.
