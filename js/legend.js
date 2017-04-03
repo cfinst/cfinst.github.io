@@ -67,9 +67,20 @@ function Legend() {
                 ;
             })
             .on("mouseover", function (d){
-                var highlightData = dataset.filter(function (datum){
-                    return valueAccessor(datum) === d.label;
-                });
+                var highlightData;
+
+                if("min" in d && "max" in d){
+                    // Handle threshold scales.
+                    highlightData = dataset.filter(function (datum){
+                        var val = valueAccessor(datum);
+                        return val > d.min && val < d.max;
+                    });
+                } else {
+                    // Handle ordinal scales.
+                    highlightData = dataset.filter(function (datum){
+                        return valueAccessor(datum) === d.label;
+                    });
+                }
                 dispatch.call("highlight", null, highlightData);
             })
             .on("mouseout", function (){

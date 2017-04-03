@@ -138,8 +138,6 @@ function Atlas() {
                 )
             ;
 
-            console.log(highlightedStates);
-
             overlay
               .selectAll(".state")
                 .transition().duration(500)
