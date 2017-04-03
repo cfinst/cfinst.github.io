@@ -20,6 +20,8 @@ function Legend() {
       })
       , commaFormat = englishUSLocale.format(",")
       , visibleValues
+      , dataset
+      , valueAccessor
     ;
 
     /*
@@ -65,10 +67,13 @@ function Legend() {
                 ;
             })
             .on("mouseover", function (d){
-                console.log(d);
+                var highlightData = dataset.filter(function (datum){
+                    return valueAccessor(datum) === d.label;
+                });
+                dispatch.call("highlight", null, highlightData);
             })
             .on("mouseout", function (){
-                console.log("out");
+                dispatch.call("highlight", null, []);
             });
     } // my()
 
@@ -112,6 +117,21 @@ function Legend() {
         return my;
       } // my.visibleValues()
     ;
+
+    my.dataset = function (_){
+        if(!arguments.length) return dataset;
+        dataset = _;
+        return my;
+      } // my.dataset()
+    ;
+
+    my.valueAccessor = function (_){
+        if(!arguments.length) return valueAccessor;
+        valueAccessor = _;
+        return my;
+      } // my.valueAccessor()
+    ;
+
     /*
     ** This is ALWAYS the LAST thing returned
     */

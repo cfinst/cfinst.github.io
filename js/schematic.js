@@ -232,6 +232,8 @@
         legend
             .query(question)
             .visibleValues(visibleValues)
+            .valueAccessor(valueAccessor)
+            .dataset(dataset)
           ()
         ;
 
