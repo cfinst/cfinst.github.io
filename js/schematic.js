@@ -211,20 +211,22 @@
         });
 
       signal.on("query", function(question) {
-        // update grid
         question.colorScale = colorScale[question.section][question.legend];
 
         grid
             .query(question)
           ()
         ;
+
+        var valueAccessor = grid.valueAccessor();
         atlas
-            .valueAccessor(grid.valueAccessor())
+            .valueAccessor(valueAccessor)
             .query(question)
           ()
         ;
         legend
             .query(question)
+            .visibleValues(d3.set(dataset.map(valueAccessor)))
           ()
         ;
         d3.select("#chooser-year").node().value = question.year;

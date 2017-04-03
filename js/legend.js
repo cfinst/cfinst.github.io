@@ -19,14 +19,21 @@ function Legend() {
         "currency": ["$", ""]
       })
       , commaFormat = englishUSLocale.format(",")
+      , visibleValues
     ;
 
     /*
     ** Main Function Object
     */
     function my() {
+        var legendEntries = data[query.section][query.legend].scale;
+
+        legendEntries = legendEntries.filter(function (d){
+          return visibleValues.has(d.label)
+        });
+
         var li = container.selectAll("li")
-            .data(data[query.section][query.legend].scale)
+            .data(legendEntries)
         ;
         li.exit().remove();
         li = li.enter()
@@ -73,13 +80,19 @@ function Legend() {
         if(!arguments.length) return query;
         query = _;
         return my;
-      } // my.container()
+      } // my.query()
     ;
     my.connect = function (_){
         if(!arguments.length) return dispatch;
         dispatch = _;
         return my;
       } // my.connect()
+    ;
+    my.visibleValues = function (_){
+        if(!arguments.length) return visibleValues;
+        visibleValues = _;
+        return my;
+      } // my.visibleValues()
     ;
     /*
     ** This is ALWAYS the LAST thing returned
