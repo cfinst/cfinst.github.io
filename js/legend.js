@@ -19,14 +19,26 @@ function Legend() {
         "currency": ["$", ""]
       })
       , commaFormat = englishUSLocale.format(",")
+      , visibleValues
     ;
 
     /*
     ** Main Function Object
     */
     function my() {
+        var legendEntries = data[query.section][query.legend].scale;
+
+        // Prune the legend items such that only values that are
+        // visible in the visualization (present in the data)
+        // are shown in the legend.
+        if(visibleValues !== "all"){
+          legendEntries = legendEntries.filter(function (d){
+            return visibleValues.has(d.label)
+          });
+        }
+
         var li = container.selectAll("li")
-            .data(data[query.section][query.legend].scale)
+            .data(legendEntries)
         ;
         li.exit().remove();
         li = li.enter()
@@ -73,13 +85,24 @@ function Legend() {
         if(!arguments.length) return query;
         query = _;
         return my;
-      } // my.container()
+      } // my.query()
     ;
     my.connect = function (_){
         if(!arguments.length) return dispatch;
         dispatch = _;
         return my;
       } // my.connect()
+    ;
+
+    // Sets the set of values to show in the legend.
+    // If the values is "all", than all values are retained.
+    // Otherwise the value is a D3 set containing data values
+    // that should be retained in the legend (all others are not shown).
+    my.visibleValues = function (_){
+        if(!arguments.length) return visibleValues;
+        visibleValues = _;
+        return my;
+      } // my.visibleValues()
     ;
     /*
     ** This is ALWAYS the LAST thing returned

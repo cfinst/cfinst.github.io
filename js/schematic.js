@@ -211,22 +211,30 @@
         });
 
       signal.on("query", function(question) {
-        // update grid
         question.colorScale = colorScale[question.section][question.legend];
-
         grid
             .query(question)
           ()
         ;
+
+        var valueAccessor = grid.valueAccessor();
         atlas
-            .valueAccessor(grid.valueAccessor())
+            .valueAccessor(valueAccessor)
             .query(question)
           ()
         ;
+
+        var visibleValues = "all";
+        if(question.colorScale.type === "ordinal"){
+          visibleValues = d3.set(dataset.map(valueAccessor))
+        }
+
         legend
             .query(question)
+            .visibleValues(visibleValues)
           ()
         ;
+
         d3.select("#chooser-year").node().value = question.year;
 
         // toggle legend
@@ -307,8 +315,13 @@
       .domain(liquidToArray('{{ labels }}'))
   {% endif %};
   {% if legend.type == "threshold" %}colorScale["{{ section[0] }}"]["{{ legend.name }}"].emptyValue = {{ legend.fallback }};{% endif %}
+
+  // Store the type so we know when to prune the legend.
+  colorScale["{{ section[0] }}"]["{{ legend.name }}"].type = "{{legend.type}}";
+
   {% endfor %}
 {% endfor %}
+
 
   d3.selectAll(".tab-pane").each(function(d, i) {
       var name = this.id;
