@@ -18,11 +18,13 @@ function Tabulus() {
             .each(function() {
                 var self = d3.select(this)
                   , name = [query.section, self.attr("data-name")]
+                  , id = name.join('-')
+                  , uri = name.join('/')
                 ;
                 self
-                    .attr("id", name.join('-') + "-button")
-                    .attr("href", "../modals/" + name.join('/') + ".html")
-                    .attr("data-target", "#" + name.join('-') + "-modal")
+                    .attr("id", id + "-button")
+                    .attr("data-target", "#" + id + "-modal")
+                    .attr("href", "../modals/" + uri + ".html")
                 ;
               })
         ;
