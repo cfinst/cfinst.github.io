@@ -60,6 +60,7 @@ function Tabulus() {
         wiring.on("choice", function(arg) {
             arg.each(function(value, key) {
                 if(value.disable) {
+                  // e.g. Disable the "branch" if recipient is not Candidate
                     container.selectAll("select").each(function() {
                         var self = d3.select(this)
                           , name = self.attr("data-name")
@@ -79,7 +80,7 @@ function Tabulus() {
                         }
                       })
                     ;
-                }
+                } // if(value.disable)
                 // show the question if this is a question
                 if(value.question) {
                     container.select(".field-description")
@@ -94,7 +95,6 @@ function Tabulus() {
             update();
           })
         ;
-
     } // setup()
 
     // Set the state for the various controls, based on the query
@@ -128,6 +128,15 @@ function Tabulus() {
             if(!(curry.donor && curry.recipient)) return;
             if(curry.recipient.value === "Cand" && !curry.branch) return;
 
+            // Handle the Party/Party exception case here:
+            container.select("select[data-name='recipient']")
+              .select("option[value='Party']")
+                .node().disabled = (curry.donor.value == "StateP")
+            ;
+            container.select("select[data-name='donor']")
+              .select("option[value='StateP']")
+                .node().disabled = (curry.recipient.value === "Party")
+            ;
             curry._question = query.question = curry.donor.value
               + "To"
               + curry.recipient.value
