@@ -137,10 +137,9 @@
           .key(function(d) { return d.Year; })
           .key(function(d) { return d.State; })
           .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
-          .map(dataset
-  {% comment %}Check Jekyll config to see if a year is being worked on{%endcomment %}
-  {% if site.filterYear %}
-          .filter(function(d) { return d.Year != +{{ site.filterYear }}; })
+          .map(dataset{% if site.filterYear %}
+  {% comment %}Check Jekyll config to see if a year is excluded.{% endcomment %}
+              .filter(function(d) { return d.Year != +{{ site.filterYear }}; })
   {% endif %})
       ;
   } // ingest()
