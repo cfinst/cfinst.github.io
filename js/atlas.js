@@ -124,13 +124,27 @@ function Atlas() {
     ;
     my.connect = function (_){
         if(!arguments.length) return dispatch;
-        dispatch = _.on("highlight.atlas", function(state) {
+        dispatch = _.on("highlight.atlas", function(highlightData) {
+
+            // Only highlight data in the current year.
+            var highlightedStates = d3.set(
+                highlightData
+                    .filter(function (d){
+                        return +d.Year === +query.year;
+                    })
+                    .map(function (d){
+                        return d.State;
+                    })
+                )
+            ;
+
             overlay
               .selectAll(".state")
                 .transition().duration(500)
                 .style("stroke-opacity", function(d) {
-                    if(!d.feature || !d.feature.properties || !state.length) return 0;
-                    return (d.feature.properties.usps === state[0].State) ? 1 : 0;
+                    if(!d.feature || !d.feature.properties) return 0;
+                    var highlighted = highlightedStates.has(d.feature.properties.usps);
+                    return highlighted ? 1 : 0;
                   })
             ;
               // TODO reinstate this

@@ -83,12 +83,15 @@
           ])
         , data = ingest(dataset)
       ;
+      
+      // Reassign dataset here so it only includes years not filtered out.
+      dataset = d3.merge(data.values().map(function(v) { return v.values(); }));
 
       initializeYearSelector(data.keys());
 
       grid
           .svg(d3.select("svg#main"))
-          .data(d3.merge(data.values().map(function(v) { return v.values(); })))
+          .data(dataset)
           .tooltip(tip)
       ;
       atlas
@@ -225,12 +228,14 @@
 
         var visibleValues = "all";
         if(question.colorScale.type === "ordinal"){
-          visibleValues = d3.set(grid.data().map(valueAccessor))
+          visibleValues = d3.set(dataset.map(valueAccessor))
         }
 
         legend
             .query(question)
             .visibleValues(visibleValues)
+            .valueAccessor(valueAccessor)
+            .dataset(dataset)
           ()
         ;
 
