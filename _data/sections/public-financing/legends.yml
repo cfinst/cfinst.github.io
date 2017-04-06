@@ -8,18 +8,18 @@
     - label: Tax Deduction
       color: "#053061"
     - label: None
-      color: gray
+      color: "#67000d"
 - name: default
   type: ordinal
   scale:
     - label: "Yes"
-      color: "#4393c3"
+      color: "#cb181d"
     - label: Changed mid-cycle
-      color: "#2166ac"
-    - label: "No"
       color: "#053061"
+    - label: "No"
+      color: "#67000d"
     - label: Missing Data
-      color: gray
+      color: black
 - name: financing
   type: ordinal
   scale:
@@ -31,9 +31,9 @@
       color: "#2166ac" # medium blue
     - label: Mixed
       color: "#053061" # dark blue
-    - label: None
-      color: lightgray
-    - label: Missing Data
-      color: gray
     - label: Other
+      color: "#d1e5f0"
+    - label: None
       color: "#67000d"
+    - label: Missing Data
+      color: black
