@@ -24,7 +24,7 @@
         - label: Candidate
           abbr: Cand
           disable: _branch
-        - label: Local Party
+        - label: State Party
           abbr: Party
           disable: branch
         - label: Political Action Committee (PAC)
