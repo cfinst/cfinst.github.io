@@ -210,7 +210,7 @@
         });
 
       signal.on("query", function(question) {
-        question.colorScale = colorScale2[question.section][question.legend];
+        question.colorScale = colorScale[question.section][question.legend];
         grid
             .query(question)
           ()
@@ -303,9 +303,9 @@
   ** Jekyll, so we're using Jekyll template statements to populate the object.
   */
   var sectionconfig = d3.entries({{ site.data.sections | jsonify }});
-  var colorScale2 = {};
+  var colorScale = {};
   sectionconfig.forEach(function(sec) {
-      colorScale2[sec.key] = {};
+      colorScale[sec.key] = {};
       sec.value.legends.forEach(function(leg) {
           var thresh = leg.type === "threshold"
             , sc = thresh ? d3.scaleThreshold() : d3.scaleOrdinal()
@@ -322,7 +322,7 @@
           ;
           if(thresh) sc.emptyValue = leg.fallback;
           sc.type = leg.type;
-          colorScale2[sec.key][leg.name] = sc.range(range).domain(domain);
+          colorScale[sec.key][leg.name] = sc.range(range).domain(domain);
       });
   });
 
