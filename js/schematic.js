@@ -225,7 +225,7 @@
 
         var visibleValues = "all";
         if(question.colorScale.type === "ordinal"){
-          visibleValues = d3.set(dataset.map(valueAccessor))
+          visibleValues = d3.set(grid.data().map(valueAccessor))
         }
 
         legend
