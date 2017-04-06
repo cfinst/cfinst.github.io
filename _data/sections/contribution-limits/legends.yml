@@ -91,5 +91,5 @@
 - name: Party2Party
   type: singular
   scale:
-    - label: "Forbidden but funds get transferred between the two entities following internal procedures."
+    - label: "Forbidden but funds get transferred between the two entities following internal procedures. And this is a sentence to act as a space filler."
       color: gray
