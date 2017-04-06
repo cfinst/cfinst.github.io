@@ -156,6 +156,8 @@ function Tabulus() {
                 )
             ;
             query.legend = curry.donor.legend || "default";
+            if(curry.donor.value === "StateP" && curry.recipient.value === "Party")
+                query.legend = "Party2Party";
         } else {
             query.question = curry.question.value;
             query.label = curry.question.label;
