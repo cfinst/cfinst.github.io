@@ -210,7 +210,7 @@
         });
 
       signal.on("query", function(question) {
-        question.colorScale = colorScale[question.section][question.legend];
+        question.colorScale = colorScale2[question.section][question.legend];
         grid
             .query(question)
           ()
@@ -302,6 +302,28 @@
   ** The colors and labels for the various colorScales are all defined in
   ** Jekyll, so we're using Jekyll template statements to populate the object.
   */
+  var sectionconfig = d3.entries({{ site.data.sections | jsonify }});
+  var colorScale2 = {};
+  sectionconfig.forEach(function(sec) {
+      colorScale2[sec.key] = {};
+      sec.value.legends.forEach(function(leg) {
+          var thresh = leg.type === "threshold"
+            , sc = thresh ? d3.scaleThreshold() : d3.scaleOrdinal()
+            , range = leg.scale.map(function(s) { return s.color; })
+            , domain = leg.scale.map(function(s, i) {
+                  if(thresh) {
+                      s.max = s.max === "Infinity"
+                        ? 1 / 0
+                        : s.max
+                      ;
+                  }
+                  return thresh ? (s.max + 1) : s.label;
+                })
+          ;
+          colorScale2[sec.key][leg.name] = sc.range(range).domain(domain);
+      });
+  });
+
   var colorScale = {};
 {% for section in site.data.sections %}
   colorScale["{{ section[0] }}"] = {};
@@ -317,10 +339,10 @@
 
   // Store the type so we know when to prune the legend.
   colorScale["{{ section[0] }}"]["{{ legend.name }}"].type = "{{legend.type}}";
-
   {% endfor %}
 {% endfor %}
 
+console.log(colorScale, colorScale2)
 
   d3.selectAll(".tab-pane").each(function(d, i) {
       var name = this.id;
