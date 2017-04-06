@@ -320,6 +320,8 @@
                   return thresh ? (s.max + 1) : s.label;
                 })
           ;
+          if(thresh) sc.emptyValue = leg.fallback;
+          sc.type = leg.type;
           colorScale2[sec.key][leg.name] = sc.range(range).domain(domain);
       });
   });
