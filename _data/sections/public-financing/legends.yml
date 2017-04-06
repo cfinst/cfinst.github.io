@@ -1,39 +1,39 @@
 - name: taxes
   type: ordinal
   scale:
+    - label: None
+      color: "#67000d"
     - label: Refund
       color: "#4393c3"
     - label: Tax Credit
       color: "#2166ac"
     - label: Tax Deduction
       color: "#053061"
-    - label: None
-      color: gray
 - name: default
   type: ordinal
   scale:
-    - label: "Yes"
-      color: "#4393c3"
-    - label: Changed mid-cycle
-      color: "#2166ac"
     - label: "No"
+      color: "#67000d"
+    - label: Changed mid-cycle
       color: "#053061"
+    - label: "Yes"
+      color: "#cb181d"
     - label: Missing Data
-      color: gray
+      color: black
 - name: financing
   type: ordinal
   scale:
-    - label: Full Public Financing
-      color: "#92c5de" # lighter blue
-    - label: Partial Grant
-      color: "#4393c3" # light blue
-    - label: Matching Funds
-      color: "#2166ac" # medium blue
-    - label: Mixed
-      color: "#053061" # dark blue
     - label: None
-      color: lightgray
-    - label: Missing Data
-      color: gray
-    - label: Other
       color: "#67000d"
+    - label: Full Public Financing
+      color: "#053061" # dark blue
+    - label: Partial Grant
+      color: "#2166ac" # medium blue
+    - label: Matching Funds
+      color: "#4393c3" # light blue
+    - label: Mixed
+      color: "#92c5de" # lighter blue
+    - label: Other
+      color: "#d1e5f0"
+    - label: Missing Data
+      color: black

@@ -18,11 +18,13 @@ function Tabulus() {
             .each(function() {
                 var self = d3.select(this)
                   , name = [query.section, self.attr("data-name")]
+                  , id = name.join('-')
+                  , uri = name.join('/')
                 ;
                 self
-                    .attr("id", name.join('-') + "-button")
-                    .attr("href", "../modals/" + name.join('/') + ".html")
-                    .attr("data-target", "#" + name.join('-') + "-modal")
+                    .attr("id", id + "-button")
+                    .attr("data-target", "#" + id + "-modal")
+                    .attr("href", "../modals/" + uri + ".html")
                 ;
               })
         ;
@@ -58,6 +60,7 @@ function Tabulus() {
         wiring.on("choice", function(arg) {
             arg.each(function(value, key) {
                 if(value.disable) {
+                  // e.g. Disable the "branch" if recipient is not Candidate
                     container.selectAll("select").each(function() {
                         var self = d3.select(this)
                           , name = self.attr("data-name")
@@ -77,7 +80,7 @@ function Tabulus() {
                         }
                       })
                     ;
-                }
+                } // if(value.disable)
                 // show the question if this is a question
                 if(value.question) {
                     container.select(".field-description")
@@ -92,7 +95,6 @@ function Tabulus() {
             update();
           })
         ;
-
     } // setup()
 
     // Set the state for the various controls, based on the query
@@ -126,6 +128,15 @@ function Tabulus() {
             if(!(curry.donor && curry.recipient)) return;
             if(curry.recipient.value === "Cand" && !curry.branch) return;
 
+            // Handle the Party/Party exception case here:
+            container.select("select[data-name='recipient']")
+              .select("option[value='Party']")
+                .node().disabled = (curry.donor.value == "StateP")
+            ;
+            container.select("select[data-name='donor']")
+              .select("option[value='StateP']")
+                .node().disabled = (curry.recipient.value === "Party")
+            ;
             curry._question = query.question = curry.donor.value
               + "To"
               + curry.recipient.value
@@ -145,6 +156,8 @@ function Tabulus() {
                 )
             ;
             query.legend = curry.donor.legend || "default";
+            if(curry.donor.value === "StateP" && curry.recipient.value === "Party")
+                query.legend = "Party2Party";
         } else {
             query.question = curry.question.value;
             query.label = curry.question.label;

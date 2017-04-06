@@ -38,6 +38,13 @@ mkdir $DOWNLOAD_DIR
 # Each of these will contain a field-descriptions.csv file.
 cp -r _site/downloads/build/* $DOWNLOAD_DIR
 
+# Delete the old download .zip, so we don't include it in the new one.
+rm downloads/$DOWNLOAD_DIR.zip
+
+# Copy over files (not directories) from the /downloads directory.
+# This includes the README.md and the codebook files.
+cp downloads/*.* $DOWNLOAD_DIR
+
 # Copy over the markdown data behind the modals for each section.
 # This step will create the directory for contribution-limits.
 # After this, section subdirectories will contain the following files:
