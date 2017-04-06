@@ -59,19 +59,19 @@
 - name: default
   type: ordinal
   scale:
-    - label: "Yes"
-      color: "#4393c3"
-    - label: Changed mid-cycle
-      color: "#2166ac"
     - label: "No"
+      color: "#67000d"
+    - label: Changed mid-cycle
       color: "#053061"
     - label: Inoperative mid-cycle
-      color: "#67000d"
-    - label: Missing Data
-      color: gray
+      color: "#4393c3"
+    - label: "Yes"
+      color: "#cb181d"
     - label: "N/A"
-      color: lightgray
+      color: gray
     - label: "disclose donor if >$250"
-      color: "#92c5de"
+      color: lightgray
     - label: "Voluntary"
-      color: green
+      color: darkgray
+    - label: Missing Data
+      color: black

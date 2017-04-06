@@ -137,10 +137,9 @@
           .key(function(d) { return d.Year; })
           .key(function(d) { return d.State; })
           .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
-          .map(dataset
-  {% comment %}Check Jekyll config to see if a year is being worked on{%endcomment %}
-  {% if site.filterYear %}
-          .filter(function(d) { return d.Year != +{{ site.filterYear }}; })
+          .map(dataset{% if site.filterYear %}
+  {% comment %}Check Jekyll config to see if a year is excluded.{% endcomment %}
+              .filter(function(d) { return d.Year != +{{ site.filterYear }}; })
   {% endif %})
       ;
   } // ingest()
@@ -226,7 +225,7 @@
 
         var visibleValues = "all";
         if(question.colorScale.type === "ordinal"){
-          visibleValues = d3.set(dataset.map(valueAccessor))
+          visibleValues = d3.set(grid.data().map(valueAccessor))
         }
 
         legend
@@ -303,25 +302,29 @@
   ** The colors and labels for the various colorScales are all defined in
   ** Jekyll, so we're using Jekyll template statements to populate the object.
   */
+  var sectionconfig = d3.entries({{ site.data.sections | jsonify }});
   var colorScale = {};
-{% for section in site.data.sections %}
-  colorScale["{{ section[0] }}"] = {};
-  {% for legend in section[1].legends %}{% capture colors %}{% for item in legend.scale %}{{ item.color }},{% endfor %}{% endcapture %}
-  colorScale["{{ section[0] }}"]["{{ legend.name }}"] = d3.scale{{ legend.type | capitalize }}()
-      .range(liquidToArray('{{ colors }}'))
-  {% if legend.type == "threshold" %}{% capture bins %}{% for item in legend.scale %}{% unless forloop.last %}{{ item.max }}{% endunless %},{% endfor %}{% endcapture %}
-      .domain(liquidToArray('{{ bins }}').map(function(d) { return +d + 1; }))
-  {% elsif legend.type == "ordinal" %} {% capture labels %}{% for item in legend.scale %}{{ item.label }},{% endfor %}{% endcapture %}
-      .domain(liquidToArray('{{ labels }}'))
-  {% endif %};
-  {% if legend.type == "threshold" %}colorScale["{{ section[0] }}"]["{{ legend.name }}"].emptyValue = {{ legend.fallback }};{% endif %}
-
-  // Store the type so we know when to prune the legend.
-  colorScale["{{ section[0] }}"]["{{ legend.name }}"].type = "{{legend.type}}";
-
-  {% endfor %}
-{% endfor %}
-
+  sectionconfig.forEach(function(sec) {
+      colorScale[sec.key] = {};
+      sec.value.legends.forEach(function(leg) {
+          var thresh = leg.type === "threshold"
+            , sc = thresh ? d3.scaleThreshold() : d3.scaleOrdinal()
+            , range = leg.scale.map(function(s) { return s.color; })
+            , domain = leg.scale.map(function(s, i) {
+                  if(thresh) {
+                      s.max = s.max === "Infinity"
+                        ? 1 / 0
+                        : s.max
+                      ;
+                  }
+                  return thresh ? (s.max + 1) : s.label;
+                })
+          ;
+          if(thresh) sc.emptyValue = leg.fallback;
+          sc.type = leg.type;
+          colorScale[sec.key][leg.name] = sc.range(range).domain(domain);
+      });
+  });
 
   d3.selectAll(".tab-pane").each(function(d, i) {
       var name = this.id;
