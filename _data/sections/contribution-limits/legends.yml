@@ -92,4 +92,4 @@
   type: ordinal
   scale:
     - label: "Forbidden but funds get transferred between the two entities following internal procedures."
-      color: "black"
+      color: gray
