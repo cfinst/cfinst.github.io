@@ -10,7 +10,7 @@
           legend: default
         - label: State Party
           abbr: StateP
-          legend: partyAsDonor
+          legend: default
         - label: Corporation
           abbr: Corp
           legend: default

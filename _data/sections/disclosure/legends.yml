@@ -9,20 +9,20 @@
     - min: 1
       max: 50
       label: $50 or less
-      color: "#053061"
+      color: "#41ae76"
     - min: 51
       max: 100
-      color: "#2166ac"
+      color: "#66c2a4"
     - min: 101
       max: 200
-      color: "#4393c3"
+      color: "#99d8c9"
     - min: 201
       max: 500
-      color: "#92c5de"
+      color: "#ccece6"
     - min: 501
       max: 1000000
       label: More than $500
-      color: "#d1e5f0"
+      color: "#e5f5f9"
     - min: 1000001
       max: Infinity
       label: No Limit
