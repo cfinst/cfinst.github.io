@@ -1,14 +1,16 @@
+# Mid-cycle values:
+# http://colorbrewer2.org/#type=sequential&scheme=Oranges&n=5
 - name: default
   type: ordinal
   scale:
     - label: "No"
       color: "#67000d"
     - label: Changed mid-cycle
-      color: "#053061"
+      color: "#e6550d"
     - label: Inoperative mid-cycle
-      color: "#4393c3"
+      color: "#fd8d3c"
     - label: Inoperative whole cycle
-      color: "#d1e5f0"
+      color: "#fdbe85"
     - label: "Yes"
       color: "#cb181d"
     - label: Missing Data

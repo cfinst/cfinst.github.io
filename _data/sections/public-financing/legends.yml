@@ -15,7 +15,7 @@
     - label: "No"
       color: "#67000d"
     - label: Changed mid-cycle
-      color: "#053061"
+      color: "#e6550d"
     - label: "Yes"
       color: "#cb181d"
     - label: Missing Data
