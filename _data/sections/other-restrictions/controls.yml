@@ -5,7 +5,7 @@
 - name: DoingBusinessLimits
   legend: default
   question: Are contribution limits lower for people or organizations doing business with the state?
-  label: Separate Contribution Limits for those dong business with State?
+  label: Separate Contribution Limits for those doing business with State?
 - name: Lobbyist_Limits
   legend: default
   question: Does the law contain special contribution limits or prohibitions for lobbyists?

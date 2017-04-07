@@ -20,6 +20,8 @@ function Legend() {
       })
       , commaFormat = englishUSLocale.format(",")
       , visibleValues
+      , dataset
+      , valueAccessor
     ;
 
     /*
@@ -55,13 +57,37 @@ function Legend() {
               })
           .merge(li)
         ;
-        li.each(function(d, i) {
-            var self = d3.select(this);
-            self.select("svg").attr("fill", d.color);
-            self.select("span")
-                .text(d.label || "$" + commaFormat(d.min) + " - " + "$" + commaFormat(d.max))
-            ;
-        })
+
+        li
+            .each(function(d, i) {
+                var self = d3.select(this);
+                self.select("svg").attr("fill", d.color);
+                self.select("span")
+                    .text(d.label || "$" + commaFormat(d.min) + " - " + "$" + commaFormat(d.max))
+                ;
+            })
+            .on("mouseover", function (d){
+                var highlightData;
+
+                if("min" in d && "max" in d){
+                    // Handle threshold scales.
+                    var min = +d.min;
+                    var max = +d.max;
+                    highlightData = dataset.filter(function (datum){
+                        var val = valueAccessor(datum);
+                        return val === min || val === max || val > d.min && val < d.max;
+                    });
+                } else {
+                    // Handle ordinal scales.
+                    highlightData = dataset.filter(function (datum){
+                        return valueAccessor(datum) === d.label;
+                    });
+                }
+                dispatch.call("highlight", null, highlightData);
+            })
+            .on("mouseout", function (){
+                dispatch.call("highlight", null, []);
+            });
     } // my()
 
     /*
@@ -104,6 +130,21 @@ function Legend() {
         return my;
       } // my.visibleValues()
     ;
+
+    my.dataset = function (_){
+        if(!arguments.length) return dataset;
+        dataset = _;
+        return my;
+      } // my.dataset()
+    ;
+
+    my.valueAccessor = function (_){
+        if(!arguments.length) return valueAccessor;
+        valueAccessor = _;
+        return my;
+      } // my.valueAccessor()
+    ;
+
     /*
     ** This is ALWAYS the LAST thing returned
     */
