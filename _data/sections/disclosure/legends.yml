@@ -25,7 +25,7 @@
       color: "#d1e5f0"
     - min: 1000001
       max: Infinity
-      label: No Limit
+      label: Bad Data
       color: "#cb181d"
 - name: big
   type: threshold
