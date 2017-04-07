@@ -123,7 +123,6 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "IA1996","IA",1996,"Yes","Yes","Yes","No","Yes","Yes","Yes","Yes","501","Yes","No","Yes","Yes","72 hours","No",,,,,,,,,,,,,,,
 "IA1998","IA",1998,"Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","501","Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","72 hours","No",,,,,,,,,,,,,,,
 "IA2000","IA",2000,"Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","Inoperative mid-cycle","501","Yes","No","Inoperative mid-cycle","Inoperative mid-cycle","72 hours","No",,,,,,,,,,,,,,,
-"IA2002","IA",2002,,,,,,,,,,,,,,,,,,,,,"IA",,,,,,,,,
 "IA2004","IA",2004,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","1001","Yes","Yes","Yes","Yes",,"No","Within 48 hours after making an expenditure over $750",,,,,,,,,,,,,,
 "IA2006","IA",2006,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","1001","Yes","Yes","Yes","Yes",,"No","Within 48 hours after making an expenditure over $750",,,,,"IA",,,,,,,,,
 "IA2008","IA",2008,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","1001","Yes","Yes","Yes","Yes",,"No","Within 48 hours after making an expenditure over $750",,,,,"IA",,,,,,,,,
@@ -545,6 +544,7 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "WY2016","WY",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 "NM2010","NM",2010,"No","No","No","No","No","No","No",,,"No","No",,,,"No",,,,,,"NM",,,,,,,,,
 "VT2008","VT",2008,"No","No","No","No","No","No","No",,,,"No",,,,"Yes","mass media activities within 30 days of a primary or general election","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","500","No","No","Yes","No","24 hours"
+"IA2002","IA",2002,,,,,,,,,,,,,,,"No",,,,,,"IA",,,,,,,,,
 "RI2010","RI",2010,"Yes","No","No","No","No","No","No","Yes","1001","No","No",,"No","7 days. NA.","No",,,,,,,,,,,,,,,
 "RI2012","RI",2012,"Yes","No","No","No","No","No","No","Yes","1001","Yes","No",,"No","7 days. NA.","No",,"Yes",,,,,,,"Yes","1001",,,"No","No",
 "RI2014","RI",2014,"Yes","No","No","No","No","No","No","Yes","1001","No","No",,"No","7 days. NA.","No",,,,,,,,,"Yes","1001",,,,,
