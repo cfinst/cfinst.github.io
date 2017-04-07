@@ -24,6 +24,7 @@
 
 # http://colorbrewer2.org/#type=qualitative&scheme=Set3&n=12
 # http://colorbrewer2.org/#type=qualitative&scheme=Paired&n=12
+# Hand picked with http://labs.abeautifulsite.net/jquery-minicolors/
 - name: financing
   type: ordinal
   scale:
@@ -32,11 +33,11 @@
     - label: Full Public Financing
       color: "#b15928"
     - label: Partial Grant
-      color: "#bebada"
+      color: "#ff6e6e"
     - label: Matching Funds
-      color: "#80b1d3"
+      color: "#93bf85"
     - label: Mixed
-      color: "#fdbf6f"
+      color: "#00e0be"
     - label: Other
       color: "#e5c494"
     - label: Missing Data
