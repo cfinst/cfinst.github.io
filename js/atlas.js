@@ -31,7 +31,7 @@ function Atlas() {
 
     function update() {
       if(!valueAccessor) return ;
-      svg.select("#usa").selectAll(".state path").each(function(d) {
+      svg.selectAll(".state path").each(function(d) {
           var self = d3.select(this)
             , state = d.feature.properties.usps
             , datayear = data.get(query.year)
