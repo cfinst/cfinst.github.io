@@ -100,3 +100,9 @@ Part of https://github.com/cfinst/cfinst.github.io/issues/170
 .highlight-overlay .state {
     stroke-width: 6px;
 }
+
+/* The rectangle that fades out "background" marks with linked hover. */
+.fade-rect {
+    fill: white;
+    fill-opacity: 0.6;
+}
