@@ -9,6 +9,7 @@ function Grid(){
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
     , colorScale
     , tooltipContent
+    , backgroundRectFadeOpacity = 0.7
   ;
 
   // DOM Elements.
@@ -173,7 +174,7 @@ function Grid(){
           .attr("width", width)
           .attr("height", height)
         .transition().duration(600)
-          .attr("fill-opacity", highlightData.length ? 0.75 : 0);
+          .attr("fill-opacity", highlightData.length ? backgroundRectFadeOpacity : 0);
       ;
   } // render_fade_rect()
 
@@ -452,6 +453,12 @@ function Grid(){
       dispatch = _;
       return my;
     } // my.connect()
+  ;
+  my.backgroundRectFadeOpacity = function (_){
+      if(!arguments.length) return backgroundRectFadeOpacity;
+      backgroundRectFadeOpacity = _;
+      return my;
+    } // my.backgroundRectFadeOpacity()
   ;
 
   // This is always the last thing returned

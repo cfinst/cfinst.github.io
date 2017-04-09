@@ -13,6 +13,7 @@ function Atlas() {
       , data
       , query = {}
       , valueAccessor
+      , backgroundRectFadeOpacity = 0.7
     ;
 
     function my() {
@@ -223,6 +224,13 @@ function Atlas() {
         valueAccessor = _;
         return my;
       }
+    ;
+
+    my.backgroundRectFadeOpacity = function (_){
+        if(!arguments.length) return backgroundRectFadeOpacity;
+        backgroundRectFadeOpacity = _;
+        return my;
+      } // my.backgroundRectFadeOpacity()
     ;
 
     // This is always the last thing returned
