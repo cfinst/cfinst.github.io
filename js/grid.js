@@ -173,7 +173,7 @@ function Grid(){
         .merge(fadeRect)
           .attr("width", width)
           .attr("height", height)
-        .transition().duration(600)
+        .transition().duration(500)
           .attr("fill-opacity", highlightData.length ? backgroundRectFadeOpacity : 0);
       ;
   } // render_fade_rect()

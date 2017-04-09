@@ -139,10 +139,15 @@ function Atlas() {
                 )
             ;
 
+            overlay.select(".fade-rect")
+                .attr("width", width)
+                .attr("height", height)
+              .transition().duration(500)
+                .attr("fill-opacity", highlightedStates.values().length ? backgroundRectFadeOpacity : 0);
+
             overlay
               .selectAll(".state")
-                .transition().duration(500)
-                .style("stroke-opacity", function(d) {
+                .attr("fill-opacity", function(d) {
                     if(!d.feature || !d.feature.properties) return 0;
                     var highlighted = highlightedStates.has(d.feature.properties.usps);
                     return highlighted ? 1 : 0;
@@ -192,8 +197,7 @@ function Atlas() {
             .call(initStateShapes)
         ;
         overlay.selectAll(".state")
-            .classed("highlighted", true)
-            .attr("stroke-opacity", 0)
+            .attr("fill-opacity", 0)
         ;
         return my;
     }
@@ -215,6 +219,11 @@ function Atlas() {
         overlay = svg.select("#highlight-overlay")
             .attr("class", "highlight-overlay")
         ;
+
+        overlay
+          .append("rect")
+            .attr("class", "fade-rect")
+            .attr("fill", "white");
 
         return my;
       } // my.svg()
