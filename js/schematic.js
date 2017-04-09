@@ -142,7 +142,7 @@
           .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
           .map(dataset{% if site.filterYear %}
   {% comment %}Check Jekyll config to see if a year is excluded.{% endcomment %}
-              .filter(function(d) { return d.Year != +{{ site.filterYear }}; })
+              .filter(function(d) { return d.Year < +{{ site.filterYear }}; })
   {% endif %})
       ;
   } // ingest()
