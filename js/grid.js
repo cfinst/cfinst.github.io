@@ -169,9 +169,12 @@ function Grid(){
       fadeRect
         .enter().append("rect")
           .attr("class", "fade-rect")
+          .attr("fill", "white")
         .merge(fadeRect)
           .attr("width", width)
           .attr("height", height)
+        .transition().duration(600)
+          .attr("fill-opacity", highlightData.length ? 0.6 : 0);
       ;
   } // render_fade_rect()
 
