@@ -65,6 +65,7 @@ function Grid(){
       // Set up highlighting.
       dispatch.on("highlight.grid", function (highlightData){
           svg.select(".highlight-overlay")
+              .call(render_fade_rect, highlightData)
               .call(render_cells, highlightData, true);
       });
 
@@ -106,7 +107,7 @@ function Grid(){
   // Visualize the selectedColumn.
   function render_cells(selection, data, highlighted) {
     if(!colorScale) return;
-    var rects = selection.selectAll("rect")
+    var rects = selection.selectAll(".grid-rect")
           .data(data, function (d){ return d.Identifier; })
       , w = xScale.step()
       , h = yScale.step()
@@ -162,6 +163,17 @@ function Grid(){
       .remove()
     ;
   } // render_cells()
+
+  function render_fade_rect(selection, highlightData) {
+      var fadeRect = selection.selectAll(".fade-rect").data([null]);
+      fadeRect
+        .enter().append("rect")
+          .attr("class", "fade-rect")
+        .merge(fadeRect)
+          .attr("width", width)
+          .attr("height", height)
+      ;
+  } // render_fade_rect()
 
   function render_year_indicators(){
       // Highlight the tick for the selected year.
