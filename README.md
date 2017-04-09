@@ -6,6 +6,25 @@ An interactive visualization of the [Campaign Finance Institute](http://www.cfin
 
 [![image](https://cloud.githubusercontent.com/assets/68416/22932623/8e465200-f2ee-11e6-8c06-e9040a6476ae.png)](https://cfinst.github.io/).
 
+## About
+
+This project was commisioned by the [Campaign Finance Institute](http://www.cfinst.org/) as a means to present and disseminate its database on campaign finance law in the United States. The database has been painstakingly compiled over many years, and covers many aspects of campaign finance law and policy.
+
+The general dimensions of this database are:
+
+ * US States
+ * Time, every other year since 1996
+
+Each unique combination of State and Year carries with it a substantial variety of fields pertaining to campaign finance law. Some of these fields are numeric dollar amounts. Others are "Yes" "No" questions. Others have a variety of possibile values, no more then ten. Furthermore, these fields can be divided into four broad categories of campaign finance law:
+
+This database posed unique and interesting challenges from a data visualization perspective. The main audience for this work is the general public, the casual user who has a vague interest in the subject of campaign finance law. The secondary audience for this work is professionals in the domain, who would use it more as a reference and research tool.
+
+Our early prototypes tried to capture the overall structure of the database using the X, Y plane; the most powerful visual channels. The first prototype was a grid of circles in which the X axis represented Time (one entry per two years), and the Y axis represented US State. At first we chose random fields to visualize within this scaffold using an ordinal color scale. The second prototype was a Choropleth Map of the US, for the case of viewing all States for a single Year. Since the same data records were visualized in each prototype, the color scale could be shared between them.
+
+Once we had the basic scaffold of grid and map in place, the challenge became how to visually encode the values in the wide variety of fields. For numeric fields, we tried using area of the circles to encode the values. This turned out to only show the outliers, and the variation within the smaller values (which turned out to be the most interesting part for domain experts) could not be perceived well. Therefore we migrated to using a threshold color scale to encode quantitative dollar amounts, using thresholds hand-tuned by CFI. For ordinal fields, a straigntforward ordinal color scale was used.
+
+We migrated from circles to squares within the grid because the flush edges of the adjacent squares afforded better perception of the color differences. Since we used a small set of lightness values to encode quantitative values using a threshold scale, the ability to perceive the change from one lightness value to the next was extremely important. For CFI researchers, see "changes over time" in campaign finance law was one of the most important requirements of the visualization. Therefore, since it is easier to perceive slight changes in lightness between adjacent squares as compared to adjacent circles, we opted to migrate from circles to squares within the grid.
+
 ## Licensing
 
 The source code is released under the GPL3 license ([LICENSE](LICENSE)).
