@@ -73,11 +73,6 @@ textarea.form-control {
     vertical-align: text-top;
     margin-left: 0.5em;
 }
-.highlighted {
-    stroke: #ffff00;
-    fill: none;
-    fill-opacity: 0;
-}
 /*
 TODO reinstate something like this.
 Part of https://github.com/cfinst/cfinst.github.io/issues/170
@@ -86,9 +81,6 @@ Part of https://github.com/cfinst/cfinst.github.io/issues/170
     stroke-dasharray: none;
 }
 */
-.grid-rect.highlighted {
-    stroke-width: 3px;
-}
 .year-indicator-overlay {
     fill: none;
     stroke: white;
@@ -96,7 +88,4 @@ Part of https://github.com/cfinst/cfinst.github.io/issues/170
 }
 .highlight-overlay {
     pointer-events: none;
-}
-.highlight-overlay .state {
-    stroke-width: 6px;
 }
