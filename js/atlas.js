@@ -143,7 +143,7 @@ function Atlas() {
                 .attr("width", width)
                 .attr("height", height)
               .transition().duration(500)
-                .attr("fill-opacity", highlightedStates.values().length ? backgroundRectFadeOpacity : 0);
+                .attr("fill-opacity", highlightData.length ? backgroundRectFadeOpacity : 0);
 
             overlay
               .selectAll(".state")
