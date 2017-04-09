@@ -140,7 +140,6 @@ function Grid(){
             highlight(d);
           })
       .merge(rects)
-        .classed("highlighted", highlighted)
       .transition().duration(500)
         .attr("x", function (d){ return xScale(d[xColumn]); })
         .attr("y", function (d){ return yScale(d[yColumn]); })
@@ -174,7 +173,7 @@ function Grid(){
           .attr("width", width)
           .attr("height", height)
         .transition().duration(600)
-          .attr("fill-opacity", highlightData.length ? 0.6 : 0);
+          .attr("fill-opacity", highlightData.length ? 0.75 : 0);
       ;
   } // render_fade_rect()
 
