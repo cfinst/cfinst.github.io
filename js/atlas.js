@@ -13,6 +13,7 @@ function Atlas() {
       , data
       , query = {}
       , valueAccessor
+      , backgroundRectFadeOpacity = 0.7
     ;
 
     function my() {
@@ -30,7 +31,7 @@ function Atlas() {
 
     function update() {
       if(!valueAccessor) return ;
-      svg.select("#usa").selectAll(".state path").each(function(d) {
+      svg.selectAll(".state path").each(function(d) {
           var self = d3.select(this)
             , state = d.feature.properties.usps
             , datayear = data.get(query.year)
@@ -138,10 +139,15 @@ function Atlas() {
                 )
             ;
 
+            overlay.select(".fade-rect")
+                .attr("width", width)
+                .attr("height", height)
+              .transition().duration(500)
+                .attr("fill-opacity", highlightData.length ? backgroundRectFadeOpacity : 0);
+
             overlay
               .selectAll(".state")
-                .transition().duration(500)
-                .style("stroke-opacity", function(d) {
+                .attr("fill-opacity", function(d) {
                     if(!d.feature || !d.feature.properties) return 0;
                     var highlighted = highlightedStates.has(d.feature.properties.usps);
                     return highlighted ? 1 : 0;
@@ -191,8 +197,7 @@ function Atlas() {
             .call(initStateShapes)
         ;
         overlay.selectAll(".state")
-            .classed("highlighted", true)
-            .attr("stroke-opacity", 0)
+            .attr("fill-opacity", 0)
         ;
         return my;
     }
@@ -215,6 +220,11 @@ function Atlas() {
             .attr("class", "highlight-overlay")
         ;
 
+        overlay
+          .append("rect")
+            .attr("class", "fade-rect")
+            .attr("fill", "white");
+
         return my;
       } // my.svg()
     ;
@@ -223,6 +233,13 @@ function Atlas() {
         valueAccessor = _;
         return my;
       }
+    ;
+
+    my.backgroundRectFadeOpacity = function (_){
+        if(!arguments.length) return backgroundRectFadeOpacity;
+        backgroundRectFadeOpacity = _;
+        return my;
+      } // my.backgroundRectFadeOpacity()
     ;
 
     // This is always the last thing returned

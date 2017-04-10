@@ -26,6 +26,7 @@
         //, state: null // TODO reinstate this. https://github.com/cfinst/cfinst.github.io/issues/170
         , year: null
       }
+    , backgroundRectFadeOpacity = {{ site.backgroundRectFadeOpacity }}
   ;
   // {% capture tabs %}{% for tab in site.data.tabs %}{{ tab.section }},{% endfor %}{% endcapture %}
   liquidToArray('{{ tabs }}').forEach(function(tab) {
@@ -93,12 +94,14 @@
           .svg(d3.select("svg#main"))
           .data(dataset)
           .tooltip(tip)
+          .backgroundRectFadeOpacity(backgroundRectFadeOpacity)
       ;
       atlas
           .svg(d3.select("svg#map"))
           .geo(usa)
           .data(data)
           .tooltip(tip)
+          .backgroundRectFadeOpacity(backgroundRectFadeOpacity)
       ;
       legend
           .container(d3.select("ul#legend"))
@@ -142,7 +145,7 @@
           .rollup(function(leaves) { return Object.assign.apply(null, leaves); })
           .map(dataset{% if site.filterYear %}
   {% comment %}Check Jekyll config to see if a year is excluded.{% endcomment %}
-              .filter(function(d) { return d.Year != +{{ site.filterYear }}; })
+              .filter(function(d) { return d.Year < +{{ site.filterYear }}; })
   {% endif %})
       ;
   } // ingest()

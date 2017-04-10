@@ -9,6 +9,7 @@ function Grid(){
     , moneyFormat = function (n){ return "$" + d3.format(",")(n); }
     , colorScale
     , tooltipContent
+    , backgroundRectFadeOpacity = 0.7
   ;
 
   // DOM Elements.
@@ -65,6 +66,7 @@ function Grid(){
       // Set up highlighting.
       dispatch.on("highlight.grid", function (highlightData){
           svg.select(".highlight-overlay")
+              .call(render_fade_rect, highlightData)
               .call(render_cells, highlightData, true);
       });
 
@@ -106,7 +108,7 @@ function Grid(){
   // Visualize the selectedColumn.
   function render_cells(selection, data, highlighted) {
     if(!colorScale) return;
-    var rects = selection.selectAll("rect")
+    var rects = selection.selectAll(".grid-rect")
           .data(data, function (d){ return d.Identifier; })
       , w = xScale.step()
       , h = yScale.step()
@@ -139,7 +141,6 @@ function Grid(){
             highlight(d);
           })
       .merge(rects)
-        .classed("highlighted", highlighted)
       .transition().duration(500)
         .attr("x", function (d){ return xScale(d[xColumn]); })
         .attr("y", function (d){ return yScale(d[yColumn]); })
@@ -162,6 +163,20 @@ function Grid(){
       .remove()
     ;
   } // render_cells()
+
+  function render_fade_rect(selection, highlightData) {
+      var fadeRect = selection.selectAll(".fade-rect").data([null]);
+      fadeRect
+        .enter().append("rect")
+          .attr("class", "fade-rect")
+          .attr("fill", "white")
+        .merge(fadeRect)
+          .attr("width", width)
+          .attr("height", height)
+        .transition().duration(500)
+          .attr("fill-opacity", highlightData.length ? backgroundRectFadeOpacity : 0);
+      ;
+  } // render_fade_rect()
 
   function render_year_indicators(){
       // Highlight the tick for the selected year.
@@ -438,6 +453,12 @@ function Grid(){
       dispatch = _;
       return my;
     } // my.connect()
+  ;
+  my.backgroundRectFadeOpacity = function (_){
+      if(!arguments.length) return backgroundRectFadeOpacity;
+      backgroundRectFadeOpacity = _;
+      return my;
+    } // my.backgroundRectFadeOpacity()
   ;
 
   // This is always the last thing returned
