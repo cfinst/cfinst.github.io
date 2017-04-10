@@ -19,11 +19,8 @@
       max: 200
       color: "#9e9ac8"
     - min: 201
-      max: 500
-      color: "#cbc9e2"
-    - min: 501
       max: 1000000
-      label: More than $500
+      label: More than $200
       color: "#f2f0f7"
     - min: 1000001
       max: Infinity
