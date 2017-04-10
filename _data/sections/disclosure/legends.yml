@@ -7,17 +7,17 @@
     - min: -Infinity
       max: 0
       label: $0
-      color: "#8B4513"
+      color: "#54278f"
     - min: 1
       max: 50
       label: $50 or less
-      color: "#54278f"
+      color: "#756bb1"
     - min: 51
       max: 100
-      color: "#756bb1"
+      color: "#9e9ac8"
     - min: 101
       max: 200
-      color: "#9e9ac8"
+      color: "#cbc9e2"
     - min: 201
       max: 1000000
       label: More than $200
