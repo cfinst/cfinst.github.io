@@ -35,6 +35,12 @@ function Legend() {
         // are shown in the legend.
         if(visibleValues !== "all"){
           legendEntries = legendEntries.filter(function (d){
+            if(typeof d.min !== "undefined"){
+              if(d.min === "-Infinity"){
+                return visibleValues.has(-Infinity);
+              }
+              return true;
+            }
             return visibleValues.has(d.label)
           });
         }

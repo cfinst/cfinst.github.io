@@ -229,10 +229,9 @@
           ()
         ;
 
-        var visibleValues = "all";
-        if(question.colorScale.type === "ordinal"){
-          visibleValues = d3.set(dataset.map(valueAccessor))
-        }
+        var visibleValues = d3.set(dataset.map(valueAccessor));
+        //if(question.colorScale.type === "ordinal"){
+        //}
 
         legend
             .query(question)
