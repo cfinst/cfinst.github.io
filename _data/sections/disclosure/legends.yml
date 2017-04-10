@@ -64,9 +64,11 @@
     - label: "No"
       color: "#8B4513"
     - label: Changed mid-cycle
-      color: "#e6550d"
+      color: "#7a0177"
     - label: Inoperative mid-cycle
-      color: "#fd8d3c"
+      color: "#c51b8a"
+    - label: Inoperative whole cycle
+      color: "#f768a1"
     - label: "Yes"
       color: "#cb181d"
     - label: "N/A"

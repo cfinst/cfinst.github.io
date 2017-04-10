@@ -14,8 +14,6 @@
   type: ordinal
   scale:
     - label: "No"
-      color: "#8B4513"
-    - label: Changed mid-cycle
       color: "#e6550d"
     - label: "Yes"
       color: "#cb181d"
