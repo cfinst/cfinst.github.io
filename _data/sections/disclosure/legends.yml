@@ -7,7 +7,7 @@
     - min: -Infinity
       max: 0
       label: $0
-      color: "#67000d"
+      color: "#8B4513"
     - min: 1
       max: 50
       label: $50 or less
@@ -38,7 +38,7 @@
     - min: -Infinity
       max: 0
       label: Prohibited
-      color: "#67000d"
+      color: "#8B4513"
     - min: 1
       max: 1000
       label: $1,000 or less
@@ -69,7 +69,7 @@
   type: ordinal
   scale:
     - label: "No"
-      color: "#67000d"
+      color: "#8B4513"
     - label: Changed mid-cycle
       color: "#e6550d"
     - label: Inoperative mid-cycle
