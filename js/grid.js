@@ -169,7 +169,7 @@ function Grid(){
       fadeRect
         .enter().append("rect")
           .attr("class", "fade-rect")
-          .attr("fill", "white")
+          .attr("fill", "gray")
         .merge(fadeRect)
           .attr("width", width)
           .attr("height", height)
