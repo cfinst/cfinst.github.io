@@ -22,10 +22,6 @@
       max: 1000000
       label: More than $200
       color: "#f2f0f7"
-    - min: 1000001
-      max: Infinity
-      label: Bad Data
-      color: "#cb181d"
 # Color Palette:
 #   Blues: http://colorbrewer2.org/#type=sequential&scheme=Blues&n=6
 - name: big
