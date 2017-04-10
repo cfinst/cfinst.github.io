@@ -27,6 +27,7 @@
         , year: null
       }
     , backgroundRectFadeOpacity = {{ site.backgroundRectFadeOpacity }}
+    , backgroundRectFill = "{{ site.backgroundRectFill }}"
   ;
   // {% capture tabs %}{% for tab in site.data.tabs %}{{ tab.section }},{% endfor %}{% endcapture %}
   liquidToArray('{{ tabs }}').forEach(function(tab) {
@@ -95,6 +96,7 @@
           .data(dataset)
           .tooltip(tip)
           .backgroundRectFadeOpacity(backgroundRectFadeOpacity)
+          .backgroundRectFill(backgroundRectFill)
       ;
       atlas
           .svg(d3.select("svg#map"))
@@ -102,6 +104,7 @@
           .data(data)
           .tooltip(tip)
           .backgroundRectFadeOpacity(backgroundRectFadeOpacity)
+          .backgroundRectFill(backgroundRectFill)
       ;
       legend
           .container(d3.select("ul#legend"))

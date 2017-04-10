@@ -14,6 +14,7 @@ function Atlas() {
       , query = {}
       , valueAccessor
       , backgroundRectFadeOpacity = 0.7
+      , backgroundRectFill = "white"
     ;
 
     function my() {
@@ -142,6 +143,7 @@ function Atlas() {
             overlay.select(".fade-rect")
                 .attr("width", width)
                 .attr("height", height)
+                .attr("fill", backgroundRectFill)
               .transition().duration(500)
                 .attr("fill-opacity", highlightData.length ? backgroundRectFadeOpacity : 0);
 
@@ -223,7 +225,7 @@ function Atlas() {
         overlay
           .append("rect")
             .attr("class", "fade-rect")
-            .attr("fill", "white");
+        ;
 
         return my;
       } // my.svg()
@@ -240,6 +242,13 @@ function Atlas() {
         backgroundRectFadeOpacity = _;
         return my;
       } // my.backgroundRectFadeOpacity()
+    ;
+
+    my.backgroundRectFill = function (_){
+        if(!arguments.length) return backgroundRectFill;
+        backgroundRectFill = _;
+        return my;
+      } // my.backgroundRectFill()
     ;
 
     // This is always the last thing returned

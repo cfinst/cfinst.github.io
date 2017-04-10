@@ -10,6 +10,7 @@ function Grid(){
     , colorScale
     , tooltipContent
     , backgroundRectFadeOpacity = 0.7
+    , backgroundRectFill = "white"
   ;
 
   // DOM Elements.
@@ -169,7 +170,7 @@ function Grid(){
       fadeRect
         .enter().append("rect")
           .attr("class", "fade-rect")
-          .attr("fill", "white")
+          .attr("fill", backgroundRectFill)
         .merge(fadeRect)
           .attr("width", width)
           .attr("height", height)
@@ -459,6 +460,12 @@ function Grid(){
       backgroundRectFadeOpacity = _;
       return my;
     } // my.backgroundRectFadeOpacity()
+  ;
+  my.backgroundRectFill = function (_){
+      if(!arguments.length) return backgroundRectFill;
+      backgroundRectFill = _;
+      return my;
+    } // my.backgroundRectFill()
   ;
 
   // This is always the last thing returned
