@@ -5,11 +5,11 @@
     - label: None
       color: "#8B4513"
     - label: Refund
-      color: "#ae017e"
+      color: "#e6550d"
     - label: Tax Credit
-      color: "#f768a1"
+      color: "#fdae6b"
     - label: Tax Deduction
-      color: "#fbb4b9"
+      color: "#fee6ce"
 - name: default
   type: ordinal
   scale:
