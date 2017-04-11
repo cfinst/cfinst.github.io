@@ -152,6 +152,9 @@ function Atlas() {
                     var highlighted = highlightedStates.has(d.feature.properties.usps);
                     return highlighted ? 1 : 0;
                   })
+                .attr("stroke-opacity", function (){
+                    return d3.select(this).attr("fill-opacity");
+                })
             ;
               // TODO reinstate this
               // Part of https://github.com/cfinst/cfinst.github.io/issues/170
@@ -198,6 +201,8 @@ function Atlas() {
         ;
         overlay.selectAll(".state")
             .attr("fill-opacity", 0)
+            .attr("stroke-opacity", 0)
+            .classed("highlighted", true)
         ;
         return my;
     }

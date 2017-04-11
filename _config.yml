@@ -21,4 +21,4 @@ authors:
 filterYear: 2016
 
 # The opacity of the background rect overlay with linked hover interactions.
-backgroundRectFadeOpacity: 0.75
+backgroundRectFadeOpacity: 0.9

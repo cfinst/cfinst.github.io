@@ -22,6 +22,7 @@ function Legend() {
       , visibleValues
       , dataset
       , valueAccessor
+      , highlightedSet = d3.set()
     ;
 
     /*
@@ -73,7 +74,21 @@ function Legend() {
         li
             .each(function(d, i) {
                 var self = d3.select(this);
-                self.select("svg").attr("fill", d.color);
+                self.select("svg")
+                    .attr("fill", d.color)
+                    .classed("highlighted", function (d){
+
+                        // For threshold scales.
+                        if(typeof d.min !== "undefined"){
+                            return highlightedSet.values().some(function (value){
+                                return value >= d.min && value <= d.max;
+                            });
+                        }
+
+                        // For ordinal scales.
+                        return highlightedSet.has(d.label);
+                    })
+                ;
                 self.select("span")
                     .text(d.label || "$" + commaFormat(d.min) + " - " + "$" + commaFormat(d.max))
                 ;
@@ -128,6 +143,14 @@ function Legend() {
     my.connect = function (_){
         if(!arguments.length) return dispatch;
         dispatch = _;
+
+        dispatch.on("highlight.legend", function (highlightData){
+            if(valueAccessor){
+                highlightedSet = d3.set(highlightData.map(valueAccessor));
+                my();
+            }
+        });
+
         return my;
       } // my.connect()
     ;
