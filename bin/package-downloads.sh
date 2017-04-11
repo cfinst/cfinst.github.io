@@ -57,7 +57,7 @@ cp downloads/*.* $DOWNLOAD_DIR
 # Draws from http://stackoverflow.com/questions/28221779/how-to-remove-yaml-frontmatter-from-markdown-files
 for i in `ls _modals`
 do
-	f=about.md
+  f=about.md
   TITLE=$(awk -F': ' '/^title: / { print $2 }' _modals/${i}/${f})
   mkdir -p ${DOWNLOAD_DIR}/${i}
   echo "# ${TITLE}
