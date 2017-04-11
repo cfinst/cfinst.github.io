@@ -22,7 +22,7 @@ function Legend() {
       , visibleValues
       , dataset
       , valueAccessor
-      , highlightedValues = d3.set()
+      , highlightedSet = d3.set()
     ;
 
     /*
@@ -77,7 +77,13 @@ function Legend() {
                 self.select("svg")
                     .attr("fill", d.color)
                     .classed("highlighted", function (d){
-                        return highlightedValues.has(d.label);
+                        // For threshold scales,
+                        if(typeof d.min !== "undefined"){
+                            return highlightedSet.values().some(function (value){
+                                return value > d.min && value < d.max;
+                            });
+                        }
+                        return highlightedSet.has(d.label);
                     })
                 ;
                 self.select("span")
@@ -137,7 +143,7 @@ function Legend() {
 
         dispatch.on("highlight.legend", function (highlightData){
             if(valueAccessor){
-                highlightedValues = d3.set(highlightData.map(valueAccessor));
+                highlightedSet = d3.set(highlightData.map(valueAccessor));
                 my();
             }
         });
