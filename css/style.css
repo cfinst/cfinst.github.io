@@ -69,6 +69,14 @@ textarea.form-control {
 .legend li svg {
     width: 20px;
     height: 20px;
+    stroke-width: 0.15px;
+    stroke-opacity: 0;
+    stroke: black;
+    transition:
+      stroke-opacity .5s linear;
+}
+.legend li svg.highlighted {
+    stroke-opacity: 1;
 }
 .legend li span {
     vertical-align: text-top;
