@@ -10,6 +10,7 @@
     stroke: #efefef;
     stroke-width: 0.25;
     fill-opacity: 1;
+    cursor: pointer; /* Affordance for clickability. */
 }
 .grid-rect.empty {
     fill-opacity: 0;
@@ -72,6 +73,7 @@ textarea.form-control {
 .legend li span {
     vertical-align: text-top;
     margin-left: 0.5em;
+    cursor: default; /* Don't show text cursor on legend text. */
 }
 /*
 TODO reinstate something like this.
