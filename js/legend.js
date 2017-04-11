@@ -33,11 +33,23 @@ function Legend() {
         // Prune the legend items such that only values that are
         // visible in the visualization (present in the data)
         // are shown in the legend.
-        if(visibleValues !== "all"){
-          legendEntries = legendEntries.filter(function (d){
-            return visibleValues.has(d.label)
-          });
-        }
+        legendEntries = legendEntries.filter(function (d){
+
+          // For threshold scales,
+          if(typeof d.min !== "undefined"){
+
+            // prune "Prohibited",
+            if(d.min === "-Infinity"){
+              return visibleValues.has(-Infinity);
+            }
+
+            // and leave all other thresholds alone.
+            return true;
+          }
+
+          // For ordinal scales, prune all values not present.
+          return visibleValues.has(d.label)
+        });
 
         var li = container.selectAll("li")
             .data(legendEntries)
