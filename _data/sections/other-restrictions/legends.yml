@@ -4,7 +4,7 @@
   type: ordinal
   scale:
     - label: "No"
-      color: "#8B4513"
+      color: "#66330e"
     - label: Changed mid-cycle
       color: "#7a0177"
     - label: Inoperative mid-cycle

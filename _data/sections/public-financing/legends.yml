@@ -3,7 +3,7 @@
   type: ordinal
   scale:
     - label: None
-      color: "#8B4513"
+      color: "#66330e"
     - label: Refund
       color: "#e6550d"
     - label: Tax Credit
@@ -14,7 +14,7 @@
   type: ordinal
   scale:
     - label: "No"
-      color: "#e6550d"
+      color: "#66330e"
     - label: "Yes"
       color: "#cb181d"
     - label: Missing Data
@@ -27,7 +27,7 @@
   type: ordinal
   scale:
     - label: None
-      color: "#8B4513"
+      color: "#66330e"
     - label: Full Public Financing
       color: "#618685"
     - label: Partial Grant

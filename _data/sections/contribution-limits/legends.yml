@@ -8,7 +8,7 @@
     - min: -Infinity
       max: 0
       label: Prohibited
-      color: "#8B4513"
+      color: "#66330e"
     - min: 1
       max: 1000
       label: $1,000 or less
