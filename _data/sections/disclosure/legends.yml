@@ -35,27 +35,27 @@
     - min: 1
       max: 1000
       label: $1,000 or less
-      color: "#08519c"
+      color: "#084594"
     - min: 1001
       max: 2500
-      color: "#3182bd"
+      color: "#2171b5"
     - min: 2501
       max: 5000
-      color: "#6baed6"
+      color: "#4292c6"
     - min: 5001
       max: 10000
-      color: "#9ecae1"
+      color: "#6baed6"
     - min: 10001
       max: 50000
-      color: "#c6dbef"
+      color: "#9ecae1"
     - min: 50001
       max: 100000000
       label: $50,000 or greater
-      color: "#eff3ff"
+      color: "#c6dbef"
     - min: 100000001
       max: Infinity
       label: Unlimited
-      color: "#cb181d"
+      color: "#eff3ff"
 # Mid-cycle values:
 # http://colorbrewer2.org/#type=sequential&scheme=Oranges&n=5
 - name: default
