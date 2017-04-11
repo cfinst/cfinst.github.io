@@ -77,12 +77,15 @@ function Legend() {
                 self.select("svg")
                     .attr("fill", d.color)
                     .classed("highlighted", function (d){
-                        // For threshold scales,
+
+                        // For threshold scales.
                         if(typeof d.min !== "undefined"){
                             return highlightedSet.values().some(function (value){
-                                return value > d.min && value < d.max;
+                                return value >= d.min && value <= d.max;
                             });
                         }
+
+                        // For ordinal scales.
                         return highlightedSet.has(d.label);
                     })
                 ;
