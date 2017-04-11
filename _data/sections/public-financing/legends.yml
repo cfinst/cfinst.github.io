@@ -30,11 +30,11 @@
       color: "#66330e"
     - label: Full Public Financing
       color: "#618685"
-    - label: Partial Grant
-      color: "#b5dddd"
-    - label: Matching Funds
-      color: "#b1cbbb"
     - label: Mixed
       color: "#45abb1"
+    - label: Matching Funds
+      color: "#b1cbbb"
+    - label: Partial Grant
+      color: "#b5dddd"
     - label: Missing Data
       color: black
