@@ -57,15 +57,13 @@ cp downloads/*.* $DOWNLOAD_DIR
 # Draws from http://stackoverflow.com/questions/28221779/how-to-remove-yaml-frontmatter-from-markdown-files
 for i in `ls _modals`
 do
-	for f in `ls _modals/${i}`
-	do
-		TITLE=$(awk -F': ' '/^title: / { print $2 }' _modals/${i}/${f})
-		mkdir -p ${DOWNLOAD_DIR}/${i}
-		echo "# ${TITLE}
+  f=about.md
+  TITLE=$(awk -F': ' '/^title: / { print $2 }' _modals/${i}/${f})
+  mkdir -p ${DOWNLOAD_DIR}/${i}
+  echo "# ${TITLE}
 
-		$(sed -e '1 { /^---/ { :a N; /\n---/! ba; d} }' _modals/${i}/${f})" \
-		> ${DOWNLOAD_DIR}/${i}/${f}
-	done
+  $(sed -e '1 { /^---/ { :a N; /\n---/! ba; d} }' _modals/${i}/${f})" \
+  > ${DOWNLOAD_DIR}/${i}/${f}
 done
 
 # Distribute the database tables to the appropriate section directories.
