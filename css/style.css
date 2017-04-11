@@ -32,6 +32,7 @@
     transition:
       fill-opacity .5s linear,
       fill .5s linear,
+      stroke-opacity .5s linear;
       stroke .5s linear;
 }
 .atlas-selected-year {
@@ -88,4 +89,14 @@ Part of https://github.com/cfinst/cfinst.github.io/issues/170
 }
 .highlight-overlay {
     pointer-events: none;
+}
+
+.highlighted {
+    stroke: black;
+}
+.grid-rect.highlighted {
+    stroke-width: 0.5px;
+}
+.highlight-overlay .state {
+    stroke-width: 1px;
 }
