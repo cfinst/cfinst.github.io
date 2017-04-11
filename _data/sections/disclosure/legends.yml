@@ -1,3 +1,5 @@
+# Color Palette:
+#   Purples: http://colorbrewer2.org/#type=sequential&scheme=Purples&n=5
 - name: small
   type: threshold
   fallback: -Infinity
@@ -5,28 +7,23 @@
     - min: -Infinity
       max: 0
       label: $0
-      color: "#67000d"
+      color: "#54278f"
     - min: 1
       max: 50
       label: $50 or less
-      color: "#053061"
+      color: "#756bb1"
     - min: 51
       max: 100
-      color: "#2166ac"
+      color: "#9e9ac8"
     - min: 101
       max: 200
-      color: "#4393c3"
+      color: "#cbc9e2"
     - min: 201
-      max: 500
-      color: "#92c5de"
-    - min: 501
       max: 1000000
-      label: More than $500
-      color: "#d1e5f0"
-    - min: 1000001
-      max: Infinity
-      label: Bad Data
-      color: "#cb181d"
+      label: More than $200
+      color: "#f2f0f7"
+# Color Palette:
+#   Blues: http://colorbrewer2.org/#type=sequential&scheme=Blues&n=6
 - name: big
   type: threshold
   fallback: -Infinity
@@ -34,37 +31,44 @@
     - min: -Infinity
       max: 0
       label: Prohibited
-      color: "#67000d"
+      color: "#66330e"
     - min: 1
       max: 1000
-      label: $1000 or less
-      color: "#053061"
+      label: $1,000 or less
+      color: "#084594"
     - min: 1001
       max: 2500
-      color: "#2166ac"
+      color: "#2171b5"
     - min: 2501
       max: 5000
-      color: "#4393c3"
+      color: "#4292c6"
     - min: 5001
       max: 10000
-      color: "#92c5de"
+      color: "#6baed6"
     - min: 10001
-      max: 1000000
-      label: More than $10000
-      color: "#d1e5f0"
-    - min: 1000001
+      max: 50000
+      color: "#9ecae1"
+    - min: 50001
+      max: 100000000
+      label: $50,000 or greater
+      color: "#c6dbef"
+    - min: 100000001
       max: Infinity
       label: Unlimited
-      color: "#cb181d"
+      color: "#eff3ff"
+# Mid-cycle values:
+# http://colorbrewer2.org/#type=sequential&scheme=Oranges&n=5
 - name: default
   type: ordinal
   scale:
     - label: "No"
-      color: "#67000d"
+      color: "#66330e"
     - label: Changed mid-cycle
-      color: "#053061"
+      color: "#7a0177"
     - label: Inoperative mid-cycle
-      color: "#4393c3"
+      color: "#c51b8a"
+    - label: Inoperative whole cycle
+      color: "#f768a1"
     - label: "Yes"
       color: "#cb181d"
     - label: "N/A"
@@ -72,6 +76,6 @@
     - label: "disclose donor if >$250"
       color: lightgray
     - label: "Voluntary"
-      color: darkgray
+      color: "#33a02c"
     - label: Missing Data
       color: black

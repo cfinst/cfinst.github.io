@@ -1,39 +1,40 @@
+# http://colorbrewer2.org/#type=sequential&scheme=RdPu&n=4
 - name: taxes
   type: ordinal
   scale:
     - label: None
-      color: "#67000d"
+      color: "#66330e"
     - label: Refund
-      color: "#4393c3"
+      color: "#e6550d"
     - label: Tax Credit
-      color: "#2166ac"
+      color: "#fdae6b"
     - label: Tax Deduction
-      color: "#053061"
+      color: "#fee6ce"
 - name: default
   type: ordinal
   scale:
     - label: "No"
-      color: "#67000d"
-    - label: Changed mid-cycle
-      color: "#053061"
+      color: "#66330e"
     - label: "Yes"
       color: "#cb181d"
     - label: Missing Data
       color: black
+
+# http://colorbrewer2.org/#type=qualitative&scheme=Set3&n=12
+# http://colorbrewer2.org/#type=qualitative&scheme=Paired&n=12
+# Hand picked with http://labs.abeautifulsite.net/jquery-minicolors/
 - name: financing
   type: ordinal
   scale:
     - label: None
-      color: "#67000d"
+      color: "#66330e"
     - label: Full Public Financing
-      color: "#053061" # dark blue
-    - label: Partial Grant
-      color: "#2166ac" # medium blue
-    - label: Matching Funds
-      color: "#4393c3" # light blue
+      color: "#618685"
     - label: Mixed
-      color: "#92c5de" # lighter blue
-    - label: Other
-      color: "#d1e5f0"
+      color: "#45abb1"
+    - label: Matching Funds
+      color: "#b1cbbb"
+    - label: Partial Grant
+      color: "#b5dddd"
     - label: Missing Data
       color: black

@@ -141,6 +141,7 @@ function Grid(){
             highlight(d);
           })
       .merge(rects)
+        .classed("highlighted", highlighted)
       .transition().duration(500)
         .attr("x", function (d){ return xScale(d[xColumn]); })
         .attr("y", function (d){ return yScale(d[yColumn]); })

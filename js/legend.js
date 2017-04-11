@@ -22,6 +22,7 @@ function Legend() {
       , visibleValues
       , dataset
       , valueAccessor
+      , highlightedSet = d3.set()
     ;
 
     /*
@@ -33,11 +34,23 @@ function Legend() {
         // Prune the legend items such that only values that are
         // visible in the visualization (present in the data)
         // are shown in the legend.
-        if(visibleValues !== "all"){
-          legendEntries = legendEntries.filter(function (d){
-            return visibleValues.has(d.label)
-          });
-        }
+        legendEntries = legendEntries.filter(function (d){
+
+          // For threshold scales,
+          if(typeof d.min !== "undefined"){
+
+            // prune "Prohibited",
+            if(d.min === "-Infinity"){
+              return visibleValues.has(-Infinity);
+            }
+
+            // and leave all other thresholds alone.
+            return true;
+          }
+
+          // For ordinal scales, prune all values not present.
+          return visibleValues.has(d.label)
+        });
 
         var li = container.selectAll("li")
             .data(legendEntries)
@@ -61,7 +74,21 @@ function Legend() {
         li
             .each(function(d, i) {
                 var self = d3.select(this);
-                self.select("svg").attr("fill", d.color);
+                self.select("svg")
+                    .attr("fill", d.color)
+                    .classed("highlighted", function (d){
+
+                        // For threshold scales.
+                        if(typeof d.min !== "undefined"){
+                            return highlightedSet.values().some(function (value){
+                                return value >= d.min && value <= d.max;
+                            });
+                        }
+
+                        // For ordinal scales.
+                        return highlightedSet.has(d.label);
+                    })
+                ;
                 self.select("span")
                     .text(d.label || "$" + commaFormat(d.min) + " - " + "$" + commaFormat(d.max))
                 ;
@@ -116,6 +143,14 @@ function Legend() {
     my.connect = function (_){
         if(!arguments.length) return dispatch;
         dispatch = _;
+
+        dispatch.on("highlight.legend", function (highlightData){
+            if(valueAccessor){
+                highlightedSet = d3.set(highlightData.map(valueAccessor));
+                my();
+            }
+        });
+
         return my;
       } // my.connect()
     ;
