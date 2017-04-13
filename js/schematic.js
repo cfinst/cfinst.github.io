@@ -278,15 +278,6 @@
       history.pushState(null, null, '#' + question.section + '?' + val.join('&'));
   } // set_url()
 
-  // Convert a formatted liquid template string into a usable array for Javascript
-  //  Basically, it takes a list of strings and splits into an array
-  function liquidToArray(str) {
-      return str
-        .split(',')
-        .filter(identity)
-      ;
-  } // liquidToArray()
-
   // Causes the given data to be downloaded as a CSV file with the given name.
   // Draws from
   // http://stackoverflow.com/questions/12676649/javascript-programmatically-trigger-file-download-in-firefox
