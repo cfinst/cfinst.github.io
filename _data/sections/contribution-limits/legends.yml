@@ -32,7 +32,7 @@
     - min: 100000001
       max: Infinity
       label: Unlimited
-      color: "#eff3ff"
+      color: "#d6d6d6"
 - name: Party2Party
   type: singular
   scale:
