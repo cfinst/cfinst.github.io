@@ -28,11 +28,10 @@
       }
     , backgroundRectFadeOpacity = {{ site.backgroundRectFadeOpacity }}
   ;
-  // {% capture tabs %}{% for tab in site.data.tabs %}{{ tab.section }},{% endfor %}{% endcapture %}
-  liquidToArray('{{ tabs }}').forEach(function(tab) {
-      tabs[tab] = Tabulus()
-          .connect(signal)
-      ;
+
+  // Connect all the tabs
+  {{ site.data.tabs | jsonify }}.forEach(function(tab) {
+      tabs[tab.section] = Tabulus().connect(signal);
   });
 
   // Load the data and kick-off the visualization.
