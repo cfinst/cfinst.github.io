@@ -110,3 +110,6 @@ Part of https://github.com/cfinst/cfinst.github.io/issues/170
 .highlight-overlay .state {
     stroke-width: 1px;
 }
+option:disabled {
+    color: lightgrey;
+}

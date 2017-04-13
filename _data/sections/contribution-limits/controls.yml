@@ -24,11 +24,11 @@
         - label: Candidate
           abbr: Cand
           disable: _branch
-        - label: State Party
-          abbr: Party
-          disable: branch
         - label: Political Action Committee (PAC)
           abbr: PAC
+          disable: branch
+        - label: State Party
+          abbr: Party
           disable: branch
     - id: branch
       label: Branch (Recipient)

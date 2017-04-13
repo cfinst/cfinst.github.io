@@ -84,7 +84,7 @@
           ])
         , data = ingest(dataset)
       ;
-      
+
       // Reassign dataset here so it only includes years not filtered out.
       dataset = d3.merge(data.values().map(function(v) { return v.values(); }));
 
@@ -230,7 +230,6 @@
         ;
 
         var visibleValues = d3.set(dataset.map(valueAccessor));
-
         legend
             .query(question)
             .visibleValues(visibleValues)
@@ -321,15 +320,17 @@
                         ? 1 / 0
                         : s.max
                       ;
+                      return s.max + 1;
                   }
-                  return thresh ? (s.max + 1) : s.label;
+                  // Otherwise
+                  return s.label;
                 })
           ;
+
           if(thresh) sc.emptyValue = leg.fallback;
           colorScale[sec.key][leg.name] = sc.range(range).domain(domain);
       });
   });
-
   d3.selectAll(".tab-pane").each(function(d, i) {
       var name = this.id;
       d3.select(this).call(tabs[name]);
