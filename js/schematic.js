@@ -28,11 +28,10 @@
       }
     , backgroundRectFadeOpacity = {{ site.backgroundRectFadeOpacity }}
   ;
-  // {% capture tabs %}{% for tab in site.data.tabs %}{{ tab.section }},{% endfor %}{% endcapture %}
-  liquidToArray('{{ tabs }}').forEach(function(tab) {
-      tabs[tab] = Tabulus()
-          .connect(signal)
-      ;
+
+  // Connect all the tabs
+  {{ site.data.tabs | jsonify }}.forEach(function(tab) {
+      tabs[tab.section] = Tabulus().connect(signal);
   });
 
   // Load the data and kick-off the visualization.
@@ -278,15 +277,6 @@
       })
       history.pushState(null, null, '#' + question.section + '?' + val.join('&'));
   } // set_url()
-
-  // Convert a formatted liquid template string into a usable array for Javascript
-  //  Basically, it takes a list of strings and splits into an array
-  function liquidToArray(str) {
-      return str
-        .split(',')
-        .filter(identity)
-      ;
-  } // liquidToArray()
 
   // Causes the given data to be downloaded as a CSV file with the given name.
   // Draws from
