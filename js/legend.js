@@ -48,6 +48,10 @@ function Legend() {
             return true;
           }
 
+          // For the singular scale, don't prune
+          if(data[query.section][query.legend].type === 'singular')
+            return d.label;
+
           // For ordinal scales, prune all values not present.
           return visibleValues.has(d.label)
         });
