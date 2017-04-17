@@ -128,15 +128,6 @@ function Tabulus() {
             if(!(curry.donor && curry.recipient)) return;
             if(curry.recipient.value === "Cand" && !curry.branch) return;
 
-            // Handle the Party/Party exception case here:
-            container.select("select[data-name='recipient']")
-              .select("option[value='Party']")
-                .node().disabled = (curry.donor.value == "StateP")
-            ;
-            container.select("select[data-name='donor']")
-              .select("option[value='StateP']")
-                .node().disabled = (curry.recipient.value === "Party")
-            ;
             curry._question = query.question = curry.donor.value
               + "To"
               + curry.recipient.value
