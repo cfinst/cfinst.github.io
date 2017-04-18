@@ -17,11 +17,11 @@
       color: "#9e9ac8"
     - min: 101
       max: 200
-      color: "#cbc9e2"
+      color: "#bcbddc"
     - min: 201
       max: 1000000
       label: More than $200
-      color: "#f2f0f7"
+      color: "#dadaeb"
 # Color Palette:
 #   Blues: http://colorbrewer2.org/#type=sequential&scheme=Blues&n=6
 - name: big
