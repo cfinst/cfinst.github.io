@@ -55,7 +55,7 @@
     - min: 100000001
       max: Infinity
       label: Unlimited
-      color: "#eff3ff"
+      color: "#d6d6d6"
 # Mid-cycle values:
 # http://colorbrewer2.org/#type=sequential&scheme=Oranges&n=5
 - name: default
