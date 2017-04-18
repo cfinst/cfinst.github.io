@@ -1,4 +1,4 @@
-# http://colorbrewer2.org/#type=sequential&scheme=RdPu&n=4
+# http://colorbrewer2.org/#type=sequential&scheme=Oranges&n=5
 - name: taxes
   type: ordinal
   scale:
@@ -7,9 +7,9 @@
     - label: Refund
       color: "#e6550d"
     - label: Tax Credit
-      color: "#fdae6b"
+      color: "#fd8d3c"
     - label: Tax Deduction
-      color: "#fee6ce"
+      color: "#fdbe85"
 - name: default
   type: ordinal
   scale:
