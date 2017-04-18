@@ -17,11 +17,11 @@
       color: "#9e9ac8"
     - min: 101
       max: 200
-      color: "#cbc9e2"
+      color: "#bcbddc"
     - min: 201
       max: 1000000
       label: More than $200
-      color: "#f2f0f7"
+      color: "#dadaeb"
 # Color Palette:
 #   Blues: http://colorbrewer2.org/#type=sequential&scheme=Blues&n=6
 - name: big
@@ -55,7 +55,7 @@
     - min: 100000001
       max: Infinity
       label: Unlimited
-      color: "#eff3ff"
+      color: "#d6d6d6"
 # Mid-cycle values:
 # http://colorbrewer2.org/#type=sequential&scheme=Oranges&n=5
 - name: default
