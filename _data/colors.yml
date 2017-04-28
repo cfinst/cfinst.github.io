@@ -1,0 +1,60 @@
+- color: brown
+  hex: "#66330e"
+- color: red
+  hex: "#cb181d"
+- color: black
+  hex: "#000"
+# Grays
+- color: gray-dark
+  hex: "#bebebe"
+- color: gray
+  hex: "#b0b0b0"
+- color: gray-light
+  hex: "#d6d6d6"
+# Blues, as used in Contribution Limits
+- color: blue-darker
+  hex: "#084594"
+- color: blue-dark
+  hex: "#2171b5"
+- color: blue
+  hex: "#4292c6"
+- color: blue-light
+  hex: "#6baed6"
+- color: blue-lighter
+  hex: "#9ecae1"
+- color: blue-lightest
+  hex: "#c6dbef"
+# Purples, as in Disclosure small thresholds
+- color: purple-dark
+  hex: "#54278f"
+- color: purple
+  hex: "#756bb1"
+- color: purple-light
+  hex: "#9e9ac8"
+- color: purple-lighter
+  hex: "#bcbddc"
+- color: purple-lightest
+  hex: "#dadaeb"
+# Oranges, as in public-financing: taxes
+- color: orange-dark
+  hex: "#e6550d"
+- color: orange
+  hex: "#fd8d3c"
+- color: orange-light
+  hex: "#fdbe85"
+# Cyans, as in public-financing:Matching
+- color: cyan-gray-dark
+  hex: "#618685"
+- color: cyan
+  hex: "#45abb1"
+- color: cyan-gray-light
+  hex: "#b1cbbb"
+- color: cyan-light
+  hex: "#b5dddd"
+# Magentas
+- color: magenta-dark
+  hex: "#7a0177"
+- color: magenta
+  hex: "#c51b8a"
+- color: magenta-light
+  hex: "#f768a1"
