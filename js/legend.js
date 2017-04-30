@@ -62,12 +62,13 @@ function Legend() {
         li.exit().remove();
         li = li.enter()
           .append("li")
-            .each(function() {
+            .each(function(d) {
                 var self = d3.select(this);
                 self.append("svg")
                     .attr("role", "presentation")
                   .append("use")
                     .attr("xlink:href", "#cell")
+                    .attr("class", d.color)
                 ;
                 self.append("span")
                 ;
@@ -79,7 +80,6 @@ function Legend() {
             .each(function(d, i) {
                 var self = d3.select(this);
                 self.select("svg")
-                    .attr("fill", d.color)
                     .classed("highlighted", function (d){
 
                         // For threshold scales.
