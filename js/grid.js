@@ -141,17 +141,18 @@ function Grid(){
             highlight(d);
           })
       .merge(rects)
+        .attr("class", function (d){
+            var value = valueAccessor(d);
+            return colorScale(value);
+          })
         .classed("highlighted", highlighted)
+        .classed("grid-rect", true)
       .transition().duration(500)
         .attr("x", function (d){ return xScale(d[xColumn]); })
         .attr("y", function (d){ return yScale(d[yColumn]); })
         .attr("width", w)
         .attr("height", h)
         .attr("stroke-opacity", 1)
-        .style("color", function (d){
-            var value = valueAccessor(d);
-            return colorScale(value);
-          })
     ;
     rects
       .exit()

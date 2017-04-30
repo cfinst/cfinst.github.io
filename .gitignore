@@ -3,4 +3,5 @@ bower_components
 _site
 *.mdb
 *.swp
+.sass-cache
 data/CFI State Laws Update_Merge.zip

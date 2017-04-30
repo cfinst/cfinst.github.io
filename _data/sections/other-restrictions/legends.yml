@@ -4,14 +4,14 @@
   type: ordinal
   scale:
     - label: "No"
-      color: "#66330e"
+      color: brown
     - label: Changed mid-cycle
-      color: "#7a0177"
+      color: magenta-dark
     - label: Inoperative mid-cycle
-      color: "#c51b8a"
+      color: magenta
     - label: Inoperative whole cycle
-      color: "#f768a1"
+      color: magenta-light
     - label: "Yes"
-      color: "#cb181d"
+      color: red
     - label: Missing Data
       color: black

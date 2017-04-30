@@ -3,6 +3,7 @@
 }
 .grid-rect {
     transition:
+      color .5s linear,
       fill-opacity .5s linear,
       fill .5s linear,
       stroke-width .5s linear;
@@ -31,9 +32,10 @@
 }
 .state > path {
     transition:
+      color .5s linear,
       fill-opacity .5s linear,
       fill .5s linear,
-      stroke-opacity .5s linear;
+      stroke-opacity .5s linear,
       stroke .5s linear;
 }
 .atlas-selected-year {
@@ -74,7 +76,11 @@ textarea.form-control {
     stroke-opacity: 0;
     stroke: black;
     transition:
-      stroke-opacity .5s linear;
+      stroke-opacity .5s linear,
+      fill .5s linear,
+      color .5s linear,
+      fill-opacity .5s linear,
+      stroke .5s linear;
 }
 .legend li svg.highlighted {
     stroke-opacity: 1;
@@ -109,7 +115,4 @@ Part of https://github.com/cfinst/cfinst.github.io/issues/170
 }
 .highlight-overlay .state {
     stroke-width: 1px;
-}
-option:disabled {
-    color: lightgrey;
 }

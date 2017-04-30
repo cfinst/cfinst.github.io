@@ -1,0 +1,12 @@
+---
+
+---
+@import "cfi-theme";
+@import "tips";
+@import "vis";
+
+{% for color in site.data.colors %}
+.{{ color.color | slugify }} {
+    color: {{ color.hex }};
+    fill: currentColor; }
+{% endfor %}

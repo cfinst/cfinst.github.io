@@ -8,31 +8,31 @@
     - min: -Infinity
       max: 0
       label: Prohibited
-      color: "#66330e"
+      color: brown
     - min: 1
       max: 1000
       label: $1,000 or less
-      color: "#084594"
+      color: blue-darker
     - min: 1001
       max: 2500
-      color: "#2171b5"
+      color: blue-dark
     - min: 2501
       max: 5000
-      color: "#4292c6"
+      color: blue
     - min: 5001
       max: 10000
-      color: "#6baed6"
+      color: blue-light
     - min: 10001
       max: 50000
-      color: "#9ecae1"
+      color: blue-lighter
     - min: 50001
       max: 100000000
       label: $50,000 or greater
-      color: "#c6dbef"
+      color: blue-lightest
     - min: 100000001
       max: Infinity
       label: Unlimited
-      color: "#d6d6d6"
+      color: gray-light
 - name: Party2Party
   type: singular
   scale:
@@ -40,4 +40,4 @@
       from state to local parties via internal processes.
 
       And this is a sentence to act as a space filler."
-      color: "#b0b0b0"
+      color: gray

@@ -55,9 +55,9 @@ function Atlas() {
                 tooltip.hide();
                 dispatch.call("highlight", null, []);
               })
-          .style("fill", function() {
-              return query.colorScale(value);
-            })
+            .attr("class", function() {
+                return query.colorScale(value);
+              })
           ;
         });
 
