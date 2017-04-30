@@ -68,7 +68,6 @@ function Legend() {
                     .attr("role", "presentation")
                   .append("use")
                     .attr("xlink:href", "#cell")
-                    .attr("class", d.color)
                 ;
                 self.append("span")
                 ;
@@ -79,6 +78,9 @@ function Legend() {
         li
             .each(function(d, i) {
                 var self = d3.select(this);
+                self.select("use")
+                    .attr("class", d.color)
+                ;
                 self.select("svg")
                     .classed("highlighted", function (d){
 
