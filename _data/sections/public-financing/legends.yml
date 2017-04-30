@@ -10,6 +10,8 @@
       color: orange
     - label: Tax Deduction
       color: orange-light
+    - label: Missing Data
+      color: black
 - name: default
   type: ordinal
   scale:
