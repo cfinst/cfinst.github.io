@@ -153,7 +153,6 @@ For sections other than Contribution Limits, each entry corresponds to an option
  * `label` The short text description of the question, displayed as an option within the dropdown.
  * `note` (optional) Any additional notes for this question. This is displayed "below the fold" within the "description" box.
 
-
 ```
 _data/sections/contribution-limits/controls.yml
 ```
@@ -171,7 +170,20 @@ For the `contribution-limits` section, dropdown configuration is structured diff
 _data/sections/:section/legends.yml
 ```
 
-Within each section, the `legends.yml` file
+Within each section, the `legends.yml` file defines the set of color scales available. Each question maps onto one of these entries. Each entry defines a color scale that drives the color legend, with the following parameters:
+
+ * `name` The unique identifier for this legend. This is referenced from within the `controls.yml` configuration to assign a legend to each question. Please do not change this without also updating all references to it.
+ * `type` The scale type to use. The value must be either `threshold`, `ordinal`, or `singular`.
+ * `fallback` The value to use when an empty cell is present in the data. For example, this can map empty cells to a meaningful value of `-Infinity`.
+ * `scale` The scale entries.
+   * If `type` is `threshold`, each scale entry defines an interval of values, and has the following parameters:
+     * `min` The minimum value for this interval.
+     * `max` The maximum value for this interval.
+     * `label` The text to display in the legend and tooltips for this interval.
+     * `color` The name of the color, referencing named colors defined in `_data/colors.yml`.
+   * If `type` is `ordinal`, each scale entry has the following parameters:
+     * `label` The text to display in the legend and tooltips for this interval. This must match with data values from the database.
+     * `color` The name of the color, referencing named colors defined in `_data/colors.yml`.
 
 ```
 index.md
