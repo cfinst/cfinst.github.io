@@ -101,10 +101,14 @@ This file configures the text shown in the buttons along the right side. Each bu
  * `icon` The [Font Awesome Icon Name](http://fontawesome.io/icons/) for the icon to show withn the button (optional).
  * `link` The URL that this button links to.
 
-
 ```
 _data/colors.yml
 ```
+
+This file defines the color palette hex values. Each color entry has the following parameters:
+
+ * `name` The name of the color within the palette, referenced from within legend configurations in `_data/sections/.../legends.yml`. Please do not change this unless you also update all references to it from all legend configurations.
+ * `hex` The hex color value.
 
 ```
 _data/tabs.yml
