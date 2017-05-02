@@ -92,7 +92,21 @@ This file configures the top-level Jekyll site. The following parameters are rel
 
 ```
 _data/buttons.yml
+```
+
+This file configures the text shown in the buttons along the right side. Each button has the following configuration options:
+
+ * `name` A unique id for the button. Please do not change these values unless you also change the JavaScript code that references them.
+ * `text` The text shown within the button.
+ * `icon` The [Font Awesome Icon Name](http://fontawesome.io/icons/) for the icon to show withn the button (optional).
+ * `link` The URL that this button links to.
+
+
+```
 _data/colors.yml
+```
+
+```
 _data/tabs.yml
 ```
 

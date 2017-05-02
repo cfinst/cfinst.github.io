@@ -1,8 +1,3 @@
-# This file lets you configure the names of the "About" and "Download" buttons.
-#
-# Please only change the "text", "icon" and "link" values.
-# Please don't change the "name" values, as these are
-# required to match with JavaScript code elsewhere.
 ---
   about:
     - name: about
