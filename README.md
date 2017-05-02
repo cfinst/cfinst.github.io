@@ -41,41 +41,103 @@ This project uses Jekyll to build the static site, which resides under `_site`. 
 The following files are configuration files:
 
 ```
-├── _config.yml
-├── _data
-│   ├── buttons.yml
-│   ├── colors.yml
-│   ├── sections
-│   │   ├── contribution-limits
-│   │   │   ├── controls.yml
-│   │   │   └── legends.yml
-│   │   ├── disclosure
-│   │   │   ├── controls.yml
-│   │   │   └── legends.yml
-│   │   ├── other-restrictions
-│   │   │   ├── controls.yml
-│   │   │   └── legends.yml
-│   │   └── public-financing
-│   │       ├── controls.yml
-│   │       └── legends.yml
-│   └── tabs.yml
-├── index.md
-├── _modals
+_config.yml
+_data
+├── buttons.yml
+├── colors.yml
+├── sections
 │   ├── contribution-limits
-│   │   ├── about.md
-│   │   └── howto.md
+│   │   ├── controls.yml
+│   │   └── legends.yml
 │   ├── disclosure
-│   │   ├── about.md
-│   │   └── howto.md
+│   │   ├── controls.yml
+│   │   └── legends.yml
 │   ├── other-restrictions
-│   │   ├── about.md
-│   │   └── howto.md
+│   │   ├── controls.yml
+│   │   └── legends.yml
 │   └── public-financing
-│       ├── about.md
-│       └── howto.md
-├── _sass
-│   ├── _tips.scss
-│   └── _vis.scss
+│       ├── controls.yml
+│       └── legends.yml
+└── tabs.yml
+index.md
+_modals
+├── contribution-limits
+│   ├── about.md
+│   └── howto.md
+├── disclosure
+│   ├── about.md
+│   └── howto.md
+├── other-restrictions
+│   ├── about.md
+│   └── howto.md
+└── public-financing
+    ├── about.md
+    └── howto.md
+_sass
+├── _tips.scss
+└── _vis.scss
+```
+
+### Configuration Parameters
+
+```
+_config.yml
+```
+
+This file configures the top-level Jekyll site. The following parameters are relevant to the visualization:
+
+ * `filterYear` This defines the year beyond which data will be filtered out. For example, a configuration of `filterYear: 2016` means that 2016 data (and data for all following years e.g. 2017, 2018) are filtered out and not included in the visualization.
+
+ * `backgroundRectFadeOpacity` The opacity of the background rectangle overlay used with linked hover interactions. A value of 1 means the background will fade completely to white, and a value of 0 means that there will be no fade at all on hover.
+
+```
+_data/buttons.yml
+_data/colors.yml
+_data/tabs.yml
+```
+
+```
+_data/sections
+ ├── contribution-limits
+ │   ├── controls.yml
+ │   └── legends.yml
+ ├── disclosure
+ │   ├── controls.yml
+ │   └── legends.yml
+ ├── other-restrictions
+ │   ├── controls.yml
+ │   └── legends.yml
+ └── public-financing
+     ├── controls.yml
+     └── legends.yml
+```
+
+```
+index.md
+```
+
+```
+_modals
+├── contribution-limits
+│   ├── about.md
+│   └── howto.md
+├── disclosure
+│   ├── about.md
+│   └── howto.md
+├── other-restrictions
+│   ├── about.md
+│   └── howto.md
+└── public-financing
+    ├── about.md
+    └── howto.md
+```
+
+```
+_sass/_tips.scss
+```
+
+```
+_sass/_vis.scss
 ```
 
 ## Updating Data
