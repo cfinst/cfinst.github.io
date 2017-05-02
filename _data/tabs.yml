@@ -1,9 +1,3 @@
-# Describes the visualization tabs. The titles here reflect on the website.
-# The section names are used in the code (please don't change them without talking
-# to a developer).
-# The "controls" key is optional (and only used by contribution limits).  Without this key,
-# default Question/Description format will be used.
-
   - title: Contribution Limits
     section: contribution-limits
     fields:

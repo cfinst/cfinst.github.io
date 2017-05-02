@@ -117,7 +117,7 @@ _data/tabs.yml
 This file describes the visualization tabs. Each entry corresponds to a tab, and has the following parameters:
 
  * `title` The text shown in the tab on the page.
- * `section` The unique identifier for this tab. These values are used in the URLs. Please do not change this unless you also update all references to it from JavaScript.
+ * `section` The unique identifier for this tab. This value is used in the URLs, as folder names under `_data/sections`, and elsewhere. Please do not change this unless you also update all references to it from JavaScript and rename the corresponding folder under `_data/sections`.
  * `fields` This is unique to the Contribution Limits tab, and enumerates the fields to make available.
 
 ```
@@ -136,7 +136,29 @@ _data/sections
      └── legends.yml
 ```
 
+This directory contains the configurations for controls and legend for each section.
+
 ```
+_data/sections/:section/controls.yml
+```
+
+Within each section, the `controls.yml` file defines the content of the dropdown menu(s) available.
+
+For the `contribution-limits` section, dropdowns are structured into two groups, `donor` and `recipient`. Within those groups, dropdown entries are configured with the following parameters:
+
+ * `id` The unique identifier for the dropdown. Please do not change this without also updating all references to it.
+ * `label` The text shown as the label for the dropdown.
+ * `options` The listing of options within the dropdown. Each option entry has the following parameters:
+   * `label` The text shown as the dropdown option.
+   * `abbr` The field name fragment corresponding to this option. This must match with the fields present in the database (please do not change without also updating the database field names).
+   * `disable` (optional) The `id` of another dropdown that should be disabled when this option is selected.
+
+```
+_data/sections/:section/legends.yml
+```
+
+Within each section, the `legends.yml` file
+
 index.md
 ```
 
