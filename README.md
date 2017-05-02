@@ -144,7 +144,21 @@ _data/sections/:section/controls.yml
 
 Within each section, the `controls.yml` file defines the content of the dropdown menu(s) available.
 
-For the `contribution-limits` section, dropdowns are structured into two groups, `donor` and `recipient`. Within those groups, dropdown entries are configured with the following parameters:
+For sections other than Contribution Limits, each entry corresponds to an option in the dropdown menu of questions. Each entry has the following parameters:
+
+
+ * `name` The field name in the database. This must match with the database.
+ * `legend` The legend to use for this question, referencing the `name` of the legend entries defined in `legends.yml` for this section.
+ * `question` The text description of the question, displayed in the "description" box below the dropdown.
+ * `label` The short text description of the question, displayed as an option within the dropdown.
+ * `note` (optional) Any additional notes for this question. This is displayed "below the fold" within the "description" box.
+
+
+```
+_data/sections/contribution-limits/controls.yml
+```
+
+For the `contribution-limits` section, dropdown configuration is structured differently from the others. Here, there are two groups of dropdowns, `donor` and `recipient`. Within those groups, dropdown entries are configured with the following parameters:
 
  * `id` The unique identifier for the dropdown. Please do not change this without also updating all references to it.
  * `label` The text shown as the label for the dropdown.
@@ -159,6 +173,7 @@ _data/sections/:section/legends.yml
 
 Within each section, the `legends.yml` file
 
+```
 index.md
 ```
 
