@@ -114,6 +114,12 @@ This file defines the color palette hex values. Each color entry has the followi
 _data/tabs.yml
 ```
 
+This file describes the visualization tabs. Each entry corresponds to a tab, and has the following parameters:
+
+ * `title` The text shown in the tab on the page.
+ * `section` The unique identifier for this tab. These values are used in the URLs. Please do not change this unless you also update all references to it from JavaScript.
+ * `fields` This is unique to the Contribution Limits tab, and enumerates the fields to make available.
+
 ```
 _data/sections
  ├── contribution-limits
