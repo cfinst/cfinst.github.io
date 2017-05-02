@@ -8,11 +8,12 @@ An interactive visualization of the [Campaign Finance Institute](http://www.cfin
 
 ## Table of Contents
 
- * [Development](#Development)
+ * [Development Environment](#development-environment)
+ * [Configuration](#configuration)
  * [Updating Data](#updating-data)
  * [Licensing](#licensing)
 
-## Development
+## Development Environment
 
 This section describes how to get your development environment set up and run this site on your own computer.
 
@@ -30,6 +31,52 @@ jekyll serve --watch
 ```
 
 Now the site should be available at [http://localhost:4000/](http://localhost:4000/).
+
+## Configuration
+
+This section is about how to configure various aspects of the visualization and user interface.
+
+This project uses Jekyll to build the static site, which resides under `_site`. The content there is generated automatically by Jekyll based on source code files and configuration files in [YAML](https://en.wikipedia.org/wiki/YAML) and [Markdown](https://en.wikipedia.org/wiki/Markdown) formats. These configuration files define many aspects of the visualization and user interface.
+
+The following files are configuration files:
+
+```
+├── _config.yml
+├── _data
+│   ├── buttons.yml
+│   ├── colors.yml
+│   ├── sections
+│   │   ├── contribution-limits
+│   │   │   ├── controls.yml
+│   │   │   └── legends.yml
+│   │   ├── disclosure
+│   │   │   ├── controls.yml
+│   │   │   └── legends.yml
+│   │   ├── other-restrictions
+│   │   │   ├── controls.yml
+│   │   │   └── legends.yml
+│   │   └── public-financing
+│   │       ├── controls.yml
+│   │       └── legends.yml
+│   └── tabs.yml
+├── index.md
+├── _modals
+│   ├── contribution-limits
+│   │   ├── about.md
+│   │   └── howto.md
+│   ├── disclosure
+│   │   ├── about.md
+│   │   └── howto.md
+│   ├── other-restrictions
+│   │   ├── about.md
+│   │   └── howto.md
+│   └── public-financing
+│       ├── about.md
+│       └── howto.md
+├── _sass
+│   ├── _tips.scss
+│   └── _vis.scss
+```
 
 ## Updating Data
 
