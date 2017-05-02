@@ -4,15 +4,17 @@ An interactive visualization of the [Campaign Finance Institute](http://www.cfin
 
 [Try it out!](https://cfinst.github.io/)
 
-[![image](https://cloud.githubusercontent.com/assets/68416/22932623/8e465200-f2ee-11e6-8c06-e9040a6476ae.png)](https://cfinst.github.io/).
+[![image](https://cloud.githubusercontent.com/assets/68416/22932623/8e465200-f2ee-11e6-8c06-e9040a6476ae.png)](https://cfinst.github.io/)
 
-## Licensing
+## Table of Contents
 
-The source code is released under the GPL3 license ([LICENSE](LICENSE)).
+ * [Development](#Development)
+ * [Updating Data](#updating-data)
+ * [Licensing](#licensing)
 
-The data driving the visualizations (found under [data/CSVs](data/CSVs)) is released under the [Creative Commons Attribution 4.0 International license](https://creativecommons.org/licenses/by/4.0/legalcode) ([data/CSVs/LICENSE](data/CSVs/LICENSE)). This means that you are free to use the data for any purpose, as long as you add attribution citing Campaign Finance Institute as the source of the data.
+## Development
 
-## Running this Site
+This section describes how to get your development environment set up and run this site on your own computer.
 
 This site is organized using [Jekyll](https://jekyllrb.com/). Jekyll runs automatically on [GitHub Pages](https://pages.github.com/), which is the main deployment strategy at the moment.
 
@@ -29,7 +31,9 @@ jekyll serve --watch
 
 Now the site should be available at [http://localhost:4000/](http://localhost:4000/).
 
-## Data Update Instructions
+## Updating Data
+
+This section is about how you can update the data shown in the visualization based on the original CFI Microsoft Access database file.
 
 ### Updating from Access Database
 
@@ -122,3 +126,9 @@ This will produce the `cfi-laws-database.zip` file inside the `downloads` direct
         ├── other-restrictions-fields.csv
         └── public-financing-fields.csv
 ```
+
+## Licensing
+
+The source code is released under the GPL3 license ([LICENSE](LICENSE)).
+
+The data driving the visualizations (found under [data/CSVs](data/CSVs)) is released under the [Creative Commons Attribution 4.0 International license](https://creativecommons.org/licenses/by/4.0/legalcode) ([data/CSVs/LICENSE](data/CSVs/LICENSE)). This means that you are free to use the data for any purpose, as long as you add attribution citing Campaign Finance Institute as the source of the data.
