@@ -226,6 +226,8 @@ This file specifies the content of the "About this topic" modal dialog for each 
 _modals/:section/howto.md
 ```
 
+This file specifies the content of the "Using this page" modal dialog for each section. Its Markdown body text is used as the content of the dialog, passed through a Markdown parser. Its YAML frontmatter defines the same parameters as in `about.md`.
+
 ```
 _sass/_tips.scss
 ```
