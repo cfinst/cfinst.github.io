@@ -4,15 +4,18 @@ An interactive visualization of the [Campaign Finance Institute](http://www.cfin
 
 [Try it out!](https://cfinst.github.io/)
 
-[![image](https://cloud.githubusercontent.com/assets/68416/22932623/8e465200-f2ee-11e6-8c06-e9040a6476ae.png)](https://cfinst.github.io/).
+[![image](https://cloud.githubusercontent.com/assets/68416/22932623/8e465200-f2ee-11e6-8c06-e9040a6476ae.png)](https://cfinst.github.io/)
 
-## Licensing
+## Table of Contents
 
-The source code is released under the GPL3 license ([LICENSE](LICENSE)).
+ * [Development Environment](#development-environment)
+ * [Configuration](#configuration)
+ * [Updating Data](#updating-data)
+ * [Licensing](#licensing)
 
-The data driving the visualizations (found under [data/CSVs](data/CSVs)) is released under the [Creative Commons Attribution 4.0 International license](https://creativecommons.org/licenses/by/4.0/legalcode) ([data/CSVs/LICENSE](data/CSVs/LICENSE)). This means that you are free to use the data for any purpose, as long as you add attribution citing Campaign Finance Institute as the source of the data.
+## Development Environment
 
-## Running this Site
+This section describes how to get your development environment set up and run this site on your own computer.
 
 This site is organized using [Jekyll](https://jekyllrb.com/). Jekyll runs automatically on [GitHub Pages](https://pages.github.com/), which is the main deployment strategy at the moment.
 
@@ -29,7 +32,217 @@ jekyll serve --watch
 
 Now the site should be available at [http://localhost:4000/](http://localhost:4000/).
 
-## Data Update Instructions
+## Configuration
+
+This section is about how to configure various aspects of the visualization and user interface.
+
+This project uses Jekyll to build the static site, which resides under `_site`. The content there is generated automatically by Jekyll based on source code files and configuration files in [YAML](https://en.wikipedia.org/wiki/YAML) and [Markdown](https://en.wikipedia.org/wiki/Markdown) formats. These configuration files define many aspects of the visualization and user interface.
+
+The following files are configuration files:
+
+```
+_config.yml
+_data
+├── buttons.yml
+├── colors.yml
+├── sections
+│   ├── contribution-limits
+│   │   ├── controls.yml
+│   │   └── legends.yml
+│   ├── disclosure
+│   │   ├── controls.yml
+│   │   └── legends.yml
+│   ├── other-restrictions
+│   │   ├── controls.yml
+│   │   └── legends.yml
+│   └── public-financing
+│       ├── controls.yml
+│       └── legends.yml
+└── tabs.yml
+index.md
+_modals
+├── contribution-limits
+│   ├── about.md
+│   └── howto.md
+├── disclosure
+│   ├── about.md
+│   └── howto.md
+├── other-restrictions
+│   ├── about.md
+│   └── howto.md
+└── public-financing
+    ├── about.md
+    └── howto.md
+_sass
+├── _tips.scss
+└── _vis.scss
+```
+
+### Configuration Parameters
+
+```
+_config.yml
+```
+
+This file configures the top-level Jekyll site. The following parameters are relevant to the visualization:
+
+ * `filterYear` This defines the year beyond which data will be filtered out. For example, a configuration of `filterYear: 2016` means that 2016 data (and data for all following years e.g. 2017, 2018) are filtered out and not included in the visualization.
+
+ * `backgroundRectFadeOpacity` The opacity of the background rectangle overlay used with linked hover interactions. A value of 1 means the background will fade completely to white, and a value of 0 means that there will be no fade at all on hover.
+
+```
+_data/buttons.yml
+```
+
+This file configures the text shown in the buttons along the right side. Each button has the following configuration options:
+
+ * `name` A unique id for the button. Please do not change these values unless you also change the JavaScript code that references them.
+ * `text` The text shown within the button.
+ * `icon` The [Font Awesome Icon Name](http://fontawesome.io/icons/) for the icon to show withn the button (optional).
+ * `link` The URL that this button links to.
+
+```
+_data/colors.yml
+```
+
+This file defines the color palette hex values. Each color entry has the following parameters:
+
+ * `name` The name of the color within the palette, referenced from within legend configurations in `_data/sections/.../legends.yml`. Please do not change this unless you also update all references to it from all legend configurations.
+ * `hex` The hex color value.
+
+```
+_data/tabs.yml
+```
+
+This file describes the visualization tabs. Each entry corresponds to a tab, and has the following parameters:
+
+ * `title` The text shown in the tab on the page.
+ * `section` The unique identifier for this tab. This value is used in the URLs, as folder names under `_data/sections`, and elsewhere. Please do not change this unless you also update all references to it from JavaScript and rename the corresponding folder under `_data/sections`.
+ * `fields` This is unique to the Contribution Limits tab, and enumerates the fields to make available.
+
+```
+_data/sections
+ ├── contribution-limits
+ │   ├── controls.yml
+ │   └── legends.yml
+ ├── disclosure
+ │   ├── controls.yml
+ │   └── legends.yml
+ ├── other-restrictions
+ │   ├── controls.yml
+ │   └── legends.yml
+ └── public-financing
+     ├── controls.yml
+     └── legends.yml
+```
+
+This directory contains the configurations for controls and legend for each section.
+
+```
+_data/sections/:section/controls.yml
+```
+
+Within each section, the `controls.yml` file defines the content of the dropdown menu(s) available.
+
+For sections other than Contribution Limits, each entry corresponds to an option in the dropdown menu of questions. Each entry has the following parameters:
+
+
+ * `name` The field name in the database. This must match with the database.
+ * `legend` The legend to use for this question, referencing the `name` of the legend entries defined in `legends.yml` for this section.
+ * `question` The text description of the question, displayed in the "description" box below the dropdown.
+ * `label` The short text description of the question, displayed as an option within the dropdown.
+ * `note` (optional) Any additional notes for this question. This is displayed "below the fold" within the "description" box.
+
+```
+_data/sections/contribution-limits/controls.yml
+```
+
+For the `contribution-limits` section, dropdown configuration is structured differently from the others. Here, there are two groups of dropdowns, `donor` and `recipient`. Within those groups, dropdown entries are configured with the following parameters:
+
+ * `id` The unique identifier for the dropdown. Please do not change this without also updating all references to it.
+ * `label` The text shown as the label for the dropdown.
+ * `options` The listing of options within the dropdown. Each option entry has the following parameters:
+   * `label` The text shown as the dropdown option.
+   * `abbr` The field name fragment corresponding to this option. This must match with the fields present in the database (please do not change without also updating the database field names).
+   * `disable` (optional) The `id` of another dropdown that should be disabled when this option is selected.
+
+```
+_data/sections/:section/legends.yml
+```
+
+Within each section, the `legends.yml` file defines the set of color scales available. Each question maps onto one of these entries. Each entry defines a color scale that drives the color legend, with the following parameters:
+
+ * `name` The unique identifier for this legend. This is referenced from within the `controls.yml` configuration to assign a legend to each question. Please do not change this without also updating all references to it.
+ * `type` The scale type to use. The value must be either `threshold`, `ordinal`, or `singular`.
+ * `fallback` The value to use when an empty cell is present in the data. For example, this can map empty cells to a meaningful value of `-Infinity`.
+ * `scale` The scale entries.
+   * If `type` is `threshold`, each scale entry defines an interval of values, and has the following parameters:
+     * `min` The minimum value for this interval.
+     * `max` The maximum value for this interval.
+     * `label` The text to display in the legend and tooltips for this interval.
+     * `color` The name of the color, referencing named colors defined in `_data/colors.yml`.
+   * If `type` is `ordinal`, each scale entry has the following parameters:
+     * `label` The text to display in the legend and tooltips for this interval. This must match with data values from the database.
+     * `color` The name of the color, referencing named colors defined in `_data/colors.yml`.
+
+```
+index.md
+```
+
+This file contains two parameters:
+
+ * `title` Allows you to configure the title of the Web page that appears in the browser tab.
+ * `layout` Specifies which Jekyll layout to use at the top-level.
+
+```
+_modals
+├── contribution-limits
+│   ├── about.md
+│   └── howto.md
+├── disclosure
+│   ├── about.md
+│   └── howto.md
+├── other-restrictions
+│   ├── about.md
+│   └── howto.md
+└── public-financing
+    ├── about.md
+    └── howto.md
+```
+
+The `_modals` directory contains configuration files that define what gets shown within the modal dialogs that pop up when you click on the "About this topic" and "Using this page" buttons.
+
+```
+_modals/:section/about.md
+```
+
+This file specifies the content of the "About this topic" modal dialog for each section. Its Markdown body text is used as the content of the dialog, passed through a Markdown parser. Its YAML frontmatter defines the following parameters:
+
+ * `layout` The Jekyll layout to use for the modal HTML structure.
+ * `modal` The unique identifier for this modal. Please do not change this without updating all references to it.
+ * `title` The text displayed as the title of this modal.
+
+```
+_modals/:section/howto.md
+```
+
+This file specifies the content of the "Using this page" modal dialog for each section. Its Markdown body text is used as the content of the dialog, passed through a Markdown parser. Its YAML frontmatter defines the same parameters as in `about.md`.
+
+```
+_sass/_tips.scss
+```
+
+This CSS defines a custom appearance of the tooltips that appear when you hover over the map or the grid. Draws from examples of [d3-tip](https://github.com/Caged/d3-tip).
+
+```
+_sass/_vis.scss
+```
+
+This CSS defines styles applied to the visualization. This is where details such as stroke color, cursors, font styles, margins, and transition durations are defined.
+
+## Updating Data
+
+This section is about how you can update the data shown in the visualization based on the original CFI Microsoft Access database file.
 
 ### Updating from Access Database
 
@@ -122,3 +335,9 @@ This will produce the `cfi-laws-database.zip` file inside the `downloads` direct
         ├── other-restrictions-fields.csv
         └── public-financing-fields.csv
 ```
+
+## Licensing
+
+The source code is released under the GPL3 license ([LICENSE](LICENSE)).
+
+The data driving the visualizations (found under [data/CSVs](data/CSVs)) is released under the [Creative Commons Attribution 4.0 International license](https://creativecommons.org/licenses/by/4.0/legalcode) ([data/CSVs/LICENSE](data/CSVs/LICENSE)). This means that you are free to use the data for any purpose, as long as you add attribution citing Campaign Finance Institute as the source of the data.
