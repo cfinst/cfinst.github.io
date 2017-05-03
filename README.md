@@ -189,6 +189,11 @@ Within each section, the `legends.yml` file defines the set of color scales avai
 index.md
 ```
 
+This file contains two parameters:
+
+ * `title` Allows you to configure the title of the Web page that appears in the browser tab.
+ * `layout` Specifies which Jekyll layout to use at the top-level.
+
 ```
 _modals
 ├── contribution-limits
