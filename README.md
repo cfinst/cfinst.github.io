@@ -210,6 +210,22 @@ _modals
     └── howto.md
 ```
 
+The `_modals` directory contains configuration files that define what gets shown within the modal dialogs that pop up when you click on the "About this topic" and "Using this page" buttons.
+
+```
+_modals/:section/about.md
+```
+
+This file specifies the content of the "About this topic" modal dialog for each section. Its Markdown body text is used as the content of the dialog, passed through a Markdown parser. Its YAML frontmatter defines the following parameters:
+
+ * `layout` The Jekyll layout to use for the modal HTML structure.
+ * `modal` The unique identifier for this modal. Please do not change this without updating all references to it.
+ * `title` The text displayed as the title of this modal.
+
+```
+_modals/:section/howto.md
+```
+
 ```
 _sass/_tips.scss
 ```
