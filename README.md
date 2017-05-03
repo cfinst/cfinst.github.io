@@ -232,9 +232,13 @@ This file specifies the content of the "Using this page" modal dialog for each s
 _sass/_tips.scss
 ```
 
+This CSS defines a custom appearance of the tooltips that appear when you hover over the map or the grid. Draws from examples of [d3-tip](https://github.com/Caged/d3-tip).
+
 ```
 _sass/_vis.scss
 ```
+
+This CSS defines styles applied to the visualization. This is where details such as stroke color, cursors, font styles, margins, and transition durations are defined.
 
 ## Updating Data
 
