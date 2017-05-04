@@ -41,6 +41,12 @@ function Legend() {
 
             // prune "Prohibited",
             if(d.min === "-Infinity"){
+
+              // include the zero bin in the legend (don't overprune),
+              if(d.max === 0){
+                return visibleValues.has(-Infinity) || visibleValues.has(0);
+              }
+
               return visibleValues.has(-Infinity);
             }
 
