@@ -340,7 +340,7 @@ function Grid(){
               value === -Infinity
                 ? "Prohibited"
                 : value === Infinity
-                  ? "Unlimited"
+                  ? (colorScale.infinityLabel || "Unlimited")
                   : typeof value === "string"
                     ? value
                     : moneyFormat(value)
