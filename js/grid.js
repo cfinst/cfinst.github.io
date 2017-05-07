@@ -327,7 +327,7 @@ function Grid(){
               value = (
                 value === undefined ? "Missing Field" :
                 value.trim() === "" ? (colorScale.emptyValue || "Missing Data") :
-                value === "N/A" ? Infinity : // Treat as Infinity for disclosure.
+                value === colorScale.infinityLabel ? Infinity :
                 isNaN(+value) ? value :
                 +value
               );
