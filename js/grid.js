@@ -319,7 +319,7 @@ function Grid(){
                   ? -Infinity // Treated as "Prohibited"
                   : Infinity // Treated as "Unlimited"
               ;
-
+              
               // Treat a value of 0 as "Prohibited"
               value = value === 0 ? -Infinity : value;
           } else {
@@ -327,6 +327,7 @@ function Grid(){
               value = (
                 value === undefined ? "Missing Field" :
                 value.trim() === "" ? (colorScale.emptyValue || "Missing Data") :
+                value === "N/A" ? Infinity : // Treat as Infinity for disclosure.
                 isNaN(+value) ? value :
                 +value
               );
