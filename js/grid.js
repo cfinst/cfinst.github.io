@@ -273,7 +273,15 @@ function Grid(){
             data
               .filter(function(d) { return +d[yColumn] === +selectedYear; })
               .sort(function(m, n) {
-                  var comparison = d3.ascending(valueAccessor(m), valueAccessor(n));
+                  var comparison;
+                  if(colorScale.type === "threshold"){
+                      comparison = d3.ascending(valueAccessor(m), valueAccessor(n));
+                  } else {
+                      // Sort ordinal grid values by order in the legend.
+                      var mIndex = colorScale.domain().indexOf(valueAccessor(m));
+                      var nIndex = colorScale.domain().indexOf(valueAccessor(n));
+                      comparison = d3.ascending(mIndex, nIndex);
+                  }
 
                   // Break ties by sorting by sums across X values (weighted with infinity counts).
                   if(comparison === 0){
