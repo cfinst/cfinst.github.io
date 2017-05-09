@@ -25,7 +25,7 @@
   note:
 - name: IE_Report_Exemption_Amount
   legend: big
-  question: If reports are required, what is the minumum amount of aggregated expenditures that trigger disclosure?
+  question: If separate independent expenditure reports are required, what is the minumum amount of aggregated expenditures that trigger disclosure?
   label: Ind. Exp. Threshold for Disclosure (if required)?
   note: If the law states dislcosure is required for amounts "more than $x" it is listed as "$x+1", so "more than $100" is "$101".
 - name: IE_Filers_Others_Donors
