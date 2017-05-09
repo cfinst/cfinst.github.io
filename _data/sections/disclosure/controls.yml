@@ -25,8 +25,8 @@
   note:
 - name: IE_Report_Exemption_Amount
   legend: big
-  question: If yes, what is the minumum amount of aggregated expenditures that trigger disclosure?
-  label: Ind. Exp. Threshold for Disclosure?
+  question: If separate independent expenditure reports are required, what is the minumum amount of aggregated expenditures that trigger disclosure?
+  label: Ind. Exp. Threshold for Disclosure (if required)?
   note: If the law states dislcosure is required for amounts "more than $x" it is listed as "$x+1", so "more than $100" is "$101".
 - name: IE_Filers_Others_Donors
   legend: default
@@ -35,7 +35,7 @@
   note:
 - name: IE_Target
   legend: default
-  question: Must an Independent Expenditure  report specify an IE's target (candidate or ballot proposition)?
+  question: Must an Independent Expenditure  report (if required) specify an IE's target (candidate or ballot proposition)?
   label: Ind. Exp. Reports - Disclose Target?
   note:
 - name: ElxnrgCategory

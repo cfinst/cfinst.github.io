@@ -128,17 +128,21 @@ function Grid(){
                 .html(tooltipContent(d))
                 .show()
             ;
-            highlight(d);
+            // Keeping this comment around in case
+            // we want to turn linked highlighting back on.
+            //highlight(d);
           })
         .on("mouseout", function() {
             tooltip.hide();
+
+            // Keeping this comment around in case
+            // we want to turn linked highlighting back on.
             dispatch.call("highlight", null, []);
           })
         .on("click", function (d){
             query.year = +d.Year;
             query.state = d.State;
             dispatch.call("query", null, query);
-            highlight(d);
           })
       .merge(rects)
         .attr("class", function (d){
@@ -252,35 +256,21 @@ function Grid(){
           );
       } else {
 
-          // Count infinities per X value, for tie breaking in sorting.
-          var sums = {};
-          data.forEach(function (d){
-              var sum = sums[d[xColumn]] || 0,
-                  value = valueAccessor(d),
-                  infinityWeight = 100000;
-
-              if(value === Infinity){
-                  value = infinityWeight;
-              } else if(value === -Infinity){
-                  value = -infinityWeight;
-              }
-
-              sums[d[xColumn]] = sum + value;
-            })
-          ;
-
           xScale.domain(
             data
               .filter(function(d) { return +d[yColumn] === +selectedYear; })
               .sort(function(m, n) {
-                  var comparison = d3.ascending(valueAccessor(m), valueAccessor(n));
-
-                  // Break ties by sorting by sums across X values (weighted with infinity counts).
-                  if(comparison === 0){
-                      comparison = d3.ascending(sums[m[xColumn]], sums[n[xColumn]])
+                  var comparison;
+                  if(colorScale.type === "threshold"){
+                      comparison = d3.ascending(valueAccessor(m), valueAccessor(n));
+                  } else {
+                      // Sort ordinal grid values by order in the legend.
+                      var mIndex = colorScale.domain().indexOf(valueAccessor(m));
+                      var nIndex = colorScale.domain().indexOf(valueAccessor(n));
+                      comparison = d3.ascending(mIndex, nIndex);
                   }
 
-                  // Break ties further by sorting alphabetically.
+                  // Break ties by sorting alphabetically.
                   if(comparison === 0){
                       comparison = d3.ascending(m[xColumn], n[xColumn])
                   }

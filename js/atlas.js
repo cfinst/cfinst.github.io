@@ -49,11 +49,16 @@ function Atlas() {
                     .html(tooltipContent(datum))
                     .show()
                 ;
-                dispatch.call("highlight", null, [datum]);
+                // Keeping this comment around in case
+                // we want to turn linked highlighting back on.
+                //dispatch.call("highlight", null, [datum]);
               })
             .on("mouseout", function(d) {
                 tooltip.hide();
-                dispatch.call("highlight", null, []);
+
+                // Keeping this comment around in case
+                // we want to turn linked highlighting back on.
+                //dispatch.call("highlight", null, []);
               })
             .attr("class", function() {
                 return query.colorScale(value);

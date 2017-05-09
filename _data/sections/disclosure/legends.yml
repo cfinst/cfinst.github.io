@@ -7,21 +7,22 @@
     - min: -Infinity
       max: 0
       label: $0
-      color: purple-dark
+      color: purple-lightest
     - min: 1
       max: 50
       label: $50 or less
-      color: purple
+      color: purple-lighter
     - min: 51
       max: 100
       color: purple-light
     - min: 101
       max: 200
-      color: purple-lighter
+      color: purple
     - min: 201
       max: 1000000
       label: More than $200
-      color: purple-lightest
+      color: purple-dark
+
 # Color Palette:
 #   Blues: http://colorbrewer2.org/#type=sequential&scheme=Blues&n=6
 - name: big
@@ -30,28 +31,28 @@
   scale:
     - min: -Infinity
       max: 0
-      label: Prohibited
+      label: $0
       color: brown
     - min: 1
       max: 1000
       label: $1,000 or less
-      color: blue-darker
+      color: blue-lightest
     - min: 1001
       max: 2500
-      color: blue-dark
+      color: blue-lighter
     - min: 2501
       max: 5000
-      color: blue
+      color: blue-light
     - min: 5001
       max: 10000
-      color: blue-light
+      color: blue
     - min: 10001
       max: 50000
-      color: blue-lighter
+      color: blue-dark
     - min: 50001
       max: 100000000
       label: $50,000 or greater
-      color: blue-lightest
+      color: blue-darker
     - min: 100000001
       max: Infinity
       label: N/A
@@ -71,7 +72,7 @@
       color: magenta-light
     - label: "Yes"
       color: red
-    - label: "N/A"
+    - label: "IE Disclosure Not Required"
       color: gray
     - label: "disclose donor if >$250"
       color: lightgray
