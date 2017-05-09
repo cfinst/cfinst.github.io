@@ -289,6 +289,11 @@ function Grid(){
                 })
               .map(function(d) { return d[xColumn]; })
           );
+
+          xScale.domain().forEach(function (d){
+              console.log(d + ": " +sums[d]);
+          });
+
       }
       yScale.domain(
         data
