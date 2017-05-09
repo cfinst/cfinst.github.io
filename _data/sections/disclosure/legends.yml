@@ -55,7 +55,7 @@
       color: blue-darker
     - min: 100000001
       max: Infinity
-      label: Not Required
+      label: N/A
       color: gray-light
 # Mid-cycle values:
 # http://colorbrewer2.org/#type=sequential&scheme=Oranges&n=5

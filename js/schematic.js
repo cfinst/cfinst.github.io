@@ -310,6 +310,7 @@
                         ? 1 / 0
                         : s.max
                       ;
+                      sc.infinityLabel = s.label;
                       return s.max + 1;
                   }
                   // Otherwise
