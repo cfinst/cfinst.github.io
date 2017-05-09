@@ -128,17 +128,21 @@ function Grid(){
                 .html(tooltipContent(d))
                 .show()
             ;
-            highlight(d);
+            // Keeping this comment around in case
+            // we want to turn linked highlighting back on.
+            //highlight(d);
           })
         .on("mouseout", function() {
             tooltip.hide();
+
+            // Keeping this comment around in case
+            // we want to turn linked highlighting back on.
             dispatch.call("highlight", null, []);
           })
         .on("click", function (d){
             query.year = +d.Year;
             query.state = d.State;
             dispatch.call("query", null, query);
-            highlight(d);
           })
       .merge(rects)
         .attr("class", function (d){
