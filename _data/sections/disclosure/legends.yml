@@ -30,7 +30,7 @@
   scale:
     - min: -Infinity
       max: 0
-      label: Prohibited
+      label: $0
       color: brown
     - min: 1
       max: 1000
