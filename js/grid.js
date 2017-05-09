@@ -256,23 +256,6 @@ function Grid(){
           );
       } else {
 
-          // Count infinities per X value, for tie breaking in sorting.
-          var sums = {};
-          data.forEach(function (d){
-              var sum = sums[d[xColumn]] || 0,
-                  value = valueAccessor(d),
-                  infinityWeight = 100000;
-
-              if(value === Infinity){
-                  value = infinityWeight;
-              } else if(value === -Infinity){
-                  value = -infinityWeight;
-              }
-
-              sums[d[xColumn]] = sum + value;
-            })
-          ;
-
           xScale.domain(
             data
               .filter(function(d) { return +d[yColumn] === +selectedYear; })
@@ -287,12 +270,7 @@ function Grid(){
                       comparison = d3.ascending(mIndex, nIndex);
                   }
 
-                  // Break ties by sorting by sums across X values (weighted with infinity counts).
-                  if(comparison === 0){
-                      comparison = d3.ascending(sums[m[xColumn]], sums[n[xColumn]])
-                  }
-
-                  // Break ties further by sorting alphabetically.
+                  // Break ties by sorting alphabetically.
                   if(comparison === 0){
                       comparison = d3.ascending(m[xColumn], n[xColumn])
                   }
