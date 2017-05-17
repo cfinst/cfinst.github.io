@@ -64,17 +64,8 @@
   scale:
     - label: "No"
       color: brown
-    - label: Changed mid-cycle
-      color: magenta-dark
-    - label: Inoperative mid-cycle
-      color: magenta
-    - label: Inoperative whole cycle
-      color: magenta-light
     - label: "Yes"
       color: red
     - label: "Disclosure Not Required"
       color: gray
-    - label: "disclose donor if >$250"
-      color: lightgray
-    - label: Missing Data
-      color: black
+
