@@ -22,10 +22,6 @@
   legend: default
   question: Are labor unions prohibited from making political expenditures from their treasuries?
   label: Labor Expenditures Prohibited?
-- name: Session_Limit
-  legend: default
-  question: Does the law prohibit or limit fundraising during the legislative session?
-  label: Restrictions During Legislative Session?
 - name: ForeignNationalCont
   legend: default
   question: Are contributions from foreign nationals prohibited?
