@@ -23,11 +23,6 @@
   question: If separate independent expenditure reports are required, what is the minumum amount of aggregated expenditures that trigger disclosure?
   label: Ind. Exp. Threshold for Disclosure (if required)?
   note: If the law states dislcosure is required for amounts "more than $x" it is listed as "$x+1", so "more than $100" is "$101".
-- name: IE_Filers_Others_Donors
-  legend: default
-  question: Must other entities who make independent expenditures report the source(s) of the spending entity's funds?
-  label: Ind. Exp. - Other Entities Donor Disclosure?
-  note:
 - name: IE_Target
   legend: default
   question: Must an Independent Expenditure  report (if required) specify an IE's target (candidate or ballot proposition)?
