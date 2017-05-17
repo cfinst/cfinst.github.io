@@ -18,11 +18,6 @@
   question: What is the minimum aggregate of contributions from a particular donor to a ballot committee that triggers mandatory disclosure of that donor's identity?
   label: Threshold to Disclose Donor - BallotComm
   note: If the law states dislcosure is required for amounts "more than $x" it is listed as "$x+1", so "more than $100" is "$101".
-- name: Entity_DonorDisclose
-  legend: default
-  question: Does the state require entities other than political committees that spend money to influence elections to file reports disclosing the entity's donors and other revenue sources?
-  label: Other Entities Required to Disclose?
-  note:
 - name: IE_Report_Exemption_Amount
   legend: big
   question: If separate independent expenditure reports are required, what is the minumum amount of aggregated expenditures that trigger disclosure?
