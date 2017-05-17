@@ -72,7 +72,7 @@
       color: magenta-light
     - label: "Yes"
       color: red
-    - label: "Disclosure Not Req."
+    - label: "Disclosure Not Required"
       color: gray
     - label: "disclose donor if >$250"
       color: lightgray
