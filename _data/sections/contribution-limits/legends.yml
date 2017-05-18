@@ -36,8 +36,5 @@
 - name: Party2Party
   type: singular
   scale:
-    - label: "This is more nuanced than donating.  Funds are able to be transferred
-      from state to local parties via internal processes.
-
-      And this is a sentence to act as a space filler."
+    - label: "No values for this choice - State Party Contributing to itself."
       color: gray
