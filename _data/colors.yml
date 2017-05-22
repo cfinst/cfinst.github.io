@@ -43,6 +43,8 @@
 - color: orange-light
   hex: "#fdbe85"
 # Cyans, as in public-financing:Matching
+- color: cyan-dark
+  hex: "#337D81"
 - color: cyan-gray-dark
   hex: "#618685"
 - color: cyan
