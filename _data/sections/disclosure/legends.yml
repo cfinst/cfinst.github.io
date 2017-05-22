@@ -62,10 +62,10 @@
 - name: default
   type: ordinal
   scale:
-    - label: "No"
-      color: brown
     - label: "Yes"
       color: red
+   - label: "No"
+      color: brown
     - label: "Disclosure Not Required"
       color: gray
 
