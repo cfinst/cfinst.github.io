@@ -7,17 +7,17 @@
     - min: -Infinity
       max: 0
       label: $0
-      color: cyan-dark
+      color: cyan-gray-dark
     - min: 1
       max: 50
       label: $50 or less
-      color: cyan-gray-dark
+      color: cyan-dark
     - min: 51
       max: 100
-      color: cyan-light
+      color: cyan
     - min: 101
       max: 200
-      color: cyan
+      color: cyan-gray-light
     - min: 201
       max: 1000000
       label: More than $200
