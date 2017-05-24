@@ -1,9 +1,11 @@
 - color: sage
-  hex: "#cfdbbe"
+  hex: "#bccca4"
 - color: brown
   hex: "#d6c9c0"
 - color: red
   hex: "#cb181d"
+- color: red-light
+  hex: "#da5d60"
 - color: black
   hex: "#000"
 # Grays
