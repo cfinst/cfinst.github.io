@@ -11,6 +11,6 @@
   question: Does this state provide public financing for state parties?
   label: Public Financing for State Parties?
 - name: RefundOrTaxCreditOrTaxDeduction
-  legend: default
+  legend: taxes
   question: Does the state provide a refund or tax credit or tax deduction for political contributions?
   label: Refund or Tax Credit for Contributions?
