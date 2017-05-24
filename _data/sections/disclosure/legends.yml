@@ -64,7 +64,7 @@
   scale:
     - label: "Yes"
       color: red
-   - label: "No"
+    - label: "No"
       color: brown
     - label: "Disclosure Not Required"
       color: gray
