@@ -6,7 +6,7 @@
     - label: "Yes"
       color: sage
     - label: "No"
-      color: red-light
+      color: brown
     - label: Changed mid-cycle
       color: magenta-dark
     - label: Inoperative mid-cycle
