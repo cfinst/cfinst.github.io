@@ -4,7 +4,7 @@
   type: ordinal
   scale:
     - label: "No"
-      color: brown
+      color: red-light
     - label: Changed mid-cycle
       color: magenta-dark
     - label: Inoperative mid-cycle
@@ -12,6 +12,6 @@
     - label: Inoperative whole cycle
       color: magenta-light
     - label: "Yes"
-      color: red
+      color: sage
     - label: Missing Data
       color: black
