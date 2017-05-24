@@ -3,6 +3,8 @@
 - name: default
   type: ordinal
   scale:
+    - label: "Yes"
+      color: sage
     - label: "No"
       color: red-light
     - label: Changed mid-cycle
@@ -11,7 +13,5 @@
       color: magenta
     - label: Inoperative whole cycle
       color: magenta-light
-    - label: "Yes"
-      color: sage
     - label: Missing Data
       color: black
