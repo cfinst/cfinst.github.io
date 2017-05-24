@@ -15,10 +15,10 @@
 - name: default
   type: ordinal
   scale:
-    - label: "No"
-      color: brown
     - label: "Yes"
-      color: red
+      color: sage
+   - label: "No"
+      color: brown
     - label: Missing Data
       color: black
 
