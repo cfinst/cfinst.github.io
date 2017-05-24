@@ -63,7 +63,7 @@
   type: ordinal
   scale:
     - label: "Yes"
-      color: red
+      color: sage
     - label: "No"
       color: brown
     - label: "Disclosure Not Required"
