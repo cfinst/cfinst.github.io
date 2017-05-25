@@ -17,7 +17,7 @@
   scale:
     - label: "Yes"
       color: sage
-   - label: "No"
+    - label: "No"
       color: brown
     - label: Missing Data
       color: black
