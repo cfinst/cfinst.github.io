@@ -64,3 +64,14 @@
   hex: "#c51b8a"
 - color: magenta-light
   hex: "#f768a1"
+# Bluegreens, as used in Disclosure low thresholds
+- color: bluegreen-darker
+  hex: "#36858c"
+- color: bluegreen-dark
+  hex: "#579b9d"
+- color: bluegreen
+  hex: "#75b2af"
+- color: bluegreen-light
+  hex: "#92c8c1"
+- color: bluegreen-lighter
+  hex: "#afe0d3"
