@@ -36,5 +36,5 @@
 - name: Party2Party
   type: singular
   scale:
-    - label: "No values for this choice - State Party Contributing to itself."
+    - label: "This choice has no values - state party contributing to itself"
       color: gray
