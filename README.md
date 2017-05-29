@@ -89,6 +89,7 @@ This file configures the top-level Jekyll site. The following parameters are rel
  * `filterYear` This defines the year beyond which data will be filtered out. For example, a configuration of `filterYear: 2016` means that 2016 data (and data for all following years e.g. 2017, 2018) are filtered out and not included in the visualization.
 
  * `backgroundRectFadeOpacity` The opacity of the background rectangle overlay used with linked hover interactions. A value of 1 means the background will fade completely to white, and a value of 0 means that there will be no fade at all on hover.
+ * `yearSelectLabel` The text shown as the label for the year select dropdown at the bottom of the map.
 
 ```
 _data/buttons.yml
