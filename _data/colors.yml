@@ -8,6 +8,8 @@
   hex: "#e58b8e"
 - color: black
   hex: "#000"
+- color: light-brown
+  hex: "#b48c70"
 # Grays
 - color: gray-dark
   hex: "#bebebe"
