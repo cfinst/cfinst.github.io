@@ -66,8 +66,6 @@
       color: sage
     - label: "No"
       color: brown
-    - label: Disclosure Not Required
-      color: brown-light
     - label: No IE Disclosure
       color: brown-light
 
