@@ -362,16 +362,6 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "OK2012","OK",2012,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","500","No","No","No","No","24 hours","No",,,,,,,,,,,,,,,
 "OK2014","OK",2014,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","500","No","No","No","No","24 hours","No",,,,,,,,,,,,,,,
 "OK2016","OK",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-"OR1996","OR",1996,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","No","No","No","No","File within the period the threshold is reached (pre-election, supplemental, etc)","No",,,,,,,,,,,,,,,
-"OR1998","OR",1998,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","No","No","No","No","File within the period the threshold is reached (pre-election, supplemental, etc)","No",,,,,,,,,,,,,,,
-"OR2000","OR",2000,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","51","No","No","No","Yes","File within the period the threshold is reached (pre-election, supplemental, etc)","No",,,,,,,,,,,,,,,
-"OR2002","OR",2002,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","51","No","No","No","Yes","File within the period the threshold is reached (pre-election, supplemental, etc)","No",,,,,,,,,,,,,,,
-"OR2004","OR",2004,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","51","No","No","No","Yes","File within the period the threshold is reached (pre-election, supplemental, etc)","No",,,,,,,,,,,,,,,
-"OR2006","OR",2006,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","No","No","No","Yes","File within the period the threshold is reached (pre-election, supplemental, etc)","No",,,,,,,,,,,,,,,
-"OR2008","OR",2008,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","No","No","No","Yes","7 business days to file","No",,,,,,,,,,,,,,,
-"OR2010","OR",2010,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","No","No","No","Yes","7 business days to file","No",,,,,,,,,,,,,,,
-"OR2012","OR",2012,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","750","No","No","No","Yes","7 business days to file","No",,,,,,,,,,,,,,,
-"OR2014","OR",2014,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","750","No","No","No","Yes","7 business days to file- accessible electronically starting in 2014","No",,,,,,,,,,,,,,,
 "OR2016","OR",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 "PA1996","PA",1996,"Yes","No","No","No","No","Yes","Yes","Yes","101","Yes","No","Yes","Yes","The reporting deadlines are the same as the candidate/committee deadlines.","No",,,,,,,,,,,,,,,
 "PA1998","PA",1998,"Yes","No","No","No","No","Yes","Yes","Yes","101","Yes","No","Yes","Yes","The reporting deadlines are the same as the candidate/committee deadlines.","No",,,,,,,,,,,,,,,
@@ -508,6 +498,12 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "WY2012","WY",2012,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","Yes","Yes","No","No","Report of expenditures required 7 days before election. Reports of expenditures and contributions required within 10 days after an election.","No",,"No","No","No","No","No","No","No","No",,"No","No","No","No",
 "WY2014","WY",2014,"No","No","Yes","Yes","Yes","No","Yes","No","0","No","No","No","No",,"Yes","""campaign literature or campaign advertising in any communication medium"" 22-25-110","No","Yes","Yes","Yes","Yes","No","Yes","Yes","$501","No","Yes","No","No","At least 7 days before election. 22-25-106(h)"
 "WY2016","WY",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"OR2014","OR",2014,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","751","No","No","Yes","Yes","7 business days to file- accessible electronically starting in 2014","No",,,,,,,,,,,,,,,
+"OR1996","OR",1996,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","51/non-statewide; 101/statewide","No","No","No","No","File within the period the threshold is reached (pre-election, supplemental, etc)","No",,,,,,,,,,,,,,,
+"OR1998","OR",1998,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","51/non-statewide; 101/statewide","No","No","No","No","File within the period the threshold is reached (pre-election, supplemental, etc)","No",,,,,,,,,,,,,,,
+"OR2000","OR",2000,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","51","No","No","Yes","Yes","File within the period the threshold is reached (pre-election, supplemental, etc)","No",,,,,,,,,,,,,,,
+"OR2002","OR",2002,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","51","No","No","Yes","Yes","File within the period the threshold is reached (pre-election, supplemental, etc)","No",,,,,,,,,,,,,,,
+"OR2004","OR",2004,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","51","No","No","Yes","Yes","File within the period the threshold is reached (pre-election, supplemental, etc)","No",,,,,,,,,,,,,,,
 "MT1996","MT",1996,"No","No","No","No","No","No","No","No","Disclosure Not Required","No","No","Disclosure Not Required","Disclosure Not Required","N/A","Yes","Electioneering","No","No","No","No","No","No","No","Not specified",,"No","No","No","No","N/A"
 "MT1998","MT",1998,"No","No","No","No","No","No","No","No","Disclosure Not Required","No","No","Disclosure Not Required","Disclosure Not Required","N/A","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
 "MT2000","MT",2000,"No","No","No","No","No","No","No","No","Disclosure Not Required","No","No","Disclosure Not Required","Disclosure Not Required","N/A","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
@@ -518,6 +514,10 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "MT2010","MT",2010,"No","No","No","No","No","No","No","No","Disclosure Not Required","No","No","Disclosure Not Required","Disclosure Not Required","N/A","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
 "MT2012","MT",2012,"No","No","No","No","No","No","No","No","Disclosure Not Required","No","No","Disclosure Not Required","Disclosure Not Required","N/A","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
 "MT2014","MT",2014,"No","No","No","No","No","No","No","No","Disclosure Not Required","No","No","Disclosure Not Required","Disclosure Not Required","N/A","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
+"OR2006","OR",2006,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","No","No","Yes","Yes","File within the period the threshold is reached (pre-election, supplemental, etc)","No",,,,,,,,,,,,,,,
+"OR2008","OR",2008,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","No","No","Yes","Yes","7 business days to file","No",,,,,,,,,,,,,,,
+"OR2010","OR",2010,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","No","No","Yes","Yes","7 business days to file","No",,,,,,,,,,,,,,,
+"OR2012","OR",2012,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","751","No","No","Yes","Yes","7 business days to file","No",,,,,,,,,,,,,,,
 "IA1998","IA",1998,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","Disclosure Not Required","Disclosure Not Required",,"No",,,,,,,,,,,,,,,
 "IA2000","IA",2000,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","Disclosure Not Required","Disclosure Not Required",,"No",,,,,,,,,,,,,,,
 "IA2002","IA",2002,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","Disclosure Not Required","Disclosure Not Required",,"No",,,,,,"IA",,,,,,,,,
