@@ -67,5 +67,7 @@
     - label: "No"
       color: brown
     - label: "Disclosure Not Required"
-      color: gray
+      color: brown-light
+    - label: "No IE Disclosure"
+      color: brown-light
 
