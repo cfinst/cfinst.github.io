@@ -56,7 +56,7 @@
     - min: 100000001
       max: Infinity
       label: Disclosure Not Required
-      color: gray
+      color: brown-light
 # Mid-cycle values:
 # http://colorbrewer2.org/#type=sequential&scheme=Oranges&n=5
 - name: default
@@ -66,8 +66,8 @@
       color: sage
     - label: "No"
       color: brown
-    - label: "Disclosure Not Required"
+    - label: Disclosure Not Required
       color: brown-light
-    - label: "No IE Disclosure"
+    - label: No IE Disclosure
       color: brown-light
 
