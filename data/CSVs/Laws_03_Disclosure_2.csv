@@ -249,16 +249,16 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "MS2012","MS",2012,"Yes","No","No","No","No","Yes","No","Yes","200","No","Yes","Yes","Yes","The statute seems to suggest annual reports but the actual requirements are unclear.","No",,,,,,"MS",,,,,,,,,
 "MS2014","MS",2014,"Yes","No","No","No","No","Yes","No","Yes","200","No","Yes","Yes","Yes","The statute seems to suggest annual reports but the actual requirements are unclear.","No",,,,,,"MS",,,,,,,,,
 "MS2016","MS",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-"MT1996","MT",1996,"No","No","No","No","No","No","No","Yes","1","No","No","No","No","48 Hours","Yes","Electioneering","No","No","No","No","No","No","No","Not specified",,"No","No","No","No","N/A"
-"MT1998","MT",1998,"No","No","No","No","No","No","No","Yes","1","No","No","No","No","48 Hours","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
-"MT2000","MT",2000,"No","No","No","No","No","No","No","Yes","1","No","No","No","No","48 Hours","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
-"MT2002","MT",2002,"No","No","No","No","No","No","No","Yes","1","No","No","No","No","48 Hours","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
-"MT2004","MT",2004,"No","No","No","No","No","No","No","Yes","1","No","No","No","No","48 Hours","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
-"MT2006","MT",2006,"No","No","No","No","No","No","No","Yes","1","No","No","No","No","48 Hours","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
-"MT2008","MT",2008,"No","No","No","No","No","No","No","Yes","1","No","No","No","No","48 Hours","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
-"MT2010","MT",2010,"No","No","No","No","No","No","No","Yes","1","No","No","No","No","48 Hours","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
-"MT2012","MT",2012,"No","No","No","No","No","No","No","Yes","1","No","No","No","No","48 Hours","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
-"MT2014","MT",2014,"No","No","No","No","No","No","No","Yes","1","No","No","No","No","48 Hours","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
+"MT1996","MT",1996,"No","No","No","No","No","No","No","No","0","No","No","No","No","48 Hours","Yes","Electioneering","No","No","No","No","No","No","No","Not specified",,"No","No","No","No","N/A"
+"MT1998","MT",1998,"No","No","No","No","No","No","No","No","0","No","No","No","No","48 Hours","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
+"MT2000","MT",2000,"No","No","No","No","No","No","No","No","0","No","No","No","No","48 Hours","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
+"MT2002","MT",2002,"No","No","No","No","No","No","No","No","0","No","No","No","No","48 Hours","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
+"MT2004","MT",2004,"No","No","No","No","No","No","No","No","0","No","No","No","No","48 Hours","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
+"MT2006","MT",2006,"No","No","No","No","No","No","No","No","0","No","No","No","No","48 Hours","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
+"MT2008","MT",2008,"No","No","No","No","No","No","No","No","0","No","No","No","No","48 Hours","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
+"MT2010","MT",2010,"No","No","No","No","No","No","No","No","0","No","No","No","No","48 Hours","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
+"MT2012","MT",2012,"No","No","No","No","No","No","No","No","0","No","No","No","No","48 Hours","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
+"MT2014","MT",2014,"No","No","No","No","No","No","No","No","0","No","No","No","No","48 Hours","Yes","Electioneering","No","No","No","No","MT","No","No","Not specified",,"No","No","No","No","N/A"
 "MT2016","MT",2016,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 "NC1996","NC",1996,"Yes","No","No","No","No","No","No","Yes","101","Yes","Yes","Yes","Yes","10 days","No",,,,,,,,,,,,,,,
 "NC1998","NC",1998,"Yes","No","No","No","No","No","No","Yes","101","Yes","Yes","Yes","Yes","10 days","No",,,,,,,,,,,,,,,
