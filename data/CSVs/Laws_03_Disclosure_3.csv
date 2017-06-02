@@ -1775,12 +1775,7 @@ For broadcast communications, the statement shall: (1) be clearly spoken in any 
 "OR2000","OR",2000,,,,"No",,,,,,,,"No",,"No",,"No",,"No",,
 "OR2002","OR",2002,,,,"No",,,,,,,,"No",,"No",,"No",,"No",,
 "OR2004","OR",2004,,,,"No",,,,,,,,"No",,"No",,"No",,"No",,
-"OR2006","OR",2006,,,,"Yes",,"No","""According to a schedule adopted by the Secretary by rule""","Yes","Yes","No","no","No",,"No",,"No",,"No",,
-"OR2008","OR",2008,,,,"Yes",,"No","""According to a schedule adopted by the Secretary by rule""","Yes","Yes","No","no","No",,"No",,"No",,"No",,
-"OR2010","OR",2010,,,,"Yes",,"No","""According to a schedule adopted by the Secretary by rule""","Yes","Yes","No","no","No",,"No",,"No",,"No",,
-"OR2012","OR",2012,,,,"Yes",,"No","""According to a schedule adopted by the Secretary by rule""","Yes","Yes","No","no","No",,"No",,"No",,"No",,
-"OR2014","OR",2014,,,,"Yes",,"No","""According to a schedule adopted by the Secretary by rule""","Yes","Yes","No","no","No",,"No",,"No",,"No",,
-"OR2016","OR",2016,,,,"Yes",,"No",,"Yes","Yes","No","no","No",,"No",,"No",,"No",,
+"OR2006","OR",2006,,,,"No",,,,,,,,"No",,"No",,"No",,"No",,
 "PA1996","PA",1996,,,,"No",,,,,,,,"Yes","Historic Session law: 1937, June 3, P.L. 1333,  § 1638; Current stat code: 25 Pa. Stat. Ann. § 3258
 A political advertisement: 
 (1) If authorized by the candidate, his authorized political committee or their agents, shall clearly and conspicuously state that the communication has been authorized.
@@ -2721,3 +2716,8 @@ O	(i)  No person may publish or disseminate, or cause to be published or dissemi
 "WY2012","WY",2012,,,,"No","No",,,,,,,"Yes","""The communications media in using the campaign advertising shall print or announce the name of the candidate or committee paying for the advertising.""","No",,"No",,"No",,
 "WY2014","WY",2014,,,,"No","No",,,,,,,"Yes","""The communications media in using the campaign advertising shall print or announce the name of the candidate or committee paying for the advertising.""","No",,"No",,"No",,
 "WY2016","WY",2016,,,,,,,,,,,,,,,,,,,,
+"OR2008","OR",2008,,,,"Yes","260.057.(6)","No","""According to a schedule adopted by the Secretary by rule""","Yes","Yes","No","no","No",,"No",,"No",,"No",,
+"OR2010","OR",2010,,,,"Yes","260.057.(6)","No","""According to a schedule adopted by the Secretary by rule""","Yes","Yes","No","no","No",,"No",,"No",,"No",,
+"OR2012","OR",2012,,,,"Yes","260.057.(6)","No","""According to a schedule adopted by the Secretary by rule""","Yes","Yes","No","no","No",,"No",,"No",,"No",,
+"OR2014","OR",2014,,,,"Yes","260.057.(6)","No","""According to a schedule adopted by the Secretary by rule""","Yes","Yes","No","no","No",,"No",,"No",,"No",,
+"OR2016","OR",2016,,,,"Yes","260.057.(6)","No",,"Yes","Yes","No","no","No",,"No",,"No",,"No",,
