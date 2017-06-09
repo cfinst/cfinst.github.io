@@ -7,21 +7,21 @@
     - min: -Infinity
       max: 0
       label: $0
-      color: cyan-gray-dark
+      color: bluegreen-darker
     - min: 1
       max: 50
       label: $50 or less
-      color: cyan-dark
+      color: bluegreen-dark
     - min: 51
       max: 100
-      color: cyan
+      color: bluegreen
     - min: 101
       max: 200
-      color: cyan-gray-light
+      color: bluegreen-light
     - min: 201
       max: 1000000
       label: More than $200
-      color: cyan-light
+      color: bluegreen-lighter
 
 # Color Palette:
 #   Blues: http://colorbrewer2.org/#type=sequential&scheme=Blues&n=6
