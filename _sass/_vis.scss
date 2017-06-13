@@ -30,6 +30,14 @@
 .y.axis .tick text {
     cursor: pointer;
 }
+.axis text {
+    fill: #333;
+}
+.axis .tick line, .axis .domain {
+    stroke: #333;
+    stroke-width: 0.25px;
+}
+
 .sortby {
     font-weight: bold;
 }
