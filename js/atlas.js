@@ -4,7 +4,6 @@ function Atlas() {
       , height = 515
       , xoffset = 65
       , yoffset = 15
-      , margin = { top: 10, left: 20, right: 20, bottom: 10 }
       , tooltip
       , tooltipContent
       , svg
