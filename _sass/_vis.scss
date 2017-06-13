@@ -136,3 +136,12 @@ Part of https://github.com/cfinst/cfinst.github.io/issues/170
     margin-bottom: -5px; /* This ensures no unnecessary space below all tabs. */
     margin-left: 8px; /* Add a bit of space between the text and logo. */
 }
+
+/*
+ * This styles the Datavis.tech attribution at the bottom.
+ */
+.datavis-tech-attribution {
+  margin-top: 30px; /* Have it appear below the fold. */
+  margin-bottom: 40px; /* White space below. */
+  font-size: 11pt; /* Approx. font size in logo image. */
+}
