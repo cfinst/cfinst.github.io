@@ -1,13 +1,15 @@
 - color: sage
-  hex: "#a0b77e"
+  hex: "#708058"
 - color: brown
-  hex: "#d6c9c0"
+  hex: "#aba099"
 - color: red
   hex: "#cb181d"
 - color: red-light
   hex: "#e58b8e"
 - color: black
   hex: "#000"
+- color: brown-light
+  hex: "#b48c70"
 # Grays
 - color: gray-dark
   hex: "#bebebe"

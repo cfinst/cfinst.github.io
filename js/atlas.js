@@ -1,8 +1,9 @@
 function Atlas() {
     var path = d3.geoPath().projection(null)
-      , width = 960
-      , height = 530
-      , margin = { top: 10, left: 20, right: 20, bottom: 10 }
+      , width = 855
+      , height = 515
+      , xoffset = 65
+      , yoffset = 15
       , tooltip
       , tooltipContent
       , svg
@@ -145,6 +146,8 @@ function Atlas() {
             ;
 
             overlay.select(".fade-rect")
+                .attr("x", xoffset)
+                .attr("y", yoffset)
                 .attr("width", width)
                 .attr("height", height)
               .transition().duration(500)
@@ -214,7 +217,7 @@ function Atlas() {
     my.svg = function (_){
         if(!arguments.length) return svg;
         svg = _
-            .attr("viewBox", [0, 0, width, height].join(' '))
+            .attr("viewBox", [xoffset, yoffset, width, height].join(' '))
         ;
         svg.selectAll("*").remove(); // wipe it clean before use
         var g = svg.selectAll("g")

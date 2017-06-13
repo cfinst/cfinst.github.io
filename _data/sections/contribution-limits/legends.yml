@@ -1,6 +1,5 @@
 # Color Palettes:
 #   Blues: http://colorbrewer2.org/#type=sequential&scheme=Blues&n=6
-#   Please don't use commas in the labels
 - name: default
   type: threshold
   fallback: -Infinity

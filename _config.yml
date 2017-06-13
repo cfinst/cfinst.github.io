@@ -21,3 +21,5 @@ authors:
 filterYear: 2016
 
 backgroundRectFadeOpacity: 0.9
+
+yearSelectLabel: "Select Year: "
