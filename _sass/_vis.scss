@@ -1,5 +1,12 @@
+/*
+ * Have the map occupy all available vertical space,
+ * but allow it to inherit the left and right padding
+ * from Bootstrap .panel-body, so that the SVG doesn't
+ * go beyond the white panel body area.
+ */
 #visualization .panel-body {
-    padding: 0;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 .grid-rect {
     transition:
