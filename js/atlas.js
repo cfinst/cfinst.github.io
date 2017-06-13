@@ -1,8 +1,8 @@
 function Atlas() {
     var path = d3.geoPath().projection(null)
-      , width = 885
+      , width = 855
       , height = 515
-      , xoffset = 50
+      , xoffset = 65
       , yoffset = 15
       , margin = { top: 10, left: 20, right: 20, bottom: 10 }
       , tooltip
