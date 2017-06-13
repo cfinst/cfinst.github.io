@@ -147,6 +147,8 @@ function Atlas() {
             ;
 
             overlay.select(".fade-rect")
+                .attr("x", xoffset)
+                .attr("y", yoffset)
                 .attr("width", width)
                 .attr("height", height)
               .transition().duration(500)
