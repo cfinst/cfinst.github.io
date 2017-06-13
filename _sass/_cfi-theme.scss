@@ -4,8 +4,12 @@
 
 body {
     font:12px/1.2em verdana, arial, sans-serif;
-    color:#000;
+    color: #333;
     background-color:#efefef;
+}
+
+label, .chooser, .btn {
+    font-size: 12pt;
 }
 
 // .cfi-theme-content {
