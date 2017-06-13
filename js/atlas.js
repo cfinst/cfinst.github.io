@@ -1,7 +1,7 @@
 function Atlas() {
     var path = d3.geoPath().projection(null)
-      , width = 960
-      , height = 530
+      , width = 885
+      , height = 515
       , margin = { top: 10, left: 20, right: 20, bottom: 10 }
       , tooltip
       , tooltipContent
@@ -214,7 +214,7 @@ function Atlas() {
     my.svg = function (_){
         if(!arguments.length) return svg;
         svg = _
-            .attr("viewBox", [0, 0, width, height].join(' '))
+            .attr("viewBox", [50, 15, width, height].join(' '))
         ;
         svg.selectAll("*").remove(); // wipe it clean before use
         var g = svg.selectAll("g")
