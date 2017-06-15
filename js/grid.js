@@ -1,7 +1,7 @@
 function Grid(){
 
   // Configuration parameters.
-  var margin = { left: 33, right: 35, top: 32, bottom: 5 }
+  var margin = { left: 33, right: 35, top: 35, bottom: 5 }
     , side = 16 // length of each square cell
     , width, height // of the viz
     , xColumn = "State"
