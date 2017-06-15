@@ -127,16 +127,3 @@ Part of https://github.com/cfinst/cfinst.github.io/issues/170
 .highlight-overlay .state {
     stroke-width: 1px;
 }
-
-/*
- * This styles the small CFI logo in the top right.
- * Here we use negative margins so that the padding applied by
- * Bootstrap to .nav>li>a don't end up adding unnecessary empty space
- * around the image.
- */
-.cfi-logo-mini {
-    height: 40px;
-    margin-top: -10px; /* This positions the logo vertically (pulls it up). */
-    margin-bottom: -5px; /* This ensures no unnecessary space below all tabs. */
-    margin-left: 8px; /* Add a bit of space between the text and logo. */
-}

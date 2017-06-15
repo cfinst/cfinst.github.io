@@ -17,21 +17,15 @@ label, .chooser, .btn {
     padding-top: 4px;
 }
 
-// .cfi-theme-content {
-//     background-color:#fff;
-//     border-left:1px solid #404040;
-//     border-right:1px solid #404040;
-//     margin-left:25px;
-//     margin-right:25px;
-// }
-//
-// .cfi-theme-content h1 {
-//     padding-bottom: 20px;
-//     padding-top:30px;
-// }
-//
-// .cfi-theme-logo {
-//     background-color: #16275a;
-//     padding: 10px;
-//     width: 80px;
-// }
+/*
+ * This styles the small CFI logo in the top right.
+ * Here we use negative margins so that the padding applied by
+ * Bootstrap to .nav>li>a don't end up adding unnecessary empty space
+ * around the image.
+ */
+.cfi-logo-mini {
+    height: 25px;
+    margin-top: -10px; /* This positions the logo vertically (pulls it up). */
+    margin-bottom: -5px; /* This ensures no unnecessary space below all tabs. */
+    margin-left: 8px; /* Add a bit of space between the text and logo. */
+}
