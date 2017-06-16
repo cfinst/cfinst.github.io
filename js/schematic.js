@@ -328,27 +328,4 @@
       d3.select(this).call(tabs[name]);
     })
   ;
-
-
-  // Show/hide the scroll indicator arrow.
-  // Draws from information at https://stackoverflow.com/questions/487073/check-if-element-is-visible-after-scrolling
-  function checkScroll() {
-      var scrollTop = document.body.scrollTop;
-      var windowHeight = window.innerHeight;
-      var gridNode = d3.select("#grid-view").node()
-      var gridTop = gridNode.offsetTop;
-      var gridHeight = gridNode.clientHeight;
-
-      var windowBottom = scrollTop + windowHeight;
-      var gridBottom = gridTop + gridHeight;
-
-      var epsilon = 2; // 2 pixels of wiggle room.
-      var showArrow = (windowBottom + epsilon) <= gridBottom;
-
-      d3.select(".scroll-indicator")
-          .transition()
-          .style("opacity", showArrow ? 1 : 0);
-  }
-  window.onscroll = checkScroll;
-  setInterval(checkScroll, 1000); // Handle things on the page rearranging (e.g. after data loads).
 }());
