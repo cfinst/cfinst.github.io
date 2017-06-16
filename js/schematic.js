@@ -331,6 +331,7 @@
 
 
   // Show/hide the scroll indicator arrow.
+  // Draws from information at https://stackoverflow.com/questions/487073/check-if-element-is-visible-after-scrolling
   function checkScroll() {
       var scrollTop = document.body.scrollTop;
       var windowHeight = window.innerHeight;
