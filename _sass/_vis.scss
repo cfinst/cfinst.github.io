@@ -138,11 +138,12 @@ Part of https://github.com/cfinst/cfinst.github.io/issues/170
     position: fixed;
     left: 0px;
     right: 0px;
-    bottom: 20px;
+    bottom: 15px;
     text-shadow: /* Add a thick white shadow, so it can be seen on top of dark colors. */
       0px 0px 4px #fff,
       0px 0px 4px #fff,
       0px 0px 4px #fff,
       0px 0px 4px #fff,
       0px 0px 4px #fff;
+    opacity: 0; /* This will be set via JS dynamically, depending on scroll. */
 }
