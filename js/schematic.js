@@ -328,4 +328,25 @@
       d3.select(this).call(tabs[name]);
     })
   ;
+
+
+  // Show/hide the scroll indicator arrow.
+  function checkScroll() {
+      var scrollTop = document.body.scrollTop;
+      var windowHeight = window.innerHeight;
+      var gridNode = d3.select("#grid-view").node()
+      var gridTop = gridNode.offsetTop;
+      var gridHeight = gridNode.clientHeight;
+
+      var windowBottom = scrollTop + windowHeight;
+      var gridBottom = gridTop + gridHeight;
+
+      var showArrow = windowBottom <= gridBottom;
+
+      d3.select(".scroll-indicator")
+          .transition()
+          .style("opacity", showArrow ? 1 : 0);
+  }
+  window.onscroll = checkScroll;
+  checkScroll();
 }());
