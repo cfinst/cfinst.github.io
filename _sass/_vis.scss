@@ -131,3 +131,12 @@ Part of https://github.com/cfinst/cfinst.github.io/issues/170
 .highlight-overlay .state {
     stroke-width: 1px;
 }
+
+/*
+ * This styles attribution to the collaborators at the bottom.
+ */
+.collaborators {
+  margin-top: 30px; /* Have it appear below the fold. */
+  margin-bottom: 40px; /* White space below. */
+  font-size: 11pt; /* Approx. font size in logo image. */
+}
