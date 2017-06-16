@@ -1,6 +1,6 @@
 # CFI WebTool
 
-An interactive visualization of the [Campaign Finance Institute](http://www.cfinst.org/) database of campaign finance law, spanning all US States and every other year since 1996. Crafted and engineered by [Datavis.tech](https://datavis.tech).
+An interactive visualization of the [Campaign Finance Institute](http://www.cfinst.org/) database of campaign finance law, spanning all US States and every other year since 1996. Crafted and engineered by Seemant Kulleen and Curran Kelleher.
 
 [Try it out!](https://cfinst.github.io/)
 
