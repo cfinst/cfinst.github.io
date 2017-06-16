@@ -68,12 +68,12 @@
   hex: "#f768a1"
 # Bluegreens, as used in Disclosure low thresholds
 - color: bluegreen-darker
-  hex: "#36858c"
+  hex: "#087d94"
 - color: bluegreen-dark
-  hex: "#579b9d"
+  hex: "#4c98a9"
 - color: bluegreen
-  hex: "#75b2af"
+  hex: "#76b5be"
 - color: bluegreen-light
-  hex: "#92c8c1"
+  hex: "#9fd2d5"
 - color: bluegreen-lighter
-  hex: "#afe0d3"
+  hex: "#c5f0eb"
