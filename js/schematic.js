@@ -342,12 +342,13 @@
       var windowBottom = scrollTop + windowHeight;
       var gridBottom = gridTop + gridHeight;
 
-      var showArrow = windowBottom <= gridBottom;
+      var epsilon = 2; // 2 pixels of wiggle room.
+      var showArrow = (windowBottom + epsilon) <= gridBottom;
 
       d3.select(".scroll-indicator")
           .transition()
           .style("opacity", showArrow ? 1 : 0);
   }
   window.onscroll = checkScroll;
-  checkScroll();
+  setInterval(checkScroll, 1000); // Handle things on the page rearranging (e.g. after data loads).
 }());
