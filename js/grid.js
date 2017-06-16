@@ -1,7 +1,7 @@
 function Grid(){
 
   // Configuration parameters.
-  var margin = { left: 40, right: 40, top: 35, bottom: 5 }
+  var margin = { left: 26, right: 26, top: 28, bottom: 0 }
     , side = 16 // length of each square cell
     , width, height // of the viz
     , xColumn = "State"
@@ -23,9 +23,9 @@ function Grid(){
   // D3 Objects.
   var xScale = d3.scaleBand().padding(0).align(0)
     , yScale = d3.scaleBand().padding(0).align(0)
-    , axisX = d3.axisTop()
-    , axisY = d3.axisLeft()
-    , axisY2 = d3.axisRight()
+    , axisX = d3.axisTop().tickPadding(8)
+    , axisY = d3.axisLeft().tickPadding(-3)
+    , axisY2 = d3.axisRight().tickPadding(axisY.tickPadding())
   ;
   // Internal state variables.
   var selectedColumn
@@ -217,12 +217,10 @@ function Grid(){
       xAxisG
         .transition(t)
           .call(axisX.scale(xScale))
+        ;
       ;
       xAxisG.selectAll(".tick line")
           .attr("transform", "translate(" + (xScale.step() / 2) + ",0)")
-      ;
-      xAxisG.selectAll(".tick text")
-          .attr("dy", "-1em")
       ;
       yAxisG
         .transition(t)
