@@ -34,3 +34,13 @@ label, .chooser, .btn {
     margin-bottom: -5px; /* This ensures no unnecessary space below all tabs. */
     margin-left: 8px; /* Add a bit of space between the text and logo. */
 }
+
+
+/*
+ * This styles the footer at the bottom.
+ */
+.footer {
+  margin-top: 30px; /* Separate it a bit from the grid. */
+  margin-bottom: 40px; /* White space below. */
+  font-size: 12pt;
+}
