@@ -34,3 +34,8 @@ label, .chooser, .btn {
     margin-bottom: -5px; /* This ensures no unnecessary space below all tabs. */
     margin-left: 8px; /* Add a bit of space between the text and logo. */
 }
+
+/* Customize the appearance of the introduction modal. */
+#intro-modal .close {
+    opacity: 1;
+}
