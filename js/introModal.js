@@ -3,6 +3,9 @@
 // This function should be invoked once, on page load.
 function triggerIntroModal(){
 
+  // Only show the intro modal if the current user
+  // is visiting the page for the first time.
+  // Using localStorage, documented at https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
   if(!localStorage.getItem("pageSeen")){
 
     // Show the modal, via Bootstrap"s API.
@@ -15,6 +18,7 @@ function triggerIntroModal(){
       remote: "/modals/intro.html"
     });
 
+    // Track that the current user has visited this page.
     localStorage.setItem("pageSeen", true);
   }
 }
