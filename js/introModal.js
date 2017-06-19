@@ -1,3 +1,5 @@
 function triggerIntroModal(){
-  console.log("here");
+  $('#intro-modal').modal({
+    remote: '/modals/intro.html'
+  });
 }
