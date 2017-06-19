@@ -43,4 +43,12 @@ label, .chooser, .btn {
 #intro-modal .close {
     opacity: 1;
     font-size: 40px;
+
+/*
+ * This styles the footer at the bottom.
+ */
+.footer {
+  margin-top: 30px; /* Separate it a bit from the grid. */
+  margin-bottom: 40px; /* White space below. */
+  font-size: 12pt;
 }
