@@ -61,6 +61,7 @@ _data
 └── tabs.yml
 index.md
 _modals
+├── intro.md
 ├── contribution-limits
 │   ├── about.md
 │   └── howto.md
@@ -197,6 +198,7 @@ This file contains two parameters:
 
 ```
 _modals
+├── intro.md
 ├── contribution-limits
 │   ├── about.md
 │   └── howto.md
@@ -211,7 +213,12 @@ _modals
     └── howto.md
 ```
 
-The `_modals` directory contains configuration files that define what gets shown within the modal dialogs that pop up when you click on the "About this topic" and "Using this page" buttons.
+The `_modals` directory contains configuration files that define what gets shown within the modal dialogs that pop up when the page loads, and when you click on the "About this topic" and "Using this page" buttons.
+
+```
+_modals/intro.md
+```
+This file specifies the content of the introduction popup that appears the first time a user loads the page.
 
 ```
 _modals/:section/about.md
