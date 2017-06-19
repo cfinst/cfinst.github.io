@@ -1,14 +1,16 @@
 ---
 layout: modal
 modal: introduction 
-title: Welcome to the CFI Campaign Finance Law Database!
-
+title: Welcome to the Campaign Finance Law Database!
 ---
 
 Each of the graphic visualizations derived from the historical database of state
-campaign finance laws involves both a map and a grid. 
+campaign finance laws involves both a map and a grid.
 
-#### _Grid_
+ * Use the tabs at the top to navigate between topics.
+ * Use the controls on the right to navigate between fields.
+
+### Grid
 
 Each of the fifty states has a column in the grid. The horizontal rows represent
 years taken every two years, with the most recent completed year at the top. In
@@ -18,12 +20,12 @@ shown to the right of the map. Looking up and down any one state's column will
 show if and when the state changed its law. Hovering the cursor over any box
 will give some of the details for each state and year.
 
-#### _Map_
+### Map
 
 The map will show the most recent year by default. Hovering the cursor over a
 state will show details for the year being shown.
 
-#### _Sorting_
+### Sorting
 
 Clicking on any year at the left of the grid will rearrange the grid according
 to the values in the year chosen. It will also change the map to show the laws
