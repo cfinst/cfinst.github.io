@@ -35,12 +35,23 @@ label, .chooser, .btn {
     margin-left: 8px; /* Add a bit of space between the text and logo. */
 }
 
-
 /*
- * This styles the footer at the bottom.
+ * The following CSS styles the footer at the bottom of the page.
  */
 .footer {
   margin-top: 30px; /* Separate it a bit from the grid. */
   margin-bottom: 30px; /* White space below. */
   font-size: 12pt;
+}
+.footer-container {
+  display: flex;
+  justify-content: center;
+}
+.footer-logo {
+  margin-right: 5px;
+}
+.footer-logo img {
+  background-color: #16275a;
+  padding: 5px;
+  width: 57px;
 }
