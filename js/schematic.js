@@ -29,9 +29,6 @@
     , backgroundRectFadeOpacity = {{ site.backgroundRectFadeOpacity }}
   ;
 
-  // Show the introductory modal dialog, if it's the first visit for this user.
-  triggerIntroModal();
-
   // Connect all the tabs
   {{ site.data.tabs | jsonify }}.forEach(function(tab) {
       tabs[tab.section] = Tabulus().connect(signal);
