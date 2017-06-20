@@ -3,10 +3,12 @@
 // This function should be invoked once, on page load.
 function triggerIntroModal(){
 
+  // TODO get from cookie.
+  var pageSeen = false;
+
   // Only show the intro modal if the current user
   // is visiting the page for the first time.
-  // Using localStorage, documented at https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
-  if(!localStorage.getItem("pageSeen")){
+  if(!pageSeen){
 
     // Show the modal, via Bootstrap"s API.
     // See http://getbootstrap.com/javascript/#via-javascript
@@ -18,7 +20,7 @@ function triggerIntroModal(){
       remote: "/modals/intro.html"
     });
 
+    // TODO set cookie here:
     // Track that the current user has visited this page.
-    localStorage.setItem("pageSeen", true);
   }
 }
