@@ -4,8 +4,8 @@
 function triggerIntroModal(){
 
   // Determine whether or not the current user has seen
-  // this page before, using cookies.
-  // See Cookie documentation at https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie
+  // this page any time in the previous 24 hours, using cookies.
+  // Cookie documentation at https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie
   var pageSeen = document.cookie.indexOf("pageSeen") !== -1;
 
   // Only show the intro modal if the current user
@@ -22,7 +22,10 @@ function triggerIntroModal(){
       remote: "/modals/intro.html"
     });
 
-    // Track that the current user has visited this page.
-    document.cookie = "pageSeen=true";
+    // The cookie will expire after one day.
+    var expiryDate = d3.timeDay.offset(new Date, 1);
+
+    // Track that the current user has visited this page using cookies.
+    document.cookie = "pageSeen=true;expires=" + expiryDate.toUTCString();
   }
 }
