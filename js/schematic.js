@@ -204,11 +204,13 @@
 
       // Set the URL history to the current section.
       signal.on("navigate.history", function (section) {
+          if(!section) return;
           window.location.hash = '#' + section;
         })
       ;
       // Update the visualization according to the current section.
       signal.on("navigate.vis", function (tab){
+          if(!tab) return;
           query.section = tab;
           query.question = null;
           tabs[tab].query(query)();
