@@ -3,8 +3,10 @@
 // This function should be invoked once, on page load.
 function triggerIntroModal(){
 
-  // TODO get from cookie.
-  var pageSeen = false;
+  // Determine whether or not the current user has seen
+  // this page before, using cookies.
+  // See Cookie documentation at https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie
+  var pageSeen = document.cookie.indexOf("pageSeen") !== -1;
 
   // Only show the intro modal if the current user
   // is visiting the page for the first time.
@@ -20,7 +22,7 @@ function triggerIntroModal(){
       remote: "/modals/intro.html"
     });
 
-    // TODO set cookie here:
     // Track that the current user has visited this page.
+    document.cookie = "pageSeen=true";
   }
 }
