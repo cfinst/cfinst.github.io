@@ -248,6 +248,12 @@ _sass/_vis.scss
 
 This CSS defines styles applied to the visualization. This is where details such as stroke color, cursors, font styles, margins, and transition durations are defined.
 
+```
+_includes/footer.html
+```
+
+This file contains the footer content.
+
 ## Updating Data
 
 This section is about how you can update the data shown in the visualization based on the original CFI Microsoft Access database file.
