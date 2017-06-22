@@ -13,7 +13,7 @@
 - name: ForeignNationalCont
   legend: default
   question: Are contributions from foreign nationals prohibited?
-  label: Contributions Allowed from Foreign Nationals?
+  label: Contributions from Foreign Nationals Prohibited?
 - name: CorpExpendProhibit
   legend: default
   question: Are corporations prohibited from making political expenditures from their treasuries?
