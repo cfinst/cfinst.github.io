@@ -54,8 +54,14 @@ label, .chooser, .btn {
 }
 .footer-container {
   display: flex;
-  justify-content: center;
 }
+.footer-left {
+    float:left;   
+}
+.footer-right {
+    float:right;
+}
+
 .footer-logo {
   margin-right: 5px;
 }
