@@ -54,12 +54,14 @@ label, .chooser, .btn {
 }
 .footer-container {
   display: flex;
+  justify-content: space-between;
+  
 }
 .footer-left {
-    float:left;   
+    
 }
 .footer-right {
-    float:right;
+   
 }
 
 .footer-logo {
