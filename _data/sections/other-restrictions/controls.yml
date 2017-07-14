@@ -25,4 +25,4 @@
 - name: AggCandLimit
   legend: default
   question: Is there an aggregate limit on contributions from a donor to all candidates in the state in a given time period?
-  label: Aggregate Limit from Donor to all Cand.?
+  label: Aggregate Limit from Donor to all Candidates?
