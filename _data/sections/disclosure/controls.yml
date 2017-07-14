@@ -1,7 +1,7 @@
 - name: CandDonorExemption
   legend: small
   question: What is the minimum aggregate of contributions from a particular donor that triggers mandatory disclosure of that donor's identity?
-  label: Threshold to Disclose Donor - Cand
+  label: Threshold to Disclose Donor - Candidate
   note: If the law states dislcosure is required for amounts "more than $x" it is listed as "$x+1", so "more than $100" is "$101".
 - name: PartyDonorExemption
   legend: small
