@@ -11,26 +11,6 @@ function triggerIntroModal(){
     // Only show the intro modal if the current user
     // is visiting the page for the first time.
     if(!pageSeen){
-
-
-        tour = new Shepherd.Tour({
-            defaults: {
-                  classes: 'shepherd-theme-arrows'
-                , scrollTo: true
-              }
-        });
-        tour.addStep('example-step', {
-            text: 'Say some stuff'
-            , attachTo: '.cfi-tabs bottom'
-            , buttons: [
-                  {
-                      text: 'Next'
-                    , action: tour.next
-                  }
-              ]
-        });
-        tour.start();
-/*
         // Show the modal, via Bootstrap"s API.
         // See http://getbootstrap.com/javascript/#via-javascript
         $("#intro-modal").modal({
@@ -40,11 +20,28 @@ function triggerIntroModal(){
             // from _modals/intro.md.
             remote: "/modals/intro.html"
         });
-*/
         // The cookie will expire after one day.
         var expiryDate = d3.timeDay.offset(new Date, 1);
 
         // Track that the current user has visited this page using cookies.
         document.cookie = "pageSeen=true;expires=" + expiryDate.toUTCString();
     }
+    // Run the tour always, until a "Start Tour" button is added to intro-popup.
+    tour = new Shepherd.Tour({
+        defaults: {
+              classes: 'shepherd-theme-arrows'
+            , scrollTo: true
+          }
+    });
+    tour.addStep('example-step', {
+        text: 'Say some stuff'
+        , attachTo: '.cfi-tabs bottom'
+        , buttons: [
+              {
+                  text: 'Next'
+                , action: tour.next
+              }
+          ]
+    });
+    tour.start();
 }
