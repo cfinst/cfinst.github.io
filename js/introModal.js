@@ -1,3 +1,5 @@
+---
+---
 // This triggers the introduction popup
 // that shows only the first time the page is loaded.
 // This function should be invoked once, on page load.
@@ -32,16 +34,20 @@ function triggerIntroModal(){
               classes: 'shepherd-theme-arrows'
             , scrollTo: true
           }
-    });
-    tour.addStep('example-step', {
-        text: 'Say some stuff'
-        , attachTo: '.cfi-tabs bottom'
+      })
+    ;
+  {% for stop in site.data.tour %}
+  console.log('{{ stop }}', "{{ stop.node }}")
+    tour.addStep('step{{ forloop.index }}', {
+        text: '{{ stop.text }}'
+        , attachTo: '{{ stop.node }} {{ stop.orientation }}'
         , buttons: [
               {
-                  text: 'Next'
-                , action: tour.next
+                  text: {% unless forloop.last %}'Next'{% else %}'Start Over'{% endunless %}
+                , action: {% unless forloop.last %}tour.next{% else %}tour.first{% endunless %}
               }
           ]
     });
+  {% endfor %}
     tour.start();
 }
