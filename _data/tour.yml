@@ -1,0 +1,4 @@
+- stop:
+    node: .cfi-tabs
+    direction: bottom
+    text: 'Choose a section here'
