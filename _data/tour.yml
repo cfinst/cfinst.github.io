@@ -1,3 +1,4 @@
-- node: .cfi-tabs
-  orientation: bottom
-  text: 'Choose a section here'
+- node: "#map"
+  text: The map will show the most recent year by default. Hovering the cursor over a state will show details for the year being shown.
+- node: "#chooser-year"
+  text: "Choose a year here to see the applicable legislation for that year."
