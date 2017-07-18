@@ -1,6 +1,6 @@
 <ul class="nav nav-tabs cfi-tabs" role="tablist">
   {% for tab in site.data.tabs %}
-    <li role="presentation">
+    <li id="nav-{{ tab.section }}" role="presentation">
       <a href="#{{ tab.section }}"
           aria-controls="{{ tab.section }}"
           role="tab"
