@@ -36,15 +36,15 @@ function triggerIntroModal(){
           }
       })
     ;
+  {% comment %}Create the tour using Jekyll{% endcomment %}
   {% for stop in site.data.tour %}
-  console.log('{{ stop }}', "{{ stop.node }}")
     tour.addStep('step{{ forloop.index }}', {
         text: '{{ stop.text }}'
-        , attachTo: '{{ stop.node }} {{ stop.orientation }}'
+        , attachTo: '{{ stop.node }} {% if stop.orientation %}{{ stop.orientation }}{% else %}bottom{% endif %}'
         , buttons: [
               {
                   text: {% unless forloop.last %}'Next'{% else %}'Start Over'{% endunless %}
-                , action: {% unless forloop.last %}tour.next{% else %}tour.first{% endunless %}
+                , action: {% unless forloop.last %}tour.next{% else %}tour.show('step1'){% endunless %}
               }
           ]
     });
