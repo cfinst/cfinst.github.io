@@ -13,3 +13,5 @@
   text: Looking up and down any one state’s column will show if and when the state changed its law. Hovering the cursor over any box will give some of the details for each state and year.
 - node: ".sorter-slicer"
   text: Clicking on any year at the left of the grid will rearrange the grid according to the values in the year chosen. It will also change the map to show the laws for that year. There is also an option to sort the states alphabetically.
+- node: "#contribution-limits"
+  text: Some text about contribution limits
