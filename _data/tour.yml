@@ -14,4 +14,8 @@
 - node: ".sorter-slicer"
   text: Clicking on any year at the left of the grid will rearrange the grid according to the values in the year chosen. It will also change the map to show the laws for that year. There is also an option to sort the states alphabetically.
 - node: "#contribution-limits"
-  text: Some text about contribution limits
+  text: Some text about how to use contribution limits
+- node: "#nav-contribution-limits"
+  text: Some text about Contribution Limits
+- node: "#nav-other-restrictions"
+  text: Some text about other restrictions
