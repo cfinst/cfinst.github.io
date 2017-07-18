@@ -2,3 +2,12 @@
   text: The map will show the most recent year by default. Hovering the cursor over a state will show details for the year being shown.
 - node: "#chooser-year"
   text: "Choose a year here to see the applicable legislation for that year."
+- node: "#grid-view"
+  orientation: top
+  text: Each of the fifty states has a column in the grid.
+- node: "#grid-view"
+  orientation: right
+  text: The horizontal rows represent years taken every two years, with the most recent completed year at the top.
+- node: "#grid-view"
+  orientation: center
+  text: Looking up and down any one state’s column will show if and when the state changed its law. Hovering the cursor over any box will give some of the details for each state and year.
