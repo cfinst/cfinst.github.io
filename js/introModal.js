@@ -1,3 +1,31 @@
+---
+---
+
+// This function starts the Shepherd tour.
+function takeTour(){
+    var tour = new Shepherd.Tour({
+        defaults: {
+              classes: 'shepherd-theme-arrows'
+            , scrollTo: true
+          }
+      })
+    ;
+  {% comment %}Create the tour using Jekyll{% endcomment %}
+  {% for stop in site.data.tour %}
+    tour.addStep('step{{ forloop.index }}', {
+        text: '{{ stop.text }}'
+        , attachTo: '{{ stop.node }} {% if stop.orientation %}{{ stop.orientation }}{% else %}bottom{% endif %}'
+        , buttons: [
+              {
+                  text: {% unless forloop.last %}'Next'{% else %}'End Tour'{% endunless %}
+                , action: {% unless forloop.last %}tour.next{% else %}tour.complete{% endunless %}
+              }
+          ]
+    });
+  {% endfor %}
+    tour.start();
+}
+
 // This triggers the introduction popup
 // that shows only the first time the page is loaded.
 // This function should be invoked once, on page load.
@@ -11,10 +39,11 @@ function triggerIntroModal(){
     // Only show the intro modal if the current user
     // is visiting the page for the first time.
     if(!pageSeen){
+        var introModal = $("#intro-modal")
 
         // Show the modal, via Bootstrap"s API.
         // See http://getbootstrap.com/javascript/#via-javascript
-        $("#intro-modal").modal({
+        introModal.modal({
 
             // This option tells Bootstrap to load the content from this file,
             // which is compiled using Jekyll based on configurable content
@@ -27,5 +56,15 @@ function triggerIntroModal(){
 
         // Track that the current user has visited this page using cookies.
         document.cookie = "pageSeen=true;expires=" + expiryDate.toUTCString();
+
+        // Add an event listener to the "Take tour" button after the modal loads.
+        // `loaded` event documented at http://getbootstrap.com/javascript/#modals-events
+        introModal.on("loaded.bs.modal", function (e) {
+            d3.select("#take-tour-button")
+                .on("click", function (event) {
+                    introModal.modal("hide");
+                    takeTour();
+                });
+        })
     }
 }

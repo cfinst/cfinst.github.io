@@ -7,4 +7,5 @@
 {% include_relative _vendor/d3-tip.js %}
 {% include_relative _vendor/jquery.min.js %}
 {% include_relative _vendor/bootstrap.min.js %}
-{% include_relative _vendor/marked.min.js %}
+{% include_relative _vendor/tether.min.js %}
+{% include_relative _vendor/shepherd.min.js %}

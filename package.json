@@ -10,6 +10,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "d3": "^4.2.1"
+    "d3": "^4.2.1",
+    "tether": "^1.4.0"
   }
 }

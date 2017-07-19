@@ -1,0 +1,21 @@
+- node: "#map"
+  text: The map will show the most recent year by default. Hovering the cursor over a state will show details for the year being shown.
+- node: "#chooser-year"
+  text: "Choose a year here to see the applicable legislation for that year."
+- node: "#grid-view"
+  orientation: top
+  text: Each of the fifty states has a column in the grid.
+- node: "#grid-view"
+  orientation: right
+  text: The horizontal rows represent years taken every two years, with the most recent completed year at the top.
+- node: "#grid-view"
+  orientation: center
+  text: Looking up and down any one state’s column will show if and when the state changed its law. Hovering the cursor over any box will give some of the details for each state and year.
+- node: ".sorter-slicer"
+  text: Clicking on any year at the left of the grid will rearrange the grid according to the values in the year chosen. It will also change the map to show the laws for that year. There is also an option to sort the states alphabetically.
+- node: "#contribution-limits"
+  text: Some text about how to use contribution limits
+- node: "#nav-contribution-limits"
+  text: Some text about Contribution Limits
+- node: "#nav-other-restrictions"
+  text: Some text about other restrictions

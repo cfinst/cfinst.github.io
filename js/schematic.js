@@ -93,13 +93,13 @@
       initializeYearSelector(data.keys());
 
       grid
-          .svg(d3.select("svg#main"))
+          .svg(d3.select("#grid-view>svg"))
           .data(dataset)
           .tooltip(tip)
           .backgroundRectFadeOpacity(backgroundRectFadeOpacity)
       ;
       atlas
-          .svg(d3.select("svg#map"))
+          .svg(d3.select("#map>svg"))
           .geo(usa)
           .data(data)
           .tooltip(tip)
