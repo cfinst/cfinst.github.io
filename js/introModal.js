@@ -43,8 +43,8 @@ function triggerIntroModal(){
         , attachTo: '{{ stop.node }} {% if stop.orientation %}{{ stop.orientation }}{% else %}bottom{% endif %}'
         , buttons: [
               {
-                  text: {% unless forloop.last %}'Next'{% else %}'Start Over'{% endunless %}
-                , action: {% unless forloop.last %}tour.next{% else %}tour.show('step1'){% endunless %}
+                  text: {% unless forloop.last %}'Next'{% else %}'End Tour'{% endunless %}
+                , action: {% unless forloop.last %}tour.next{% else %}tour.complete{% endunless %}
               }
           ]
     });
