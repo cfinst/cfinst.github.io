@@ -4,6 +4,10 @@ modal: introduction
 title: Welcome to the Campaign Finance Law Database!
 ---
 
+<button id="take-tour-button" type="button" class="btn btn-default btn-block">
+  Take the tour!
+</button>
+
 Each of the graphic visualizations derived from the historical database of state
 campaign finance laws involves both a map and a grid.
 
