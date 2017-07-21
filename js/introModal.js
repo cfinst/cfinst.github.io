@@ -73,7 +73,10 @@ function triggerIntroModal(){
         // Add an event listener to the "Take tour" button after the modal loads.
         // `loaded` event documented at http://getbootstrap.com/javascript/#modals-events
         introModal.on("loaded.bs.modal", function (e) {
-            d3.select("#take-tour-button")
+            d3.selectAll(".take-tour-button")
+                .attr("type", "button")
+                .classed("btn btn-primary btn-block", true)
+                .text("Take the tour!")
                 .on("click", function (event) {
                     introModal.modal("hide");
                     takeTour();
