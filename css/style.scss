@@ -4,6 +4,7 @@
 @import "cfi-theme";
 @import "tips";
 @import "vis";
+@import "tour";
 
 {% for color in site.data.colors %}
 .{{ color.color | slugify }} {
