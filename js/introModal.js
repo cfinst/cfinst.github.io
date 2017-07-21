@@ -7,6 +7,7 @@ function takeTour(){
         defaults: {
               classes: 'shepherd-theme-arrows'
             , scrollTo: true
+            , showCancelLink: true
           }
       })
     ;
