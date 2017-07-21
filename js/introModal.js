@@ -26,10 +26,12 @@ function takeTour(){
                 , action: tour.back
               }
           {% endunless %}
+          {% unless forloop.last %}
             , {
-                  text: {% unless forloop.last %}'Next'{% else %}'End Tour'{% endunless %}
-                , action: {% unless forloop.last %}tour.next{% else %}tour.complete{% endunless %}
+                  text: 'Next'
+                , action: tour.next
               }
+          {% endunless %}
           ]
     });
   {% endfor %}
