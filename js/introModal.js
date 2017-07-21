@@ -39,6 +39,24 @@ function takeTour(){
     tour.start();
 }
 
+// Sets up the "Take the tour" button.
+// Expects the `modal` argument to be a jQuery selection
+// of the Bootstrap modal that contains the button skeleton.
+// We define the classes and text here, in JavaScript,
+// so we can change all the buttons at once by modifying only this code.
+function setupTourButtons (modal) {
+    return function () {
+        d3.select(modal[0]).select(".take-tour-button")
+            .attr("type", "button")
+            .classed("btn btn-primary btn-block", true)
+            .text("Take the tour!")
+            .on("click", function (event) {
+                modal.modal("hide");
+                takeTour();
+            });
+    };
+}
+
 // This triggers the introduction popup
 // that shows only the first time the page is loaded.
 // This function should be invoked once, on page load.
@@ -72,15 +90,6 @@ function triggerIntroModal(){
 
         // Add an event listener to the "Take tour" button after the modal loads.
         // `loaded` event documented at http://getbootstrap.com/javascript/#modals-events
-        introModal.on("loaded.bs.modal", function (e) {
-            d3.selectAll(".take-tour-button")
-                .attr("type", "button")
-                .classed("btn btn-primary btn-block", true)
-                .text("Take the tour!")
-                .on("click", function (event) {
-                    introModal.modal("hide");
-                    takeTour();
-                });
-        })
+        introModal.on("loaded.bs.modal", setupTourButtons(introModal));
     }
 }

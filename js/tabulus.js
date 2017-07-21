@@ -20,12 +20,15 @@ function Tabulus() {
                   , name = [query.section, self.attr("data-name")]
                   , id = name.join('-')
                   , uri = name.join('/')
+                  , modalSelector = "#" + id + "-modal"
+                  , modal = $(modalSelector)
                 ;
                 self
                     .attr("id", id + "-button")
-                    .attr("data-target", "#" + id + "-modal")
+                    .attr("data-target", modalSelector)
                     .attr("href", "../modals/" + uri + ".html")
                 ;
+                modal.on("loaded.bs.modal", setupTourButtons(modal));
               })
         ;
     } // my()
