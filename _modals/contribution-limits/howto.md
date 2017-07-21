@@ -5,6 +5,8 @@ title: How to use this page
 
 ---
 
+<button class="take-tour-button"></button>
+
 Each of the graphic visualizations derived from the historical database of state
 campaign finance laws involves both a map and a grid. 
 
