@@ -18,7 +18,7 @@ function takeTour(){
         , attachTo: '{{ stop.node }} {% if stop.orientation %}{{ stop.orientation }}{% else %}bottom{% endif %}'
         , buttons: [
               {
-                  text: 'Exit Tour'
+                  text: 'Exit'
                 , action: tour.complete
               }
           {% unless forloop.first %}
