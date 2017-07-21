@@ -20,6 +20,12 @@ function takeTour(){
                   text: 'Exit Tour'
                 , action: tour.complete
               }
+          {% unless forloop.first %}
+            , {
+                  text: 'Back'
+                , action: tour.back
+              }
+          {% endunless %}
             , {
                   text: {% unless forloop.last %}'Next'{% else %}'End Tour'{% endunless %}
                 , action: {% unless forloop.last %}tour.next{% else %}tour.complete{% endunless %}
