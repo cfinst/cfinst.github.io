@@ -7,6 +7,7 @@ function takeTour(){
         defaults: {
               classes: 'shepherd-theme-arrows'
             , scrollTo: true
+            , showCancelLink: true
           }
       })
     ;
@@ -17,9 +18,21 @@ function takeTour(){
         , attachTo: '{{ stop.node }} {% if stop.orientation %}{{ stop.orientation }}{% else %}bottom{% endif %}'
         , buttons: [
               {
-                  text: {% unless forloop.last %}'Next'{% else %}'End Tour'{% endunless %}
-                , action: {% unless forloop.last %}tour.next{% else %}tour.complete{% endunless %}
+                  text: 'Exit'
+                , action: tour.complete
               }
+          {% unless forloop.first %}
+            , {
+                  text: 'Back'
+                , action: tour.back
+              }
+          {% endunless %}
+          {% unless forloop.last %}
+            , {
+                  text: 'Next'
+                , action: tour.next
+              }
+          {% endunless %}
           ]
     });
   {% endfor %}
