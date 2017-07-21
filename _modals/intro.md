@@ -4,7 +4,7 @@ modal: introduction
 title: Welcome to the Campaign Finance Law Database!
 ---
 
-<button id="take-tour-button" type="button" class="btn btn-default btn-block">
+<button id="take-tour-button" type="button" class="btn btn-primary btn-block">
   Take the tour!
 </button>
 
