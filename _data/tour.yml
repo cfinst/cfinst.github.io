@@ -18,4 +18,7 @@
 - node: "#nav-contribution-limits"
   text: Some text about Contribution Limits
 - node: "#nav-other-restrictions"
-  text: Some text about other restrictions
+  text: Some text about other
+- node: ".buttons-and-modals"
+  orientation: right
+  text: You can launch this Tour any time by pressing here.
