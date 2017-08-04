@@ -10,3 +10,19 @@
 .shepherd-button {
     background-color: darkred !important;
 }
+
+.shepherd-element.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-content:before {
+    border-bottom-color: red;
+}
+
+.shepherd-element.shepherd-theme-arrows.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-content:before {
+    border-top-color: red;
+}
+
+.shepherd-element.shepherd-theme-arrows.shepherd-element-attached-right.shepherd-element-attached-middle .shepherd-content:before {
+    border-left-color: red;
+}
+
+.shepherd-element.shepherd-theme-arrows.shepherd-element-attached-left.shepherd-element-attached-middle .shepherd-content:before {
+    border-right-color: red;
+}
