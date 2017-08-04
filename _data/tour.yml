@@ -1,5 +1,5 @@
 - node: "#map"
-  text: The map will show the most recent year by default. Hovering the cursor over a state will show details for the year being shown.
+  text: The map shows the most recent year by default. Hovering the cursor over a state will show details for the year being shown.
 - node: "#chooser-year"
   text: "Choose a year here to see the applicable legislation for that year."
 - node: "#grid-view"
