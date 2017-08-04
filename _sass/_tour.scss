@@ -10,3 +10,7 @@
 .shepherd-button {
     background-color: darkred !important;
 }
+
+.shepherd-element.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-content:before {
+    border-bottom-color: red;
+}
