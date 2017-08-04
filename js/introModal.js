@@ -46,14 +46,26 @@ function takeTour(){
 // so we can change all the buttons at once by modifying only this code.
 function setupTourButtons (modal) {
     return function () {
-        d3.select(modal[0]).select(".take-tour-button")
+        var container = d3.select(modal[0])
+          .select(".tour-guidance-container");
+
+        container.append("button")
             .attr("type", "button")
             .classed("btn btn-primary btn-block", true)
             .text("Take the tour!")
+            .style("margin-bottom", "5px")
             .on("click", function (event) {
                 modal.modal("hide");
                 takeTour();
             });
+
+        container.append("iframe")
+            .attr("width", 560)
+            .attr("height", 315)
+            .attr("src", "https://www.youtube.com/embed/VEPyBG2TB10")
+            .attr("frameborder", 0)
+            .attr("allowfullscreen", true)
+            .style("margin-bottom", "5px");
     };
 }
 

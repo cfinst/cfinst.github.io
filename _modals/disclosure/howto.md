@@ -4,7 +4,7 @@ modal: howto-disclosure
 title: How to use this page
 ---
 
-<button class="take-tour-button"></button>
+<div class="tour-guidance-container"></div>
 
 Each of the graphic visualizations derived from the historical database of state campaign finance laws involves both a map and a grid. In this section on disclosure, select your question at the upper right and the answers will appear on both map and grid.  
 
