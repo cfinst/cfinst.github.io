@@ -14,11 +14,9 @@
 - node: ".sorter-slicer"
   text: Clicking on any year at the left of the grid will rearrange the grid according to the values in the year chosen. It will also change the map to show the laws for that year. There is also an option to sort the states alphabetically.
 - node: "#contribution-limits"
-  text: Some text about how to use contribution limits
-- node: "#nav-contribution-limits"
-  text: Some text about Contribution Limits
+  text: The contribution limits tab has a scheme where there is a donor, recipient, and (sometimes) branch of government. You can build a custom query using these dropdowns.
 - node: "#nav-other-restrictions"
-  text: Some text about other
+  text: These other tabs show other sections of the database, and have simpler query options.
 - node: ".buttons-and-modals"
   orientation: right
-  text: You can launch this Tour any time by pressing "Using This Page".
+  text: You can launch this tour again at any time by pressing "Using This Page". Enjoy exploring!
