@@ -21,4 +21,4 @@
   text: Some text about other
 - node: ".buttons-and-modals"
   orientation: right
-  text: You can launch this Tour any time by pressing here.
+  text: You can launch this Tour any time by pressing "Using This Page".
