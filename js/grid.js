@@ -217,7 +217,6 @@ function Grid(){
       xAxisG
         .transition(t)
           .call(axisX.scale(xScale))
-        ;
       ;
       xAxisG.selectAll(".tick line")
           .attr("transform", "translate(" + (xScale.step() / 2) + ",0)")
@@ -225,11 +224,19 @@ function Grid(){
       yAxisG
         .transition(t)
           .call(axisY.scale(yScale))
+        .selectAll(".tick")
+          .attr("id", function (year){
+            return "year-left-" + year;
+          });
       ;
       yAxis2G
           .attr("transform", "translate(" + width + ",0)")
         .transition(t)
           .call(axisY2.scale(yScale))
+        .selectAll(".tick")
+          .attr("id", function (year){
+            return "year-right-" + year;
+          })
       ;
       svg.selectAll(".y.axis .tick line")
           .attr("transform", "translate(0," + (yScale.step() / 2) + ")")
@@ -240,7 +247,7 @@ function Grid(){
               query.year = +d;
               dispatch.call("query", null, query);
             }
-          );
+          )
       ;
   } // render_axes()
 
