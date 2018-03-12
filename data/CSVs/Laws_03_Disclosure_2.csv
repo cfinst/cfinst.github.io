@@ -1,5 +1,15 @@
 Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommittee,IE_Filers_Corporation,IE_Filers_Labor,IE_Filers_Lobbyist,IE_Filers_Others,IE_Report_Exemption,IE_Report_Exemption_Amount,IE_Filers_Others_Info,IE_Filers_Others_Donors,IE_Target,IE_Target_SupportOppose,IE_Report_When,ElxnrgCategory,ElxnrgTerm,Elxnrg_Filers_Indiv,Elxnrg_Filers_Party,Elxnrg_Filers_PoliticalCommittee,Elxnrg_Filers_Corporate,Elxnrg_Filers_Labor,Elxnrg_Filers_Lobbyist,Elxnrg_Filers_Others,Elxnrg_Report_Exemption,Elxnrg_Report_Exemption_Amount,Elxnrg_Filers_Others_Info,Elxnrg_Filers_Others_Donors,Elxnrg_Target,Elxnrg_Target_SupportOppose,Elxnrg_Report_When
 "AK1996","AK",1996,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","251","No","No","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
+"AK1998","AK",1998,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","501","No","No","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
+"AK2000","AK",2000,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","501","No","No","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
+"AK2002","AK",2002,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","501","No","No","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
+"AK2004","AK",2004,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","No","No","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
+"AK2006","AK",2006,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","No","No","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
+"AK2008","AK",2008,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","No","No","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
+"AK2010","AK",2010,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","Yes","Yes","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
+"AK2012","AK",2012,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","Yes","Yes","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
+"AK2014","AK",2014,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","Yes","Yes","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
+"AK2016","AK",2016,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","Yes","Yes","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
 "AL1996","AL",1996,"No","No","No","No","No","No","No","No","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,,,,,,,,,,
 "AL1998","AL",1998,"No","No","No","No","No","No","No","No","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,,,,,,,,,,
 "AL2000","AL",2000,"No","No","No","No","No","No","No","No","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,,,,,,,,,,
@@ -215,11 +225,11 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "ME2002","ME",2002,"Yes","Yes","Yes","No","No","No","No","Yes","51","No","No","Yes","Yes","NA","No",,,,,,,,,,,,,,,
 "ME2004","ME",2004,"Yes","Yes","Yes","No","No","No","No","Yes","101","No","No","Yes","Yes","NA","No",,,,,,,,,,,,,,,
 "ME2006","ME",2006,"Yes","Yes","Yes","No","No","No","No","Yes","101","No","No","Yes","Yes","NA","No",,,,,,,,,,,,,,,
-"ME2008","ME",2008,"Yes","Yes","Yes","No","No","No","No","Yes","5,001","No","No","Yes","Yes","NA","No",,,,,,,,,,,,,,,
-"ME2010","ME",2010,"Yes","Yes","Yes","No","No","No","No","Yes","5,001","No","No","Yes","Yes","NA","No",,,,,,,,,,,,,,,
-"ME2012","ME",2012,"Yes","Yes","Yes","No","No","No","No","Yes","5,001","No","No","Yes","Yes","NA","No",,,,,,,,,,,,,,,
-"ME2014","ME",2014,"Yes","Yes","Yes","No","No","No","No","Yes","5,001","No","No","Yes","Yes","NA","No",,,,,,,,,,,,,,,
-"ME2016","ME",2016,"Yes","Yes","Yes","No","No","No","No","Yes","5,001","No","No","Yes","Yes","NA","No",,,,,,"ME",,,,,,,,,
+"ME2008","ME",2008,"Yes","Yes","Yes","No","No","No","No","Yes","5001","No","No","Yes","Yes","NA","No",,,,,,,,,,,,,,,
+"ME2010","ME",2010,"Yes","Yes","Yes","No","No","No","No","Yes","5001","No","No","Yes","Yes","NA","No",,,,,,,,,,,,,,,
+"ME2012","ME",2012,"Yes","Yes","Yes","No","No","No","No","Yes","5001","No","No","Yes","Yes","NA","No",,,,,,,,,,,,,,,
+"ME2014","ME",2014,"Yes","Yes","Yes","No","No","No","No","Yes","5001","No","No","Yes","Yes","NA","No",,,,,,,,,,,,,,,
+"ME2016","ME",2016,"Yes","Yes","Yes","No","No","No","No","Yes","5001","No","No","Yes","Yes","NA","No",,,,,,,,,,,,,,,
 "MI1996","MI",1996,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","101","Yes","Yes","No","No","Filed within 10 days; Available within 3 business days of transmittal to the relevant local government unit","No",,,,,,,,,,,,,,,
 "MI1998","MI",1998,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","101","Yes","Yes","No","No","Filed within 10 days; Available within 3 business days of transmittal to the relevant local government unit","No",,,,,,,,,,,,,,,
 "MI2000","MI",2000,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","101","Yes","Yes","No","No","Filed within 10 days; Available within 3 business days of transmittal to the relevant local government unit","No",,,,,,,,,,,,,,,
@@ -296,7 +306,7 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "ND2010","ND",2010,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","201","Yes","No","Yes","No","12 days prior to election","No",,,,,,,,,,,,,,,
 "ND2012","ND",2012,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","201","Yes","No","Yes","No","12 days prior to election","No",,,,,,,,,,,,,,,
 "ND2014","ND",2014,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","201","Yes","No","Yes","No","Within 48 hours of making the expenditure or contribution.","No",,,,,,,,,,,,,,,
-"ND2016","ND",2016,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","201","Yes","No","Yes","No","Within 48 hours of making the expenditure or contribution.","No",,,,,,"ND",,,,,,,,,
+"ND2016","ND",2016,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","201","Yes","No","Yes","No","Within 48 hours of making the expenditure or contribution.","No",,,,,,,,,,,,,,,
 "NE1996","NE",1996,"Yes","No","No","No","No","Yes","Yes","Yes","101","No","No","No","No","10 days","No",,,,,,,,,,,,,,,
 "NE1998","NE",1998,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","2001","No","No","Yes","Yes","5 days","No",,,,,,,,,,,,,,,
 "NE2000","NE",2000,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","251","Yes","No","Yes","No","File within 10 days","No",,,,,,,,,"No",,,,,,
@@ -539,13 +549,3 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "WY2012","WY",2012,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","501","No","Yes","No","No","Report of expenditures required 7 days before election. Reports of expenditures and contributions required within 10 days after an election.","No",,"No","No","No","No","No","No","No","No",,"No","No","No","No",
 "WY2014","WY",2014,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","501","No","No","No","No","Report of expenditures required 7 days before election. Reports of expenditures and contributions required within 10 days after an election.","No",,"No","Yes","Yes","Yes","Yes","No","No","No",,"No","No","No","No",
 "WY2016","WY",2016,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","501","No","No","No","No","Report of expenditures required 7 days before election. Reports of expenditures and contributions required within 10 days after an election.","No",,"No","Yes","Yes","Yes","Yes","No","No","No",,"No","No","No","No",
-"AK2004","AK",2004,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","No","No","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
-"AK1998","AK",1998,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","501","No","No","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
-"AK2000","AK",2000,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","501","No","No","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
-"AK2006","AK",2006,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","No","No","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
-"AK2008","AK",2008,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","No","No","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
-"AK2010","AK",2010,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","Yes","Yes","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
-"AK2012","AK",2012,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","Yes","Yes","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
-"AK2014","AK",2014,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","Yes","Yes","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
-"AK2016","AK",2016,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","0","Yes","Yes","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
-"AK2002","AK",2002,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","501","No","No","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
