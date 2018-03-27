@@ -1,4 +1,6 @@
 Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommittee,IE_Filers_Corporation,IE_Filers_Labor,IE_Filers_Lobbyist,IE_Filers_Others,IE_Report_Exemption,IE_Report_Exemption_Amount,IE_Filers_Others_Info,IE_Filers_Others_Donors,IE_Target,IE_Target_SupportOppose,IE_Report_When,ElxnrgCategory,ElxnrgTerm,Elxnrg_Filers_Indiv,Elxnrg_Filers_Party,Elxnrg_Filers_PoliticalCommittee,Elxnrg_Filers_Corporate,Elxnrg_Filers_Labor,Elxnrg_Filers_Lobbyist,Elxnrg_Filers_Others,Elxnrg_Report_Exemption,Elxnrg_Report_Exemption_Amount,Elxnrg_Filers_Others_Info,Elxnrg_Filers_Others_Donors,Elxnrg_Target,Elxnrg_Target_SupportOppose,Elxnrg_Report_When
+"AL2016","AL",2016,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"Yes","120 days","Yes","Yes","Yes","Yes","AL","Yes","Yes","Yes","1000","Yes","Yes","Yes","Yes","NA"
+"NM2016","NM",2016,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,"NM",,,,,,,,,
 "AK1996","AK",1996,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","251","No","No","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
 "AK1998","AK",1998,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","501","No","No","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
 "AK2000","AK",2000,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","501","No","No","No","No","No later than 10 days after the expenditure is made.","Yes",,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","No",,"No","No","No","No","10 days; Not specified"
@@ -20,7 +22,6 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "AL2010","AL",2010,"No","No","No","No","No","No","No","No","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,,,,,,,,,,
 "AL2012","AL",2012,"No","No","No","No","No","No","No","No","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"Yes","120 days","Yes","Yes","Yes","Yes","No","Yes","Yes","Yes","1000","Yes","Yes","Yes","Yes","NA"
 "AL2014","AL",2014,"No","No","No","No","No","No","No","No","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"Yes","120 days","Yes","Yes","Yes","Yes","AL","Yes","Yes","Yes","1000","Yes","Yes","Yes","Yes","NA"
-"AL2016","AL",2016,"No","No","No","No","No","No","No","No",,"No","No","No","No",,"Yes","120 days","Yes","Yes","Yes","Yes","AL","Yes","Yes","Yes","1000","Yes","Yes","Yes","Yes","NA"
 "AR1996","AR",1996,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
 "AR1998","AR",1998,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","500","No","No","Yes","Yes","See A.C.A. 7-6-220(a)","No",,,,,,,,,,,,,,,
 "AR2000","AR",2000,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","500","No","No","Yes","Yes","See A.C.A. 7-6-220(a)","No",,,,,,,,,,,,,,,
@@ -156,14 +157,13 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "IN1996","IN",1996,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,,,,,,,,,,
 "IN1998","IN",1998,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,,,,,,,,,,
 "IN2000","IN",2000,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,,,,,,,,,,
-"IN2002","IN",2002,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,"IN",,,,,,,,,
-"IN2004","IN",2004,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,"IN",,,,,,,,,
-"IN2006","IN",2006,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,"IN",,,,,,,,,
-"IN2008","IN",2008,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,"IN",,,,,,,,,
-"IN2010","IN",2010,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,"IN",,,,,,,,,
-"IN2012","IN",2012,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,"IN",,,,,,,,,
-"IN2014","IN",2014,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,"IN",,,,,,,,,
-"IN2016","IN",2016,"No","No","No","No","No","No","No",,,"No","No","No","No",,"No",,,,,,"IN",,,,,,,,,
+"IN2002","IN",2002,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,,,,,,,,,,
+"IN2004","IN",2004,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,,,,,,,,,,
+"IN2006","IN",2006,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,,,,,,,,,,
+"IN2008","IN",2008,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,,,,,,,,,,
+"IN2010","IN",2010,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,,,,,,,,,,
+"IN2012","IN",2012,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,,,,,,,,,,
+"IN2014","IN",2014,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,,,,,,,,,,
 "KS1996","KS",1996,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","100","No","Yes","No","No","NA","No",,,,,,,,,,,,,,,
 "KS1998","KS",1998,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","100","No","Yes","No","No","NA","No",,,,,,,,,,,,,,,
 "KS2000","KS",2000,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","100","No","Yes","No","No","NA","No",,,,,,,,,,,,,,,
@@ -350,7 +350,6 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "NM2010","NM",2010,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,"NM",,,,,,,,,
 "NM2012","NM",2012,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,"NM",,,,,,,,,
 "NM2014","NM",2014,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,"NM",,,,,,,,,
-"NM2016","NM",2016,"No","No","No","No","No","No","No","Disclosure Not Required",,"No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,"NM",,,,,,,,,
 "NV1996","NV",1996,"Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","501","No","Yes","No","No","There are set reporting periods.","No",,,,,,,,,,,,,,,
 "NV1998","NV",1998,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","501","No","Yes","No","No","There are set reporting periods.","No",,,,,,,,,,,,,,,
 "NV2000","NV",2000,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","101","No","Yes","No","No","There are set reporting periods.","No",,,,,,,,,,,,,,,
@@ -395,8 +394,8 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "OK2012","OK",2012,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","500","No","No","No","No","24 hours","No",,,,,,,,,,,,,,,
 "OK2014","OK",2014,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","500","No","No","No","No","24 hours","No",,,,,,,,,,,,,,,
 "OK2016","OK",2016,"No","Yes","Yes","Yes","Yes","Yes","Yes","Yes","5000","Yes","No","Yes","If made by a PAC","Next business day","Yes","Electioneering Communications","No","Yes","Yes","Yes","Yes","Yes","Yes","Yes","5000","Yes","No","If made by a PAC","No","Next business day"
-"OR1996","OR",1996,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","51/non-statewide; 101/statewide","No","No","No","No","File within the period the threshold is reached (pre-election, supplemental, etc)","No",,,,,,,,,,,,,,,
-"OR1998","OR",1998,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","51/non-statewide; 101/statewide","No","No","No","No","File within the period the threshold is reached (pre-election, supplemental, etc)","No",,,,,,,,,,,,,,,
+"OR1996","OR",1996,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","51","No","No","No","No","File within the period the threshold is reached (pre-election, supplemental, etc)","No",,,,,,,,,,,,,,,
+"OR1998","OR",1998,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","51","No","No","No","No","File within the period the threshold is reached (pre-election, supplemental, etc)","No",,,,,,,,,,,,,,,
 "OR2000","OR",2000,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","51","No","No","Yes","Yes","File within the period the threshold is reached (pre-election, supplemental, etc)","No",,,,,,,,,,,,,,,
 "OR2002","OR",2002,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","51","No","No","Yes","Yes","File within the period the threshold is reached (pre-election, supplemental, etc)","No",,,,,,,,,,,,,,,
 "OR2004","OR",2004,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","51","No","No","Yes","Yes","File within the period the threshold is reached (pre-election, supplemental, etc)","No",,,,,,,,,,,,,,,
@@ -480,9 +479,6 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "UT2006","UT",2006,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,,,,,,,,,,
 "UT2008","UT",2008,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,,,,,,,,,,
 "UT2010","UT",2010,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,,,,,,,,,,
-"UT2012","UT",2012,"No","No","No","No","No","No","No","No","0","No","No","No","No",,"No",,,,,,,,,,,,,,,
-"UT2014","UT",2014,"Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","1001","No","Yes","Yes","Yes","Within 30 dYA.","No",,,,,,,,,,,,,,,
-"UT2016","UT",2016,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","1001","No","Yes","Yes","Yes","Within 30 dYA.","No",,,,,,"UT",,,,,,,,,
 "VA1996","VA",1996,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","201","No","No","No","No","Usual election reporting dates apply. Code of Virginia 24.2-910(B) (1996).","No",,,,,,,,,,,,,,,
 "VA1998","VA",1998,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","201","No","No","No","No","Usual election reporting dates apply. Code of Virginia 24.2-910(B) (1996).","No",,,,,,,,,,,,,,,
 "VA2000","VA",2000,"Yes","No","No","Yes","Yes","Yes","Yes","Yes","201","No","No","No","No","Usual election reporting dates apply. Code of Virginia 24.2-910(B) (1996).","No",,,,,,,,,,,,,,,
@@ -549,3 +545,7 @@ Identifier,State,Year,IE_Filers_Indiv,IE_Filers_Party,IE_Filers_PoliticalCommitt
 "WY2012","WY",2012,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","501","No","Yes","No","No","Report of expenditures required 7 days before election. Reports of expenditures and contributions required within 10 days after an election.","No",,"No","No","No","No","No","No","No","No",,"No","No","No","No",
 "WY2014","WY",2014,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","501","No","No","No","No","Report of expenditures required 7 days before election. Reports of expenditures and contributions required within 10 days after an election.","No",,"No","Yes","Yes","Yes","Yes","No","No","No",,"No","No","No","No",
 "WY2016","WY",2016,"Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","501","No","No","No","No","Report of expenditures required 7 days before election. Reports of expenditures and contributions required within 10 days after an election.","No",,"No","Yes","Yes","Yes","Yes","No","No","No",,"No","No","No","No",
+"UT2012","UT",2012,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,,,,,,,,,,
+"UT2014","UT",2014,"Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","1001","No","Yes","Yes","Yes","Within 30 days of each cummulative $1,000 spent","No",,,,,,,,,,,,,,,
+"UT2016","UT",2016,"Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","1001","No","Yes","Yes","Yes","Within 30 days of each cummulative $1,000 spent","No",,,,,,,,,,,,,,,
+"IN2016","IN",2016,"No","No","No","No","No","No","No","Disclosure Not Required","Disclosure Not Required","No","No","No IE Disclosure","No IE Disclosure",,"No",,,,,,,,,,,,,,,
