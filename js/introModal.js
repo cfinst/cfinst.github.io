@@ -62,7 +62,7 @@ function setupTourButtons (modal) {
         container.append("iframe")
             .attr("width", 560)
             .attr("height", 315)
-            .attr("src", "https://www.youtube.com/embed/VKN8DAQXan0")
+            .attr("src", "https://www.youtube.com/embed/ZXNKw3saU2Y")
             .attr("frameborder", 0)
             .attr("allowfullscreen", true)
             .style("margin-bottom", "5px");
