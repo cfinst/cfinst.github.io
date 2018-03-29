@@ -5,13 +5,9 @@
   fallback: -Infinity
   scale:
     - min: -Infinity
-      max: 0
-      label: $0
-      color: bluegreen-darker
-    - min: 1
       max: 50
       label: $50 or less
-      color: bluegreen-dark
+      color: bluegreen-darker
     - min: 51
       max: 100
       color: bluegreen
