@@ -22,6 +22,10 @@
       max: 1000000
       label: More than $200
       color: bluegreen-lighter
+    - min: 1000001
+      max: Infinity
+      label: Disclosure Not Required
+      color: brown-light
 
 # Color Palette:
 #   Blues: http://colorbrewer2.org/#type=sequential&scheme=Blues&n=6
