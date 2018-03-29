@@ -10,10 +10,6 @@
   legend: default
   question: Are contribution limits lower for people or organizations doing business with the state?
   label: Separate Contribution Limits for those doing business with State?
-- name: ForeignNationalCont
-  legend: default
-  question: Are contributions from foreign nationals prohibited?
-  label: Contributions from Foreign Nationals Prohibited?
 - name: CorpExpendProhibit
   legend: default
   question: Are corporations prohibited from making political expenditures from their treasuries?
