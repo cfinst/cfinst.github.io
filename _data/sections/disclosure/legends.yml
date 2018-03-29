@@ -4,7 +4,7 @@
   type: threshold
   fallback: -Infinity
   scale:
-    - min: -Infinity
+    - min: 0
       max: 50
       label: $50 or less
       color: bluegreen-darker
