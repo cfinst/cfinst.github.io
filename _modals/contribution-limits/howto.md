@@ -40,5 +40,5 @@ historical database.
 
 #### _Full Database_
 
-To see much more about contribution limits and the rest of this database (including the
-complete descriptive codebook) click on ___".
+To see much more about the rest of this database (including the
+complete descriptive codebook) <a href="http://cfinst.org/State/LawsDatabase.aspx">click here</a>.
