@@ -26,5 +26,5 @@ You may download the answers to your specific question in a standard format that
 
 #### Full Database
 
-To see much more about public financing and the rest of this database (including the complete descriptive codebook) click on ""___"".
-"
+To see much more about the rest of this database (including the
+complete descriptive codebook) <a href="http://cfinst.org/State/LawsDatabase.aspx">click here</a>.
