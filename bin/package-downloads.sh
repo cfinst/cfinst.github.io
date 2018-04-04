@@ -22,7 +22,7 @@ DOWNLOAD_DIR=cfi-laws-database
 
 # Use variables for directory names, for easy maintenance.
 DISCLOSURE=$DOWNLOAD_DIR/disclosure
-OTHER_RESTRICTIONS=$DOWNLOAD_DIR/other-restrictions
+OTHER=$DOWNLOAD_DIR/other
 PUBLIC_FINANCING=$DOWNLOAD_DIR/public-financing
 CONTRIBUTION_LIMITS=$DOWNLOAD_DIR/contribution-limits
 
@@ -33,7 +33,7 @@ mkdir $DOWNLOAD_DIR
 # After this, $DOWNLOAD_DIR will contain subdirectories
 # for the following sections:
 #  - disclosure
-#  - other-restrictions
+#  - other
 #  - public-financing
 # Each of these will contain a field-descriptions.csv file.
 cp -r _site/downloads/build/* $DOWNLOAD_DIR
@@ -43,40 +43,21 @@ rm downloads/$DOWNLOAD_DIR.zip
 
 # Copy over files (not directories) from the /downloads directory.
 # This includes the README.md and the codebook files.
-cp downloads/*.* $DOWNLOAD_DIR
+cp downloads/CFI_StateLaws_Codebook_web.pdf $DOWNLOAD_DIR
+cp downloads/CFI_StateLaws_Codebook_Abridged.pdf $DOWNLOAD_DIR
 
-# Copy over the markdown data behind the modals for each section.
-# This step will create the directory for contribution-limits.
-# After this, section subdirectories will contain the following files:
-#  - about.md
-#  - howto.md
-#
-# During the copy process, add a markdownified title to the page, which
-# is taken from the YAML front-matter.  We will also strip out YML
-# front-matter from the final result
-# Draws from http://stackoverflow.com/questions/28221779/how-to-remove-yaml-frontmatter-from-markdown-files
-for i in `ls _modals`
-do
-  f=about.md
-  TITLE=$(awk -F': ' '/^title: / { print $2 }' _modals/${i}/${f})
-  mkdir -p ${DOWNLOAD_DIR}/${i}
-  echo "# ${TITLE}
-
-  $(sed -e '1 { /^---/ { :a N; /\n---/! ba; d} }' _modals/${i}/${f})" \
-  > ${DOWNLOAD_DIR}/${i}/${f}
-done
 
 # Distribute the database tables to the appropriate section directories.
 cp data/CSVs/Laws_00_IdentifierTable.csv $DOWNLOAD_DIR
 cp data/CSVs/Laws_01_Defintions.csv $DOWNLOAD_DIR
-cp data/CSVs/Laws_02_Contributions_1.csv $CONTRIBUTION_LIMITS
-cp data/CSVs/Laws_02_Contributions_2.csv $CONTRIBUTION_LIMITS
-cp data/CSVs/Laws_02_Contributions_3.csv $CONTRIBUTION_LIMITS
-cp data/CSVs/Laws_03_Disclosure_1.csv $DISCLOSURE
-cp data/CSVs/Laws_03_Disclosure_2.csv $DISCLOSURE
-cp data/CSVs/Laws_03_Disclosure_3.csv $DISCLOSURE
-cp data/CSVs/Laws_04_PublicFinancing.csv $PUBLIC_FINANCING
-cp data/CSVs/Laws_05_Other.csv $OTHER_RESTRICTIONS
+cp data/CSVs/Laws_02_Contributions_1.csv $DOWNLOAD_DIR
+cp data/CSVs/Laws_02_Contributions_2.csv $DOWNLOAD_DIR
+cp data/CSVs/Laws_02_Contributions_3.csv $DOWNLOAD_DIR
+cp data/CSVs/Laws_03_Disclosure_1.csv $DOWNLOAD_DIR
+cp data/CSVs/Laws_03_Disclosure_2.csv $DOWNLOAD_DIR
+cp data/CSVs/Laws_03_Disclosure_3.csv $DOWNLOAD_DIR
+cp data/CSVs/Laws_04_PublicFinancing.csv $DOWNLOAD_DIR
+cp data/CSVs/Laws_05_Other.csv $DOWNLOAD_DIR
 
 # Put the LICENSE file at the top level.
 cp ./data/CSVs/LICENSE $DOWNLOAD_DIR
@@ -94,3 +75,4 @@ find $DOWNLOAD_DIR | sed 's|[^/]*/|- |g'
 
 # Delete the temporary directory.
 rm -rf $DOWNLOAD_DIR
+
