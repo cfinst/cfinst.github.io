@@ -29,15 +29,6 @@ CONTRIBUTION_LIMITS=$DOWNLOAD_DIR/contribution-limits
 # Create the temporary directory.
 mkdir $DOWNLOAD_DIR
 
-# Scaffold out the directory structure based on the Jekyll build.
-# After this, $DOWNLOAD_DIR will contain subdirectories
-# for the following sections:
-#  - disclosure
-#  - other
-#  - public-financing
-# Each of these will contain a field-descriptions.csv file.
-cp -r _site/downloads/build/* $DOWNLOAD_DIR
-
 # Delete the old download .zip, so we don't include it in the new one.
 rm downloads/$DOWNLOAD_DIR.zip
 
