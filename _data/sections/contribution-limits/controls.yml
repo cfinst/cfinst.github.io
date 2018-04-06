@@ -11,10 +11,10 @@
         - label: State Party
           abbr: StateP
           legend: default
-        - label: Corporation
+        - label: Corporation (2 year period)
           abbr: Corp
           legend: default
-        - label: Labor
+        - label: Labor (2 year period)
           legend: default
 - group: recipient
   dropdowns:
