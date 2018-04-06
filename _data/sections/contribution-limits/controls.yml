@@ -3,12 +3,13 @@
     - id: donor
       label: Donor
       options:
-        - label: Individual
+        - label: Individual (2 year period)
+          abbr: Individual
           legend: default
-        - label: Political Action Committee (PAC)
+        - label: Political Action Committee (PAC) (2 year period)
           abbr: PAC
           legend: default
-        - label: State Party
+        - label: State Party (2 year period)
           abbr: StateP
           legend: default
         - label: Corporation (2 year period)
