@@ -3,18 +3,18 @@
     - id: donor
       label: Donor
       options:
-        - label: Individual
+        - label: Individual (per two year period)
           legend: default
-        - label: Political Action Committee (PAC)
+        - label: Political Action Committee (PAC) (per two year period)
           abbr: PAC
           legend: default
-        - label: State Party
+        - label: State Party (per two year period)
           abbr: StateP
           legend: default
-        - label: Corporation
+        - label: Corporation (per two year period)
           abbr: Corp
           legend: default
-        - label: Labor
+        - label: Labor (per two year period)
           legend: default
 - group: recipient
   dropdowns:
