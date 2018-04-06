@@ -15,6 +15,7 @@
           abbr: Corp
           legend: default
         - label: Labor (2 year period)
+          abbr: Labor
           legend: default
 - group: recipient
   dropdowns:
