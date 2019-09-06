@@ -20,5 +20,5 @@
   label: Labor Expenditures Prohibited?
 - name: AggCandLimit
   legend: default
-  question: Is there an aggregate limit on contributions from a donor to all candidates in the state in a given time period?
+  question: Is there an aggregate limit on contributions from a donor (individual or non-individual) to all candidates in the state in a given time period?
   label: Aggregate Limit from Donor to all Candidates?
