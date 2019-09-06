@@ -12,7 +12,7 @@
   label: Separate Contribution Limits for those doing business with State?
 - name: CorpExpendProhibit
   legend: default
-  question: Are corporations prohibited from making political expenditures from their treasuries?
+  question: "Are corporations prohibited from making political expenditures from their treasuries?"
   label: Corporate Expenditures Prohibited?
 - name: LaborExpendProhib
   legend: default
