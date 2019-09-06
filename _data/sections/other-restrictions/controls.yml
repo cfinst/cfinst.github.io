@@ -12,11 +12,11 @@
   label: Separate Contribution Limits for those doing business with State?
 - name: CorpExpendProhibit
   legend: default
-  question: "Are corporations prohibited from making political expenditures from their treasuries? Note: These prohibtions were invalidated by teh Supreme Court via Citizens United v. FEC in 2010."
+  question: "Are corporations prohibited from making political expenditures from their treasuries? Note: These prohibtions were invalidated by the Supreme Court via Citizens United v. FEC in 2010."
   label: Corporate Expenditures Prohibited?
 - name: LaborExpendProhib
   legend: default
-  question: "Are labor unions prohibited from making political expenditures from their treasuries? Note: These prohibtions were invalidated by teh Supreme Court via Citizens United v. FEC in 2010."
+  question: "Are labor unions prohibited from making political expenditures from their treasuries? Note: These prohibtions were invalidated by the Supreme Court via Citizens United v. FEC in 2010."
   label: Labor Expenditures Prohibited?
 - name: AggCandLimit
   legend: default
